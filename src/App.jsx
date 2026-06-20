@@ -420,14 +420,6 @@ function NavBar() {
             </a>
           ))}
         </nav>
-        <a
-          href={LINKS.resume}
-          download
-          className="hidden sm:inline-flex items-center gap-1.5 text-sm text-ink hover:text-accent transition-colors"
-        >
-          Résumé
-          <ArrowUpRight className="h-3.5 w-3.5" />
-        </a>
       </Container>
     </header>
   )
@@ -490,9 +482,6 @@ function Profile() {
             <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
               <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
                 Start a conversation
-              </a>
-              <a href={LINKS.resume} download className="btn-quiet font-medium">
-                Download résumé
               </a>
               <a
                 href={LINKS.linkedin}
@@ -1009,9 +998,6 @@ function Contact() {
               <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
                 Start a conversation
               </a>
-              <a href={LINKS.resume} download className="btn-quiet font-medium">
-                Download résumé
-              </a>
             </div>
           </div>
 
@@ -1029,13 +1015,6 @@ function Contact() {
                 value="linkedin.com/in/gati-dash"
                 href={LINKS.linkedin}
                 external
-              />
-              <ContactRow
-                icon={ArrowUpRight}
-                label="Résumé"
-                value="Download PDF"
-                href={LINKS.resume}
-                download
               />
               <ContactRow
                 icon={MapPin}
