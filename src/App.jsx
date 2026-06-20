@@ -459,7 +459,7 @@ function Profile() {
             <p className="eyebrow mb-6">AI Product and Transformation Leader  ·  PayPal</p>
             <p className="inline-flex items-center gap-2 text-sm text-accent mb-7">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Currently open to Head of Product / VP roles in regulated AI
+              Currently open to AI product leadership roles
             </p>
 
             <h1 className="display-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.04] max-w-prose-wide">
@@ -997,7 +997,7 @@ function Contact() {
           <div className="lg:col-span-7">
             <p className="inline-flex items-center gap-2 text-sm text-accent mb-5">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Currently open to Head of Product / VP roles in regulated AI
+              Currently open to AI product leadership roles
             </p>
             <h2 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
               Let&apos;s talk.
