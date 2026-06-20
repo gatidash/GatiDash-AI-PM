@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { ArrowUpRight, Mail, Linkedin, MapPin, AlertTriangle } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { ArrowUpRight, Mail, Linkedin, MapPin } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -682,138 +682,126 @@ function AgenticDiagram() {
 }
 
 function CaseStudy() {
+  const [open, setOpen] = useState(false)
   const [active, setActive] = useState(0)
   const seg = CASE_SEGMENTS[active]
+
+  useEffect(() => {
+    if (!open) return
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
   return (
-    <section id="casestudy" className="py-24 sm:py-32 border-t border-sand">
-      <Container>
-        <SectionLabel n="02">Case Study</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          From 30% churn to proactive retention.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          A GenAI prototype using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention. Pick a segment to see the playbook it generates.
-        </p>
+    <section id="casestudy" className="cs-section">
+      <div className="cs-section-glow" aria-hidden="true" />
+      <Container className="relative z-10">
+        <div className="cs-eyebrow">02 // CASE FILES</div>
+        <h2 className="cs-h2">Case Studies</h2>
+        <p className="cs-sub">Selected build logs. Open a file to inspect the system — signals in, playbook out.</p>
 
-        {/* Metric strip */}
-        <dl className="mt-12 grid grid-cols-2 lg:grid-cols-4 border border-sand rounded-xl overflow-hidden">
-          {CASE_METRICS.map((m, i) => (
-            <div
-              key={m.l}
-              className={`bg-paper p-6 border-sand ${i % 2 === 0 ? 'border-r' : ''} ${i < 2 ? 'border-b lg:border-b-0' : ''} ${i === 0 || i === 2 ? 'lg:border-r' : ''} ${i === 1 ? 'lg:border-r' : ''}`}
-            >
-              <dt className="font-serif text-3xl sm:text-4xl text-ink leading-none">{m.v}</dt>
-              <dd className="mt-3 text-xs sm:text-[13px] text-smoke leading-snug">{m.l}</dd>
+        <div className="cs-grid">
+          <button type="button" className="cs-card" onClick={() => setOpen(true)}>
+            <span className="cs-corner tl" /><span className="cs-corner tr" /><span className="cs-corner bl" /><span className="cs-corner br" />
+            <div className="cs-card-top">
+              <span className="cs-status"><span className="cs-dot" /> ACTIVE</span>
+              <span className="cs-tag">GENAI · RETENTION</span>
             </div>
-          ))}
-        </dl>
+            <div className="cs-id">FILE — MERCHANT-RETENTION-01</div>
+            <h3 className="cs-card-title">From 30% Churn to Proactive Retention</h3>
+            <p className="cs-card-sum">Claude turns reactive, one-size-fits-all merchant support into personalized, early-intervention retention.</p>
+            <div className="cs-card-metrics">
+              <div><b>−60%</b><span>churn</span></div>
+              <div><b>+25–40%</b><span>LTV</span></div>
+              <div><b>4</b><span>segments</span></div>
+            </div>
+            <div className="cs-open">OPEN FILE <span className="cs-open-arrow">▸</span></div>
+          </button>
+        </div>
+      </Container>
 
-        {/* Interactive console */}
-        <div className="mt-10 border border-sand rounded-2xl overflow-hidden bg-white">
-          <div className="px-6 py-4 border-b border-sand flex items-center justify-between gap-3 bg-paper-dark">
-            <span className="text-xs text-smoke">
-              Merchant Lifecycle Console — <strong className="text-ink font-medium">{seg.key}</strong>
-            </span>
-            <span className="text-[11px] text-accent border border-accent/30 rounded-full px-3 py-1 tracking-wide-caps">
-              CLAUDE-GENERATED
-            </span>
-          </div>
+      {open && (
+        <div className="cs-overlay" onClick={() => setOpen(false)}>
+          <div
+            className="cs-window"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Case study: merchant retention"
+          >
+            <div className="cs-scanline" aria-hidden="true" />
+            <span className="cs-corner tl big" /><span className="cs-corner tr big" /><span className="cs-corner bl big" /><span className="cs-corner br big" />
+            <div className="cs-winhead">
+              <span className="cs-winhead-id"><span className="cs-dot" /> CASE FILE // MERCHANT-RETENTION-01</span>
+              <button className="cs-winclose" onClick={() => setOpen(false)} aria-label="Close">✕</button>
+            </div>
+            <div className="cs-winbody">
+              <h3 className="cs-wintitle">From 30% Churn to Proactive Retention</h3>
+              <p className="cs-winlede">Using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention.</p>
 
-          <div className="flex flex-wrap gap-2.5 px-6 pt-5 pb-1">
-            {CASE_SEGMENTS.map((s, i) => (
-              <button
-                key={s.key}
-                onClick={() => setActive(i)}
-                className={`rounded-full px-4 py-2 text-[13px] font-medium transition-colors border ${
-                  active === i
-                    ? 'bg-ink text-paper border-ink'
-                    : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
-                }`}
-              >
-                {s.key}
-              </button>
-            ))}
-          </div>
-
-          <div className="px-6 pt-3 pb-7">
-            <div className="grid lg:grid-cols-2 gap-7 mt-3">
-              {/* Detected merchant + signals */}
-              <div>
-                <div className="eyebrow mb-3">Detected merchant</div>
-                <div className="font-serif text-xl text-ink">{seg.name}</div>
-                <p className="text-sm text-smoke mt-1 mb-5">{seg.desc}</p>
-                <div className="eyebrow mb-3">Signals Claude picked up</div>
-                <ul>
-                  {seg.signals.map((s, i) => (
-                    <li
-                      key={s}
-                      className={`flex items-start gap-3 py-2.5 text-sm text-ink-soft ${i > 0 ? 'border-t border-sand' : ''}`}
-                    >
-                      <AlertTriangle className="h-3.5 w-3.5 text-[#8a3b2e] flex-shrink-0 mt-0.5" />
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="cs-metrics">
+                {CASE_METRICS.map((m) => (
+                  <div key={m.l} className="cs-metric"><b>{m.v}</b><span>{m.l}</span></div>
+                ))}
               </div>
 
-              {/* Playbook */}
-              <div>
-                <div className="eyebrow mb-3">Personalized playbook</div>
-                <div className="bg-paper border border-sand rounded-xl p-5">
-                  <ol className="space-y-2.5">
-                    {seg.steps.map((s, i) => (
-                      <li key={s} className="flex gap-3 text-sm text-ink-soft leading-snug">
-                        <span className="flex-shrink-0 mt-0.5 h-5 w-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">
-                          {i + 1}
-                        </span>
-                        <span>{s}</span>
-                      </li>
-                    ))}
-                  </ol>
-                  <div className="mt-4 pt-4 border-t border-sand flex items-baseline gap-2.5">
-                    <span className="font-serif text-2xl text-[#1F5F3A] leading-none">{seg.impactBig}</span>
-                    <span className="text-[13px] text-smoke">{seg.impactTxt}</span>
+              <div className="cs-console">
+                <div className="cs-console-head">
+                  <span>MERCHANT LIFECYCLE CONSOLE</span>
+                  <span className="cs-blink">▌ CLAUDE-GENERATED</span>
+                </div>
+                <div className="cs-segs">
+                  {CASE_SEGMENTS.map((s, i) => (
+                    <button key={s.key} className={`cs-seg ${active === i ? 'on' : ''}`} onClick={() => setActive(i)}>
+                      {s.key}
+                    </button>
+                  ))}
+                </div>
+                <div className="cs-panel">
+                  <div className="cs-col">
+                    <div className="cs-label">▸ DETECTED MERCHANT</div>
+                    <div className="cs-merch">{seg.name}</div>
+                    <p className="cs-merchdesc">{seg.desc}</p>
+                    <div className="cs-label">▸ SIGNALS DETECTED</div>
+                    <ul className="cs-signals">
+                      {seg.signals.map((s) => (
+                        <li key={s}><span className="cs-sigmark">!</span>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="cs-col">
+                    <div className="cs-label">▸ GENERATED PLAYBOOK</div>
+                    <ol className="cs-steps">
+                      {seg.steps.map((s, i) => (
+                        <li key={s}><span className="cs-stepn">{i + 1}</span>{s}</li>
+                      ))}
+                    </ol>
+                    <div className="cs-impact"><b>{seg.impactBig}</b><span>{seg.impactTxt}</span></div>
                   </div>
                 </div>
               </div>
+
+              <div className="cs-shift">
+                <div className="cs-shiftcol">
+                  <div className="cs-shifth red">// BEFORE — REACTIVE</div>
+                  <ul>{CASE_SHIFT.before.map((x) => (<li key={x}>{x}</li>))}</ul>
+                </div>
+                <div className="cs-shiftcol">
+                  <div className="cs-shifth green">// AFTER — PROACTIVE</div>
+                  <ul>{CASE_SHIFT.after.map((x) => (<li key={x}>{x}</li>))}</ul>
+                </div>
+              </div>
+
+              <div className="cs-disc">Illustrative prototype · synthetic data · figures from industry benchmarks.</div>
             </div>
           </div>
-
-          <div className="px-6 py-3.5 border-t border-sand text-xs text-dust bg-paper-dark">
-            Illustrative prototype. Playbooks are generated from merchant signals, not hard-coded rules — so new segments need no new logic.
-          </div>
         </div>
-
-        {/* Before / after */}
-        <div className="mt-10 grid sm:grid-cols-2 gap-5">
-          <div className="border border-sand rounded-xl p-6 bg-paper">
-            <h3 className="font-serif text-xl text-ink flex items-center gap-2.5">
-              Before
-              <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#f3e6e2] text-[#8a3b2e]">Reactive</span>
-            </h3>
-            <ul className="mt-4 space-y-1">
-              {CASE_SHIFT.before.map((x) => (
-                <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#8a3b2e]">
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="border border-accent rounded-xl p-6 bg-white">
-            <h3 className="font-serif text-xl text-ink flex items-center gap-2.5">
-              After
-              <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#e2ece6] text-[#1F5F3A]">Proactive</span>
-            </h3>
-            <ul className="mt-4 space-y-1">
-              {CASE_SHIFT.after.map((x) => (
-                <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F5F3A]">
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Container>
+      )}
     </section>
   )
 }
