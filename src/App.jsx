@@ -16,7 +16,7 @@ const NAV = [
 ]
 
 const PROOF_LINES = [
-  '15 years across data, regulatory platforms, and (since 2024) production AI work — at PayPal.',
+  '17+ years across data, regulatory platforms, and (since 2023) production AI work — at PayPal.',
   'Most recent: led AI automation across compliance ops in 5 jurisdictions. Cut manual review by 60%, halved turnaround. Numbers held for two quarters past launch.',
   'Earlier: scaled a single regulatory-reporting platform from 0 to 60+ reports, 3 markets onboarded in a quarter.',
 ]
@@ -196,13 +196,13 @@ const CAREER_ARC = [
   },
   {
     era: '02',
-    years: '2014–2024',
+    years: '2014–2023',
     title: 'Compliance, Privacy & Regulatory platforms',
     body: 'Compliance, Privacy and regulatory reporting platforms at PayPal. AML, SAR, GDPR, KYC, customer risk. Cross-border launch work into China and the US. The shift from individual data work into platform product leadership.',
   },
   {
     era: '03',
-    years: '2024–present',
+    years: '2023–present',
     title: 'AI and agentic systems',
     body: 'Currently leading AI product work at PayPal, focused on turning the regulatory and compliance workflows I used to platform-ify into agent-driven systems. The earlier data and platform years are what make that transition possible.',
   },
@@ -361,7 +361,7 @@ function Profile() {
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
           {/* Main column */}
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-6">AI &amp; Platform Product Leader  ·  Regulated industries</p>
+            <p className="eyebrow mb-6">AI Product and Transformation Leader  ·  PayPal</p>
             <p className="inline-flex items-center gap-2 text-sm text-accent mb-7">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Currently open to Head of Product / VP roles in regulated AI
@@ -422,8 +422,8 @@ function Profile() {
                 <div>
                   <dt className="eyebrow mb-1.5">Role</dt>
                   <dd className="text-ink-soft leading-relaxed">
-                    AI &amp; Platform Product Leader<br />
-                    Regulated industries · PayPal
+                    AI Product and Transformation Leader<br />
+                    PayPal
                   </dd>
                 </div>
                 <div>
