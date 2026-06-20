@@ -7,12 +7,12 @@ import { ArrowUpRight, Mail, Linkedin, MapPin } from 'lucide-react'
 
 const NAV = [
   { id: 'profile', label: 'Profile' },
-  { id: 'work', label: 'Work' },
-  { id: 'casestudy', label: 'Case Study' },
+  { id: 'career', label: 'Career' },
+  { id: 'toolkit', label: 'Toolkit' },
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
-  { id: 'toolkit', label: 'Toolkit' },
-  { id: 'career', label: 'Career' },
+  { id: 'work', label: 'Work' },
+  { id: 'casestudy', label: 'Case Study' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -571,7 +571,7 @@ function SelectedWork() {
   return (
     <section id="work" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="01">Work</SectionLabel>
+        <SectionLabel n="05">Work</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Three pieces of work that explain how I think.
         </h2>
@@ -701,7 +701,7 @@ function CaseStudy() {
     <section id="casestudy" className="cs-section">
       <div className="cs-section-glow" aria-hidden="true" />
       <Container className="relative z-10">
-        <div className="cs-eyebrow">02 // CASE FILES</div>
+        <div className="cs-eyebrow">06 // CASE FILES</div>
         <h2 className="cs-h2">Case Studies</h2>
         <p className="cs-sub">Selected build logs. Open a file to inspect the system — signals in, playbook out.</p>
 
@@ -907,7 +907,7 @@ function GovernanceToolkit() {
   return (
     <section id="toolkit" className="py-24 sm:py-32 bg-paper-dark border-t border-sand">
       <Container>
-        <SectionLabel n="05">Toolkit</SectionLabel>
+        <SectionLabel n="02">Toolkit</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           The controls I argue for.
         </h2>
@@ -956,12 +956,12 @@ function CareerArc() {
   return (
     <section id="career" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="06">Career</SectionLabel>
+        <SectionLabel n="01">Career</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Three acts.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Each act made the next one possible. The AI work is the most recent layer; the data and platform years are why it ships.
+          Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next, and together they shape how I work: shipping systems that have to be audited, not just admired.
         </p>
 
         <ol className="mt-16 divide-y divide-sand">
@@ -1110,12 +1110,12 @@ export default function App() {
       <NavBar />
       <main>
         <Profile />
-        <SelectedWork />
-        <CaseStudy />
+        <CareerArc />
+        <GovernanceToolkit />
         <Capabilities />
         <Judgment />
-        <GovernanceToolkit />
-        <CareerArc />
+        <SelectedWork />
+        <CaseStudy />
         <Contact />
       </main>
       <Footer />
