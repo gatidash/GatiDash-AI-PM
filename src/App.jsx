@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowUpRight, Mail, Linkedin, MapPin } from 'lucide-react'
+import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -153,6 +153,7 @@ const JUDGMENT = [
 const CAPABILITIES = [
   {
     group: 'AI strategy',
+    blurb: 'Deciding what gets built, bought, or killed — and getting the AI roadmap to survive contact with production.',
     items: [
       'AI roadmap and prioritization',
       'Build vs. buy vs. partner decisions',
@@ -162,6 +163,7 @@ const CAPABILITIES = [
   },
   {
     group: 'Execution',
+    blurb: 'Multi-step agentic systems with validation, evals, and a human override path treated as part of the product.',
     items: [
       'Agentic system design',
       'Eval design and benchmarking',
@@ -171,6 +173,7 @@ const CAPABILITIES = [
   },
   {
     group: 'Governance & risk',
+    blurb: 'The lineage, controls, and traceability that decide whether an AI feature still exists in month six.',
     items: [
       'AI risk frameworks (in-house and external)',
       'Regulator-facing design choices',
@@ -180,6 +183,7 @@ const CAPABILITIES = [
   },
   {
     group: 'Leadership',
+    blurb: 'Aligning risk, legal, and compliance; communicating to boards and regulators; hiring and growing senior PMs.',
     items: [
       'Cross-functional alignment with risk/legal/compliance',
       'Board and executive communication',
@@ -196,7 +200,8 @@ const CAREER_ARC = [
     years: '2009–2014',
     title: 'Data engineering & BI',
     body: 'ETL pipelines, BI reporting, and lineage and governance for Lloyds and Barclays — at Wipro and Cognizant. The hands-on data craft everything later sits on.',
-    chips: ['Teradata', 'Informatica', 'Tableau', 'Lloyds', 'Barclays'],
+    tools: ['Teradata', 'Informatica', 'Tableau'],
+    companies: ['Lloyds', 'Barclays'],
     instinct: 'Where I learned to distrust any roadmap that skips the data layer.',
   },
   {
@@ -205,7 +210,8 @@ const CAREER_ARC = [
     years: '2014–2023',
     title: 'Compliance & regulatory platforms',
     body: 'Compliance, privacy, and regulatory-reporting platforms at PayPal — AML, SAR, GDPR, KYC, customer risk — plus cross-border launches into China and the US.',
-    chips: ['AML', 'SAR', 'GDPR', 'KYC', 'PayPal'],
+    tools: ['AML', 'SAR', 'GDPR', 'KYC'],
+    companies: ['PayPal'],
     instinct: 'Where individual data work became platform product leadership.',
   },
   {
@@ -214,7 +220,8 @@ const CAREER_ARC = [
     years: '2023–present',
     title: 'AI & agentic systems',
     body: 'Leading AI product work at PayPal — turning the regulatory and compliance workflows I used to platform-ify into governed, agent-driven systems.',
-    chips: ['LLM agents', 'Evals', 'Governance', 'PayPal'],
+    tools: ['LLM agents', 'Evals', 'Governance'],
+    companies: ['PayPal'],
     instinct: 'Where the earlier layers became the reason the AI ships.',
   },
 ]
@@ -459,7 +466,7 @@ function NavBar() {
 
 function Profile() {
   return (
-    <section id="profile" className="relative pt-36 pb-28 sm:pt-44 sm:pb-36 lg:pt-52">
+    <section id="profile" className="relative pt-24 pb-20">
       <Container>
         {/* Mobile-only identity strip */}
         <div className="lg:hidden flex items-center gap-5 mb-10">
@@ -482,20 +489,16 @@ function Profile() {
               Currently open to AI product leadership roles
             </p>
 
-            <h1 className="display-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.04] max-w-prose-wide">
+            <h1 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] max-w-prose-wide">
               I lead AI and platform product work in PayPal. The kind that has to clear an audit, not just a demo.
             </h1>
 
-            <p className="mt-8 text-xl sm:text-2xl text-smoke leading-snug max-w-prose-wide font-serif font-normal">
+            <p className="mt-6 text-lg sm:text-xl text-smoke leading-snug max-w-prose-wide font-serif font-normal">
               Most of the last decade was compliance, risk, and regulatory reporting platforms. Most of the next is the AI-native versions of the same systems.
             </p>
 
-            <p className="mt-10 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight">
-              I started in data engineering — ETL, lineage, BI — and spent the middle of my career on regulatory-reporting and AML platforms at PayPal. The AI work is the third act, and the through-line is the same: shipping systems that have to be audited, not just admired. ISB Senior Digital Leadership Programme alum; Post Graduate Certification in Product Management from Kellogg School of Management; B-Tech in Computer Science &amp; Engineering from ITER.
-            </p>
-
             {/* Restrained proof — three short lines with hairline dividers */}
-            <ul className="mt-12 max-w-prose-wide divide-y divide-sand">
+            <ul className="mt-9 max-w-prose-wide divide-y divide-sand">
               {PROOF_LINES.map((p, i) => (
                 <li key={i} className="flex items-start gap-5 py-4">
                   <span className="font-serif text-sm text-accent mt-1 w-6 flex-shrink-0">
@@ -507,7 +510,7 @@ function Profile() {
             </ul>
 
             {/* CTAs */}
-            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
                 Start a conversation
               </a>
@@ -585,6 +588,10 @@ function Profile() {
 }
 
 function SelectedWork() {
+  const [i, setI] = useState(0)
+  const total = WORK.length
+  const w = WORK[i]
+  const go = (d) => setI((i + d + total) % total)
   return (
     <section id="work" className="py-24 sm:py-32 border-t border-sand">
       <Container>
@@ -593,50 +600,71 @@ function SelectedWork() {
           Three pieces of work that explain how I think.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Anonymized where it has to be. The numbers are not. Each case names what shipped, what it took, and what I would tell the next team trying the same thing.
+          Anonymized where it has to be. The numbers are not. Each case names what shipped, what it took, and what I would tell the next team.
         </p>
 
-        <div className="mt-20 space-y-24">
-          {WORK.map((w, i) => (
-            <article
-              key={w.n}
-              className={`grid lg:grid-cols-12 gap-y-10 gap-x-16 ${i > 0 ? 'pt-24 border-t border-sand' : ''}`}
-            >
-              {/* Left — narrative */}
-              <div className="lg:col-span-8">
-                <div className="flex items-baseline gap-4 mb-5">
-                  <span className="font-serif text-sm text-accent">{w.n}</span>
-                  <span className="eyebrow">{w.meta}</span>
-                </div>
+        <div className="mt-12">
+          <div className="flex items-center justify-between gap-4 border-t border-sand pt-6">
+            <div className="flex items-baseline gap-4 min-w-0">
+              <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{w.n}</span>
+              <span className="eyebrow truncate">{w.meta}</span>
+            </div>
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <span className="text-sm text-dust tabular-nums">
+                {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              </span>
+              <button
+                onClick={() => go(-1)}
+                aria-label="Previous case"
+                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => go(1)}
+                aria-label="Next case"
+                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
 
-                <h3 className="display-serif text-2xl sm:text-3xl lg:text-4xl leading-[1.15] max-w-prose-wide">
-                  {w.title}
-                </h3>
-
-                <div className="mt-8 space-y-6 max-w-prose-wide">
-                  <Paragraph label="Context" body={w.context} />
-                  <Paragraph label="What I did" body={w.move} />
-                  {i === 0 && <AgenticDiagram />}
-                  <Paragraph label="What I would tell the next team" body={w.proves} accent />
-                </div>
+          <div key={w.n} className="work-fade grid lg:grid-cols-12 gap-y-8 gap-x-16 mt-8">
+            <div className="lg:col-span-8">
+              <h3 className="display-serif text-2xl sm:text-3xl lg:text-4xl leading-[1.15] max-w-prose-wide">
+                {w.title}
+              </h3>
+              <div className="mt-6 space-y-5 max-w-prose-wide">
+                <Paragraph label="Context" body={w.context} />
+                <Paragraph label="What I did" body={w.move} />
+                <Paragraph label="What I would tell the next team" body={w.proves} accent />
               </div>
+            </div>
 
-              {/* Right — metrics */}
-              <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
-                <div className="eyebrow mb-6">Operating impact</div>
-                <dl className="divide-y divide-sand">
-                  {w.metrics.map((m) => (
-                    <div key={m.l} className="py-4 first:pt-0">
-                      <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">
-                        {m.v}
-                      </dt>
-                      <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </aside>
-            </article>
-          ))}
+            <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
+              <div className="eyebrow mb-6">Operating impact</div>
+              <dl className="divide-y divide-sand">
+                {w.metrics.map((m) => (
+                  <div key={m.l} className="py-4 first:pt-0">
+                    <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
+                    <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+
+          <div className="mt-10 flex items-center gap-2">
+            {WORK.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setI(idx)}
+                aria-label={`Go to case ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all ${i === idx ? 'w-7 bg-accent' : 'w-1.5 bg-sand hover:bg-dust'}`}
+              />
+            ))}
+          </div>
         </div>
       </Container>
     </section>
@@ -824,6 +852,8 @@ function CaseStudy() {
 }
 
 function Capabilities() {
+  const [tab, setTab] = useState(0)
+  const c = CAPABILITIES[tab]
   return (
     <section id="capabilities" className="py-24 sm:py-32 border-t border-sand">
       <Container>
@@ -832,43 +862,38 @@ function Capabilities() {
           What I actually do.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Four areas I spend my time on, and the concrete capabilities underneath each.
+          Four areas I spend my time on. Select one for the concrete work underneath.
         </p>
 
-        {/* Lead block — the four pillars in long form */}
-        <div className="mt-16 grid md:grid-cols-2 gap-y-12 gap-x-16">
-          {PILLARS.map((p) => (
-            <div key={p.n} className="border-t border-sand pt-6">
-              <div className="flex items-baseline gap-4">
-                <span className="font-serif text-sm text-accent">{p.n}</span>
-                <h3 className="font-serif text-xl sm:text-2xl text-ink tracking-editorial">
-                  {p.title}
-                </h3>
-              </div>
-              <p className="mt-4 text-base text-ink-soft leading-relaxed max-w-md">
-                {p.body}
-              </p>
-            </div>
+        <div className="mt-12 flex flex-wrap gap-2.5">
+          {CAPABILITIES.map((x, idx) => (
+            <button
+              key={x.group}
+              onClick={() => setTab(idx)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
+                tab === idx
+                  ? 'bg-ink text-paper border-ink'
+                  : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
+              }`}
+            >
+              {x.group}
+            </button>
           ))}
         </div>
 
-        {/* Capabilities grid — concrete skills underneath */}
-        <div className="mt-24 pt-12 border-t border-sand">
-          <p className="eyebrow mb-8">Concrete capabilities</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-10">
-            {CAPABILITIES.map((c) => (
-              <div key={c.group} className="border-t border-sand pt-5">
-                <h3 className="eyebrow text-ink mb-5">{c.group}</h3>
-                <ul className="space-y-3">
-                  {c.items.map((item) => (
-                    <li key={item} className="text-base text-ink-soft leading-snug">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        <div key={c.group} className="work-fade mt-10 grid lg:grid-cols-12 gap-y-8 gap-x-16 border-t border-sand pt-10">
+          <div className="lg:col-span-5">
+            <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.15]">{c.group}</h3>
+            <p className="mt-4 text-lg text-smoke leading-relaxed max-w-prose-tight">{c.blurb}</p>
           </div>
+          <ul className="lg:col-span-7 grid sm:grid-cols-2 gap-x-10 gap-y-4 self-center">
+            {c.items.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-base text-ink-soft leading-snug">
+                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent flex-shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>
@@ -876,6 +901,10 @@ function Capabilities() {
 }
 
 function Judgment() {
+  const [i, setI] = useState(0)
+  const total = JUDGMENT.length
+  const j = JUDGMENT[i]
+  const go = (d) => setI((i + d + total) % total)
   return (
     <section id="judgment" className="py-24 sm:py-32 border-t border-sand">
       <Container>
@@ -887,33 +916,60 @@ function Judgment() {
           The most important AI product decisions in regulated work are rarely about model choice. They are about where to standardize, where to keep humans, and what to refuse to ship.
         </p>
 
-        <div className="mt-20 max-w-prose-wide divide-y divide-sand">
-          {JUDGMENT.map((j) => (
-            <div key={j.n} className="grid grid-cols-12 gap-6 py-10 first:pt-0">
-              <div className="col-span-12 sm:col-span-2">
-                <span className="font-serif text-3xl text-accent leading-none">{j.n}</span>
-              </div>
-              <div className="col-span-12 sm:col-span-10">
-                <h3 className="font-serif text-xl sm:text-2xl text-ink tracking-editorial mb-5">
-                  {j.title}
-                </h3>
-                <dl className="space-y-3 text-base leading-relaxed">
-                  <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                    <dt className="eyebrow pt-1">Tension</dt>
-                    <dd className="text-ink-soft">{j.tension}</dd>
-                  </div>
-                  <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                    <dt className="eyebrow pt-1">Call I make</dt>
-                    <dd className="text-ink">{j.judgment}</dd>
-                  </div>
-                  <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                    <dt className="eyebrow pt-1">Why</dt>
-                    <dd className="text-smoke italic">{j.why}</dd>
-                  </div>
-                </dl>
-              </div>
+        <div className="mt-12 max-w-prose-wide">
+          <div className="flex items-center justify-between border-t border-sand pt-6">
+            <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{j.n}</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-dust tabular-nums">
+                {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              </span>
+              <button
+                onClick={() => go(-1)}
+                aria-label="Previous"
+                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => go(1)}
+                aria-label="Next"
+                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
             </div>
-          ))}
+          </div>
+
+          <div key={j.n} className="judgment-fade">
+            <h3 className="font-serif text-2xl sm:text-3xl text-ink tracking-editorial mt-8 leading-snug min-h-[2.6em]">
+              {j.title}
+            </h3>
+            <dl className="mt-7 space-y-4 text-base leading-relaxed">
+              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+                <dt className="eyebrow pt-1">Tension</dt>
+                <dd className="text-ink-soft">{j.tension}</dd>
+              </div>
+              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+                <dt className="eyebrow pt-1">Call I make</dt>
+                <dd className="text-ink">{j.judgment}</dd>
+              </div>
+              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+                <dt className="eyebrow pt-1">Why</dt>
+                <dd className="text-smoke italic">{j.why}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="mt-10 flex items-center gap-2">
+            {JUDGMENT.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setI(idx)}
+                aria-label={`Go to ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all ${i === idx ? 'w-7 bg-accent' : 'w-1.5 bg-sand hover:bg-dust'}`}
+              />
+            ))}
+          </div>
         </div>
       </Container>
     </section>
@@ -921,6 +977,9 @@ function Judgment() {
 }
 
 function GovernanceToolkit() {
+  const TABS = [...GOVERNANCE_TOOLKIT, { group: 'Operating beliefs', beliefs: POV_IDEAS }]
+  const [tab, setTab] = useState(0)
+  const t = TABS[tab]
   return (
     <section id="toolkit" className="py-24 sm:py-32 bg-paper-dark border-t border-sand">
       <Container>
@@ -929,43 +988,67 @@ function GovernanceToolkit() {
           The controls I argue for.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Most of these are dull. Most of them are the difference between an AI feature that gets to production and one that gets pulled in week six.
+          Most are dull. Most are the difference between an AI feature that reaches production and one that gets pulled in week six.
         </p>
 
-        <div className="mt-16 space-y-14">
-          {GOVERNANCE_TOOLKIT.map((g) => (
-            <div key={g.group} className="grid lg:grid-cols-12 gap-y-6 gap-x-12">
-              <div className="lg:col-span-3">
-                <h3 className="eyebrow text-ink">{g.group}</h3>
-              </div>
-              <dl className="lg:col-span-9 grid sm:grid-cols-2 gap-x-10 gap-y-6">
-                {g.items.map((item) => (
-                  <div key={item.title}>
-                    <dt className="font-serif text-lg text-ink tracking-editorial">{item.title}</dt>
-                    <dd className="mt-1.5 text-sm text-ink-soft leading-relaxed">{item.body}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+        <div className="mt-12 flex flex-wrap gap-2.5">
+          {TABS.map((x, idx) => (
+            <button
+              key={x.group}
+              onClick={() => setTab(idx)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
+                tab === idx
+                  ? 'bg-ink text-paper border-ink'
+                  : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
+              }`}
+            >
+              {x.group}
+            </button>
           ))}
         </div>
 
-        {/* Operating beliefs — folded in from the cut Writing section */}
-        <div className="mt-24 pt-12 border-t border-sand">
-          <p className="eyebrow mb-6">Operating beliefs</p>
-          <ol className="divide-y divide-sand max-w-3xl">
-            {POV_IDEAS.map((idea, i) => (
-              <li key={i} className="flex items-start gap-6 py-5 first:pt-0">
-                <span className="font-serif text-sm text-accent mt-1 w-6 flex-shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="text-base sm:text-lg text-ink-soft leading-relaxed">{idea}</span>
-              </li>
-            ))}
-          </ol>
+        <div key={t.group} className="work-fade mt-10 border-t border-sand pt-10">
+          {t.beliefs ? (
+            <ol className="grid sm:grid-cols-2 gap-x-12 gap-y-6 max-w-prose-wide">
+              {t.beliefs.map((idea, i) => (
+                <li key={i} className="flex items-start gap-4">
+                  <span className="font-serif text-sm text-accent mt-1 w-6 flex-shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-base text-ink-soft leading-relaxed">{idea}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <dl className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-8">
+              {t.items.map((item) => (
+                <div key={item.title}>
+                  <dt className="font-serif text-lg text-ink tracking-editorial">{item.title}</dt>
+                  <dd className="mt-1.5 text-sm text-ink-soft leading-relaxed">{item.body}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
       </Container>
     </section>
+  )
+}
+
+function CompanyLogo({ name }) {
+  const [failed, setFailed] = useState(false)
+  const slug = name.toLowerCase().replace(/\s+/g, '-')
+  if (failed) {
+    return <span className="career-co-text">{name}</span>
+  }
+  return (
+    <img
+      src={`/logos/${slug}.svg`}
+      alt={name}
+      title={name}
+      onError={() => setFailed(true)}
+      className="career-logo"
+    />
   )
 }
 
@@ -1001,10 +1084,21 @@ function CareerArc() {
                 {e.title}
               </h3>
               <p className="mt-1 text-base text-ink-soft leading-relaxed">{e.body}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {e.chips.map((c) => (
-                  <span key={c} className="career-chip">{c}</span>
-                ))}
+              <div className="mt-5">
+                <div className="eyebrow text-dust mb-2.5">Tools</div>
+                <div className="flex flex-wrap gap-2">
+                  {e.tools.map((c) => (
+                    <span key={c} className="career-chip">{c}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-4">
+                <div className="eyebrow text-dust mb-2.5">Worked with</div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  {e.companies.map((c) => (
+                    <CompanyLogo key={c} name={c} />
+                  ))}
+                </div>
               </div>
               <p className="mt-auto pt-5 border-t border-sand text-sm text-smoke italic leading-relaxed">
                 <span className="not-italic text-accent font-serif mr-1.5">↳</span>

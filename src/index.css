@@ -6,6 +6,19 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 4rem; /* clears the fixed 4rem nav so headings aren't hidden */
+  scroll-snap-type: y proximity;
+}
+
+/* Each top-level section fills the viewport and snaps cleanly into view.
+   Lighter sections center their content; content taller than the screen
+   simply grows past 100vh and scrolls within (no clipping). */
+main > section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
 }
 
 body {
@@ -69,6 +82,16 @@ body {
   background: #B8B1A4;
 }
 
+/* Stepper / slider fade-in on item change */
+.judgment-fade,
+.work-fade {
+  animation: step-fade 0.35s ease both;
+}
+@keyframes step-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ───────────────────────────────────────────────
    CAREER — connected act timeline cards
    ─────────────────────────────────────────────── */
@@ -94,6 +117,30 @@ body {
   border-radius: 20px;
   padding: 4px 11px;
   white-space: nowrap;
+}
+.career-logo {
+  height: 22px;
+  width: auto;
+  max-width: 96px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.65;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+.career-logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+.career-co-text {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 15px;
+  color: #2A2722;
+  letter-spacing: 0.005em;
+}
+.career-co-text:not(:last-child)::after {
+  content: '·';
+  margin-left: 16px;
+  color: #B8B1A4;
 }
 @keyframes career-in {
   from { opacity: 0; transform: translateY(14px); }
