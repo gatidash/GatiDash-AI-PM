@@ -13,6 +13,7 @@ const NAV = [
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
   { id: 'casestudy', label: 'Case Study' },
+  { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -339,6 +340,24 @@ const POV_IDEAS = [
   'Human review is a designed surface. If you discover it after launch as a queue, you designed it wrong.',
   'LLM systems need schema validation, retries, and failure paths from the first call, not the first incident.',
   'The most valuable AI products improve operating discipline. Productivity gains follow.',
+]
+
+const LEADERSHIP = [
+  {
+    n: '01',
+    title: 'Simplicity is a strategic advantage',
+    body: 'In most organizations, complexity stems not from technology, vision, or talent, but from fragmented processes, ambiguous ownership, and over-engineered solutions. I lead with clarity of vision — identifying root-level challenges and architecting platforms that enable scale, trust, and adaptability.',
+  },
+  {
+    n: '02',
+    title: 'Innovation is won in the operating layer',
+    body: 'True innovation doesn’t live or die in the 5–10% of teams working on cutting-edge technology. It succeeds or fails on the alignment, enablement, and effectiveness of the remaining 90–95% — the layer where scale is won and value is realized, or where companies stall. I empower that core through intentional product architecture, ecosystem thinking, and disciplined prioritization.',
+  },
+  {
+    n: '03',
+    title: 'Precision over volume',
+    body: 'I don’t pursue complexity for its own sake. I lead with a clear lens on customer value, business alignment, and platform simplicity — because real transformation isn’t about doing more; it’s about doing what matters most, with precision and purpose.',
+  },
 ]
 
 const LINKS = {
@@ -976,11 +995,42 @@ function CareerArc() {
   )
 }
 
+function Leadership() {
+  return (
+    <section id="leadership" className="py-24 sm:py-32 border-t border-sand">
+      <Container>
+        <SectionLabel n="07">Leadership</SectionLabel>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          How I lead.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          Three principles that shape every product call I make.
+        </p>
+        <div className="mt-16 max-w-prose-wide divide-y divide-sand">
+          {LEADERSHIP.map((p) => (
+            <div key={p.n} className="py-12 first:pt-0">
+              <div className="flex items-baseline gap-5">
+                <span className="font-serif text-base text-accent flex-shrink-0">{p.n}</span>
+                <h3 className="display-serif text-2xl sm:text-3xl lg:text-4xl text-ink leading-[1.12]">
+                  {p.title}
+                </h3>
+              </div>
+              <p className="mt-6 text-lg sm:text-xl text-ink-soft leading-relaxed sm:pl-10 max-w-prose-tight">
+                {p.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function Contact() {
   return (
     <section id="contact" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="07">Contact</SectionLabel>
+        <SectionLabel n="08">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -1095,6 +1145,7 @@ export default function App() {
         <Judgment />
         <SelectedWork />
         <CaseStudy />
+        <Leadership />
         <Contact />
       </main>
       <Footer />
