@@ -192,7 +192,7 @@ const CAPABILITIES = [
 const CAREER_ARC = [
   {
     era: '01',
-    theme: 'The Foundation',
+    theme: 'Data Engineer',
     years: '2009–2014',
     title: 'Data engineering & BI',
     body: 'ETL pipelines, BI reporting, and lineage and governance for Lloyds and Barclays — at Wipro and Cognizant. The hands-on data craft everything later sits on.',
@@ -201,7 +201,7 @@ const CAREER_ARC = [
   },
   {
     era: '02',
-    theme: 'The Platform Years',
+    theme: 'Product Leader',
     years: '2014–2023',
     title: 'Compliance & regulatory platforms',
     body: 'Compliance, privacy, and regulatory-reporting platforms at PayPal — AML, SAR, GDPR, KYC, customer risk — plus cross-border launches into China and the US.',
@@ -210,7 +210,7 @@ const CAREER_ARC = [
   },
   {
     era: '03',
-    theme: 'The AI Turn',
+    theme: 'AI Product Leader',
     years: '2023–present',
     title: 'AI & agentic systems',
     body: 'Leading AI product work at PayPal — turning the regulatory and compliance workflows I used to platform-ify into governed, agent-driven systems.',
@@ -981,11 +981,11 @@ function CareerArc() {
           Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next, and together they shape how I work: shipping systems that have to be audited, not just admired.
         </p>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-x-6 gap-y-10">
+        <div className="mt-16 grid md:grid-cols-3 gap-6">
           {CAREER_ARC.map((e, i) => (
             <div
               key={e.era}
-              className="career-card relative border-t-2 border-accent/30 pt-7"
+              className="career-card relative flex flex-col h-full rounded-xl border border-sand border-t-2 border-t-accent bg-paper p-6 pt-7"
               style={{ animationDelay: `${i * 130}ms` }}
             >
               <span className="career-node" />
@@ -993,17 +993,21 @@ function CareerArc() {
                 <span className="font-serif text-base text-accent">{e.era}</span>
                 <span className="eyebrow text-dust">{e.years}</span>
               </div>
-              <div className="eyebrow text-accent mt-3">{e.theme}</div>
-              <h3 className="font-serif text-2xl text-ink tracking-editorial leading-snug mt-1">
+              <div className="eyebrow text-accent mt-3 flex items-center gap-1.5">
+                {i > 0 && <span className="text-dust">→</span>}
+                {e.theme}
+              </div>
+              <h3 className="font-serif text-2xl text-ink tracking-editorial leading-snug mt-1 min-h-[4.25rem]">
                 {e.title}
               </h3>
-              <p className="mt-3 text-base text-ink-soft leading-relaxed">{e.body}</p>
+              <p className="mt-1 text-base text-ink-soft leading-relaxed">{e.body}</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {e.chips.map((c) => (
                   <span key={c} className="career-chip">{c}</span>
                 ))}
               </div>
-              <p className="mt-6 pt-4 border-t border-sand text-sm text-smoke italic leading-relaxed">
+              <p className="mt-auto pt-5 border-t border-sand text-sm text-smoke italic leading-relaxed">
+                <span className="not-italic text-accent font-serif mr-1.5">↳</span>
                 {e.instinct}
               </p>
             </div>
