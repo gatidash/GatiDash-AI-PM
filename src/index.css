@@ -70,6 +70,37 @@ body {
 }
 
 /* ───────────────────────────────────────────────
+   CAREER — connected act timeline cards
+   ─────────────────────────────────────────────── */
+.career-card {
+  animation: career-in 0.6s ease both;
+}
+.career-node {
+  position: absolute;
+  top: -7px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1F3A5F;
+  box-shadow: 0 0 0 4px #FAF8F4;
+}
+.career-chip {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #5A5550;
+  background: #F2EDE5;
+  border: 1px solid #E5DFD5;
+  border-radius: 20px;
+  padding: 4px 11px;
+  white-space: nowrap;
+}
+@keyframes career-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ───────────────────────────────────────────────
    LEADERSHIP — flip cards
    ─────────────────────────────────────────────── */
 .lead-card {

@@ -192,21 +192,30 @@ const CAPABILITIES = [
 const CAREER_ARC = [
   {
     era: '01',
+    theme: 'The Foundation',
     years: '2009–2014',
-    title: 'Data engineering and BI',
-    body: 'Teradata, Informatica, Tableau. ETL pipelines, BI reporting, lineage and governance work at Wipro and Cognizant for Lloyds and Barclays Bank. The hands-on work that everything later sits on.',
+    title: 'Data engineering & BI',
+    body: 'ETL pipelines, BI reporting, and lineage and governance for Lloyds and Barclays — at Wipro and Cognizant. The hands-on data craft everything later sits on.',
+    chips: ['Teradata', 'Informatica', 'Tableau', 'Lloyds', 'Barclays'],
+    instinct: 'Where I learned to distrust any roadmap that skips the data layer.',
   },
   {
     era: '02',
+    theme: 'The Platform Years',
     years: '2014–2023',
-    title: 'Compliance, Privacy & Regulatory platforms',
-    body: 'Compliance, Privacy and regulatory reporting platforms at PayPal. AML, SAR, GDPR, KYC, customer risk. Cross-border launch work into China and the US. The shift from individual data work into platform product leadership.',
+    title: 'Compliance & regulatory platforms',
+    body: 'Compliance, privacy, and regulatory-reporting platforms at PayPal — AML, SAR, GDPR, KYC, customer risk — plus cross-border launches into China and the US.',
+    chips: ['AML', 'SAR', 'GDPR', 'KYC', 'PayPal'],
+    instinct: 'Where individual data work became platform product leadership.',
   },
   {
     era: '03',
+    theme: 'The AI Turn',
     years: '2023–present',
-    title: 'AI and agentic systems',
-    body: 'Currently leading AI product work at PayPal, focused on turning the regulatory and compliance workflows I used to platform-ify into agent-driven systems. The earlier data and platform years are what make that transition possible.',
+    title: 'AI & agentic systems',
+    body: 'Leading AI product work at PayPal — turning the regulatory and compliance workflows I used to platform-ify into governed, agent-driven systems.',
+    chips: ['LLM agents', 'Evals', 'Governance', 'PayPal'],
+    instinct: 'Where the earlier layers became the reason the AI ships.',
   },
 ]
 
@@ -972,24 +981,34 @@ function CareerArc() {
           Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next, and together they shape how I work: shipping systems that have to be audited, not just admired.
         </p>
 
-        <ol className="mt-16 divide-y divide-sand">
-          {CAREER_ARC.map((e) => (
-            <li key={e.era} className="grid lg:grid-cols-12 gap-y-5 gap-x-12 py-10 first:pt-0">
-              <div className="lg:col-span-3">
-                <div className="font-serif text-3xl text-accent leading-none">{e.era}</div>
-                <div className="eyebrow mt-3">{e.years}</div>
+        <div className="mt-16 grid md:grid-cols-3 gap-x-6 gap-y-10">
+          {CAREER_ARC.map((e, i) => (
+            <div
+              key={e.era}
+              className="career-card relative border-t-2 border-accent/30 pt-7"
+              style={{ animationDelay: `${i * 130}ms` }}
+            >
+              <span className="career-node" />
+              <div className="flex items-baseline gap-3">
+                <span className="font-serif text-base text-accent">{e.era}</span>
+                <span className="eyebrow text-dust">{e.years}</span>
               </div>
-              <div className="lg:col-span-9">
-                <h3 className="font-serif text-2xl sm:text-3xl text-ink tracking-editorial leading-snug">
-                  {e.title}
-                </h3>
-                <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-wide">
-                  {e.body}
-                </p>
+              <div className="eyebrow text-accent mt-3">{e.theme}</div>
+              <h3 className="font-serif text-2xl text-ink tracking-editorial leading-snug mt-1">
+                {e.title}
+              </h3>
+              <p className="mt-3 text-base text-ink-soft leading-relaxed">{e.body}</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {e.chips.map((c) => (
+                  <span key={c} className="career-chip">{c}</span>
+                ))}
               </div>
-            </li>
+              <p className="mt-6 pt-4 border-t border-sand text-sm text-smoke italic leading-relaxed">
+                {e.instinct}
+              </p>
+            </div>
           ))}
-        </ol>
+        </div>
       </Container>
     </section>
   )
