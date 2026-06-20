@@ -12,7 +12,7 @@ Built with **Vite + React + Tailwind CSS**, deployable on **Vercel** for free.
 portfolio/
 ├── public/
 │   ├── favicon.svg
-│   └── GatiDash_SF.pdf        ← drop your resume here (you add this)
+│   └── GatiDash_Resume.pdf        ← drop your resume here (you add this)
 ├── src/
 │   ├── App.jsx                ← all sections & content (edit copy here)
 │   ├── main.jsx
@@ -76,9 +76,9 @@ git push -u origin main
 
 ### Add your resume
 
-1. Place your PDF at `public/GatiDash_SF.pdf`.
+1. Place your PDF at `public/GatiDash_Resume.pdf`.
 2. Commit & push — Vercel redeploys automatically.
-3. The "Download Resume" buttons resolve to `/GatiDash_SF.pdf` at runtime.
+3. The "Download Resume" buttons resolve to `/GatiDash_Resume.pdf` at runtime.
 
 ### Custom domain (optional)
 
@@ -125,9 +125,9 @@ Change a string → save → refresh.
 - Re-run locally: `npm run build` must succeed before Vercel will.
 
 **Resume download doesn't work**
-- File must be exactly at `public/GatiDash_SF.pdf` (case-sensitive).
+- File must be exactly at `public/GatiDash_Resume.pdf` (case-sensitive).
 - After adding it, push to GitHub — Vercel will redeploy.
-- Hit `https://<your-site>.vercel.app/GatiDash_SF.pdf` directly to verify it serves.
+- Hit `https://<your-site>.vercel.app/GatiDash_Resume.pdf` directly to verify it serves.
 
 **Updating the site**
 - Edit a file → `git add . && git commit -m "..." && git push`.

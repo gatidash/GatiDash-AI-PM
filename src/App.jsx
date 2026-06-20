@@ -196,13 +196,13 @@ const CAREER_ARC = [
   },
   {
     era: '02',
-    years: '2014–2022',
+    years: '2014–2024',
     title: 'Compliance, Privacy & Regulatory platforms',
     body: 'Compliance, Privacy and regulatory reporting platforms at PayPal. AML, SAR, GDPR, KYC, customer risk. Cross-border launch work into China and the US. The shift from individual data work into platform product leadership.',
   },
   {
     era: '03',
-    years: '2022–present',
+    years: '2024–present',
     title: 'AI and agentic systems',
     body: 'Currently leading AI product work at PayPal, focused on turning the regulatory and compliance workflows I used to platform-ify into agent-driven systems. The earlier data and platform years are what make that transition possible.',
   },
@@ -249,7 +249,7 @@ const POV_IDEAS = [
 const LINKS = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
-  resume: '/GatiDash_SF.pdf', // rename file in /public to Gatikrishna_Dash_Resume.pdf and update this path
+  resume: '/GatiDash_Resume.pdf', // file lives in /public
   photo: '/profile.png',
   location: 'Hyderabad, India',
 }
