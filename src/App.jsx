@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowUpRight, Mail, Linkedin, MapPin } from 'lucide-react'
+import { ArrowUpRight, Mail, Linkedin, MapPin, AlertTriangle } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -8,6 +8,7 @@ import { ArrowUpRight, Mail, Linkedin, MapPin } from 'lucide-react'
 const NAV = [
   { id: 'profile', label: 'Profile' },
   { id: 'work', label: 'Work' },
+  { id: 'casestudy', label: 'Case Study' },
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'toolkit', label: 'Toolkit' },
@@ -237,6 +238,100 @@ const GOVERNANCE_TOOLKIT = [
     ],
   },
 ]
+
+// Case study — interactive merchant lifecycle console
+const CASE_METRICS = [
+  { v: '25–40%', l: 'Potential lift in merchant lifetime value' },
+  { v: '−60%', l: 'Churn reduction through early intervention' },
+  { v: '4', l: 'Lifecycle segments with tailored playbooks' },
+  { v: '0', l: 'Manual playbooks to maintain — fully generated' },
+]
+
+const CASE_SEGMENTS = [
+  {
+    key: 'New (0–30 days)',
+    name: 'New merchant · Onboarding',
+    desc: 'Signed up 11 days ago. Account configured but no first live transaction yet.',
+    signals: [
+      'No first transaction after 11 days (activation risk)',
+      'Only 2 of 8 core features set up',
+      'Opened the integration docs 3× but did not finish',
+    ],
+    steps: [
+      'Trigger a guided activation flow targeting the unfinished integration step',
+      'Send a day-3 / day-7 / day-14 nudge sequence tied to setup milestones',
+      'Offer a 15-min onboarding call if no transaction by day 14',
+    ],
+    impactBig: '2.3×',
+    impactTxt: 'faster time-to-first-transaction',
+  },
+  {
+    key: 'At-risk (declining)',
+    name: 'At-risk merchant · Declining volume',
+    desc: 'Established merchant whose processing volume fell 42% over the last 6 weeks.',
+    signals: [
+      'Transaction volume down 42% vs. trailing 3-month average',
+      'Support tickets up 3× — mostly fees and settlement timing',
+      'Logins dropped from daily to weekly',
+    ],
+    steps: [
+      'Flag for proactive success outreach before the next billing cycle',
+      'Run a fee / pricing review and surface relevant lower-cost options',
+      'Share a tailored tip on settlement timing addressing their top ticket',
+    ],
+    impactBig: '−60%',
+    impactTxt: 'churn risk on early-intervention saves',
+  },
+  {
+    key: 'Growth (expanding)',
+    name: 'Growth merchant · Expanding fast',
+    desc: 'Volume up 64% this quarter; consistently approaching current plan limits.',
+    signals: [
+      'Processing volume up 64% QoQ, nearing tier cap',
+      'Started using 2 new product features unprompted',
+      'Added 3 team members to the dashboard',
+    ],
+    steps: [
+      'Proactively offer an upgrade to the higher tier before the cap is hit',
+      'Cross-sell the payout and reporting add-ons their usage pattern predicts',
+      'Assign a named contact to support the expansion',
+    ],
+    impactBig: '+34%',
+    impactTxt: 'expansion revenue per account',
+  },
+  {
+    key: 'Dormant (60+ days)',
+    name: 'Dormant merchant · Win-back',
+    desc: 'No transactions or logins in 67 days. Previously a steady mid-volume merchant.',
+    signals: [
+      'Zero transactions and no logins for 67 days',
+      'Never re-engaged after a failed payout 9 weeks ago',
+      'Historically processed steadily for 14 months prior',
+    ],
+    steps: [
+      'Launch a personalized win-back acknowledging the past payout issue',
+      'Offer a re-onboarding session plus a time-boxed fee incentive',
+      'If no response in 14 days, route to a final value-recap message',
+    ],
+    impactBig: '18%',
+    impactTxt: 'dormant merchants reactivated',
+  },
+]
+
+const CASE_SHIFT = {
+  before: [
+    'Intervention triggered after volume already dropped',
+    'Same generic lifecycle email for every merchant',
+    'Analysts hand-built playbooks that went stale',
+    'Expansion and win-back happened by luck, not design',
+  ],
+  after: [
+    'Early signals surface risk before the drop',
+    'Each merchant gets a playbook tuned to its stage',
+    'Claude generates and refreshes playbooks on demand',
+    'Retention, expansion and win-back are designed surfaces',
+  ],
+}
 
 const POV_IDEAS = [
   'Reliability and traceability earn enterprise trust. Benchmarks do not.',
@@ -586,11 +681,148 @@ function AgenticDiagram() {
   )
 }
 
+function CaseStudy() {
+  const [active, setActive] = useState(0)
+  const seg = CASE_SEGMENTS[active]
+  return (
+    <section id="casestudy" className="py-24 sm:py-32 border-t border-sand">
+      <Container>
+        <SectionLabel n="02">Case Study</SectionLabel>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          From 30% churn to proactive retention.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          A GenAI prototype using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention. Pick a segment to see the playbook it generates.
+        </p>
+
+        {/* Metric strip */}
+        <dl className="mt-12 grid grid-cols-2 lg:grid-cols-4 border border-sand rounded-xl overflow-hidden">
+          {CASE_METRICS.map((m, i) => (
+            <div
+              key={m.l}
+              className={`bg-paper p-6 border-sand ${i % 2 === 0 ? 'border-r' : ''} ${i < 2 ? 'border-b lg:border-b-0' : ''} ${i === 0 || i === 2 ? 'lg:border-r' : ''} ${i === 1 ? 'lg:border-r' : ''}`}
+            >
+              <dt className="font-serif text-3xl sm:text-4xl text-ink leading-none">{m.v}</dt>
+              <dd className="mt-3 text-xs sm:text-[13px] text-smoke leading-snug">{m.l}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {/* Interactive console */}
+        <div className="mt-10 border border-sand rounded-2xl overflow-hidden bg-white">
+          <div className="px-6 py-4 border-b border-sand flex items-center justify-between gap-3 bg-paper-dark">
+            <span className="text-xs text-smoke">
+              Merchant Lifecycle Console — <strong className="text-ink font-medium">{seg.key}</strong>
+            </span>
+            <span className="text-[11px] text-accent border border-accent/30 rounded-full px-3 py-1 tracking-wide-caps">
+              CLAUDE-GENERATED
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-2.5 px-6 pt-5 pb-1">
+            {CASE_SEGMENTS.map((s, i) => (
+              <button
+                key={s.key}
+                onClick={() => setActive(i)}
+                className={`rounded-full px-4 py-2 text-[13px] font-medium transition-colors border ${
+                  active === i
+                    ? 'bg-ink text-paper border-ink'
+                    : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
+                }`}
+              >
+                {s.key}
+              </button>
+            ))}
+          </div>
+
+          <div className="px-6 pt-3 pb-7">
+            <div className="grid lg:grid-cols-2 gap-7 mt-3">
+              {/* Detected merchant + signals */}
+              <div>
+                <div className="eyebrow mb-3">Detected merchant</div>
+                <div className="font-serif text-xl text-ink">{seg.name}</div>
+                <p className="text-sm text-smoke mt-1 mb-5">{seg.desc}</p>
+                <div className="eyebrow mb-3">Signals Claude picked up</div>
+                <ul>
+                  {seg.signals.map((s, i) => (
+                    <li
+                      key={s}
+                      className={`flex items-start gap-3 py-2.5 text-sm text-ink-soft ${i > 0 ? 'border-t border-sand' : ''}`}
+                    >
+                      <AlertTriangle className="h-3.5 w-3.5 text-[#8a3b2e] flex-shrink-0 mt-0.5" />
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Playbook */}
+              <div>
+                <div className="eyebrow mb-3">Personalized playbook</div>
+                <div className="bg-paper border border-sand rounded-xl p-5">
+                  <ol className="space-y-2.5">
+                    {seg.steps.map((s, i) => (
+                      <li key={s} className="flex gap-3 text-sm text-ink-soft leading-snug">
+                        <span className="flex-shrink-0 mt-0.5 h-5 w-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">
+                          {i + 1}
+                        </span>
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <div className="mt-4 pt-4 border-t border-sand flex items-baseline gap-2.5">
+                    <span className="font-serif text-2xl text-[#1F5F3A] leading-none">{seg.impactBig}</span>
+                    <span className="text-[13px] text-smoke">{seg.impactTxt}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="px-6 py-3.5 border-t border-sand text-xs text-dust bg-paper-dark">
+            Illustrative prototype. Playbooks are generated from merchant signals, not hard-coded rules — so new segments need no new logic.
+          </div>
+        </div>
+
+        {/* Before / after */}
+        <div className="mt-10 grid sm:grid-cols-2 gap-5">
+          <div className="border border-sand rounded-xl p-6 bg-paper">
+            <h3 className="font-serif text-xl text-ink flex items-center gap-2.5">
+              Before
+              <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#f3e6e2] text-[#8a3b2e]">Reactive</span>
+            </h3>
+            <ul className="mt-4 space-y-1">
+              {CASE_SHIFT.before.map((x) => (
+                <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#8a3b2e]">
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="border border-accent rounded-xl p-6 bg-white">
+            <h3 className="font-serif text-xl text-ink flex items-center gap-2.5">
+              After
+              <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#e2ece6] text-[#1F5F3A]">Proactive</span>
+            </h3>
+            <ul className="mt-4 space-y-1">
+              {CASE_SHIFT.after.map((x) => (
+                <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F5F3A]">
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function Capabilities() {
   return (
     <section id="capabilities" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="02">Capabilities</SectionLabel>
+        <SectionLabel n="03">Capabilities</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           What I actually do.
         </h2>
@@ -642,7 +874,7 @@ function Judgment() {
   return (
     <section id="judgment" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="03">Judgment</SectionLabel>
+        <SectionLabel n="04">Judgment</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Calls I keep making.
         </h2>
@@ -687,7 +919,7 @@ function GovernanceToolkit() {
   return (
     <section id="toolkit" className="py-24 sm:py-32 bg-paper-dark border-t border-sand">
       <Container>
-        <SectionLabel n="04">Toolkit</SectionLabel>
+        <SectionLabel n="05">Toolkit</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           The controls I argue for.
         </h2>
@@ -736,7 +968,7 @@ function CareerArc() {
   return (
     <section id="career" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="05">Career</SectionLabel>
+        <SectionLabel n="06">Career</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Three acts.
         </h2>
@@ -771,7 +1003,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="06">Contact</SectionLabel>
+        <SectionLabel n="07">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -891,6 +1123,7 @@ export default function App() {
       <main>
         <Profile />
         <SelectedWork />
+        <CaseStudy />
         <Capabilities />
         <Judgment />
         <GovernanceToolkit />
