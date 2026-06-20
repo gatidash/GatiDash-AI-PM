@@ -346,7 +346,7 @@ const LEADERSHIP = [
   {
     n: '01',
     title: 'Simplicity is a strategic advantage',
-    body: 'In most organizations, complexity stems not from technology, vision, or talent, but from fragmented processes, ambiguous ownership, and over-engineered solutions. I lead with clarity of vision — identifying root-level challenges and architecting platforms that enable scale, trust, and adaptability.',
+    body: 'In most organizations, complexity stems not from a lack of technology, vision, or talent, but from fragmented processes, ambiguous ownership, and over-engineered solutions. I lead with clarity of vision — identifying root-level challenges and architecting platforms that enable scale, trust, and adaptability.',
   },
   {
     n: '02',
