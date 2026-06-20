@@ -346,17 +346,17 @@ const LEADERSHIP = [
   {
     n: '01',
     title: 'Simplicity is a strategic advantage',
-    body: 'In most organizations, complexity stems not from a lack of technology, vision, or talent, but from fragmented processes, ambiguous ownership, and over-engineered solutions. I lead with clarity of vision — identifying root-level challenges and architecting platforms that enable scale, trust, and adaptability.',
+    body: 'Complexity rarely comes from a lack of technology, vision, or talent — it comes from fragmented processes, ambiguous ownership, and over-engineering. I lead with clarity: find the root-level problem, then architect platforms that scale with trust and adaptability.',
   },
   {
     n: '02',
     title: 'Innovation is won in the operating layer',
-    body: 'True innovation doesn’t live or die in the 5–10% of teams working on cutting-edge technology. It succeeds or fails on the alignment, enablement, and effectiveness of the remaining 90–95% — the layer where scale is won and value is realized, or where companies stall. I empower that core through intentional product architecture, ecosystem thinking, and disciplined prioritization.',
+    body: 'Innovation doesn’t live or die in the 5–10% of teams building cutting-edge tech — it’s decided by the other 90–95%, where alignment and execution turn ideas into value. I empower that core through deliberate product architecture and disciplined prioritization.',
   },
   {
     n: '03',
     title: 'Precision over volume',
-    body: 'I don’t pursue complexity for its own sake. I lead with a clear lens on customer value, business alignment, and platform simplicity — because real transformation isn’t about doing more; it’s about doing what matters most, with precision and purpose.',
+    body: 'I don’t chase complexity. I lead with a clear lens on customer value, business alignment, and simplicity — because real transformation isn’t about doing more; it’s about doing what matters most, with precision and purpose.',
   },
 ]
 
@@ -996,6 +996,7 @@ function CareerArc() {
 }
 
 function Leadership() {
+  const [flipped, setFlipped] = useState(null)
   return (
     <section id="leadership" className="py-24 sm:py-32 border-t border-sand">
       <Container>
@@ -1004,21 +1005,33 @@ function Leadership() {
           How I lead.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Three principles that shape every product call I make.
+          Three principles that shape every product call I make. Select one to read it.
         </p>
-        <div className="mt-16 max-w-prose-wide divide-y divide-sand">
-          {LEADERSHIP.map((p) => (
-            <div key={p.n} className="py-12 first:pt-0">
-              <div className="flex items-baseline gap-5">
-                <span className="font-serif text-base text-accent flex-shrink-0">{p.n}</span>
-                <h3 className="display-serif text-2xl sm:text-3xl lg:text-4xl text-ink leading-[1.12]">
-                  {p.title}
-                </h3>
+        <div className="mt-16 grid md:grid-cols-3 gap-6">
+          {LEADERSHIP.map((p, i) => (
+            <button
+              key={p.n}
+              type="button"
+              onClick={() => setFlipped(flipped === i ? null : i)}
+              aria-pressed={flipped === i}
+              className={`lead-card ${flipped === i ? 'is-flipped' : ''}`}
+            >
+              <div className="lead-inner">
+                <div className="lead-face lead-front">
+                  <span className="font-serif text-base text-accent">{p.n}</span>
+                  <h3 className="display-serif text-2xl sm:text-[27px] text-ink leading-[1.15] mt-5">
+                    {p.title}
+                  </h3>
+                  <span className="lead-hint">
+                    Read <span className="lead-arrow">→</span>
+                  </span>
+                </div>
+                <div className="lead-face lead-back">
+                  <p className="text-base text-ink-soft leading-relaxed">{p.body}</p>
+                  <span className="lead-hint">← Back</span>
+                </div>
               </div>
-              <p className="mt-6 text-lg sm:text-xl text-ink-soft leading-relaxed sm:pl-10 max-w-prose-tight">
-                {p.body}
-              </p>
-            </div>
+            </button>
           ))}
         </div>
       </Container>
