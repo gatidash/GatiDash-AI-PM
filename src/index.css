@@ -267,7 +267,9 @@ body {
 /* Card */
 .cs-card {
   position: relative;
+  display: block;
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   color: #cfe9f2;

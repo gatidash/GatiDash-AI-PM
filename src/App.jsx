@@ -748,7 +748,7 @@ function CaseStudy() {
       <Container className="relative z-10">
         <div className="cs-eyebrow">06 // CASE FILES</div>
         <h2 className="cs-h2">Case Studies</h2>
-        <p className="cs-sub">Selected build logs. Open a file to inspect the system — signals in, playbook out.</p>
+        <p className="cs-sub">Selected build logs — a working GenAI prototype and a product-strategy deep-dive. Open a file to inspect.</p>
 
         <div className="cs-grid">
           <button type="button" className="cs-card" onClick={() => setOpen(true)}>
@@ -767,6 +767,28 @@ function CaseStudy() {
             </div>
             <div className="cs-open">OPEN FILE <span className="cs-open-arrow">▸</span></div>
           </button>
+
+          <a
+            href="/meridian-case-study.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cs-card"
+          >
+            <span className="cs-corner tl" /><span className="cs-corner tr" /><span className="cs-corner bl" /><span className="cs-corner br" />
+            <div className="cs-card-top">
+              <span className="cs-status"><span className="cs-dot" /> CONCEPT</span>
+              <span className="cs-tag">AGENTIC · REGTECH</span>
+            </div>
+            <div className="cs-id">FILE — MERIDIAN-01</div>
+            <h3 className="cs-card-title">Meridian — Agentic Regulatory-Change Intelligence</h3>
+            <p className="cs-card-sum">A product-strategy case study: an agent that maps each regulatory change to the controls it breaks — and stops at every act of judgment.</p>
+            <div className="cs-card-metrics">
+              <div><b>56k/yr</b><span>reg changes</span></div>
+              <div><b>6-stage</b><span>human-gated loop</span></div>
+              <div><b>RBI · DPDP</b><span>beachhead</span></div>
+            </div>
+            <div className="cs-open">OPEN FILE <span className="cs-open-arrow">↗</span></div>
+          </a>
         </div>
       </Container>
 

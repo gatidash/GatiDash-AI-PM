@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian — Agentic Regulatory-Change Intelligence · Product Strategy Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEEE8;
+    --card:#F8F7F2;
+    --ink:#15181A;
+    --ink-soft:#4C514F;
+    --deep:#0F2421;
+    --deep-2:#143731;
+    --flag:#B96B16;       /* needs human attention / flagged */
+    --clear:#3C7A66;      /* cleared, in appetite, logged */
+    --line:rgba(21,24,26,.14);
+    --line-strong:rgba(21,24,26,.30);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:19px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--flag);color:#fff}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--flag);
+    display:flex;align-items:center;gap:12px;margin:0 0 22px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
+  h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0}
+  h2{font-size:clamp(28px,4.4vw,46px);margin-bottom:.5em}
+  h3{font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.18}
+  p{margin:0 0 1.05em}
+  strong{font-weight:500;color:var(--ink)}
+  em{font-style:italic}
+  a{color:var(--clear)}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:var(--deep);
+    color:#EDEBE2;
+    padding:64px 0 0;
+    position:relative;overflow:hidden;
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .hero-meta{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:#7FA89B;display:flex;flex-wrap:wrap;gap:8px 26px;border-bottom:1px solid rgba(255,255,255,.12);
+    padding-bottom:22px;margin-bottom:54px;
+  }
+  .hero-meta span{white-space:nowrap}
+  .hero-meta b{color:#C9A063;font-weight:500}
+  .hero h1{
+    font-size:clamp(40px,7.4vw,84px);color:#F6F4EC;max-width:14ch;margin-bottom:30px;
+  }
+  .hero h1 .hl{color:#D69A47;font-style:normal}
+  .hero-lede{
+    font-size:clamp(20px,2.5vw,25px);line-height:1.5;max-width:40ch;color:#CFD7D2;
+    border-left:2px solid var(--flag);padding-left:22px;margin-bottom:56px;
+  }
+  .hero-figure{position:relative;z-index:2;padding-bottom:54px}
+  .codeline{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.04em;color:#6E9085;
+    margin-bottom:14px;
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:84px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:none}
+  .lead-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:18px 56px;align-items:start}
+  .lead-grid .colhead{position:sticky;top:28px}
+  @media(max-width:780px){.lead-grid{grid-template-columns:1fr;gap:6px}.lead-grid .colhead{position:static}}
+
+  .kicker{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:8px 0 0}
+  .stat{background:var(--paper);padding:26px 22px}
+  .stat .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;line-height:1;color:var(--deep)}
+  .stat .n small{font-size:.5em;font-weight:700;letter-spacing:0}
+  .stat .l{font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1.45;color:var(--ink-soft);margin-top:14px;text-transform:uppercase;letter-spacing:.04em}
+  @media(max-width:780px){.stats{grid-template-columns:1fr 1fr}}
+
+  .src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);opacity:.75;letter-spacing:.02em;margin-top:14px}
+
+  /* ---------- CALLOUT / BET ---------- */
+  .bet{
+    background:var(--deep);color:#E7EBE7;border-radius:2px;padding:40px 42px;margin:8px 0;
+    position:relative;
+  }
+  .bet .tag{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C9A063;margin-bottom:16px}
+  .bet h3{color:#fff;font-size:25px;margin-bottom:14px}
+  .bet p{color:#C6CFCA;margin-bottom:0}
+  .bet p+p{margin-top:.9em}
+
+  /* ---------- PERSONA CARDS ---------- */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+  @media(max-width:780px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:28px}
+  .card .role{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--flag);margin-bottom:8px}
+  .card h3{margin-bottom:12px}
+  .card p{font-size:17px;margin-bottom:0;color:var(--ink-soft)}
+  .card p strong{color:var(--ink)}
+  .jtbd{border-left:2px solid var(--clear);padding:6px 0 6px 22px;margin:30px 0 0;font-size:21px;line-height:1.5}
+  .jtbd b{font-style:italic;font-weight:400}
+
+  /* ---------- PIPELINE ---------- */
+  .pipe{margin-top:8px}
+  .pipe-row{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--line-strong);border-radius:2px;overflow:hidden}
+  .stage{padding:22px 18px 24px;border-right:1px solid var(--line);background:var(--card);position:relative}
+  .stage:last-child{border-right:none}
+  .stage .num{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
+  .stage h4{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
+  .stage p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0;font-family:"IBM Plex Mono",monospace;letter-spacing:.01em}
+  .stage.gate{background:var(--deep);color:#fff}
+  .stage.gate .num{color:#C9A063}
+  .stage.gate h4{color:#fff}
+  .stage.gate p{color:#B7C3BD}
+  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.16em;color:#D69A47;border:1px solid #B96B16;padding:2px 5px;border-radius:2px}
+  @media(max-width:880px){.pipe-row{grid-template-columns:1fr 1fr}.stage{border-bottom:1px solid var(--line)}}
+  @media(max-width:480px){.pipe-row{grid-template-columns:1fr}}
+  .pipe-flags{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
+  .pipe-flags b{color:var(--ink);font-weight:600}
+
+  /* ---------- SVG SIGNATURE ---------- */
+  figure{margin:8px 0 0}
+  .fig-cap{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-top:16px;letter-spacing:.02em;line-height:1.5}
+  .svg-frame{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:18px}
+  svg{display:block;width:100%;height:auto}
+
+  /* ---------- BOUNDARY TABLE ---------- */
+  .boundary{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-strong);border-radius:2px;overflow:hidden;margin-top:8px}
+  .boundary>div{padding:30px 30px 34px}
+  .boundary .agent{background:var(--card)}
+  .boundary .human{background:var(--deep);color:#E7EBE7}
+  .boundary .bhead{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .boundary .agent .bhead{color:var(--clear)}
+  .boundary .human .bhead{color:#D69A47}
+  .boundary ul{list-style:none;margin:0;padding:0}
+  .boundary li{font-size:16px;line-height:1.4;padding:13px 0;border-top:1px solid var(--line)}
+  .boundary .human li{border-top:1px solid rgba(255,255,255,.13);color:#CBD4CF}
+  .boundary li:first-child{border-top:none}
+  .boundary .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:11px;vertical-align:middle}
+  @media(max-width:780px){.boundary{grid-template-columns:1fr}.boundary .human{border-top:1px solid var(--line-strong)}}
+
+  /* ---------- FAILURE / RISK LIST ---------- */
+  .rows{margin-top:8px;border-top:1px solid var(--line)}
+  .rowx{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px 46px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
+  .rowx .rl{font-family:"Archivo",sans-serif;font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .rowx .rl .sev{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;color:var(--flag)}
+  .rowx p{font-size:16.5px;margin:0;color:var(--ink-soft)}
+  .rowx p b{color:var(--ink);font-weight:500}
+  @media(max-width:680px){.rowx{grid-template-columns:1fr;gap:10px}}
+
+  /* ---------- METRICS ---------- */
+  .metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px}
+  .metric-grid>div{background:var(--paper);padding:24px 22px}
+  .metric-grid .mt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);margin-bottom:10px}
+  .metric-grid h4{font-family:"Archivo",sans-serif;font-weight:700;font-size:16.5px;margin:0 0 8px}
+  .metric-grid p{font-size:14.5px;line-height:1.45;color:var(--ink-soft);margin:0}
+  @media(max-width:780px){.metric-grid{grid-template-columns:1fr}}
+  .northstar{background:var(--deep);color:#fff;border-radius:2px;padding:30px 34px;margin-top:22px}
+  .northstar .tag{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9A063;margin-bottom:12px}
+  .northstar p{font-size:22px;line-height:1.4;margin:0;color:#EFF2EF}
+  .northstar p b{color:#D69A47;font-weight:400;font-style:italic}
+
+  /* ---------- ROADMAP ---------- */
+  .road{margin-top:8px}
+  .phase{display:grid;grid-template-columns:140px 1fr;gap:36px;padding:26px 0;border-top:1px solid var(--line);align-items:baseline}
+  .phase:first-child{border-top:none}
+  .phase .pn{font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--flag)}
+  .phase .pn small{display:block;font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:11px;letter-spacing:.06em;color:var(--ink-soft);margin-top:6px;text-transform:uppercase}
+  .phase h3{font-size:19px;margin-bottom:8px}
+  .phase p{font-size:16px;margin:0;color:var(--ink-soft)}
+  @media(max-width:680px){.phase{grid-template-columns:1fr;gap:8px}}
+
+  /* ---------- PRICING / GTM ---------- */
+  .gtm{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+  @media(max-width:780px){.gtm{grid-template-columns:1fr}}
+  .gtm .card h3{margin-bottom:14px;font-size:19px}
+  .gtm ul{margin:0;padding-left:0;list-style:none}
+  .gtm li{font-size:16px;padding:9px 0;border-top:1px solid var(--line);color:var(--ink-soft)}
+  .gtm li:first-child{border-top:none}
+  .gtm li b{color:var(--ink);font-weight:500}
+
+  /* ---------- REFLECTION ---------- */
+  .reflect{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:42px 44px;margin-top:8px}
+  .reflect p:last-child{margin-bottom:0}
+  .reflect .q{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--deep);color:#9DB3AB;padding:56px 0;border-top:none}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:baseline}
+  footer .mono{font-size:12.5px;letter-spacing:.04em}
+  footer b{color:#D69A47;font-weight:500}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  :focus-visible{outline:2px solid var(--flag);outline-offset:3px}
+
+  /* back-to-portfolio link */
+  .backbar{position:fixed;top:18px;left:18px;z-index:50}
+  .backbar a{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#EDEBE2;background:rgba(15,36,33,.82);border:1px solid rgba(255,255,255,.2);border-radius:3px;padding:8px 14px;text-decoration:none;backdrop-filter:blur(6px)}
+  .backbar a:hover{background:#143731}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="/">← Back to portfolio</a></div>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-meta">
+      <span>Product strategy case study</span>
+      <span>Agentic systems · RegTech</span>
+      <span>Working codename <b>MERIDIAN</b></span>
+      <span>Conceptual — not a shipped product</span>
+    </div>
+    <h1>Reading the rules was never the hard part. <span class="hl">Proving which control each one touches</span> is.</h1>
+    <p class="hero-lede">An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign — not a chatbot that answers questions about the law.</p>
+  </div>
+  <div class="wrap hero-figure">
+    <div class="codeline">// the core job, in one diagram</div>
+    <div class="svg-frame">
+      <!-- SIGNATURE: regulatory change -> agent -> mapped controls -> human gate -->
+      <svg viewBox="0 0 1000 300" role="img" aria-label="A regulatory change flows into the Meridian agent, which fans out to the specific internal controls it affects, then passes through a human sign-off gate to an immutable log.">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#7FA89B"/>
+          </marker>
+          <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#D69A47"/>
+          </marker>
+        </defs>
+        <!-- source -->
+        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#7FA89B" stroke-width="1.4"/>
+        <text x="99" y="146" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#CFD7D2">RBI circular</text>
+        <text x="99" y="164" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#7FA89B">+ 749 other sources</text>
+        <!-- agent core -->
+        <rect x="300" y="105" width="190" height="90" rx="3" fill="#143731" stroke="#3C7A66" stroke-width="1.6"/>
+        <text x="395" y="140" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="20" fill="#F6F4EC">MERIDIAN</text>
+        <text x="395" y="162" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9DB3AB">watch · interpret · map · draft</text>
+        <line x1="178" y1="150" x2="296" y2="150" stroke="#7FA89B" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- control fan -->
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#CFD7D2">
+          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#7FA89B" stroke-width="1.1"/>
+          <text x="624" y="58" fill="#CFD7D2">CTRL-0142 · KYC refresh</text>
+          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#7FA89B" stroke-width="1.1"/>
+          <text x="624" y="116" fill="#CFD7D2">CTRL-0307 · Consent log</text>
+          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#B96B16" stroke-width="1.4"/>
+          <text x="624" y="174" fill="#E8A24A">CTRL-0511 · Data retention</text>
+          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#7FA89B" stroke-width="1.1"/>
+          <text x="624" y="232" fill="#CFD7D2">CTRL-0688 · Reporting SLA</text>
+        </g>
+        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#7FA89B" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#7FA89B" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#B96B16" stroke-width="1.6" marker-end="url(#arrG)"/>
+        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#7FA89B" stroke-width="1.2" marker-end="url(#arr)"/>
+        <!-- human gate label -->
+        <text x="700" y="284" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#D69A47">↑ flagged for human sign-off → immutable log</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== FRAME / THESIS ===================== -->
+<section>
+  <div class="wrap">
+    <div class="lead-grid">
+      <div class="colhead">
+        <p class="eyebrow">The bet</p>
+        <h2>Most "AI&nbsp;for compliance" is a search box. This isn't.</h2>
+      </div>
+      <div>
+        <p>The reflexive build for this space is retrieval over a regulatory corpus with a chat window on top — "ask questions about DPDP." It demos well and solves almost nothing, because the bottleneck inside a compliance team was never <em>understanding</em> a rule. It's the orchestration after: finding every internal control, policy, and data flow the rule touches; deciding what has to change; and producing an audit trail that survives a regulator's scrutiny.</p>
+        <p>That work has the four properties that actually justify an agent rather than a workflow: <strong>multi-step planning</strong> across a living queue of changes, <strong>tool use</strong> across fragmented systems of record, <strong>state</strong> held across a review that spans days, and <strong>bounded autonomy</strong> with explicit human checkpoints. Drop any one and an agent is over-engineering. Meridian is scoped to the problem where all four hold.</p>
+      </div>
+    </div>
+    <div class="bet" style="margin-top:48px">
+      <div class="tag">Strategic wager</div>
+      <h3>The product's defensibility is its restraint, not its autonomy.</h3>
+      <p>The instinct is to maximize what the agent does end-to-end. In a domain where a wrong call is a personal-liability event for a named officer, the winning design does the opposite: it does the 80% of gathering, mapping, and drafting at a quality bar a human can verify in minutes — and stops, loudly, at every act of judgment. The moat is a trust boundary engineered so well that a Chief Compliance Officer will put their name on the output.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROBLEM ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">01 · The problem</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>A volume problem that humans structurally cannot win.</h2></div>
+      <div>
+        <p>Global regulators now publish on the order of <strong>200+ changes a day</strong> — roughly 56,000 a year across more than a thousand bodies. A regulated firm doesn't care about most of them, but it cannot know which ones matter without reading all of them. Industry surveys put a quarter of financial firms at a full working day every week spent just tracking change, before a single control is updated.</p>
+        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025, and the average cost of a single non-compliance event in 2026 is estimated in the eight figures. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
+      </div>
+    </div>
+    <div class="stats" style="margin-top:46px">
+      <div class="stat"><div class="n">200<small>+/day</small></div><div class="l">Regulatory changes published globally</div></div>
+      <div class="stat"><div class="n">56k<small>/yr</small></div><div class="l">Alerts across 1,000+ regulators</div></div>
+      <div class="stat"><div class="n">1<small> day/wk</small></div><div class="l">Spent tracking change at ~25% of firms</div></div>
+      <div class="stat"><div class="n">$14.8M</div><div class="l">Est. avg. cost of one non-compliance event, 2026</div></div>
+    </div>
+    <p class="src">Figures paraphrased from Thomson Reuters Regulatory Intelligence, MetricStream, and Maximize Market Research / FinTech Global (2025–26). Used directionally; a real case study would re-validate against primary sources.</p>
+  </div>
+</section>
+
+<!-- ===================== USERS ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">02 · Who feels it</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>One overloaded owner. One overloaded doer.</h2></div>
+      <div>
+        <p>The economic buyer and the daily user are different people with different fears, and the product has to satisfy both. The buyer fears the miss; the user fears the busywork. Meridian's job is to take the busywork off the user in a way the buyer can trust under audit.</p>
+      </div>
+    </div>
+    <div class="cards" style="margin-top:40px">
+      <div class="card">
+        <div class="role">Buyer · economic</div>
+        <h3>Head of Compliance / GRC lead</h3>
+        <p>Accountable to the board and the regulator. <strong>Cannot</strong> delegate the sign-off, and knows it. Buys assurance and defensibility before efficiency. The skeptic to win.</p>
+      </div>
+      <div class="card">
+        <div class="role">User · daily</div>
+        <h3>Compliance analyst</h3>
+        <p>Drowning in alerts, doing the cross-referencing by hand. Wants the first 80% done and trustworthy so they can spend judgment where it counts. The champion to delight.</p>
+      </div>
+    </div>
+    <p class="jtbd"><b>Job to be done: "When a regulator publishes something, tell me fast and precisely which of <strong>my</strong> controls it touches, draft the change, and give me a record I can defend — so nothing slips while I'm buried in last quarter's audit."</b></p>
+  </div>
+</section>
+
+<!-- ===================== WHY NOW ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">03 · Why now</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>Three curves crossed at once.</h2></div>
+      <div>
+        <p><strong>Capability.</strong> Models can now read unstructured regulatory prose and align it to a structured control taxonomy — the exact translation step that defeated rules engines and kept this manual. Agentic orchestration lets that run continuously across systems instead of as a one-off query.</p>
+        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with APAC, and India specifically, the fastest-growing region.</p>
+        <p><strong>The counter-intuitive one.</strong> Regulators are now scrutinizing the AI itself — the EU AI Act treats compliance AI as high-risk, and buyers increasingly demand model cards and verifiable audit trails over black-box output. That <em>favors</em> a well-governed, fully-logged agent and punishes a slick autonomous one. The regulatory tide that threatens careless AI is a tailwind for a product built around traceability from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STRATEGY / WEDGE ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">04 · Strategy &amp; wedge</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>Win a narrow beachhead the incumbents ignore.</h2></div>
+      <div>
+        <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2, not the live firehose of jurisdictional change. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
+        <p><strong>Beachhead: India BFSI &amp; fintech, RBI + DPDP first.</strong> It's the fastest-growing RegTech region, English-language, acutely painful under DPDP Rules 2025 and a fast-moving RBI, and structurally underserved by Western-built tools. It's also where I have real operating context. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
+        <div class="bet" style="margin-top:30px">
+          <div class="tag">Scope discipline — v1</div>
+          <h3>What ships, and what deliberately doesn't.</h3>
+          <p style="color:#A9D0C2"><b style="color:#fff;font-weight:500">In:</b> continuous monitoring of a defined source set · obligation extraction · mapping to the customer's existing control library · drafted impact summaries, control redlines, and remediation tickets · full audit log.</p>
+          <p style="color:#D9B488"><b style="color:#E8A24A;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ARCHITECTURE ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">05 · How it works</p>
+    <h2 style="max-width:18ch">A six-stage loop with the human wired into the middle, not bolted on the end.</h2>
+    <div class="pipe">
+      <div class="pipe-row">
+        <div class="stage"><div class="num">01</div><h4>Watch</h4><p>Monitor a defined set of regulators, gazettes &amp; feeds; detect new &amp; amended items.</p></div>
+        <div class="stage"><div class="num">02</div><h4>Interpret</h4><p>Extract discrete obligations; classify by domain, jurisdiction &amp; effective date.</p></div>
+        <div class="stage"><div class="num">03</div><h4>Map</h4><p>Match each obligation to the customer's control library; score confidence.</p></div>
+        <div class="stage"><div class="num">04</div><h4>Draft</h4><p>Produce an impact summary, control redlines &amp; remediation tickets — every claim cited to source.</p></div>
+        <div class="stage gate"><div class="num">05</div><h4>Sign-off</h4><p>Analyst reviews; low-confidence maps forced into review. Human accepts, edits, or rejects.</p></div>
+        <div class="stage"><div class="num">06</div><h4>Log</h4><p>Immutable, reproducible record of inputs, reasoning, and the human decision.</p></div>
+      </div>
+      <div class="pipe-flags">
+        <span><b>Planning</b> across a live change queue</span>
+        <span><b>Tool use</b> across systems of record</span>
+        <span><b>State</b> held across multi-day reviews</span>
+        <span><b>Autonomy</b> bounded by confidence gates</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE HARD PART / BOUNDARY ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">06 · The hard part</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>The line between what the agent does and what a human owns is the product.</h2></div>
+      <div>
+        <p>In this domain the dangerous failure isn't the obvious one — it's the quiet one: an output that looks right, passes a tired analyst's glance, and surfaces only when an auditor pulls the thread months later. The whole design exists to make that failure mode visible <em>before</em> sign-off, and to make every accepted decision reconstructable afterward.</p>
+        <p>So autonomy is capped by design. Anything below a confidence threshold can't be auto-cleared. Every drafted claim links to its source text. And the four acts of judgment below are never delegated — not because the model can't attempt them, but because accountability for them legally and ethically can't move to a model.</p>
+      </div>
+    </div>
+    <div class="boundary" style="margin-top:42px">
+      <div class="agent">
+        <div class="bhead"><span class="dot" style="background:var(--clear)"></span>Meridian does — the 80%</div>
+        <ul>
+          <li>Watch every source, continuously</li>
+          <li>Extract and classify obligations</li>
+          <li>Map changes to specific controls, with confidence scores</li>
+          <li>Draft summaries, redlines &amp; tickets, each cited to source</li>
+          <li>Log everything for audit</li>
+        </ul>
+      </div>
+      <div class="human">
+        <div class="bhead"><span class="dot" style="background:var(--flag)"></span>The human owns — the judgment</div>
+        <ul>
+          <li>What a rule <em>means</em> for this specific business</li>
+          <li>Whether a residual risk is accepted</li>
+          <li>Final compliance sign-off</li>
+          <li>Any material communication with a regulator</li>
+        </ul>
+      </div>
+    </div>
+    <p class="src">Boundary mirrors current practitioner guidance (e.g. SureCloud, Oliver Wyman, Deloitte, 2026): agents reliably handle monitoring, mapping, evidence and drafting; interpretation, risk acceptance and sign-off stay human. Mature deployments report agents carrying ~20–40% of repetitive compliance work — which is the realistic ceiling, not a slide-deck "fully autonomous."</p>
+  </div>
+</section>
+
+<!-- ===================== FAILURE MODES ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">07 · What breaks, and the design answer</p>
+    <h2 style="max-width:16ch">Naming the failure modes is the senior move.</h2>
+    <div class="rows">
+      <div class="rowx"><div class="rl">Hallucinated mapping<span class="sev">Severity: high · quiet</span></div><p>Agent confidently links a change to the wrong control, or invents one. <b>Answer:</b> confidence scoring with mandatory human review below threshold; mappings are <b>suggestions</b> until signed, never auto-applied; every claim cited to retrievable source text.</p></div>
+      <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate is the headline number, not a footnote; periodic human spot-audits of "no impact" verdicts.</p></div>
+      <div class="rowx"><div class="rl">Stale control library<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's control inventory, which drifts. <b>Answer:</b> treat library hygiene as part of the product, not the customer's problem; flag controls with no recent activity; reconcile against drafted changes.</p></div>
+      <div class="rowx"><div class="rl">Automation complacency<span class="sev">Severity: high · cultural</span></div><p>Reviewers rubber-stamp because the agent is "usually right." <b>Answer:</b> design review for friction where it matters — surface disagreement and low confidence prominently; sample-inject known cases to keep reviewers honest.</p></div>
+      <div class="rowx"><div class="rl">We are regulated AI<span class="sev">Severity: existential</span></div><p>Our own system is high-risk AI under emerging law. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and sold as a differentiator.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METRICS ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">08 · How we'd know it works</p>
+    <div class="lead-grid">
+      <div class="colhead"><h2>Measure the miss, not the magic.</h2></div>
+      <div><p>Demo metrics ("changes processed!") are vanity. The metrics that matter are the ones a CCO would stake their name on — and the most important one is the rate of <em>missed</em> relevant changes, because that's the failure that ends careers. Business outcomes (fines avoided) are real but hard to attribute honestly; I'd track them as directional, not as a success gate.</p></div>
+    </div>
+    <div class="metric-grid" style="margin-top:40px">
+      <div><div class="mt">Leading · quality</div><h4>Mapping precision &amp; recall</h4><p>Against a human-labeled gold set. The number that decides whether the product is usable at all.</p></div>
+      <div><div class="mt">Leading · safety</div><h4>False-negative rate</h4><p>Relevant changes the agent missed. The catastrophic metric. Target asymptotically toward zero.</p></div>
+      <div><div class="mt">Leading · adoption</div><h4>Sign-off throughput</h4><p>Changes assessed per analyst per week — and the % cleared without edits as trust matures.</p></div>
+      <div><div class="mt">Lagging · value</div><h4>Time-to-assess</h4><p>From a change publishing to a human-signed verdict. Days → hours is the headline customer win.</p></div>
+      <div><div class="mt">Lagging · value</div><h4>Analyst hours reclaimed</h4><p>Hours moved from cross-referencing to judgment. The user's daily proof.</p></div>
+      <div><div class="mt">Lagging · business</div><h4>Audit-prep time</h4><p>Effort to produce a defensible trail at audit. Directional; attribution noted, not overclaimed.</p></div>
+    </div>
+    <div class="northstar">
+      <div class="tag">North star</div>
+      <p>Verified regulatory changes <b>assessed and correctly mapped</b>, per analyst, per week — held at a target precision the customer trusts. It couples value (throughput) to safety (precision) so the team can't win on one by sacrificing the other.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GTM ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">09 · Go to market</p>
+    <h2 style="max-width:20ch">Land on the miss-anxiety. Expand on the time saved.</h2>
+    <div class="gtm">
+      <div class="card">
+        <h3>Motion</h3>
+        <ul>
+          <li><b>Design partners first.</b> 3–5 India BFSI/fintech compliance teams; co-build the control-library onboarding, which is the real adoption bottleneck.</li>
+          <li><b>Land</b> on continuous change-to-control mapping for RBI + DPDP — the sharpest pain, narrowest scope.</li>
+          <li><b>Expand</b> into evidence collection and attestation tracking once sign-off trust is established.</li>
+          <li><b>Earn the buyer</b> with the audit trail and model cards — sell defensibility, not autonomy.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Positioning &amp; pricing</h3>
+        <ul>
+          <li><b>vs. Thomson Reuters / MetricStream:</b> they sell content into manual workflow; we close the loop to your controls, automatically.</li>
+          <li><b>vs. Vanta / Drata:</b> they automate static frameworks; we track live jurisdictional change.</li>
+          <li><b>Pricing:</b> seat + source-coverage tiers; priced to undercut enterprise incumbents and reach mid-market teams the incumbents can't serve economically.</li>
+          <li><b>Content moat answer:</b> partner for raw regulatory feeds early rather than rebuild a 750-regulator corpus; compete on the mapping intelligence, not the firehose.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ROADMAP ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">10 · Sequencing</p>
+    <h2>A phased path that de-risks trust before it scales reach.</h2>
+    <div class="road">
+      <div class="phase"><div class="pn">Phase 0<small>~Quarter 1–2</small></div><div><h3>Prove the mapping bar</h3><p>Before building UI: assemble a human-labeled eval set of changes→controls and test whether mapping precision/recall can clear a usable threshold. If it can't, nothing else matters. Riskiest assumption, validated first.</p></div></div>
+      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>The six-stage loop for RBI + DPDP, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
+      <div class="phase"><div class="pn">Phase 2<small>~Year 2</small></div><div><h3>Evidence &amp; attestation</h3><p>Extend the proven trust boundary into evidence collection and policy-attestation cycles — the natural adjacency once sign-off is trusted.</p></div></div>
+      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set across APAC and into EU/US, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REFLECTION ===================== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">11 · Reflection</p>
+    <div class="reflect">
+      <p class="q">If I could only validate one thing before writing a line of product code, it's whether mapping precision can hit a bar a CCO trusts.</p>
+      <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which controls a change touches. That's why Phase 0 is an offline eval against labeled data, not a prototype. The cheapest way to kill or confirm the whole thesis.</p>
+      <p>The strategic bet I'd defend in a room: <strong>in a liability-bearing domain, restraint is the product.</strong> The temptation will always be to push the autonomy further to look more impressive. The discipline to stop the agent precisely at the four acts of judgment — and to make the stopping legible and auditable — is what earns a compliance officer's signature, and a signature is the only thing that makes any of this real.</p>
+      <p style="margin-bottom:0;font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink-soft)">What this case study is meant to show: problem framing from real domain pain · a defensible scope decision under ambiguity · technical fluency without pretending to be the engineer · honest metrics including the ones that are hard to attribute · and a point of view on where AI should <em>not</em> act.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">MERIDIAN · agentic regulatory-change intelligence</span>
+    <span class="mono">Product strategy case study · conceptual · <b>codename, not a shipped product</b></span>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('section .wrap > *, .hero-figure').forEach((el,i)=>{el.classList.add('rv');el.style.transitionDelay=(Math.min(i,3)*40)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
