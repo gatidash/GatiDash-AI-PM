@@ -727,20 +727,21 @@ function AgenticDiagram() {
 }
 
 function CaseStudy() {
-  const [open, setOpen] = useState(false)
+  const [which, setWhich] = useState(null)
   const [active, setActive] = useState(0)
   const seg = CASE_SEGMENTS[active]
+  const close = () => setWhich(null)
 
   useEffect(() => {
-    if (!open) return
+    if (!which) return
     document.body.style.overflow = 'hidden'
-    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    const onKey = (e) => e.key === 'Escape' && setWhich(null)
     window.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', onKey)
     }
-  }, [open])
+  }, [which])
 
   return (
     <section id="casestudy" className="cs-section">
@@ -751,7 +752,7 @@ function CaseStudy() {
         <p className="cs-sub">Selected build logs — a working GenAI prototype and a product-strategy deep-dive. Open a file to inspect.</p>
 
         <div className="cs-grid">
-          <button type="button" className="cs-card" onClick={() => setOpen(true)}>
+          <button type="button" className="cs-card" onClick={() => setWhich('merchant')}>
             <span className="cs-corner tl" /><span className="cs-corner tr" /><span className="cs-corner bl" /><span className="cs-corner br" />
             <div className="cs-card-top">
               <span className="cs-status"><span className="cs-dot" /> ACTIVE</span>
@@ -768,12 +769,7 @@ function CaseStudy() {
             <div className="cs-open">OPEN FILE <span className="cs-open-arrow">▸</span></div>
           </button>
 
-          <a
-            href="/meridian-case-study.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cs-card"
-          >
+          <button type="button" className="cs-card" onClick={() => setWhich('meridian')}>
             <span className="cs-corner tl" /><span className="cs-corner tr" /><span className="cs-corner bl" /><span className="cs-corner br" />
             <div className="cs-card-top">
               <span className="cs-status"><span className="cs-dot" /> CONCEPT</span>
@@ -787,26 +783,43 @@ function CaseStudy() {
               <div><b>6-stage</b><span>human-gated loop</span></div>
               <div><b>RBI · DPDP</b><span>beachhead</span></div>
             </div>
-            <div className="cs-open">OPEN FILE <span className="cs-open-arrow">↗</span></div>
-          </a>
+            <div className="cs-open">OPEN FILE <span className="cs-open-arrow">▸</span></div>
+          </button>
         </div>
       </Container>
 
-      {open && (
-        <div className="cs-overlay" onClick={() => setOpen(false)}>
+      {which && (
+        <div className="cs-overlay" onClick={close}>
           <div
-            className="cs-window"
+            className={`cs-window ${which === 'meridian' ? 'cs-window-frame' : ''}`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
-            aria-label="Case study: merchant retention"
+            aria-label="Case study"
           >
             <div className="cs-scanline" aria-hidden="true" />
             <span className="cs-corner tl big" /><span className="cs-corner tr big" /><span className="cs-corner bl big" /><span className="cs-corner br big" />
             <div className="cs-winhead">
-              <span className="cs-winhead-id"><span className="cs-dot" /> CASE FILE // MERCHANT-RETENTION-01</span>
-              <button className="cs-winclose" onClick={() => setOpen(false)} aria-label="Close">✕</button>
+              <span className="cs-winhead-id">
+                <span className="cs-dot" /> CASE FILE // {which === 'merchant' ? 'MERCHANT-RETENTION-01' : 'MERIDIAN-01'}
+              </span>
+              <div className="cs-winhead-actions">
+                {which === 'meridian' && (
+                  <a href="/meridian-case-study.html" target="_blank" rel="noopener noreferrer" className="cs-winopen">
+                    OPEN FULL ↗
+                  </a>
+                )}
+                <button className="cs-winclose" onClick={close} aria-label="Close">✕</button>
+              </div>
             </div>
+
+            {which === 'meridian' ? (
+              <iframe
+                src="/meridian-case-study.html"
+                title="Meridian — Agentic Regulatory-Change Intelligence case study"
+                className="cs-iframe"
+              />
+            ) : (
             <div className="cs-winbody">
               <h3 className="cs-wintitle">From 30% Churn to Proactive Retention</h3>
               <p className="cs-winlede">Using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention.</p>
@@ -866,6 +879,7 @@ function CaseStudy() {
 
               <div className="cs-disc">Illustrative prototype · synthetic data · figures from industry benchmarks.</div>
             </div>
+            )}
           </div>
         </div>
       )}

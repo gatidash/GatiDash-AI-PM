@@ -429,6 +429,27 @@ body {
   color: #22d3ee;
 }
 .cs-winhead-id { display: inline-flex; align-items: center; gap: 9px; }
+.cs-winhead-actions { display: flex; align-items: center; gap: 12px; }
+.cs-winopen {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #22d3ee;
+  text-decoration: none;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  border-radius: 3px;
+  padding: 5px 10px;
+  transition: all 0.2s;
+}
+.cs-winopen:hover { background: #22d3ee; color: #05070e; }
+.cs-window-frame { width: min(1080px, 100%); }
+.cs-iframe {
+  display: block;
+  width: 100%;
+  height: calc(88vh - 52px);
+  border: 0;
+  background: #EFEEE8;
+}
 .cs-winclose {
   background: none;
   border: 1px solid rgba(34, 211, 238, 0.4);
