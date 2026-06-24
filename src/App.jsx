@@ -544,7 +544,7 @@ function Profile() {
                 <div>
                   <dt className="eyebrow mb-1.5">Credentials</dt>
                   <dd className="text-ink-soft leading-relaxed">
-                    ISB · Senior Digital Leadership Programme<br />
+                    ISB · Strategic Digital Leadership Programme<br />
                     Kellogg · PG Cert, Product Management<br />
                     ITER · B-Tech, Computer Science &amp; Engineering
                   </dd>
