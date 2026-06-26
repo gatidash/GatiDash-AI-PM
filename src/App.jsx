@@ -441,7 +441,14 @@ function NavBar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-paper/85 backdrop-blur-md border-b border-sand/60">
       <Container className="h-16 flex items-center justify-between">
-        <a href="#profile" className="font-serif text-lg text-ink tracking-editorial hover:text-accent transition-colors">
+        <a href="#profile" className="flex items-center gap-2.5 font-serif text-lg text-ink tracking-editorial hover:text-accent transition-colors">
+          <span className="nav-rocket" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/>
+              <path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="9" r="1.8" fill="#FF9E2C"/>
+            </svg>
+          </span>
           Gatikrishna Dash
         </a>
         <nav className="hidden md:flex items-center gap-7">
@@ -466,7 +473,26 @@ function NavBar() {
 
 function Profile() {
   return (
-    <section id="profile" className="relative pt-24 pb-20">
+    <section id="profile" className="relative pt-24 pb-20 overflow-hidden">
+      <div className="hero-trajectory hidden lg:block" aria-hidden="true">
+        <svg className="absolute right-0 top-8 w-[42vw] max-w-[620px] h-auto opacity-50" viewBox="0 0 600 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-20 430 C 170 410, 360 280, 478 70" stroke="url(#traj)" strokeWidth="1.5" strokeDasharray="5 8" fill="none" />
+          <circle cx="-10" cy="424" r="3" fill="#FF8A3D" />
+          <g className="rocket-bob" transform="translate(458 38) rotate(38)">
+            <path d="M0 -16 C7 -4 8 10 5 22 H-5 C-8 10 -7 -4 0 -16 Z" fill="#E9ECF7" />
+            <circle cx="0" cy="-2" r="3.4" fill="#070B1A" stroke="#5BD6E8" strokeWidth="1.2" />
+            <path d="M-5 16 L-12 28 L-5 23 Z" fill="#FF5E3A" />
+            <path d="M5 16 L12 28 L5 23 Z" fill="#FF5E3A" />
+            <path d="M-3 22 C-2 32 0 40 0 40 C0 40 2 32 3 22 Z" fill="#FF9E2C" />
+          </g>
+          <defs>
+            <linearGradient id="traj" x1="0" y1="440" x2="500" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor="#FF5E3A" stopOpacity="0.05" />
+              <stop offset="1" stopColor="#5BD6E8" stopOpacity="0.75" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
       <Container>
         {/* Mobile-only identity strip */}
         <div className="lg:hidden flex items-center gap-5 mb-10">
@@ -490,7 +516,7 @@ function Profile() {
             </p>
 
             <h1 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] max-w-prose-wide">
-              I lead AI and platform product work in PayPal. The kind that has to clear an audit, not just a demo.
+              I lead AI and platform product work in PayPal. The kind that has to <span className="ignite-text">clear an audit</span>, not just a demo.
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-smoke leading-snug max-w-prose-wide font-serif font-normal">
@@ -511,8 +537,8 @@ function Profile() {
 
             {/* CTAs */}
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
-                Start a conversation
+              <a href={`mailto:${LINKS.email}`} className="btn-launch">
+                Start a conversation <span className="lr-arrow">→</span>
               </a>
               <a
                 href={LINKS.linkedin}
@@ -908,7 +934,7 @@ function Capabilities() {
               onClick={() => setTab(idx)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
                 tab === idx
-                  ? 'bg-ink text-paper border-ink'
+                  ? 'bg-accent text-paper border-accent'
                   : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
               }`}
             >
@@ -1034,7 +1060,7 @@ function GovernanceToolkit() {
               onClick={() => setTab(idx)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
                 tab === idx
-                  ? 'bg-ink text-paper border-ink'
+                  ? 'bg-accent text-paper border-accent'
                   : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
               }`}
             >
@@ -1299,22 +1325,34 @@ function Footer() {
 // ROOT
 // ─────────────────────────────────────────────────────────────
 
+function SpaceBackdrop() {
+  return (
+    <div className="space-backdrop" aria-hidden="true">
+      <div className="starfield" />
+      <div className="starfield layer-2" />
+    </div>
+  )
+}
+
 export default function App() {
   return (
-    <div className="min-h-screen bg-paper">
-      <NavBar />
-      <main>
-        <Profile />
-        <CareerArc />
-        <GovernanceToolkit />
-        <Capabilities />
-        <Judgment />
-        <SelectedWork />
-        <CaseStudy />
-        <Leadership />
-        <Contact />
-      </main>
-      <Footer />
+    <div className="relative min-h-screen">
+      <SpaceBackdrop />
+      <div className="relative z-10">
+        <NavBar />
+        <main>
+          <Profile />
+          <CareerArc />
+          <GovernanceToolkit />
+          <Capabilities />
+          <Judgment />
+          <SelectedWork />
+          <CaseStudy />
+          <Leadership />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </div>
   )
 }
