@@ -415,7 +415,7 @@ function Avatar({ src, alt, size = 'large' }) {
   )
 }
 
-function NavBar() {
+function NavBar({ onOpenCases }) {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-paper/85 backdrop-blur-md border-b border-sand/60">
       <Container className="h-16 flex items-center justify-between">
@@ -430,16 +430,33 @@ function NavBar() {
           Gatikrishna Dash
         </a>
         <nav className="hidden md:flex items-center gap-7">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className="text-sm text-smoke hover:text-ink transition-colors"
-            >
-              {n.label}
-            </a>
-          ))}
+          {NAV.map((n) =>
+            n.id === 'casestudy' ? (
+              <button
+                key={n.id}
+                onClick={onOpenCases}
+                className="text-sm text-smoke hover:text-ink transition-colors"
+              >
+                {n.label}
+              </button>
+            ) : (
+              <a
+                key={n.id}
+                href={`#${n.id}`}
+                className="text-sm text-smoke hover:text-ink transition-colors"
+              >
+                {n.label}
+              </a>
+            )
+          )}
         </nav>
+        <button
+          onClick={onOpenCases}
+          className="md:hidden inline-flex items-center gap-1.5 text-sm text-ink hover:text-accent transition-colors"
+        >
+          Case Studies
+          <ArrowUpRight className="h-3.5 w-3.5" />
+        </button>
       </Container>
     </header>
   )
@@ -707,7 +724,7 @@ function CaseStudy() {
     <section id="casestudy" className="cs-section">
       <div className="cs-section-glow" aria-hidden="true" />
       <Container className="relative z-10">
-        <div className="cs-eyebrow">06 // CASE FILES</div>
+        <div className="cs-eyebrow">// CASE FILES</div>
         <h2 className="cs-h2">Case Studies</h2>
         <p className="cs-sub">Selected build logs — a working GenAI prototype and a product-strategy deep-dive. Open a file to inspect.</p>
 
@@ -1120,7 +1137,7 @@ function Leadership() {
   return (
     <section id="leadership" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="07">Leadership</SectionLabel>
+        <SectionLabel n="06">Leadership</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           How I lead.
         </h2>
@@ -1163,7 +1180,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 sm:py-32 border-t border-sand">
       <Container>
-        <SectionLabel n="08">Contact</SectionLabel>
+        <SectionLabel n="07">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -1313,11 +1330,29 @@ function Giscus() {
 }
 
 export default function App() {
+  const [view, setView] = useState('home')
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [view])
+
+  if (view === 'cases') {
+    return (
+      <div className="relative min-h-screen bg-[#05070e]">
+        <div className="cs-backbar">
+          <button onClick={() => setView('home')} className="cs-back">← Back to portfolio</button>
+        </div>
+        <CaseStudy />
+        <Analytics />
+      </div>
+    )
+  }
+
   return (
     <div className="relative min-h-screen">
       <SpaceBackdrop />
       <div className="relative z-10">
-        <NavBar />
+        <NavBar onOpenCases={() => setView('cases')} />
         <main>
           <Profile />
           <CareerArc />
@@ -1325,7 +1360,6 @@ export default function App() {
           <Capabilities />
           <Judgment />
           <SelectedWork />
-          <CaseStudy />
           <Leadership />
           <Contact />
         </main>
