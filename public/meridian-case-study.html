@@ -226,7 +226,7 @@
 </head>
 <body>
 
-<div class="backbar"><a href="/">← Back to portfolio</a></div>
+<div class="backbar"><a href="/case-studies.html">← Case studies</a></div>
 
 <!-- ===================== HERO ===================== -->
 <header class="hero">
@@ -540,9 +540,19 @@
   </div>
 </section>
 
+<!-- ===================== DISCUSSION ===================== -->
+<section id="discussion">
+  <div class="wrap">
+    <p class="eyebrow">Discussion</p>
+    <h2 style="margin-bottom:.35em">Push back, or build on it.</h2>
+    <p style="max-width:52ch;color:var(--ink-soft)">Sign in with GitHub to react or comment — this thread is specific to the Meridian case study.</p>
+    <div class="giscus" style="margin-top:30px"></div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <span class="mono">MERIDIAN · agentic regulatory-change intelligence</span>
+    <span class="mono"><a href="/case-studies.html" style="color:#D69A47;text-decoration:none">← Back to all case studies</a></span>
     <span class="mono">Product strategy case study · conceptual · <b>codename, not a shipped product</b></span>
   </div>
 </footer>
@@ -550,6 +560,22 @@
 <script>
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
   document.querySelectorAll('section .wrap > *, .hero-figure').forEach((el,i)=>{el.classList.add('rv');el.style.transitionDelay=(Math.min(i,3)*40)+'ms';io.observe(el)});
+</script>
+
+<script src="https://giscus.app/client.js"
+        data-repo="gatidash/GatiDash-AI-PM"
+        data-repo-id="R_kgDOSbok-w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSbok-84DAQJX"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 </body>
 </html>

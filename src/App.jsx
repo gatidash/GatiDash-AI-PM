@@ -13,7 +13,7 @@ const NAV = [
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
-  { id: 'casestudy', label: 'Case Studies' },
+  { id: 'casestudies', label: 'Case Studies', href: '/case-studies.html' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
 ]
@@ -415,7 +415,7 @@ function Avatar({ src, alt, size = 'large' }) {
   )
 }
 
-function NavBar({ onOpenCases }) {
+function NavBar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-paper/85 backdrop-blur-md border-b border-sand/60">
       <Container className="h-16 flex items-center justify-between">
@@ -430,33 +430,23 @@ function NavBar({ onOpenCases }) {
           Gatikrishna Dash
         </a>
         <nav className="hidden md:flex items-center gap-7">
-          {NAV.map((n) =>
-            n.id === 'casestudy' ? (
-              <button
-                key={n.id}
-                onClick={onOpenCases}
-                className="text-sm text-smoke hover:text-ink transition-colors"
-              >
-                {n.label}
-              </button>
-            ) : (
-              <a
-                key={n.id}
-                href={`#${n.id}`}
-                className="text-sm text-smoke hover:text-ink transition-colors"
-              >
-                {n.label}
-              </a>
-            )
-          )}
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={n.href || `#${n.id}`}
+              className="text-sm text-smoke hover:text-ink transition-colors"
+            >
+              {n.label}
+            </a>
+          ))}
         </nav>
-        <button
-          onClick={onOpenCases}
+        <a
+          href="/case-studies.html"
           className="md:hidden inline-flex items-center gap-1.5 text-sm text-ink hover:text-accent transition-colors"
         >
           Case Studies
           <ArrowUpRight className="h-3.5 w-3.5" />
-        </button>
+        </a>
       </Container>
     </header>
   )
@@ -700,244 +690,6 @@ function Paragraph({ label, body, accent = false }) {
         {body}
       </p>
     </div>
-  )
-}
-
-function CaseStudy() {
-  const [which, setWhich] = useState(null)
-  const [active, setActive] = useState(0)
-  const seg = CASE_SEGMENTS[active]
-  const close = () => setWhich(null)
-
-  useEffect(() => {
-    if (!which) return
-    document.body.style.overflow = 'hidden'
-    const onKey = (e) => e.key === 'Escape' && setWhich(null)
-    window.addEventListener('keydown', onKey)
-    return () => {
-      document.body.style.overflow = ''
-      window.removeEventListener('keydown', onKey)
-    }
-  }, [which])
-
-  const CARDS = [
-    {
-      id: 'merchant',
-      tag: 'GenAI · Retention',
-      title: 'From 30% Churn to Proactive Retention',
-      summary: 'Claude turns reactive, one-size-fits-all merchant support into personalized, early-intervention retention.',
-      metrics: [{ v: '−60%', l: 'churn' }, { v: '+25–40%', l: 'LTV' }, { v: '4', l: 'segments' }],
-    },
-    {
-      id: 'meridian',
-      tag: 'Agentic · RegTech',
-      title: 'Meridian — Agentic Regulatory-Change Intelligence',
-      summary: 'A product-strategy case study: an agent that maps each regulatory change to the controls it breaks — and stops at every act of judgment.',
-      metrics: [{ v: '56k/yr', l: 'reg changes' }, { v: '6-stage', l: 'human-gated loop' }, { v: 'RBI · DPDP', l: 'beachhead' }],
-    },
-  ]
-
-  return (
-    <section id="casestudy" className="py-24 sm:py-32">
-      <Container>
-        <div className="flex items-center gap-4">
-          <span className="h-px w-8 bg-ink/20" />
-          <span className="eyebrow">Case Studies</span>
-        </div>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          Selected case studies.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          A working GenAI prototype and a product-strategy deep-dive. Open a case to explore it.
-        </p>
-
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
-          {CARDS.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => setWhich(c.id)}
-              className="flex flex-col text-left rounded-xl border border-sand bg-paper p-7 transition-all hover:border-accent hover:-translate-y-1"
-            >
-              <span className="eyebrow text-accent">{c.tag}</span>
-              <h3 className="display-serif text-2xl text-ink mt-4 leading-snug">{c.title}</h3>
-              <p className="mt-3 text-base text-ink-soft leading-relaxed">{c.summary}</p>
-              <div className="mt-6 flex gap-8 pt-5 border-t border-sand">
-                {c.metrics.map((m) => (
-                  <div key={m.l}>
-                    <div className="font-serif text-xl text-ink leading-none">{m.v}</div>
-                    <div className="text-[11px] uppercase tracking-wide-caps text-dust mt-1.5">{m.l}</div>
-                  </div>
-                ))}
-              </div>
-              <span className="btn-quiet font-medium mt-6">Open case</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-20 pt-12 border-t border-sand">
-          <div className="flex items-center gap-4">
-            <span className="h-px w-8 bg-ink/20" />
-            <span className="eyebrow">Discussion</span>
-          </div>
-          <h3 className="display-serif mt-5 text-2xl sm:text-3xl text-ink leading-snug">
-            React or leave a comment.
-          </h3>
-          <p className="mt-3 text-base text-smoke max-w-prose-tight leading-relaxed">
-            Sign in with GitHub to react or comment on the cases above.
-          </p>
-          <div className="mt-8">
-            <Giscus />
-          </div>
-        </div>
-      </Container>
-
-      {which && (
-        <div
-          className="fixed inset-0 z-[100] bg-ink/40 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
-          onClick={close}
-        >
-          <div
-            className={`relative w-full ${which === 'meridian' ? 'max-w-5xl' : 'max-w-3xl'} max-h-[88vh] overflow-hidden rounded-xl bg-paper border border-sand shadow-2xl`}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Case study"
-          >
-            <div className="flex items-center justify-between px-6 py-4 border-b border-sand bg-paper-dark">
-              <span className="eyebrow">{which === 'merchant' ? 'Merchant Retention' : 'Meridian'}</span>
-              <div className="flex items-center gap-4">
-                {which === 'meridian' && (
-                  <a href="/meridian-case-study.html" target="_blank" rel="noopener noreferrer" className="btn-quiet text-sm font-medium">
-                    Open full
-                  </a>
-                )}
-                <button
-                  onClick={close}
-                  aria-label="Close"
-                  className="h-8 w-8 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-
-            {which === 'meridian' ? (
-              <iframe
-                src="/meridian-case-study.html"
-                title="Meridian — Agentic Regulatory-Change Intelligence case study"
-                className="block w-full border-0 bg-paper-dark"
-                style={{ height: 'calc(88vh - 57px)' }}
-              />
-            ) : (
-              <div className="overflow-y-auto px-6 sm:px-8 py-8" style={{ maxHeight: 'calc(88vh - 57px)' }}>
-                <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-tight">From 30% Churn to Proactive Retention</h3>
-                <p className="mt-3 text-base text-smoke leading-relaxed max-w-prose-wide">
-                  Using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention.
-                </p>
-
-                <dl className="mt-8 grid grid-cols-2 sm:grid-cols-4 border border-sand rounded-lg overflow-hidden">
-                  {CASE_METRICS.map((m, i) => (
-                    <div key={m.l} className={`bg-paper p-4 border-sand ${i % 2 === 0 ? 'border-r' : ''} ${i < 2 ? 'border-b sm:border-b-0' : ''} sm:[&:not(:last-child)]:border-r`}>
-                      <dt className="font-serif text-xl sm:text-2xl text-ink leading-none">{m.v}</dt>
-                      <dd className="mt-2 text-[11px] text-smoke leading-snug">{m.l}</dd>
-                    </div>
-                  ))}
-                </dl>
-
-                <div className="mt-8 border border-sand rounded-lg overflow-hidden">
-                  <div className="px-5 py-3 border-b border-sand bg-paper-dark flex items-center justify-between">
-                    <span className="eyebrow">Merchant Lifecycle Console</span>
-                    <span className="text-[11px] text-accent tracking-wide-caps">Claude-generated</span>
-                  </div>
-                  <div className="px-5 pt-4 flex flex-wrap gap-2">
-                    {CASE_SEGMENTS.map((s, i) => (
-                      <button
-                        key={s.key}
-                        onClick={() => setActive(i)}
-                        className={`rounded-full px-4 py-2 text-[13px] font-medium transition-colors border ${
-                          active === i
-                            ? 'bg-ink text-paper border-ink'
-                            : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
-                        }`}
-                      >
-                        {s.key}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="px-5 pt-4 pb-6 grid sm:grid-cols-2 gap-7">
-                    <div>
-                      <div className="eyebrow mb-3">Detected merchant</div>
-                      <div className="font-serif text-lg text-ink">{seg.name}</div>
-                      <p className="text-sm text-smoke mt-1 mb-4">{seg.desc}</p>
-                      <div className="eyebrow mb-3">Signals detected</div>
-                      <ul>
-                        {seg.signals.map((s, i) => (
-                          <li key={s} className={`flex items-start gap-3 py-2 text-sm text-ink-soft ${i > 0 ? 'border-t border-sand' : ''}`}>
-                            <AlertTriangle className="h-3.5 w-3.5 text-[#8a3b2e] flex-shrink-0 mt-0.5" />
-                            <span>{s}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="eyebrow mb-3">Generated playbook</div>
-                      <div className="bg-paper border border-sand rounded-lg p-4">
-                        <ol className="space-y-2.5">
-                          {seg.steps.map((s, i) => (
-                            <li key={s} className="flex gap-3 text-sm text-ink-soft leading-snug">
-                              <span className="flex-shrink-0 mt-0.5 h-5 w-5 rounded-full bg-accent text-white text-[11px] font-semibold flex items-center justify-center">
-                                {i + 1}
-                              </span>
-                              <span>{s}</span>
-                            </li>
-                          ))}
-                        </ol>
-                        <div className="mt-4 pt-4 border-t border-sand flex items-baseline gap-2.5">
-                          <span className="font-serif text-2xl text-[#1F5F3A] leading-none">{seg.impactBig}</span>
-                          <span className="text-[13px] text-smoke">{seg.impactTxt}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 grid sm:grid-cols-2 gap-5">
-                  <div className="border border-sand rounded-lg p-5 bg-paper">
-                    <h4 className="font-serif text-lg text-ink flex items-center gap-2.5">
-                      Before
-                      <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#f3e6e2] text-[#8a3b2e]">Reactive</span>
-                    </h4>
-                    <ul className="mt-3 space-y-1">
-                      {CASE_SHIFT.before.map((x) => (
-                        <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#8a3b2e]">
-                          {x}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="border border-accent rounded-lg p-5 bg-white">
-                    <h4 className="font-serif text-lg text-ink flex items-center gap-2.5">
-                      After
-                      <span className="text-[10px] uppercase tracking-wide-caps font-semibold px-2 py-1 rounded-full bg-[#e2ece6] text-[#1F5F3A]">Proactive</span>
-                    </h4>
-                    <ul className="mt-3 space-y-1">
-                      {CASE_SHIFT.after.map((x) => (
-                        <li key={x} className="relative pl-5 py-1.5 text-sm text-ink-soft leading-snug before:content-[''] before:absolute before:left-0 before:top-[0.7rem] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F5F3A]">
-                          {x}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <p className="mt-6 text-xs text-dust">Illustrative prototype · synthetic data · figures from industry benchmarks.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </section>
   )
 }
 
@@ -1362,72 +1114,41 @@ function SpaceBackdrop() {
   )
 }
 
-// Giscus — GitHub-Discussions-backed comments + reactions.
-// IDs generated at https://giscus.app for the repo below.
-const GISCUS = {
-  repo: 'gatidash/GatiDash-AI-PM',
-  repoId: 'R_kgDOSbok-w',
-  category: 'Announcements',
-  categoryId: 'DIC_kwDOSbok-84DAQJX',
-}
-
-function Giscus() {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el || el.firstChild) return
-    const s = document.createElement('script')
-    s.src = 'https://giscus.app/client.js'
-    s.async = true
-    s.crossOrigin = 'anonymous'
-    const attrs = {
-      'data-repo': GISCUS.repo,
-      'data-repo-id': GISCUS.repoId,
-      'data-category': GISCUS.category,
-      'data-category-id': GISCUS.categoryId,
-      'data-mapping': 'pathname',
-      'data-strict': '0',
-      'data-reactions-enabled': '1',
-      'data-emit-metadata': '0',
-      'data-input-position': 'top',
-      'data-theme': 'light',
-      'data-lang': 'en',
-    }
-    Object.entries(attrs).forEach(([k, v]) => s.setAttribute(k, v))
-    el.appendChild(s)
-  }, [])
-  return <div ref={ref} className="giscus" />
+function CaseBanner() {
+  return (
+    <section id="casestudies" className="py-24 sm:py-32 border-t border-sand">
+      <Container>
+        <a
+          href="/case-studies.html"
+          className="group block rounded-2xl border border-accent bg-accent text-paper p-10 sm:p-14 transition-transform hover:-translate-y-1"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
+            <div>
+              <span className="text-[11px] uppercase tracking-wide-caps font-semibold text-paper/70">Case Studies</span>
+              <h2 className="display-serif text-3xl sm:text-4xl lg:text-5xl mt-4 leading-tight max-w-2xl">
+                Explore the interactive case studies.
+              </h2>
+              <p className="mt-4 text-lg text-paper/80 max-w-prose-tight leading-relaxed">
+                Two product deep-dives — a working GenAI retention console and an agentic RegTech strategy — each interactive, each with its own discussion.
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap">
+              Open case studies
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
+          </div>
+        </a>
+      </Container>
+    </section>
+  )
 }
 
 export default function App() {
-  const [view, setView] = useState('home')
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [view])
-
-  if (view === 'cases') {
-    return (
-      <div className="relative min-h-screen bg-paper">
-        <div className="fixed top-4 left-4 z-[60]">
-          <button
-            onClick={() => setView('home')}
-            className="inline-flex items-center gap-1.5 text-sm text-ink bg-paper/85 backdrop-blur-md border border-sand rounded-full px-4 py-2 hover:text-accent hover:border-accent transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to portfolio
-          </button>
-        </div>
-        <CaseStudy />
-        <Analytics />
-      </div>
-    )
-  }
-
   return (
     <div className="relative min-h-screen">
       <SpaceBackdrop />
       <div className="relative z-10">
-        <NavBar onOpenCases={() => setView('cases')} />
+        <NavBar />
         <main>
           <Profile />
           <CareerArc />
@@ -1435,6 +1156,7 @@ export default function App() {
           <Capabilities />
           <Judgment />
           <SelectedWork />
+          <CaseBanner />
           <Leadership />
           <Contact />
         </main>

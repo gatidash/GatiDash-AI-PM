@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>From 30% Churn to Proactive Retention — GenAI Case Study · Gatikrishna Dash</title>
+<meta name="description" content="A GenAI case study: using Claude to turn reactive merchant support into proactive, personalized retention — targeting 25–40% higher LTV and up to 60% lower churn." />
+<meta name="theme-color" content="#FAF8F4" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FAF8F4; --paper-dark:#F2EDE5; --ink:#181818; --ink-soft:#2A2722;
+    --smoke:#5A5550; --dust:#8B857E; --sand:#E5DFD5; --accent:#1F3A5F; --accent-soft:#2E5380;
+    --pos:#1F5F3A; --neg:#8a3b2e; --maxw:1000px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--accent);color:var(--paper)}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dust);font-weight:600}
+  a{color:inherit}
+
+  /* top nav */
+  .topnav{position:sticky;top:0;z-index:40;background:rgba(250,248,244,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand)}
+  .topnav .wrap{height:60px;display:flex;align-items:center;justify-content:space-between}
+  .backlink{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--sand);border-radius:22px;padding:7px 15px;transition:all .2s}
+  .backlink:hover{border-color:var(--accent);color:var(--accent)}
+  .topnav .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+  /* hero */
+  header.hero{padding:72px 0 48px;border-bottom:1px solid var(--sand)}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--accent);margin-bottom:20px}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,5.4vw,60px);line-height:1.04;letter-spacing:-.02em;max-width:16ch}
+  .lede{margin-top:22px;font-family:'Fraunces',serif;font-weight:400;font-size:clamp(18px,2.2vw,23px);color:var(--smoke);max-width:46ch;line-height:1.4}
+  .byline{margin-top:22px;font-size:14px;color:var(--smoke)}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--sand);border:1px solid var(--sand);border-radius:10px;overflow:hidden;margin-top:38px}
+  .metric{background:var(--paper);padding:22px 20px}
+  .metric .v{font-family:'Fraunces',serif;font-size:clamp(26px,3.2vw,36px);line-height:1;color:var(--ink);font-weight:600}
+  .metric .v .u{font-size:.55em;color:var(--accent)}
+  .metric .l{margin-top:9px;font-size:12px;color:var(--smoke);line-height:1.35}
+
+  section{padding:56px 0;border-bottom:1px solid var(--sand)}
+  .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .seclabel .n{font-family:'Fraunces',serif;color:var(--accent);font-size:16px}
+  .seclabel .bar{height:1px;width:28px;background:rgba(24,24,24,.2)}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,3.4vw,38px);line-height:1.12;letter-spacing:-.015em;max-width:20ch}
+  .sub{margin-top:14px;font-size:16px;color:var(--smoke);max-width:60ch;line-height:1.55}
+
+  .prob{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+  .pcard{border:1px solid var(--sand);border-radius:10px;padding:22px;background:var(--paper)}
+  .pcard .ph{font-family:'Fraunces',serif;font-size:19px;color:var(--ink);display:flex;align-items:baseline;gap:10px}
+  .pcard .ph .stat{color:var(--neg);font-weight:600;font-size:15px}
+  .pcard p{margin-top:9px;font-size:14px;color:var(--smoke);line-height:1.5}
+
+  .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:30px}
+  .stage{position:relative;border:1px solid var(--sand);background:var(--paper);border-radius:9px;padding:15px 13px;min-height:92px;display:flex;flex-direction:column;justify-content:center}
+  .stage.core{border-color:var(--accent);background:#fff}
+  .stage .st{font-family:'Fraunces',serif;font-size:15px;line-height:1.15}
+  .stage .ss{font-size:10.5px;color:var(--dust);margin-top:6px;letter-spacing:.02em}
+  .stage .arrow{position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:var(--accent);z-index:2}
+
+  /* console */
+  .console{margin-top:30px;border:1px solid var(--sand);border-radius:14px;overflow:hidden;background:#fff}
+  .console-top{padding:16px 20px;border-bottom:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper-dark)}
+  .console-top .label{font-size:12px;color:var(--smoke)}
+  .console-top .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);border:1px solid rgba(31,58,95,.3);border-radius:20px;padding:4px 11px;letter-spacing:.06em}
+  .segs{display:flex;flex-wrap:wrap;gap:10px;padding:18px 20px 6px}
+  .seg{cursor:pointer;border:1px solid var(--sand);background:var(--paper);border-radius:24px;padding:9px 15px;font-size:13px;color:var(--ink-soft);font-weight:500;transition:all .18s;font-family:inherit}
+  .seg:hover{border-color:var(--accent-soft);color:var(--accent)}
+  .seg.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .panel{padding:8px 20px 24px}
+  .panel-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;margin-top:12px}
+  .blockh{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--dust);font-weight:600;margin-bottom:11px}
+  .merch{font-family:'Fraunces',serif;font-size:20px;margin-top:2px;transition:opacity .2s}
+  .merchdesc{font-size:13px;color:var(--smoke);margin-top:4px;margin-bottom:16px}
+  ul.signals{list-style:none}
+  ul.signals li{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--sand);font-size:13.5px;color:var(--ink-soft)}
+  ul.signals li:first-child{border-top:none}
+  ul.signals .ic{color:var(--neg);flex-shrink:0;font-weight:700}
+  .play{background:var(--paper);border:1px solid var(--sand);border-radius:11px;padding:17px}
+  ol.steps{list-style:none}
+  ol.steps li{position:relative;padding:7px 0 7px 30px;font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  ol.steps li .sn{position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+  .impact{margin-top:15px;padding-top:15px;border-top:1px solid var(--sand);display:flex;align-items:baseline;gap:10px}
+  .impact .big{font-family:'Fraunces',serif;font-size:25px;color:var(--pos);font-weight:600;line-height:1}
+  .impact .txt{font-size:13px;color:var(--smoke)}
+  .console-foot{padding:13px 20px;border-top:1px solid var(--sand);font-size:12px;color:var(--dust);background:var(--paper-dark)}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  .ba .col{border:1px solid var(--sand);border-radius:10px;padding:20px;background:var(--paper)}
+  .ba .col.after{border-color:var(--accent);background:#fff}
+  .ba h3{font-family:'Fraunces',serif;font-size:19px;display:flex;align-items:center;gap:9px}
+  .ba .badge{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600}
+  .ba .badge.b1{background:#f3e6e2;color:var(--neg)}
+  .ba .badge.b2{background:#e2ece6;color:var(--pos)}
+  .ba ul{list-style:none;margin-top:12px}
+  .ba li{font-size:13.5px;color:var(--ink-soft);padding:6px 0 6px 18px;position:relative;line-height:1.45}
+  .ba li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%}
+  .ba .col.before li::before{background:var(--neg)}
+  .ba .col.after li::before{background:var(--pos)}
+
+  .results{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+  .rcard{border:1px solid var(--sand);border-radius:10px;padding:24px 20px;background:var(--paper)}
+  .rcard .rv{font-family:'Fraunces',serif;font-size:clamp(28px,3.6vw,40px);line-height:1;color:var(--ink);font-weight:600}
+  .rcard .rv .u{font-size:.5em;color:var(--accent)}
+  .rcard .rl{margin-top:11px;font-size:13.5px;color:var(--smoke);line-height:1.45}
+
+  /* discussion */
+  .discuss{padding:56px 0 72px}
+  .discuss .giscus{margin-top:26px}
+
+  footer{background:var(--paper-dark);border-top:1px solid var(--sand);padding:34px 0}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+  footer a{font-size:14px;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  footer a:hover{color:var(--accent)}
+  footer .c{font-size:12px;color:var(--dust)}
+
+  @media(max-width:760px){
+    .metrics{grid-template-columns:repeat(2,1fr)}
+    .prob,.ba,.results{grid-template-columns:1fr}
+    .pipe{grid-template-columns:1fr}.stage .arrow{display:none}
+    .panel-grid{grid-template-columns:1fr;gap:18px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="backlink" href="/case-studies.html">← Case studies</a>
+    <span class="tag">Case 01 · GenAI · Retention</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill"><span class="dot"></span> GenAI Case Study · Built with Claude</span>
+    <h1>From 30% Churn to Proactive Retention</h1>
+    <p class="lede">Using Claude to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention.</p>
+    <p class="byline">A product prototype by <a href="/" style="color:var(--accent);text-decoration:underline">Gatikrishna Dash</a> — AI Product &amp; Transformation Leader</p>
+
+    <div class="metrics">
+      <div class="metric"><div class="v">+25–40<span class="u">%</span></div><div class="l">Potential lift in merchant lifetime value</div></div>
+      <div class="metric"><div class="v">−60<span class="u">%</span></div><div class="l">Churn reduction through early intervention</div></div>
+      <div class="metric"><div class="v">4</div><div class="l">Lifecycle segments with tailored playbooks</div></div>
+      <div class="metric"><div class="v">0</div><div class="l">Manual playbooks to maintain — fully generated</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="n">01</span><span class="bar"></span><span class="eyebrow">The problem</span></div>
+    <h2>Merchant support was reactive. By the time a merchant churned, the signals were months old.</h2>
+    <p class="sub">Payment platforms and B2B SaaS lose 20–30% of merchants a year — not because the product failed, but because lifecycle management was reactive, generic, and too late. The same one-size message went to a thriving merchant and a dormant one.</p>
+    <div class="prob">
+      <div class="pcard"><div class="ph">High churn <span class="stat">20–30% / yr</span></div><p>Merchants left quietly. Intervention happened after the drop in volume, not before it.</p></div>
+      <div class="pcard"><div class="ph">Underutilized features</div><p>Merchants never discovered the capabilities that would have made them stick.</p></div>
+      <div class="pcard"><div class="ph">Missed expansion</div><p>Growing merchants hit plan limits with no proactive upsell — revenue left on the table.</p></div>
+      <div class="pcard"><div class="ph">One-size support</div><p>The same lifecycle journey for every merchant, regardless of stage, health, or behavior.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="n">02</span><span class="bar"></span><span class="eyebrow">The approach</span></div>
+    <h2>Let Claude read each merchant's signals and generate the playbook — per segment, on demand.</h2>
+    <p class="sub">Behavioral and transaction signals feed Claude, which classifies the merchant's lifecycle stage and generates a tailored, next-best-action playbook — instead of a static rulebook nobody maintains.</p>
+    <div class="pipe">
+      <div class="stage"><div class="st">Merchant signals</div><div class="ss">Volume · tickets · feature use</div><div class="arrow">→</div></div>
+      <div class="stage"><div class="st">Lifecycle stage</div><div class="ss">Classification</div><div class="arrow">→</div></div>
+      <div class="stage core"><div class="st">Claude</div><div class="ss">Reasoning + playbook gen</div><div class="arrow">→</div></div>
+      <div class="stage"><div class="st">Personalized playbook</div><div class="ss">Next best actions</div><div class="arrow">→</div></div>
+      <div class="stage"><div class="st">Proactive outreach</div><div class="ss">Right message · right time</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="n">03</span><span class="bar"></span><span class="eyebrow">Try it · Interactive</span></div>
+    <h2>Pick a merchant segment. See the playbook Claude would generate.</h2>
+    <p class="sub">This is the heart of the prototype — four real lifecycle segments, each with the signals Claude detects and the personalized intervention it proposes.</p>
+
+    <div class="console">
+      <div class="console-top">
+        <span class="label">Merchant Lifecycle Console — <strong id="merchCount">demo</strong></span>
+        <span class="badge">CLAUDE-GENERATED</span>
+      </div>
+      <div class="segs" id="segs"></div>
+      <div class="panel">
+        <div class="panel-grid">
+          <div>
+            <div class="blockh">Detected merchant</div>
+            <div class="merch" id="merchName"></div>
+            <div class="merchdesc" id="merchDesc"></div>
+            <div class="blockh">Signals Claude picked up</div>
+            <ul class="signals" id="signals"></ul>
+          </div>
+          <div>
+            <div class="blockh">Personalized playbook</div>
+            <div class="play">
+              <ol class="steps" id="steps"></ol>
+              <div class="impact"><span class="big" id="impactBig"></span><span class="txt" id="impactTxt"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="console-foot">Illustrative prototype. Playbooks are generated from merchant signals, not hard-coded rules — so new segments need no new logic.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="n">04</span><span class="bar"></span><span class="eyebrow">The shift</span></div>
+    <h2>From reacting to churn, to preventing it.</h2>
+    <div class="ba">
+      <div class="col before">
+        <h3>Before <span class="badge b1">Reactive</span></h3>
+        <ul>
+          <li>Intervention triggered after volume already dropped</li>
+          <li>Same generic lifecycle email for every merchant</li>
+          <li>Analysts hand-built playbooks that went stale</li>
+          <li>Expansion and win-back happened by luck, not design</li>
+        </ul>
+      </div>
+      <div class="col after">
+        <h3>After <span class="badge b2">Proactive</span></h3>
+        <ul>
+          <li>Early signals surface risk before the drop</li>
+          <li>Each merchant gets a playbook tuned to its stage</li>
+          <li>Claude generates and refreshes playbooks on demand</li>
+          <li>Retention, expansion and win-back are designed surfaces</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="n">05</span><span class="bar"></span><span class="eyebrow">The opportunity</span></div>
+    <h2>What proactive, personalized lifecycle management unlocks.</h2>
+    <div class="results">
+      <div class="rcard"><div class="rv">25–40<span class="u">%</span></div><div class="rl">Higher merchant lifetime value through timely, relevant engagement</div></div>
+      <div class="rcard"><div class="rv">up to 60<span class="u">%</span></div><div class="rl">Lower churn when intervention happens before the volume drop</div></div>
+      <div class="rcard"><div class="rv">4<span class="u"> segments</span></div><div class="rl">Distinct lifecycle journeys, each with a Claude-generated playbook</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="discuss">
+  <div class="wrap">
+    <div class="seclabel"><span class="n">✦</span><span class="bar"></span><span class="eyebrow">Discussion</span></div>
+    <h2>Thoughts on this case?</h2>
+    <p class="sub">Sign in with GitHub to react or leave a comment — this thread is specific to this case study.</p>
+    <div class="giscus"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a href="/case-studies.html">← Back to all case studies</a>
+    <span class="c">Illustrative prototype · synthetic data · figures from industry benchmarks.</span>
+  </div>
+</footer>
+
+<script>
+  const SEGMENTS = [
+    { key:'New (0–30 days)', name:'New merchant · Onboarding', desc:'Signed up 11 days ago. Account configured but no first live transaction yet.',
+      signals:['No first transaction after 11 days (activation risk)','Only 2 of 8 core features set up','Opened the integration docs 3× but did not finish'],
+      steps:['Trigger a guided activation flow targeting the unfinished integration step','Send a day-3 / day-7 / day-14 nudge sequence tied to setup milestones','Offer a 15-min onboarding call if no transaction by day 14'],
+      impactBig:'2.3×', impactTxt:'faster time-to-first-transaction' },
+    { key:'At-risk (declining)', name:'At-risk merchant · Declining volume', desc:'Established merchant whose processing volume fell 42% over the last 6 weeks.',
+      signals:['Transaction volume down 42% vs. trailing 3-month average','Support tickets up 3× — mostly fees and settlement timing','Logins dropped from daily to weekly'],
+      steps:['Flag for proactive success outreach before the next billing cycle','Run a fee / pricing review and surface relevant lower-cost options','Share a tailored tip on settlement timing addressing their top ticket'],
+      impactBig:'−60%', impactTxt:'churn risk on early-intervention saves' },
+    { key:'Growth (expanding)', name:'Growth merchant · Expanding fast', desc:'Volume up 64% this quarter; consistently approaching current plan limits.',
+      signals:['Processing volume up 64% QoQ, nearing tier cap','Started using 2 new product features unprompted','Added 3 team members to the dashboard'],
+      steps:['Proactively offer an upgrade to the higher tier before the cap is hit','Cross-sell the payout and reporting add-ons their usage pattern predicts','Assign a named contact to support the expansion'],
+      impactBig:'+34%', impactTxt:'expansion revenue per account' },
+    { key:'Dormant (60+ days)', name:'Dormant merchant · Win-back', desc:'No transactions or logins in 67 days. Previously a steady mid-volume merchant.',
+      signals:['Zero transactions and no logins for 67 days','Never re-engaged after a failed payout 9 weeks ago','Historically processed steadily for 14 months prior'],
+      steps:['Launch a personalized win-back acknowledging the past payout issue','Offer a re-onboarding session plus a time-boxed fee incentive','If no response in 14 days, route to a final value-recap message'],
+      impactBig:'18%', impactTxt:'dormant merchants reactivated' },
+  ];
+  const segsEl = document.getElementById('segs');
+  SEGMENTS.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='seg'+(i===0?' active':'');
+    b.textContent=s.key;
+    b.addEventListener('click',()=>select(i));
+    segsEl.appendChild(b);
+  });
+  function select(i){
+    document.querySelectorAll('.seg').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+    const s=SEGMENTS[i];
+    const name=document.getElementById('merchName');
+    name.style.opacity=0;
+    setTimeout(()=>{
+      name.textContent=s.name; name.style.opacity=1;
+      document.getElementById('merchDesc').textContent=s.desc;
+      document.getElementById('signals').innerHTML=s.signals.map(x=>`<li><span class="ic">!</span><span>${x}</span></li>`).join('');
+      document.getElementById('steps').innerHTML=s.steps.map((x,n)=>`<li><span class="sn">${n+1}</span>${x}</li>`).join('');
+      document.getElementById('impactBig').textContent=s.impactBig;
+      document.getElementById('impactTxt').textContent=s.impactTxt;
+      document.getElementById('merchCount').textContent=s.key;
+    },110);
+  }
+  select(0);
+</script>
+
+<script src="https://giscus.app/client.js"
+        data-repo="gatidash/GatiDash-AI-PM"
+        data-repo-id="R_kgDOSbok-w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSbok-84DAQJX"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</body>
+</html>
