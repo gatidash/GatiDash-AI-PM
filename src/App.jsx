@@ -894,21 +894,21 @@ function CompanyLogo({ name }) {
 
 function CareerArc() {
   return (
-    <section id="career" className="py-24 sm:py-32 border-t border-sand">
+    <section id="career" className="py-14 sm:py-20 border-t border-sand">
       <Container>
         <SectionLabel n="01">Career</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+        <h2 className="display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]">
           Three acts.
         </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next, and together they shape how I work: shipping systems that have to be audited, not just admired.
+        <p className="mt-3 text-base text-smoke max-w-2xl leading-relaxed">
+          Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next: shipping systems that have to be audited, not just admired.
         </p>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
+        <div className="mt-8 grid md:grid-cols-3 gap-5">
           {CAREER_ARC.map((e, i) => (
             <div
               key={e.era}
-              className="career-card relative flex flex-col h-full rounded-xl border border-sand border-t-2 border-t-accent bg-paper p-6 pt-7"
+              className="career-card relative flex flex-col h-full rounded-xl border border-sand border-t-2 border-t-accent bg-paper p-5 pt-6"
               style={{ animationDelay: `${i * 130}ms` }}
             >
               <span className="career-node" />
@@ -916,31 +916,31 @@ function CareerArc() {
                 <span className="font-serif text-base text-accent">{e.era}</span>
                 <span className="eyebrow text-dust">{e.years}</span>
               </div>
-              <div className="eyebrow text-accent mt-3 flex items-center gap-1.5">
+              <div className="eyebrow text-accent mt-2.5 flex items-center gap-1.5">
                 {i > 0 && <span className="text-dust">→</span>}
                 {e.theme}
               </div>
-              <h3 className="font-serif text-2xl text-ink tracking-editorial leading-snug mt-1 min-h-[4.25rem]">
+              <h3 className="font-serif text-xl text-ink tracking-editorial leading-snug mt-1 min-h-[2.8rem]">
                 {e.title}
               </h3>
-              <p className="mt-1 text-base text-ink-soft leading-relaxed">{e.body}</p>
-              <div className="mt-5">
-                <div className="eyebrow text-dust mb-2.5">Tools</div>
+              <p className="mt-1.5 text-sm text-ink-soft leading-relaxed">{e.body}</p>
+              <div className="mt-4">
+                <div className="eyebrow text-dust mb-2">Tools</div>
                 <div className="flex flex-wrap gap-2">
                   {e.tools.map((c) => (
                     <span key={c} className="career-chip">{c}</span>
                   ))}
                 </div>
               </div>
-              <div className="mt-4">
-                <div className="eyebrow text-dust mb-2.5">Worked with</div>
+              <div className="mt-3">
+                <div className="eyebrow text-dust mb-2">Worked with</div>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                   {e.companies.map((c) => (
                     <CompanyLogo key={c} name={c} />
                   ))}
                 </div>
               </div>
-              <p className="mt-auto pt-5 border-t border-sand text-sm text-smoke italic leading-relaxed">
+              <p className="mt-auto pt-4 border-t border-sand text-sm text-smoke italic leading-relaxed">
                 <span className="not-italic text-accent font-serif mr-1.5">↳</span>
                 {e.instinct}
               </p>
