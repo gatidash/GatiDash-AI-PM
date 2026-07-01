@@ -323,7 +323,7 @@ const CASE_SHIFT = {
   after: [
     'Early signals surface risk before the drop',
     'Each merchant gets a playbook tuned to its stage',
-    'Claude generates and refreshes playbooks on demand',
+    'The model generates and refreshes playbooks on demand',
     'Retention, expansion and win-back are designed surfaces',
   ],
 }
