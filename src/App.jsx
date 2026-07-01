@@ -10,11 +10,11 @@ import { track } from '@vercel/analytics'
 const NAV = [
   { id: 'profile', label: 'Profile' },
   { id: 'career', label: 'Career' },
+  { id: 'leadership', label: 'Leadership' },
   { id: 'toolkit', label: 'Toolkit' },
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
-  { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -609,7 +609,7 @@ function SelectedWork() {
   return (
     <section id="work" className="py-14 sm:py-20 border-t border-sand">
       <Container>
-        <SectionLabel n="05">Work</SectionLabel>
+        <SectionLabel n="06">Work</SectionLabel>
         <h2 className="display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]">
           Three pieces of work that explain how I think.
         </h2>
@@ -702,7 +702,7 @@ function Capabilities() {
   return (
     <section id="capabilities" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="03">Capabilities</SectionLabel>
+        <SectionLabel n="04">Capabilities</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           What I actually do.
         </h2>
@@ -753,7 +753,7 @@ function Judgment() {
   return (
     <section id="judgment" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="04">Judgment</SectionLabel>
+        <SectionLabel n="05">Judgment</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Calls I keep making.
         </h2>
@@ -828,7 +828,7 @@ function GovernanceToolkit() {
   return (
     <section id="toolkit" className="py-16 sm:py-24 bg-paper-dark border-t border-sand">
       <Container>
-        <SectionLabel n="02">Toolkit</SectionLabel>
+        <SectionLabel n="03">Toolkit</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           The controls I argue for.
         </h2>
@@ -962,7 +962,7 @@ function Leadership() {
   return (
     <section id="leadership" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="06">Leadership</SectionLabel>
+        <SectionLabel n="02">Leadership</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           How I lead.
         </h2>
@@ -1156,12 +1156,12 @@ export default function App() {
         <main>
           <Profile />
           <CareerArc />
+          <Leadership />
           <GovernanceToolkit />
           <Capabilities />
           <Judgment />
           <SelectedWork />
           <CaseBanner />
-          <Leadership />
           <Contact />
         </main>
         <Footer />
