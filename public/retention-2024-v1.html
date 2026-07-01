@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#070B1A" />
+<meta name="robots" content="noindex" />
+<meta name="description" content="Archived 2024 v1 — the original generative retention playbook that was later rebuilt into an accountable agent (2026)." />
+<title>Archived · 2024 v1 — Generative Retention Playbook · Gatikrishna Dash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#070B1A; --paper-dark:#0E1430; --ink:#E9ECF7; --ink-soft:#C5CADF;
+    --smoke:#99A0C4; --dust:#6E769F; --sand:#222C4F; --accent:#FF8A3D; --accent-soft:#FFB468;
+    --pos:#46E0A0; --neg:#FF7A6B; --plasma:#5BD6E8; --maxw:1000px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#070B1A;color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  ::selection{background:#FF8A3D;color:#1a0e00;}
+  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.10),transparent 45%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.08),transparent 40%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.10),transparent 45%);}
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 7s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.45}}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dust);font-weight:600}
+  a{color:inherit}
+
+  .topnav{position:sticky;top:0;z-index:40;background:rgba(7,11,26,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand)}
+  .topnav .wrap{height:60px;display:flex;align-items:center;justify-content:space-between}
+  .backlink{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--sand);border-radius:22px;padding:7px 15px;transition:all .2s}
+  .backlink:hover{border-color:var(--accent);color:var(--accent)}
+  .topnav .tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+  /* archive banner */
+  .archbar{border-bottom:1px solid var(--sand);background:rgba(255,138,61,.06)}
+  .archbar .wrap{padding:14px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;justify-content:space-between}
+  .archbar .msg{font-size:14px;color:var(--ink-soft)}
+  .archbar .msg b{color:var(--accent-soft);font-weight:600}
+  .archbar a.fwd{font-family:'Space Mono',monospace;font-size:12.5px;color:var(--accent);text-decoration:none;border:1px solid rgba(255,138,61,.4);border-radius:20px;padding:7px 13px;transition:all .2s;white-space:nowrap}
+  .archbar a.fwd:hover{background:var(--accent);color:#1a0e00}
+
+  header.hero{padding:60px 0 44px;border-bottom:1px solid var(--sand)}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;color:var(--dust);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.8vw,50px);line-height:1.05;letter-spacing:-.02em;max-width:18ch}
+  .lede{margin-top:20px;font-size:clamp(17px,2vw,20px);color:var(--smoke);max-width:52ch;line-height:1.5}
+  .lede b{color:var(--ink)}
+
+  section{padding:48px 0;border-bottom:1px solid var(--sand)}
+  .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .seclabel .bar{height:1px;width:28px;background:rgba(233,236,247,.2)}
+  h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(22px,3vw,32px);line-height:1.14;letter-spacing:-.015em;max-width:24ch}
+  .sub{margin-top:12px;font-size:16px;color:var(--smoke);max-width:60ch;line-height:1.55}
+
+  /* console (generative — signals in, playbook out) */
+  .console{margin-top:28px;border:1px solid var(--sand);border-radius:14px;overflow:hidden;background:#0E1430}
+  .console-top{padding:15px 20px;border-bottom:1px solid var(--sand);background:var(--paper-dark);font-size:12px;color:var(--smoke)}
+  .console-top b{color:var(--ink)}
+  .segs{display:flex;flex-wrap:wrap;gap:10px;padding:18px 20px 6px}
+  .seg{cursor:pointer;border:1px solid var(--sand);background:var(--paper);border-radius:24px;padding:9px 15px;font-size:13px;color:var(--ink-soft);font-weight:500;transition:all .18s;font-family:inherit}
+  .seg:hover{border-color:var(--accent-soft);color:var(--accent)}
+  .seg.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .panel{padding:8px 20px 24px}
+  .panel-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;margin-top:12px}
+  .blockh{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--dust);font-weight:600;margin-bottom:11px}
+  .merch{font-family:'Space Grotesk',sans-serif;font-size:19px;margin-top:2px}
+  .merchdesc{font-size:13px;color:var(--smoke);margin:4px 0 16px}
+  ul.signals{list-style:none}
+  ul.signals li{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--sand);font-size:13.5px;color:var(--ink-soft)}
+  ul.signals li:first-child{border-top:none}
+  ul.signals .ic{color:var(--neg);flex-shrink:0;font-weight:700}
+  .play{background:var(--paper);border:1px solid var(--sand);border-radius:11px;padding:17px}
+  ol.steps{list-style:none}
+  ol.steps li{position:relative;padding:7px 0 7px 30px;font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+  ol.steps li .sn{position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#1a0e00;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .impact{margin-top:15px;padding-top:15px;border-top:1px solid var(--sand);display:flex;align-items:baseline;gap:10px}
+  .impact .big{font-family:'Space Grotesk',sans-serif;font-size:24px;color:var(--pos);font-weight:600}
+  .impact .txt{font-size:13px;color:var(--smoke)}
+  .console-foot{padding:13px 20px;border-top:1px solid var(--sand);font-size:12px;color:var(--dust);background:var(--paper-dark)}
+
+  /* what was missing → rebuild */
+  .miss{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+  .mcard{border:1px solid var(--sand);border-radius:12px;padding:20px;background:var(--paper-dark)}
+  .mcard h4{font-family:'Space Grotesk',sans-serif;font-size:16px;color:var(--ink);margin-bottom:8px}
+  .mcard p{font-size:14px;color:var(--smoke);line-height:1.5}
+  .cta{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .cta a{font-family:'Space Mono',monospace;font-size:13px;text-decoration:none;border-radius:22px;padding:11px 18px;transition:all .2s}
+  .cta .primary{background:var(--accent);color:#1a0e00;font-weight:700}
+  .cta .primary:hover{background:var(--accent-soft)}
+
+  footer{background:var(--paper-dark);border-top:1px solid var(--sand);padding:34px 0}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+  footer a{font-size:14px;color:var(--ink);text-decoration:none}
+  footer a:hover{color:var(--accent)}
+  footer .c{font-size:12px;color:var(--dust)}
+
+  @media(max-width:720px){.panel-grid{grid-template-columns:1fr}.miss{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="space-bg" aria-hidden="true"></div><div class="stars" aria-hidden="true"></div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="backlink" href="/case-studies.html">← Case studies</a>
+    <span class="tag">Archived · 2024 · v1</span>
+  </div>
+</nav>
+
+<div class="archbar">
+  <div class="wrap">
+    <span class="msg">You're viewing the <b>original 2024 version</b>. It was rebuilt into an accountable agent in 2026.</span>
+    <a class="fwd" href="/merchant-retention-case-study.html">See the current case study →</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill">Archived · 2024 · v1 · Generative</span>
+    <h1>The 2024 version: a generative retention playbook.</h1>
+    <p class="lede">The first cut read a merchant's signals and <b>wrote a tailored playbook</b>. Useful as a demo — but it ran once, took no action, remembered nothing, and never checked whether it worked. Kept here as the honest starting point for the <b>2026 agentic rebuild</b>.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="bar"></span><span class="eyebrow">Try the 2024 version</span></div>
+    <h2>Pick a segment. See the playbook it would generate.</h2>
+    <p class="sub">Signals in, a playbook out. Notice what's missing: no action is taken, nothing is remembered, and no outcome is ever observed — the gaps that drove the rebuild.</p>
+
+    <div class="console">
+      <div class="console-top">Merchant Lifecycle Console — <b id="merchCount">demo</b> · <span style="color:var(--dust)">generates a playbook only</span></div>
+      <div class="segs" id="segs"></div>
+      <div class="panel">
+        <div class="panel-grid">
+          <div>
+            <div class="blockh">Detected merchant</div>
+            <div class="merch" id="merchName"></div>
+            <div class="merchdesc" id="merchDesc"></div>
+            <div class="blockh">Signals detected</div>
+            <ul class="signals" id="signals"></ul>
+          </div>
+          <div>
+            <div class="blockh">Generated playbook</div>
+            <div class="play">
+              <ol class="steps" id="steps"></ol>
+              <div class="impact"><span class="big" id="impactBig"></span><span class="txt" id="impactTxt"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="console-foot">Illustrative prototype · synthetic data. The playbook is a suggestion a human still had to act on.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="seclabel"><span class="bar"></span><span class="eyebrow">Why it was rebuilt</span></div>
+    <h2>A generator is a function. Retention needed a loop.</h2>
+    <div class="miss">
+      <div class="mcard"><h4>Ran once, took no action</h4><p>It emitted a paragraph on request. Someone still had to read it and do the work.</p></div>
+      <div class="mcard"><h4>No memory</h4><p>It re-suggested tactics that had already failed on the same merchant last quarter.</p></div>
+      <div class="mcard"><h4>Never observed the outcome</h4><p>Nobody watched whether volume recovered, so nothing adjusted.</p></div>
+      <div class="mcard"><h4>No trust boundary</h4><p>No tiered autonomy, no guardrails, no gate on actions that touch money — because it never acted at all.</p></div>
+    </div>
+    <div class="cta">
+      <a class="primary" href="/merchant-retention-case-study.html">See the 2026 agentic rebuild →</a>
+      <a href="/case-studies.html" style="border:1px solid var(--sand);color:var(--ink)">All case studies</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="/merchant-retention-case-study.html">→ Current case study (2026 agentic)</a>
+    <span class="c">Archived 2024 v1 · illustrative prototype · synthetic data</span>
+  </div>
+</footer>
+
+<script>
+  const SEGMENTS = [
+    { key:'New (0–30 days)', name:'New merchant · Onboarding', desc:'Signed up 11 days ago. Account configured but no first live transaction yet.',
+      signals:['No first transaction after 11 days (activation risk)','Only 2 of 8 core features set up','Opened the integration docs 3× but did not finish'],
+      steps:['Trigger a guided activation flow targeting the unfinished integration step','Send a day-3 / day-7 / day-14 nudge sequence tied to setup milestones','Offer a 15-min onboarding call if no transaction by day 14'],
+      impactBig:'2.3×', impactTxt:'faster time-to-first-transaction' },
+    { key:'At-risk (declining)', name:'At-risk merchant · Declining volume', desc:'Established merchant whose processing volume fell 42% over the last 6 weeks.',
+      signals:['Transaction volume down 42% vs. trailing 3-month average','Support tickets up 3× — mostly fees and settlement timing','Logins dropped from daily to weekly'],
+      steps:['Flag for proactive success outreach before the next billing cycle','Run a fee / pricing review and surface relevant lower-cost options','Share a tailored tip on settlement timing addressing their top ticket'],
+      impactBig:'−60%', impactTxt:'churn risk on early-intervention saves' },
+    { key:'Growth (expanding)', name:'Growth merchant · Expanding fast', desc:'Volume up 64% this quarter; consistently approaching current plan limits.',
+      signals:['Processing volume up 64% QoQ, nearing tier cap','Started using 2 new product features unprompted','Added 3 team members to the dashboard'],
+      steps:['Proactively offer an upgrade to the higher tier before the cap is hit','Cross-sell the payout and reporting add-ons their usage pattern predicts','Assign a named contact to support the expansion'],
+      impactBig:'+34%', impactTxt:'expansion revenue per account' },
+    { key:'Dormant (60+ days)', name:'Dormant merchant · Win-back', desc:'No transactions or logins in 67 days. Previously a steady mid-volume merchant.',
+      signals:['Zero transactions and no logins for 67 days','Never re-engaged after a failed payout 9 weeks ago','Historically processed steadily for 14 months prior'],
+      steps:['Launch a personalized win-back acknowledging the past payout issue','Offer a re-onboarding session plus a time-boxed fee incentive','If no response in 14 days, route to a final value-recap message'],
+      impactBig:'18%', impactTxt:'dormant merchants reactivated' },
+  ];
+  const segsEl = document.getElementById('segs');
+  SEGMENTS.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='seg'+(i===0?' active':'');
+    b.textContent=s.key;
+    b.addEventListener('click',()=>select(i));
+    segsEl.appendChild(b);
+  });
+  function select(i){
+    document.querySelectorAll('.seg').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+    const s=SEGMENTS[i];
+    document.getElementById('merchName').textContent=s.name;
+    document.getElementById('merchDesc').textContent=s.desc;
+    document.getElementById('signals').innerHTML=s.signals.map(x=>`<li><span class="ic">!</span><span>${x}</span></li>`).join('');
+    document.getElementById('steps').innerHTML=s.steps.map((x,n)=>`<li><span class="sn">${n+1}</span>${x}</li>`).join('');
+    document.getElementById('impactBig').textContent=s.impactBig;
+    document.getElementById('impactTxt').textContent=s.impactTxt;
+    document.getElementById('merchCount').textContent=s.key;
+  }
+  select(0);
+</script>
+</body>
+</html>
