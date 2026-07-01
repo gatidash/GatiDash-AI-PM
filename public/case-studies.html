@@ -32,7 +32,19 @@
   .backlink:hover{border-color:var(--accent);color:var(--accent)}
   .topnav .name{font-family:'Space Grotesk',sans-serif;font-size:16px;color:var(--ink)}
 
-  header.hero{padding:80px 0 52px}
+  header.hero{padding:0 0 40px}
+
+  .shell{max-width:var(--maxw);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:248px 1fr;gap:48px;align-items:start}
+  .content{padding:52px 0 0}
+  .sidebar{position:sticky;top:76px;padding-top:52px}
+  .sb-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dust);margin-bottom:16px}
+  .sb-list{display:flex;flex-direction:column}
+  .sb-item{display:block;text-decoration:none;color:var(--ink-soft);border-left:2px solid var(--sand);padding:12px 0 12px 16px;transition:all .2s}
+  .sb-item:hover{border-left-color:var(--accent);background:linear-gradient(90deg,rgba(255,138,61,.07),transparent)}
+  .sb-item .sb-n{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.1em}
+  .sb-item .sb-t{display:block;font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--ink);margin-top:5px;line-height:1.25}
+  .sb-item .sb-tag{display:block;font-size:11px;color:var(--dust);margin-top:5px}
+  @media(max-width:820px){.shell{grid-template-columns:1fr;gap:0}.content{padding:0}.sidebar{position:static;padding:36px 0 4px}}
   header .eyebrow{margin-bottom:18px}
   h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(38px,6vw,66px);line-height:1.03;letter-spacing:-.02em}
   .lede{margin-top:20px;font-family:'Space Grotesk',sans-serif;font-weight:400;font-size:clamp(18px,2.2vw,24px);color:var(--smoke);max-width:48ch;line-height:1.4}
@@ -82,16 +94,31 @@
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Case Studies</div>
-    <h1>Interactive product deep-dives.</h1>
-    <p class="lede">How I frame problems, scope for governance, and design AI that has to clear an audit — not just a demo. Open a case to explore it end to end.</p>
-  </div>
-</header>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sb-title">All case studies</div>
+    <nav class="sb-list">
+      <a class="sb-item" href="/merchant-retention-case-study.html">
+        <span class="sb-n">01</span>
+        <span class="sb-t">From 30% Churn to Proactive Retention</span>
+        <span class="sb-tag">GenAI · Retention</span>
+      </a>
+      <a class="sb-item" href="/meridian-case-study.html">
+        <span class="sb-n">02</span>
+        <span class="sb-t">Meridian — Agentic Regulatory-Change Intelligence</span>
+        <span class="sb-tag">Agentic · RegTech</span>
+      </a>
+    </nav>
+  </aside>
 
-<main class="wrap">
-  <div class="cases">
+  <main class="content">
+    <header class="hero">
+      <div class="eyebrow">Case Studies</div>
+      <h1>Interactive product deep-dives.</h1>
+      <p class="lede">How I frame problems, scope for governance, and design AI that has to clear an audit — not just a demo. Open a case to explore it end to end.</p>
+    </header>
+
+    <div class="cases">
 
     <a class="case" href="/merchant-retention-case-study.html">
       <div class="idx">01</div>
@@ -123,8 +150,9 @@
       </div>
     </a>
 
-  </div>
-</main>
+    </div>
+  </main>
+</div>
 
 <footer>
   <div class="wrap">

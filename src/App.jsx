@@ -13,7 +13,6 @@ const NAV = [
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
-  { id: 'casestudies', label: 'Case Studies', href: '/case-studies.html' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
 ]
@@ -429,24 +428,23 @@ function NavBar() {
           </span>
           Gatikrishna Dash
         </a>
-        <nav className="hidden md:flex items-center gap-7">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={n.href || `#${n.id}`}
-              className="text-sm text-smoke hover:text-ink transition-colors"
-            >
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <a
-          href="/case-studies.html"
-          className="md:hidden inline-flex items-center gap-1.5 text-sm text-ink hover:text-accent transition-colors"
-        >
-          Case Studies
-          <ArrowUpRight className="h-3.5 w-3.5" />
-        </a>
+        <div className="flex items-center gap-5 sm:gap-7">
+          <nav className="hidden md:flex items-center gap-7">
+            {NAV.map((n) => (
+              <a
+                key={n.id}
+                href={n.href || `#${n.id}`}
+                className="text-sm text-smoke hover:text-ink transition-colors"
+              >
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <a href="/case-studies.html" className="btn-launch !text-sm !py-2 !px-4">
+            Case Studies
+            <ArrowUpRight className="h-4 w-4 lr-arrow" />
+          </a>
+        </div>
       </Container>
     </header>
   )
