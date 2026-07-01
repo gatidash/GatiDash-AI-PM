@@ -13,10 +13,9 @@ const NAV = [
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
-  { id: 'casestudy', label: 'Case Study' },
+  { id: 'casestudy', label: 'Case Studies' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
-  { id: 'discussion', label: 'Discussion' },
 ]
 
 const PROOF_LINES = [
@@ -747,6 +746,13 @@ function CaseStudy() {
             <div className="cs-open">OPEN FILE <span className="cs-open-arrow">▸</span></div>
           </button>
         </div>
+
+        <div className="cs-discuss">
+          <div className="cs-eyebrow">// DISCUSSION</div>
+          <h3 className="cs-discuss-h">React or leave a comment.</h3>
+          <p className="cs-discuss-sub">Sign in with GitHub to react or comment on the case files above.</p>
+          <Giscus />
+        </div>
       </Container>
 
       {which && (
@@ -1297,35 +1303,13 @@ function Giscus() {
       'data-reactions-enabled': '1',
       'data-emit-metadata': '0',
       'data-input-position': 'top',
-      'data-theme': 'light',
+      'data-theme': 'transparent_dark',
       'data-lang': 'en',
     }
     Object.entries(attrs).forEach(([k, v]) => s.setAttribute(k, v))
     el.appendChild(s)
   }, [])
   return <div ref={ref} className="giscus" />
-}
-
-function CommentsSection() {
-  return (
-    <section id="discussion" className="py-24 sm:py-32 border-t border-sand">
-      <Container>
-        <div className="flex items-center gap-4">
-          <span className="h-px w-8 bg-ink/20" />
-          <span className="eyebrow">Discussion</span>
-        </div>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          Join the conversation.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          React or leave a comment — sign in with GitHub. Thoughts on the case studies or the ideas here are welcome.
-        </p>
-        <div className="mt-12 max-w-prose-wide">
-          <Giscus />
-        </div>
-      </Container>
-    </section>
-  )
 }
 
 export default function App() {
@@ -1344,7 +1328,6 @@ export default function App() {
           <CaseStudy />
           <Leadership />
           <Contact />
-          <CommentsSection />
         </main>
         <Footer />
       </div>
