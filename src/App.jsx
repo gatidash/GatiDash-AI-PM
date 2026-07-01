@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Analytics } from '@vercel/analytics/react'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -15,35 +16,13 @@ const NAV = [
   { id: 'casestudy', label: 'Case Study' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'contact', label: 'Contact' },
+  { id: 'discussion', label: 'Discussion' },
 ]
 
 const PROOF_LINES = [
   '17+ years across data, regulatory platforms, and (since 2023) production AI work — at PayPal.',
   'Most recent: led AI automation across compliance ops in 5 jurisdictions. Cut manual review by 60%, halved turnaround. Numbers held for two quarters past launch.',
   'Earlier: scaled a single regulatory-reporting platform from 0 to 60+ reports, 3 markets onboarded in a quarter.',
-]
-
-const PILLARS = [
-  {
-    n: '01',
-    title: 'AI product strategy',
-    body: 'I run the AI roadmap conversation that decides what gets built, what gets bought, and what gets killed. Most of my time is spent talking teams out of features that demo well and ship poorly.',
-  },
-  {
-    n: '02',
-    title: 'Agentic workflows in regulated ops',
-    body: 'Multi-step LLM systems with structured outputs, validation, retries, and a human override path. I treat the override path as part of the product, not as a ticket queue that grows after launch.',
-  },
-  {
-    n: '03',
-    title: 'AI governance and controls',
-    body: 'Lineage, policy enforcement, traceability, evals. The unglamorous controls that decide whether the AI feature still exists in month six.',
-  },
-  {
-    n: '04',
-    title: 'The data layer underneath',
-    body: 'I came up in data engineering, so I am suspicious of AI roadmaps that skip lineage and validation work. That layer is usually what kills the demo in production.',
-  },
 ]
 
 const WORK = [
@@ -708,50 +687,6 @@ function Paragraph({ label, body, accent = false }) {
   )
 }
 
-function AgenticDiagram() {
-  const stages = [
-    { label: 'Case intake', sub: 'Regulatory case in' },
-    { label: 'Extraction', sub: 'LLM agent' },
-    { label: 'Policy mapping', sub: 'LLM + tools' },
-    { label: 'Schema validation', sub: 'Gate' },
-    { label: 'Human review', sub: 'Policy-sensitive' },
-  ]
-  return (
-    <figure className="my-16 max-w-prose-wide" aria-label="Agentic workflow for PayPal compliance review with human review gate and continuous audit trail">
-      <figcaption className="eyebrow mb-5">The architecture we shipped (Case 1, anonymized)</figcaption>
-
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-2 items-stretch">
-        {stages.map((s, i) => (
-          <div key={s.label} className="relative">
-            <div className="border border-sand bg-paper rounded-md px-3 py-4 h-full flex flex-col justify-center">
-              <div className="font-serif text-base text-ink leading-tight">{s.label}</div>
-              <div className="text-[11px] text-dust mt-1 tracking-wide">{s.sub}</div>
-            </div>
-            {i < stages.length - 1 && (
-              <div className="hidden sm:flex absolute top-1/2 -right-1.5 -translate-y-1/2 z-10 text-accent">
-                <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M0 5h10M6 1l5 4-5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-5 grid sm:grid-cols-2 gap-4 text-sm">
-        <div className="flex items-start gap-3 text-ink-soft">
-          <span className="font-serif text-accent leading-tight">↳</span>
-          <span><strong className="font-medium text-ink">Shadow mode</strong> ran for 6 weeks before any decision was acted on.</span>
-        </div>
-        <div className="flex items-start gap-3 text-ink-soft">
-          <span className="font-serif text-accent leading-tight">⎯⎯</span>
-          <span><strong className="font-medium text-ink">Audit trail</strong> beneath every stage; every decision logged with reasoning; agent actions reversible.</span>
-        </div>
-      </div>
-    </figure>
-  )
-}
-
 function CaseStudy() {
   const [which, setWhich] = useState(null)
   const [active, setActive] = useState(0)
@@ -1334,6 +1269,65 @@ function SpaceBackdrop() {
   )
 }
 
+// Giscus — GitHub-Discussions-backed comments + reactions.
+// IDs generated at https://giscus.app for the repo below.
+const GISCUS = {
+  repo: 'gatidash/GatiDash-AI-PM',
+  repoId: 'R_kgDOSbok-w',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOSbok-84DAQJX',
+}
+
+function Giscus() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || el.firstChild) return
+    const s = document.createElement('script')
+    s.src = 'https://giscus.app/client.js'
+    s.async = true
+    s.crossOrigin = 'anonymous'
+    const attrs = {
+      'data-repo': GISCUS.repo,
+      'data-repo-id': GISCUS.repoId,
+      'data-category': GISCUS.category,
+      'data-category-id': GISCUS.categoryId,
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': 'light',
+      'data-lang': 'en',
+    }
+    Object.entries(attrs).forEach(([k, v]) => s.setAttribute(k, v))
+    el.appendChild(s)
+  }, [])
+  return <div ref={ref} className="giscus" />
+}
+
+function CommentsSection() {
+  return (
+    <section id="discussion" className="py-24 sm:py-32 border-t border-sand">
+      <Container>
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-ink/20" />
+          <span className="eyebrow">Discussion</span>
+        </div>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          Join the conversation.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          React or leave a comment — sign in with GitHub. Thoughts on the case studies or the ideas here are welcome.
+        </p>
+        <div className="mt-12 max-w-prose-wide">
+          <Giscus />
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 export default function App() {
   return (
     <div className="relative min-h-screen">
@@ -1350,9 +1344,11 @@ export default function App() {
           <CaseStudy />
           <Leadership />
           <Contact />
+          <CommentsSection />
         </main>
         <Footer />
       </div>
+      <Analytics />
     </div>
   )
 }
