@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
 import { Analytics } from '@vercel/analytics/react'
+import { track } from '@vercel/analytics'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -440,7 +441,11 @@ function NavBar() {
               </a>
             ))}
           </nav>
-          <a href="/case-studies.html" className="btn-launch !text-sm !py-2 !px-4">
+          <a
+            href="/case-studies.html"
+            onClick={() => track('open_case_studies', { from: 'nav' })}
+            className="btn-launch !text-sm !py-2 !px-4"
+          >
             Case Studies
             <ArrowUpRight className="h-4 w-4 lr-arrow" />
           </a>
@@ -1118,6 +1123,7 @@ function CaseBanner() {
       <Container>
         <a
           href="/case-studies.html"
+          onClick={() => track('open_case_studies', { from: 'banner' })}
           className="group block rounded-2xl border border-accent bg-accent text-paper p-10 sm:p-14 transition-transform hover:-translate-y-1"
         >
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
