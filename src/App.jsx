@@ -1127,7 +1127,7 @@ function CaseBanner() {
                 Explore the interactive case studies.
               </h2>
               <p className="mt-4 text-lg text-paper/80 max-w-prose-tight leading-relaxed">
-                Two product deep-dives — a working GenAI retention console and an agentic RegTech strategy — each interactive, each with its own discussion.
+                Two product deep-dives — a retention agent rebuilt from generative (2024) to agentic (2026), and an agentic RegTech strategy — each interactive, each with its own discussion.
               </p>
             </div>
             <span className="inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap">

@@ -1,325 +1,822 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>From 30% Churn to Proactive Retention — GenAI Case Study · Gatikrishna Dash</title>
-<meta name="description" content="A GenAI product case study: using an LLM to turn reactive merchant support into proactive, personalized retention — targeting 25–40% higher LTV and up to 60% lower churn." />
 <meta name="theme-color" content="#070B1A" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="description" content="Merchant retention, 2024 → 2026: a generative playbook rebuilt into an accountable agentic system with tiered autonomy, always-on guardrails, and a human trust boundary on every action that touches money or a relationship." />
+<title>Retention, Rebuilt: 2024 Generative → 2026 Agentic · Gatikrishna Dash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --paper:#070B1A; --paper-dark:#0E1430; --ink:#E9ECF7; --ink-soft:#C5CADF;
-    --smoke:#99A0C4; --dust:#6E769F; --sand:#222C4F; --accent:#FF8A3D; --accent-soft:#FFB468;
-    --pos:#46E0A0; --neg:#FF7A6B; --plasma:#5BD6E8; --maxw:1000px;
+    --base:#070B1A;
+    --surface-1:#0C1226;
+    --surface-2:#111A32;
+    --surface-3:#17213D;
+    --line:rgba(255,255,255,.07);
+    --line-2:rgba(255,255,255,.13);
+    --ink:#EDF1FB;
+    --muted:#97A2C0;
+    --faint:#616C8B;
+    /* Semantic autonomy language — used ONLY for trust tiers, never decoration */
+    --auto:#34D6A3;      /* agent acts on its own */
+    --gate:#F6B44C;      /* human approves */
+    --human:#F2716B;     /* human owns */
+    --auto-dim:rgba(52,214,163,.13);
+    --gate-dim:rgba(246,180,76,.13);
+    --human-dim:rgba(242,113,107,.13);
+    /* Agent brand accent (links, focus, the machine's own voice) */
+    --agent:#8091FF;
+    --agent-dim:rgba(128,145,255,.14);
+    --radius:16px;
+    --radius-s:10px;
+    --maxw:1080px;
+    --ease:cubic-bezier(.22,.61,.36,1);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
+  *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:#070B1A;color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-  ::selection{background:#FF8A3D;color:#1a0e00;}
-  .serif{font-family:'Space Grotesk',Georgia,serif}
-  .mono{font-family:'Space Mono',monospace}
-  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.10),transparent 45%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.08),transparent 40%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.10),transparent 45%);}
-  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 7s ease-in-out infinite;}
-  @keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.45}}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
-  .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dust);font-weight:600}
-  a{color:inherit}
+  body{
+    margin:0;background:var(--base);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-weight:450;
+    font-size:17px;line-height:1.62;letter-spacing:.005em;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(60rem 40rem at 78% -10%, rgba(128,145,255,.10), transparent 60%),
+      radial-gradient(50rem 40rem at 10% 8%, rgba(52,214,163,.05), transparent 55%);
+    background-attachment:fixed;
+  }
+  a{color:var(--agent);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+  ::selection{background:var(--agent-dim);color:#fff}
+  :focus-visible{outline:2px solid var(--agent);outline-offset:3px;border-radius:4px}
 
-  /* top nav */
-  .topnav{position:sticky;top:0;z-index:40;background:rgba(7,11,26,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand)}
-  .topnav .wrap{height:60px;display:flex;align-items:center;justify-content:space-between}
-  .backlink{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--sand);border-radius:22px;padding:7px 15px;transition:all .2s}
-  .backlink:hover{border-color:var(--accent);color:var(--accent)}
-  .topnav .tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:"JetBrains Mono",monospace;font-weight:500}
+  h1,h2,h3{font-family:"Space Grotesk",sans-serif;letter-spacing:-.02em;line-height:1.08;margin:0}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
+  }
 
-  /* hero */
-  header.hero{padding:72px 0 48px;border-bottom:1px solid var(--sand)}
-  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--accent);margin-bottom:20px}
-  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-  h1{font-family:'Space Grotesk',serif;font-weight:600;font-size:clamp(34px,5.4vw,60px);line-height:1.04;letter-spacing:-.02em;max-width:16ch}
-  .lede{margin-top:22px;font-family:'Space Grotesk',serif;font-weight:400;font-size:clamp(18px,2.2vw,23px);color:var(--smoke);max-width:46ch;line-height:1.4}
-  .byline{margin-top:22px;font-size:14px;color:var(--smoke)}
+  /* ---- top nav ---- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);background:rgba(7,11,26,.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-back{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted)}
+  .nav-back:hover{color:var(--ink);text-decoration:none}
+  .nav-tag{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    border:1px solid var(--line-2);border-radius:100px;padding:5px 11px}
+  .nav-tag b{color:var(--agent);font-weight:700}
 
-  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--sand);border:1px solid var(--sand);border-radius:10px;overflow:hidden;margin-top:38px}
-  .metric{background:var(--paper-dark);padding:22px 20px}
-  .metric .v{font-family:'Space Grotesk',serif;font-size:clamp(26px,3.2vw,36px);line-height:1;color:var(--ink);font-weight:600}
-  .metric .v .u{font-size:.55em;color:var(--accent)}
-  .metric .l{margin-top:9px;font-size:12px;color:var(--smoke);line-height:1.35}
+  /* ---- hero ---- */
+  header.hero{padding:82px 0 40px;position:relative}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero h1{font-size:clamp(38px,6.4vw,68px);font-weight:600;max-width:15ch}
+  .hero h1 em{font-style:normal;color:var(--agent)}
+  .lede{font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:56ch;margin:26px 0 0;line-height:1.55}
+  .lede b{color:var(--ink);font-weight:600}
 
-  section{padding:56px 0;border-bottom:1px solid var(--sand)}
-  .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-  .seclabel .n{font-family:'Space Grotesk',serif;color:var(--accent);font-size:16px}
-  .seclabel .bar{height:1px;width:28px;background:rgba(233,236,247,.2)}
-  h2{font-family:'Space Grotesk',serif;font-weight:600;font-size:clamp(24px,3.4vw,38px);line-height:1.12;letter-spacing:-.015em;max-width:20ch}
-  .sub{margin-top:14px;font-size:16px;color:var(--smoke);max-width:60ch;line-height:1.55}
+  /* year transition ribbon */
+  .yearline{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-top:34px}
+  .yearcard{flex:1 1 240px;border:1px solid var(--line-2);border-radius:var(--radius-s);padding:16px 18px;background:var(--surface-1)}
+  .yearcard.v2{border-color:rgba(128,145,255,.32);background:linear-gradient(180deg,rgba(128,145,255,.06),transparent)}
+  .yearcard .yr{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;color:var(--faint)}
+  .yearcard.v2 .yr{color:var(--agent)}
+  .yearcard .wt{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16px;margin-top:6px}
+  .yearcard .ws{font-size:13.5px;color:var(--muted);margin-top:4px}
+  .yeararrow{display:flex;align-items:center;font-family:"JetBrains Mono",monospace;color:var(--agent);font-size:20px}
 
-  .prob{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
-  .pcard{border:1px solid var(--sand);border-radius:10px;padding:22px;background:var(--paper-dark)}
-  .pcard .ph{font-family:'Space Grotesk',serif;font-size:19px;color:var(--ink);display:flex;align-items:baseline;gap:10px}
-  .pcard .ph .stat{color:var(--neg);font-weight:600;font-size:15px}
-  .pcard p{margin-top:9px;font-size:14px;color:var(--smoke);line-height:1.5}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px 10px;margin-top:26px}
+  .chip{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--muted);
+    border:1px solid var(--line-2);border-radius:100px;padding:8px 14px;background:rgba(255,255,255,.015)}
+  .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .dot.a{background:var(--auto)}.dot.g{background:var(--gate)}.dot.h{background:var(--human)}.dot.x{background:var(--agent)}
+  .byline{margin-top:30px;font-size:14.5px;color:var(--faint)}
+  .byline a{font-weight:500}
 
-  .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:30px}
-  .stage{position:relative;border:1px solid var(--sand);background:var(--paper-dark);border-radius:9px;padding:15px 13px;min-height:92px;display:flex;flex-direction:column;justify-content:center}
-  .stage.core{border-color:var(--accent);background:#0E1430}
-  .stage .st{font-family:'Space Grotesk',serif;font-size:15px;line-height:1.15}
-  .stage .ss{font-size:10.5px;color:var(--dust);margin-top:6px;letter-spacing:.02em}
-  .stage .arrow{position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:var(--accent);z-index:2}
+  /* animated loop ring, hero signature */
+  .loop-sig{margin:52px 0 6px;display:flex;justify-content:center}
+  .loop-svg{width:min(430px,86vw);height:auto;overflow:visible}
+  .loop-track{fill:none;stroke:var(--line-2);stroke-width:1.4}
+  .loop-arc{fill:none;stroke:var(--agent);stroke-width:2.2;stroke-linecap:round;
+    stroke-dasharray:70 640;filter:drop-shadow(0 0 6px rgba(128,145,255,.5));
+    animation:orbit 6.5s linear infinite}
+  @keyframes orbit{to{stroke-dashoffset:-710}}
+  .node circle{fill:var(--surface-2);stroke:var(--line-2);stroke-width:1.3}
+  .node text{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--muted);letter-spacing:.05em}
+  .node .k{font-size:9px;fill:var(--faint)}
+  .loop-hub{font-family:"Space Grotesk",sans-serif;font-size:12px;fill:var(--faint);letter-spacing:.2em}
 
-  /* console */
-  .console{margin-top:30px;border:1px solid var(--sand);border-radius:14px;overflow:hidden;background:#0E1430}
-  .console-top{padding:16px 20px;border-bottom:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper-dark)}
-  .console-top .label{font-size:12px;color:var(--smoke)}
-  .console-top .badge{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);border:1px solid rgba(31,58,95,.3);border-radius:20px;padding:4px 11px;letter-spacing:.06em}
-  .segs{display:flex;flex-wrap:wrap;gap:10px;padding:18px 20px 6px}
-  .seg{cursor:pointer;border:1px solid var(--sand);background:var(--paper);border-radius:24px;padding:9px 15px;font-size:13px;color:var(--ink-soft);font-weight:500;transition:all .18s;font-family:inherit}
-  .seg:hover{border-color:var(--accent-soft);color:var(--accent)}
-  .seg.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .panel{padding:8px 20px 24px}
-  .panel-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;margin-top:12px}
-  .blockh{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--dust);font-weight:600;margin-bottom:11px}
-  .merch{font-family:'Space Grotesk',serif;font-size:20px;margin-top:2px;transition:opacity .2s}
-  .merchdesc{font-size:13px;color:var(--smoke);margin-top:4px;margin-bottom:16px}
-  ul.signals{list-style:none}
-  ul.signals li{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--sand);font-size:13.5px;color:var(--ink-soft)}
-  ul.signals li:first-child{border-top:none}
-  ul.signals .ic{color:var(--neg);flex-shrink:0;font-weight:700}
-  .play{background:var(--paper-dark);border:1px solid var(--sand);border-radius:11px;padding:17px}
-  ol.steps{list-style:none}
-  ol.steps li{position:relative;padding:7px 0 7px 30px;font-size:13.5px;color:var(--ink-soft);line-height:1.45}
-  ol.steps li .sn{position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
-  .impact{margin-top:15px;padding-top:15px;border-top:1px solid var(--sand);display:flex;align-items:baseline;gap:10px}
-  .impact .big{font-family:'Space Grotesk',serif;font-size:25px;color:var(--pos);font-weight:600;line-height:1}
-  .impact .txt{font-size:13px;color:var(--smoke)}
-  .console-foot{padding:13px 20px;border-top:1px solid var(--sand);font-size:12px;color:var(--dust);background:var(--paper-dark)}
+  /* ---- section scaffolding ---- */
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;gap:18px;align-items:baseline;margin-bottom:26px}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--agent);font-weight:700;flex:none;padding-top:6px}
+  .sec-eye{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+  h2.title{font-size:clamp(25px,3.4vw,34px);font-weight:600;max-width:24ch;margin-top:6px}
+  .body-copy{font-size:17px;color:var(--muted);max-width:66ch;margin-top:16px}
+  .body-copy b{color:var(--ink);font-weight:600}
+  .body-copy + .body-copy{margin-top:14px}
 
-  .ba{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
-  .ba .col{border:1px solid var(--sand);border-radius:10px;padding:20px;background:var(--paper-dark)}
-  .ba .col.after{border-color:var(--accent);background:#0E1430}
-  .ba h3{font-family:'Space Grotesk',serif;font-size:19px;display:flex;align-items:center;gap:9px}
-  .ba .badge{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:600}
-  .ba .badge.b1{background:rgba(255,122,107,.14);color:var(--neg)}
-  .ba .badge.b2{background:rgba(70,224,160,.14);color:var(--pos)}
-  .ba ul{list-style:none;margin-top:12px}
-  .ba li{font-size:13.5px;color:var(--ink-soft);padding:6px 0 6px 18px;position:relative;line-height:1.45}
-  .ba li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%}
-  .ba .col.before li::before{background:var(--neg)}
-  .ba .col.after li::before{background:var(--pos)}
+  /* candid callout */
+  .callout{
+    border:1px solid var(--line-2);border-left:2px solid var(--agent);
+    background:linear-gradient(180deg,rgba(128,145,255,.05),rgba(128,145,255,.01));
+    border-radius:0 var(--radius-s) var(--radius-s) 0;padding:22px 24px;margin-top:8px;max-width:70ch}
+  .callout .tag{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--agent);display:block;margin-bottom:10px}
+  .callout p{margin:0;color:var(--muted);font-size:16.5px}
+  .callout p b{color:var(--ink)}
 
-  .results{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
-  .rcard{border:1px solid var(--sand);border-radius:10px;padding:24px 20px;background:var(--paper-dark)}
-  .rcard .rv{font-family:'Space Grotesk',serif;font-size:clamp(28px,3.6vw,40px);line-height:1;color:var(--ink);font-weight:600}
-  .rcard .rv .u{font-size:.5em;color:var(--accent)}
-  .rcard .rl{margin-top:11px;font-size:13.5px;color:var(--smoke);line-height:1.45}
+  /* generic card grid */
+  .grid{display:grid;gap:14px;margin-top:26px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--surface-1);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .card h4{font-family:"Space Grotesk",sans-serif;font-size:16.5px;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+  .card p{margin:0;font-size:15px;color:var(--muted);line-height:1.55}
+  .card .idx{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--faint);display:block;margin-bottom:12px}
+
+  /* before/after loop compare */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+  .vs .col{background:var(--surface-1);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .vs .col.after{border-color:rgba(128,145,255,.3);background:linear-gradient(180deg,rgba(128,145,255,.045),transparent)}
+  .vs .lbl{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+  .vs .before .lbl{color:var(--faint)}
+  .vs .after .lbl{color:var(--agent)}
+  .vs ul{margin:0;padding:0;list-style:none}
+  .vs li{font-size:15px;color:var(--muted);padding:9px 0 9px 24px;position:relative;border-top:1px solid var(--line)}
+  .vs li:first-child{border-top:none}
+  .vs li::before{content:"";position:absolute;left:2px;top:16px;width:9px;height:9px;border-radius:2px}
+  .vs .before li::before{background:var(--faint);opacity:.5}
+  .vs .after li::before{background:var(--agent)}
+
+  /* the autonomy ladder — signature */
+  .ladder{display:grid;gap:12px;margin-top:26px}
+  .rung{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;position:relative;overflow:hidden;background:var(--surface-1)}
+  .rung::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+  .rung.auto::before{background:var(--auto)} .rung.gate::before{background:var(--gate)} .rung.human::before{background:var(--human)}
+  .rung-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:100px}
+  .badge.auto{color:var(--auto);background:var(--auto-dim)} .badge.gate{color:var(--gate);background:var(--gate-dim)} .badge.human{color:var(--human);background:var(--human-dim)}
+  .rung-top h4{font-family:"Space Grotesk",sans-serif;font-size:17px;font-weight:600;margin:0;letter-spacing:-.01em}
+  .rung p{margin:0;font-size:15px;color:var(--muted)}
+  .rung .ex{margin-top:12px;font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--faint);line-height:1.7}
+  .rung .ex span{color:var(--muted)}
+
+  .principle{margin-top:26px;font-family:"Space Grotesk",sans-serif;font-size:clamp(19px,2.6vw,26px);
+    font-weight:500;letter-spacing:-.015em;line-height:1.32;max-width:24ch;color:var(--ink)}
+  .principle em{font-style:normal;color:var(--agent)}
+
+  /* ===== interactive console ===== */
+  .console{
+    margin-top:26px;border:1px solid var(--line-2);border-radius:var(--radius);
+    background:var(--surface-1);overflow:hidden}
+  .con-bar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .con-bar .lights{display:flex;gap:6px}
+  .con-bar .lights i{width:10px;height:10px;border-radius:50%;display:block}
+  .con-bar .lights i:nth-child(1){background:var(--human)}
+  .con-bar .lights i:nth-child(2){background:var(--gate)}
+  .con-bar .lights i:nth-child(3){background:var(--auto)}
+  .con-bar .name{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--muted);margin-left:6px}
+  .con-bar .status{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--faint)}
+
+  /* guardrail rail */
+  .rail{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+  .rail .cell{background:var(--surface-1);padding:12px 16px}
+  .rail .rk{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .rail .rv{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--ink);margin-top:4px;display:flex;align-items:center;gap:7px}
+  .rail .rv small{color:var(--muted);font-size:12px}
+  .meter{height:4px;border-radius:4px;background:var(--line-2);margin-top:8px;overflow:hidden}
+  .meter i{display:block;height:100%;width:0;background:var(--auto);transition:width .6s var(--ease),background .3s}
+  .kill{color:var(--auto)}
+
+  .con-body{padding:20px 20px 24px}
+  .seg-pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .seg{font-family:"Inter",sans-serif;font-size:13.5px;font-weight:500;color:var(--muted);
+    border:1px solid var(--line-2);background:rgba(255,255,255,.02);border-radius:100px;padding:9px 15px;cursor:pointer;transition:.18s var(--ease)}
+  .seg:hover{color:var(--ink);border-color:var(--agent)}
+  .seg[aria-pressed="true"]{color:#fff;background:var(--agent-dim);border-color:var(--agent)}
+
+  .con-hint{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--faint);padding:26px 4px;text-align:center}
+
+  .panel{margin-top:18px;display:none}
+  .panel.on{display:block;animation:rise .5s var(--ease)}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .detect{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .detect .who{font-family:"Space Grotesk",sans-serif;font-size:17px;font-weight:600}
+  .detect .stg{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--agent);background:var(--agent-dim);padding:4px 10px;border-radius:100px}
+
+  .sig-list{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+  .sig{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:6px 10px}
+  .sig b{color:var(--ink);font-weight:700}
+
+  .runbtn{margin-top:16px;font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.06em;
+    color:var(--base);background:var(--agent);border:none;border-radius:9px;padding:11px 18px;cursor:pointer;transition:.16s}
+  .runbtn:hover{filter:brightness(1.1)}
+  .runbtn:disabled{opacity:.4;cursor:default}
+
+  .trace{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius-s);background:var(--base);padding:14px 16px;display:none}
+  .trace.on{display:block}
+  .trace .th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .trace .ln{font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.85;color:var(--muted);opacity:0;transform:translateX(-4px);transition:.3s var(--ease)}
+  .trace .ln.show{opacity:1;transform:none}
+  .trace .ln::before{content:"› ";color:var(--agent)}
+
+  .actions{margin-top:18px;display:grid;gap:12px}
+  .act{border:1px solid var(--line);border-radius:var(--radius-s);padding:16px 18px;background:var(--surface-1);position:relative;opacity:0;transform:translateY(8px);transition:.45s var(--ease)}
+  .act.show{opacity:1;transform:none}
+  .act::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+  .act.auto::before{background:var(--auto)} .act.gate::before{background:var(--gate)} .act.human::before{background:var(--human)}
+  .act-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .act-title{font-family:"Space Grotesk",sans-serif;font-size:15.5px;font-weight:600}
+  .act p{margin:0;font-size:14.5px;color:var(--muted)}
+  .act .meta{margin-top:10px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--faint);display:flex;gap:16px;flex-wrap:wrap}
+  .act .meta b{color:var(--muted);font-weight:500}
+  .gate-ctl{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .gate-ctl button{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;letter-spacing:.04em;border-radius:8px;padding:9px 15px;cursor:pointer;border:1px solid transparent;transition:.15s}
+  .b-approve{background:var(--gate-dim);color:var(--gate);border-color:rgba(246,180,76,.35)}
+  .b-approve:hover{background:var(--gate);color:var(--base)}
+  .b-reject{background:transparent;color:var(--muted);border-color:var(--line-2)}
+  .b-reject:hover{color:var(--human);border-color:var(--human)}
+  .resolved{margin-top:12px;font-family:"JetBrains Mono",monospace;font-size:12.5px;display:none;align-items:center;gap:8px}
+  .resolved.on{display:flex}
+  .resolved.ok{color:var(--auto)} .resolved.held{color:var(--human)} .resolved.routed{color:var(--human)}
+
+  .outcome{margin-top:16px;border-top:1px solid var(--line);padding-top:16px;display:none}
+  .outcome.on{display:block;animation:rise .5s var(--ease)}
+  .outcome .ok-row{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--muted)}
+  .outcome .ok-row .mk{color:var(--auto);font-family:"JetBrains Mono",monospace;flex:none}
+  .outcome .mem{margin-top:12px;font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--faint);background:var(--surface-2);border:1px dashed var(--line-2);border-radius:8px;padding:10px 13px}
+  .outcome .mem b{color:var(--agent);font-weight:500}
+
+  .disclaim-inline{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--faint);padding:14px 20px;border-top:1px solid var(--line);background:rgba(255,255,255,.012)}
+
+  /* eval list */
+  .evals{margin-top:24px;display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .eval{padding:20px 22px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+  .eval:first-child{border-top:none}
+  .eval .en{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--agent);font-weight:700;padding-top:3px}
+  .eval h4{font-family:"Space Grotesk",sans-serif;font-size:16.5px;font-weight:600;margin:0 0 5px}
+  .eval p{margin:0;font-size:15px;color:var(--muted)}
+  .eval .q{color:var(--ink)}
+
+  /* opportunity metrics */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  .stat{background:var(--surface-1);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .stat .big{font-family:"Space Grotesk",sans-serif;font-size:clamp(30px,4.5vw,42px);font-weight:600;letter-spacing:-.02em;line-height:1}
+  .stat .cap{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.45}
+  .stat .src{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--faint);margin-top:10px;letter-spacing:.05em}
 
   /* discussion */
-  .discuss{padding:56px 0 72px}
-  .discuss .giscus{margin-top:26px}
+  .giscus{margin-top:22px}
 
-  footer{background:var(--paper-dark);border-top:1px solid var(--sand);padding:34px 0}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
-  footer a{font-size:14px;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:7px}
-  footer a:hover{color:var(--accent)}
-  footer .c{font-size:12px;color:var(--dust)}
+  footer{border-top:1px solid var(--line);padding:44px 0 70px;margin-top:8px}
+  .foot-note{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--faint);max-width:70ch;line-height:1.8}
+  .foot-links{margin-top:22px;display:flex;gap:22px;flex-wrap:wrap;font-size:14.5px}
 
   @media(max-width:760px){
-    .metrics{grid-template-columns:repeat(2,1fr)}
-    .prob,.ba,.results{grid-template-columns:1fr}
-    .pipe{grid-template-columns:1fr}.stage .arrow{display:none}
-    .panel-grid{grid-template-columns:1fr;gap:18px}
+    body{font-size:16px}
+    .g2,.g3,.vs,.rail,.stats{grid-template-columns:1fr}
+    .eval{grid-template-columns:1fr;gap:6px}
+    .nav-tag{display:none}
+    section{padding:44px 0}
+    .sec-head{flex-direction:column;gap:6px}
+    .yearline{flex-direction:column}
+    .yeararrow{transform:rotate(90deg);justify-content:center}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .trace .ln,.act{opacity:1;transform:none}
   }
 </style>
 </head>
 <body>
-<div class="space-bg" aria-hidden="true"></div><div class="stars" aria-hidden="true"></div>
 
-<nav class="topnav">
-  <div class="wrap">
-    <a class="backlink" href="/case-studies.html">← Case studies</a>
-    <span class="tag">Case 01 · GenAI · Retention</span>
+<nav>
+  <div class="nav-in">
+    <a class="nav-back" href="/case-studies.html">← Case studies</a>
+    <span class="nav-tag">Case 01 · 2024 → 2026 · <b>Agentic rebuild</b></span>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <span class="pill"><span class="dot"></span> GenAI Product Case Study</span>
-    <h1>From 30% Churn to Proactive Retention</h1>
-    <p class="lede">Using GenAI to turn reactive, one-size-fits-all merchant support into personalized, early-intervention retention.</p>
-    <p class="byline">A product prototype by <a href="/" style="color:var(--accent);text-decoration:underline">Gatikrishna Dash</a> — AI Product &amp; Transformation Leader</p>
+    <span class="eyebrow">Merchant Retention · 2024 generative → 2026 agentic</span>
+    <h1>Not a smarter playbook. A retention agent that <em>knows where to stop.</em></h1>
+    <p class="lede">The <b>2024 version generated a document</b> — it read a merchant's signals and wrote a playbook. The <b>2026 rebuild operates the loop</b>: it senses, decides, acts through tools, watches what happened, and adjusts — and every action that touches money or a relationship stops at a human gate.</p>
 
-    <div class="metrics">
-      <div class="metric"><div class="v">+25–40<span class="u">%</span></div><div class="l">Potential lift in merchant lifetime value</div></div>
-      <div class="metric"><div class="v">−60<span class="u">%</span></div><div class="l">Churn reduction through early intervention</div></div>
-      <div class="metric"><div class="v">4</div><div class="l">Lifecycle segments with tailored playbooks</div></div>
-      <div class="metric"><div class="v">0</div><div class="l">Manual playbooks to maintain — fully generated</div></div>
+    <div class="yearline">
+      <div class="yearcard v1">
+        <div class="yr">2024 · v1</div>
+        <div class="wt">Generative playbook</div>
+        <div class="ws">Signals in, a tailored playbook out. Ran once, took no action, remembered nothing.</div>
+      </div>
+      <div class="yeararrow">→</div>
+      <div class="yearcard v2">
+        <div class="yr">2026 · v2</div>
+        <div class="wt">Accountable agent</div>
+        <div class="ws">A closed sense→act→observe loop with memory, tiered autonomy, and a human trust boundary.</div>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <span class="chip"><i class="dot x"></i>Closed sense→act→observe loop</span>
+      <span class="chip"><i class="dot a"></i>3 autonomy tiers</span>
+      <span class="chip"><i class="dot g"></i>1 human trust boundary</span>
+      <span class="chip"><i class="dot h"></i>6 always-on guardrails</span>
+    </div>
+    <p class="byline">A product architecture by <a href="/">Gatikrishna Dash</a> — AI Product &amp; Transformation</p>
+
+    <div class="loop-sig" aria-hidden="true">
+      <svg class="loop-svg" viewBox="0 0 400 240">
+        <circle class="loop-track" cx="200" cy="120" r="92"/>
+        <circle class="loop-arc" cx="200" cy="120" r="92"/>
+        <text class="loop-hub" x="200" y="124" text-anchor="middle">THE LOOP</text>
+        <g class="node"><circle cx="200" cy="28" r="20"/><text x="200" y="26" text-anchor="middle">SENSE</text><text class="k" x="200" y="38" text-anchor="middle">signals</text></g>
+        <g class="node"><circle cx="292" cy="120" r="20"/><text x="292" y="118" text-anchor="middle">REASON</text><text class="k" x="292" y="130" text-anchor="middle">+ memory</text></g>
+        <g class="node"><circle cx="200" cy="212" r="20"/><text x="200" y="210" text-anchor="middle">ACT</text><text class="k" x="200" y="222" text-anchor="middle">via tools</text></g>
+        <g class="node"><circle cx="108" cy="120" r="20"/><text x="108" y="118" text-anchor="middle">OBSERVE</text><text class="k" x="108" y="130" text-anchor="middle">outcome</text></g>
+      </svg>
     </div>
   </div>
 </header>
 
+<main>
+
+<!-- 00 honest note -->
 <section>
   <div class="wrap">
-    <div class="seclabel"><span class="n">01</span><span class="bar"></span><span class="eyebrow">The problem</span></div>
-    <h2>Merchant support was reactive. By the time a merchant churned, the signals were months old.</h2>
-    <p class="sub">Payment platforms and B2B SaaS lose 20–30% of merchants a year — not because the product failed, but because lifecycle management was reactive, generic, and too late. The same one-size message went to a thriving merchant and a dormant one.</p>
-    <div class="prob">
-      <div class="pcard"><div class="ph">High churn <span class="stat">20–30% / yr</span></div><p>Merchants left quietly. Intervention happened after the drop in volume, not before it.</p></div>
-      <div class="pcard"><div class="ph">Underutilized features</div><p>Merchants never discovered the capabilities that would have made them stick.</p></div>
-      <div class="pcard"><div class="ph">Missed expansion</div><p>Growing merchants hit plan limits with no proactive upsell — revenue left on the table.</p></div>
-      <div class="pcard"><div class="ph">One-size support</div><p>The same lifecycle journey for every merchant, regardless of stage, health, or behavior.</p></div>
+    <div class="sec-head">
+      <span class="sec-num">00</span>
+      <div><span class="sec-eye">The honest starting point · 2024</span>
+      <h2 class="title">The 2024 cut wasn't an agent. It was a generator wearing the word "playbook."</h2></div>
+    </div>
+    <p class="body-copy">The 2024 version fed merchant signals to an LLM, had it classify a lifecycle stage, and had it write a tailored playbook. Useful as a demo — and the wrong altitude for the problem. It ran <b>once</b>, at the moment you asked. It <b>took no action</b>, <b>remembered nothing</b>, and <b>never checked whether it worked</b>. The output was a paragraph a human still had to act on.</p>
+    <div class="callout">
+      <span class="tag">What changed · 2024 → 2026</span>
+      <p>Generation is a function: input in, text out. <b>Agency is a loop</b> — sense, decide, act through real tools, observe the result, adjust, with memory carried across turns. The 2026 rebuild moves the unit of value from <b>"write the playbook"</b> to <b>"run the retention loop, accountably."</b></p>
     </div>
   </div>
 </section>
 
+<!-- 01 problem, de-strawmanned -->
 <section>
   <div class="wrap">
-    <div class="seclabel"><span class="n">02</span><span class="bar"></span><span class="eyebrow">The approach</span></div>
-    <h2>Let an LLM read each merchant's signals and generate the playbook — per segment, on demand.</h2>
-    <p class="sub">Behavioral and transaction signals feed an LLM, which classifies the merchant's lifecycle stage and generates a tailored, next-best-action playbook — instead of a static rulebook nobody maintains.</p>
-    <div class="pipe">
-      <div class="stage"><div class="st">Merchant signals</div><div class="ss">Volume · tickets · feature use</div><div class="arrow">→</div></div>
-      <div class="stage"><div class="st">Lifecycle stage</div><div class="ss">Classification</div><div class="arrow">→</div></div>
-      <div class="stage core"><div class="st">GenAI</div><div class="ss">Reasoning + playbook gen</div><div class="arrow">→</div></div>
-      <div class="stage"><div class="st">Personalized playbook</div><div class="ss">Next best actions</div><div class="arrow">→</div></div>
-      <div class="stage"><div class="st">Proactive outreach</div><div class="ss">Right message · right time</div></div>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div><span class="sec-eye">The real problem</span>
+      <h2 class="title">Mature retention teams already personalize. What they don't do is close the loop.</h2></div>
+    </div>
+    <p class="body-copy">Payment platforms and B2B SaaS lose 20–30% of merchants a year. The lazy diagnosis is "no personalization" — but most serious orgs already run propensity models and rules. The failure is <b>orchestration</b>: a risk signal fires and nobody acts on it; an intervention runs once and is never followed up; no memory of what was already tried; and no single owner accountable for the loop actually closing.</p>
+    <div class="g3 grid">
+      <div class="card"><span class="idx">01</span><h4>Signals with no hands</h4><p>Risk is detected in a dashboard, then waits for a human who's busy. Detection isn't intervention.</p></div>
+      <div class="card"><span class="idx">02</span><h4>One-shot outreach</h4><p>A save email goes out once. Nobody watches whether volume recovered, so nobody adjusts.</p></div>
+      <div class="card"><span class="idx">03</span><h4>No memory</h4><p>The same tactic gets re-tried on a merchant it already failed on last quarter. The system never learned.</p></div>
     </div>
   </div>
 </section>
 
+<!-- 02 why generator isn't agent + right tool -->
 <section>
   <div class="wrap">
-    <div class="seclabel"><span class="n">03</span><span class="bar"></span><span class="eyebrow">Try it · Interactive</span></div>
-    <h2>Pick a merchant segment. See the playbook the model would generate.</h2>
-    <p class="sub">This is the heart of the prototype — four real lifecycle segments, each with the signals the model detects and the personalized intervention it proposes.</p>
-
-    <div class="console">
-      <div class="console-top">
-        <span class="label">Merchant Lifecycle Console — <strong id="merchCount">demo</strong></span>
-      </div>
-      <div class="segs" id="segs"></div>
-      <div class="panel">
-        <div class="panel-grid">
-          <div>
-            <div class="blockh">Detected merchant</div>
-            <div class="merch" id="merchName"></div>
-            <div class="merchdesc" id="merchDesc"></div>
-            <div class="blockh">Signals the model picked up</div>
-            <ul class="signals" id="signals"></ul>
-          </div>
-          <div>
-            <div class="blockh">Personalized playbook</div>
-            <div class="play">
-              <ol class="steps" id="steps"></ol>
-              <div class="impact"><span class="big" id="impactBig"></span><span class="txt" id="impactTxt"></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="console-foot">Illustrative prototype. Playbooks are generated from merchant signals, not hard-coded rules — so new segments need no new logic.</div>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div><span class="sec-eye">Design correction · 2024 → 2026</span>
+      <h2 class="title">Put the right model on each job — and stop calling a text generator an agent.</h2></div>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="seclabel"><span class="n">04</span><span class="bar"></span><span class="eyebrow">The shift</span></div>
-    <h2>From reacting to churn, to preventing it.</h2>
-    <div class="ba">
+    <p class="body-copy">An LLM is the <b>wrong</b> tool for lifecycle classification: that's a well-solved supervised-ML problem — cheaper, faster, and auditable without a non-deterministic model in the decision path. The LLM earns its seat where judgment and language matter: <b>planning the next best action, generating the outreach, and orchestrating the tools</b>. Classifier decides <em>what stage</em>; the agent decides <em>what to do about it</em> and <em>does it</em>.</p>
+    <div class="vs">
       <div class="col before">
-        <h3>Before <span class="badge b1">Reactive</span></h3>
+        <div class="lbl"><span class="dot" style="background:var(--faint)"></span>2024 · v1 · Generative</div>
         <ul>
-          <li>Intervention triggered after volume already dropped</li>
-          <li>Same generic lifecycle email for every merchant</li>
-          <li>Analysts hand-built playbooks that went stale</li>
-          <li>Expansion and win-back happened by luck, not design</li>
+          <li>Runs once, on request</li>
+          <li>Emits a document a human must action</li>
+          <li>No tools, no side effects</li>
+          <li>No memory between merchants or turns</li>
+          <li>Never observes the outcome</li>
         </ul>
       </div>
       <div class="col after">
-        <h3>After <span class="badge b2">Proactive</span></h3>
+        <div class="lbl"><span class="dot x"></span>2026 · v2 · Agentic</div>
         <ul>
-          <li>Early signals surface risk before the drop</li>
-          <li>Each merchant gets a playbook tuned to its stage</li>
-          <li>The model generates and refreshes playbooks on demand</li>
-          <li>Retention, expansion and win-back are designed surfaces</li>
+          <li>Runs continuously, event-triggered</li>
+          <li>Executes through a governed tool layer</li>
+          <li>Carries memory of prior attempts</li>
+          <li>Watches results, then adjusts</li>
+          <li>Stops at a human gate on anything risky</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 03 the loop -->
 <section>
   <div class="wrap">
-    <div class="seclabel"><span class="n">05</span><span class="bar"></span><span class="eyebrow">The opportunity</span></div>
-    <h2>What proactive, personalized lifecycle management unlocks.</h2>
-    <div class="results">
-      <div class="rcard"><div class="rv">25–40<span class="u">%</span></div><div class="rl">Higher merchant lifetime value through timely, relevant engagement</div></div>
-      <div class="rcard"><div class="rv">up to 60<span class="u">%</span></div><div class="rl">Lower churn when intervention happens before the volume drop</div></div>
-      <div class="rcard"><div class="rv">4<span class="u"> segments</span></div><div class="rl">Distinct lifecycle journeys, each with a model-generated playbook</div></div>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div><span class="sec-eye">The 2026 architecture</span>
+      <h2 class="title">Five stages, on a loop, with memory — not a pipeline with an exit.</h2></div>
+    </div>
+    <div class="g2 grid">
+      <div class="card"><span class="idx">SENSE</span><h4>Continuous signal intake</h4><p>Volume deltas, ticket sentiment, feature-adoption stalls, plan-limit approach, failed payments — event-triggered, not a one-time snapshot at churn.</p></div>
+      <div class="card"><span class="idx">REASON + PLAN</span><h4>Judgment over state and history</h4><p>The agent reasons over the merchant's current state <b>and its memory</b> of past interventions, then selects a next-best action — skipping tactics that already failed here.</p></div>
+      <div class="card"><span class="idx">ACT</span><h4>A governed tool layer</h4><p>Draft &amp; send outreach, open a CSM task, fire an in-app nudge, flag an upsell, hold a call, propose a retention offer, or escalate. It <b>does</b> things.</p></div>
+      <div class="card"><span class="idx">OBSERVE + ADJUST</span><h4>Close the loop</h4><p>Did volume recover? Did they re-engage? The outcome writes back to memory and reshapes the next decision. This is the single thing the 2024 version lacked.</p></div>
     </div>
   </div>
 </section>
 
-<div class="discuss">
+<!-- 04 trust boundary / autonomy ladder -->
+<section>
   <div class="wrap">
-    <div class="seclabel"><span class="n">✦</span><span class="bar"></span><span class="eyebrow">Discussion</span></div>
-    <h2>Thoughts on this case?</h2>
-    <p class="sub">Sign in with GitHub to react or leave a comment — this thread is specific to this case study.</p>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <div><span class="sec-eye">Human-in-the-loop · the trust boundary</span>
+      <h2 class="title">Autonomy is tiered by blast radius. The colour is the rule.</h2></div>
+    </div>
+    <p class="body-copy">Every action the agent can take sits in one of three tiers. The tier is fixed by <b>what the action can cost</b> — margin, money, reputation, or an irreversible relationship — not by how confident the model feels.</p>
+    <div class="ladder">
+      <div class="rung auto">
+        <div class="rung-top"><span class="badge auto">Auto · agent acts</span><h4>Reversible, no-margin, low blast radius</h4></div>
+        <p>The agent executes on its own and logs it. Nothing here can cost you money or a relationship, and anything can be walked back.</p>
+        <div class="ex"><span>e.g.</span> in-app setup nudge · contextual feature tip · help-article surfacing · low-value templated check-in</div>
+      </div>
+      <div class="rung gate">
+        <div class="rung-top"><span class="badge gate">Gate · human approves</span><h4>Touches money, margin, or a key relationship</h4></div>
+        <p>The agent drafts the action plus its rationale, expected impact, and confidence — then <b>waits</b>. A human approves, edits, or rejects in one click. Every rejection is training signal.</p>
+        <div class="ex"><span>e.g.</span> retention credit / fee waiver · discount offer · enterprise-merchant outreach · downgrade-save incentive</div>
+      </div>
+      <div class="rung human">
+        <div class="rung-top"><span class="badge human">Human · owns the call</span><h4>High-stakes, irreversible, or relationship-defining</h4></div>
+        <p>The agent never acts here. It assembles the brief and hands it to a named owner. Surfacing, not deciding.</p>
+        <div class="ex"><span>e.g.</span> contract renegotiation · legal / compliance-sensitive moves · top-tier account above a value threshold</div>
+      </div>
+    </div>
+    <p class="principle">Seniority isn't maximizing autonomy. It's knowing <em>exactly where autonomy ends.</em></p>
+  </div>
+</section>
+
+<!-- 05 interactive console -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <div><span class="sec-eye">Try it · you are the human gate</span>
+      <h2 class="title">Run the agent on a merchant. Watch where it stops and hands you the decision.</h2></div>
+    </div>
+    <p class="body-copy">Pick a segment. The agent senses, reasons out loud, and proposes actions. Green ones fire on their own. Amber ones stop and wait for <b>you</b> — and the guardrail rail above updates live as you approve spend.</p>
+
+    <div class="console" id="console">
+      <div class="con-bar">
+        <span class="lights"><i></i><i></i><i></i></span>
+        <span class="name">retention-agent · loop</span>
+        <span class="status" id="conStatus">idle</span>
+      </div>
+
+      <div class="rail" aria-label="Live guardrails">
+        <div class="cell">
+          <div class="rk">Retention budget</div>
+          <div class="rv"><span id="spendUsed">₹0</span><small>/ ₹40,000 wk</small></div>
+          <div class="meter"><i id="spendBar"></i></div>
+        </div>
+        <div class="cell">
+          <div class="rk">Merchant touches</div>
+          <div class="rv"><span id="touchN">0</span><small>/ 3 this week · anti-fatigue cap</small></div>
+          <div class="meter"><i id="touchBar" style="background:var(--gate)"></i></div>
+        </div>
+        <div class="cell">
+          <div class="rk">Circuit breaker</div>
+          <div class="rv"><span class="kill" id="kill">● armed</span></div>
+          <div class="meter"><i style="width:100%;background:var(--auto)"></i></div>
+        </div>
+      </div>
+
+      <div class="con-body">
+        <div class="seg-pick" id="segPick" role="group" aria-label="Merchant segment">
+          <button class="seg" data-seg="onboard" aria-pressed="false">Onboarding stall</button>
+          <button class="seg" data-seg="decline" aria-pressed="false">Silent decliner</button>
+          <button class="seg" data-seg="ceiling" aria-pressed="false">Hitting the ceiling</button>
+          <button class="seg" data-seg="enterprise" aria-pressed="false">Enterprise at risk</button>
+        </div>
+        <div class="con-hint" id="conHint">Select a merchant segment to wake the agent.</div>
+
+        <div class="panel" id="panel">
+          <div class="detect">
+            <span class="who" id="who"></span>
+            <span class="stg" id="stg"></span>
+          </div>
+          <div class="sig-list" id="sigs"></div>
+          <button class="runbtn" id="runBtn">▶ Run agent</button>
+
+          <div class="trace" id="trace">
+            <div class="th">Reasoning trace</div>
+            <div id="traceLines"></div>
+          </div>
+
+          <div class="actions" id="actions"></div>
+
+          <div class="outcome" id="outcome">
+            <div class="ok-row"><span class="mk">✓ outcome</span><span id="outcomeText"></span></div>
+            <div class="mem" id="memText"></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaim-inline">Illustrative prototype · synthetic merchants · actions and outcomes simulated to show the control flow, not live results.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 guardrails -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <div><span class="sec-eye">Guardrails · always on</span>
+      <h2 class="title">HITL is a gate a person stands at. Guardrails hold whether or not anyone is watching.</h2></div>
+    </div>
+    <div class="g2 grid">
+      <div class="card"><span class="idx">G1 · fatigue</span><h4>Action budget &amp; dedup</h4><p>Hard cap on touches per merchant per window, with idempotency so the same intervention can't fire twice — and won't fire at all if a human is already engaged.</p></div>
+      <div class="card"><span class="idx">G2 · money</span><h4>Spend ceiling</h4><p>A physical cap on total retention credit per period and a per-merchant discount max. The agent <b>cannot</b> propose past it — the budget runs out first.</p></div>
+      <div class="card"><span class="idx">G3 · consent</span><h4>Consent &amp; policy</h4><p>Respects DPDP consent and communication preferences, contacts only opted-in merchants, and constrains generated copy to pricing policy and brand tone.</p></div>
+      <div class="card"><span class="idx">G4 · doubt</span><h4>Confidence threshold</h4><p>Below a set classification or plan confidence, the agent escalates to a human instead of acting. Uncertainty routes up, it doesn't guess.</p></div>
+      <div class="card"><span class="idx">G5 · kill switch</span><h4>Circuit breaker</h4><p>If opt-outs, complaints, or churn tick up after agent actions, autonomous action auto-pauses and alerts. One switch halts everything.</p></div>
+      <div class="card"><span class="idx">G6 · accountability</span><h4>Immutable audit log</h4><p>Every signal, decision, rationale, action, and outcome is recorded. You can always answer <b>"why did the agent do that?"</b> — after the fact, on demand.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 evals -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <div><span class="sec-eye">How you'd know it works</span>
+      <h2 class="title">An agent you can't evaluate is an agent you can't ship.</h2></div>
+    </div>
+    <div class="evals">
+      <div class="eval"><span class="en">E1</span><div><h4>Backtest against real churn</h4><p><span class="q">Would this agent have flagged last year's churned merchants early enough to matter?</span> Measure precision and recall on a labelled historical cohort before it touches anyone live.</p></div></div>
+      <div class="eval"><span class="en">E2</span><div><h4>Offline review of proposed actions</h4><p>Sample the agent's drafted actions and judge them — LLM-as-judge plus human spot-check — for policy, tone, and appropriateness, gated <b>before</b> anything sends.</p></div></div>
+      <div class="eval"><span class="en">E3</span><div><h4>Online holdout</h4><p>Agent-managed cohort vs. an untouched control. Primary metrics: merchant LTV and churn. Guardrail metrics: false-positive flag rate, escalation rate, spend vs. cap, opt-out rate.</p></div></div>
+      <div class="eval"><span class="en">E4</span><div><h4>The override rate is the health check</h4><p>Humans rejecting most gated proposals means the agent isn't good or isn't trusted. Humans rubber-stamping every one means the gate is theatre. You're steering for the honest middle.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 opportunity -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <div><span class="sec-eye">The opportunity</span>
+      <h2 class="title">The upside is real — but the deliverable is a system you can govern.</h2></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="big">+25–40%</div><div class="cap">Potential lift in merchant lifetime value from timely, relevant, closed-loop engagement</div><div class="src">projection · industry benchmark</div></div>
+      <div class="stat"><div class="big">up to −60%</div><div class="cap">Churn reduction when intervention lands before the volume drop, not after</div><div class="src">projection · industry benchmark</div></div>
+      <div class="stat"><div class="big">100%</div><div class="cap">Of agent actions bounded by spend caps, consent rules, and an immutable log</div><div class="src">system property · by design</div></div>
+    </div>
+    <p class="body-copy" style="margin-top:24px">The first two numbers are the prize, and they're projections — worth naming as such. The third is the one that makes this shippable in a money-touching, DPDP-regulated context: a bounded budget, a consent-aware action layer, a human boundary on everything with stakes, logged reasoning, and a kill switch. That's the difference between "we added AI" and <b>"we deployed an agent we can stand behind."</b></p>
+  </div>
+</section>
+
+<!-- 09 discussion -->
+<section id="discussion">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">✦</span>
+      <div><span class="sec-eye">Discussion</span>
+      <h2 class="title">React or leave a comment.</h2></div>
+    </div>
+    <p class="body-copy">Sign in with GitHub to react or comment — this thread is specific to this case study.</p>
     <div class="giscus"></div>
   </div>
-</div>
+</section>
+
+</main>
 
 <footer>
   <div class="wrap">
-    <a href="/case-studies.html">← Back to all case studies</a>
-    <span class="c">Illustrative prototype · synthetic data · figures from industry benchmarks.</span>
+    <p class="foot-note">Illustrative prototype · synthetic data · the +LTV and −churn figures are industry benchmarks, not delivered results. Concept, architecture, and interaction design by Gatikrishna Dash. This 2026 rebuild reframes the 2024 generative case study into a closed-loop agentic system with tiered autonomy, always-on guardrails, and a human trust boundary — the same trust-boundary and accountable-action thesis explored in the Meridian proposal.</p>
+    <div class="foot-links">
+      <a href="/case-studies.html">← All case studies</a>
+      <a href="/">Portfolio home</a>
+    </div>
   </div>
 </footer>
 
 <script>
-  const SEGMENTS = [
-    { key:'New (0–30 days)', name:'New merchant · Onboarding', desc:'Signed up 11 days ago. Account configured but no first live transaction yet.',
-      signals:['No first transaction after 11 days (activation risk)','Only 2 of 8 core features set up','Opened the integration docs 3× but did not finish'],
-      steps:['Trigger a guided activation flow targeting the unfinished integration step','Send a day-3 / day-7 / day-14 nudge sequence tied to setup milestones','Offer a 15-min onboarding call if no transaction by day 14'],
-      impactBig:'2.3×', impactTxt:'faster time-to-first-transaction' },
-    { key:'At-risk (declining)', name:'At-risk merchant · Declining volume', desc:'Established merchant whose processing volume fell 42% over the last 6 weeks.',
-      signals:['Transaction volume down 42% vs. trailing 3-month average','Support tickets up 3× — mostly fees and settlement timing','Logins dropped from daily to weekly'],
-      steps:['Flag for proactive success outreach before the next billing cycle','Run a fee / pricing review and surface relevant lower-cost options','Share a tailored tip on settlement timing addressing their top ticket'],
-      impactBig:'−60%', impactTxt:'churn risk on early-intervention saves' },
-    { key:'Growth (expanding)', name:'Growth merchant · Expanding fast', desc:'Volume up 64% this quarter; consistently approaching current plan limits.',
-      signals:['Processing volume up 64% QoQ, nearing tier cap','Started using 2 new product features unprompted','Added 3 team members to the dashboard'],
-      steps:['Proactively offer an upgrade to the higher tier before the cap is hit','Cross-sell the payout and reporting add-ons their usage pattern predicts','Assign a named contact to support the expansion'],
-      impactBig:'+34%', impactTxt:'expansion revenue per account' },
-    { key:'Dormant (60+ days)', name:'Dormant merchant · Win-back', desc:'No transactions or logins in 67 days. Previously a steady mid-volume merchant.',
-      signals:['Zero transactions and no logins for 67 days','Never re-engaged after a failed payout 9 weeks ago','Historically processed steadily for 14 months prior'],
-      steps:['Launch a personalized win-back acknowledging the past payout issue','Offer a re-onboarding session plus a time-boxed fee incentive','If no response in 14 days, route to a final value-recap message'],
-      impactBig:'18%', impactTxt:'dormant merchants reactivated' },
-  ];
-  const segsEl = document.getElementById('segs');
-  SEGMENTS.forEach((s,i)=>{
-    const b=document.createElement('button');
-    b.className='seg'+(i===0?' active':'');
-    b.textContent=s.key;
-    b.addEventListener('click',()=>select(i));
-    segsEl.appendChild(b);
-  });
-  function select(i){
-    document.querySelectorAll('.seg').forEach((el,idx)=>el.classList.toggle('active',idx===i));
-    const s=SEGMENTS[i];
-    const name=document.getElementById('merchName');
-    name.style.opacity=0;
-    setTimeout(()=>{
-      name.textContent=s.name; name.style.opacity=1;
-      document.getElementById('merchDesc').textContent=s.desc;
-      document.getElementById('signals').innerHTML=s.signals.map(x=>`<li><span class="ic">!</span><span>${x}</span></li>`).join('');
-      document.getElementById('steps').innerHTML=s.steps.map((x,n)=>`<li><span class="sn">${n+1}</span>${x}</li>`).join('');
-      document.getElementById('impactBig').textContent=s.impactBig;
-      document.getElementById('impactTxt').textContent=s.impactTxt;
-      document.getElementById('merchCount').textContent=s.key;
-    },110);
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---- guardrail state ----
+  var SPEND_CAP = 40000;
+  var state = { spend:0, touches:0 };
+  function fmt(n){ return "₹" + n.toLocaleString("en-IN"); }
+  function paintRail(){
+    document.getElementById("spendUsed").textContent = fmt(state.spend);
+    var sp = Math.min(100, state.spend / SPEND_CAP * 100);
+    var bar = document.getElementById("spendBar");
+    bar.style.width = sp + "%";
+    bar.style.background = sp > 85 ? "var(--gate)" : "var(--auto)";
+    document.getElementById("touchN").textContent = state.touches;
+    document.getElementById("touchBar").style.width = Math.min(100, state.touches/3*100) + "%";
   }
-  select(0);
+
+  // ---- merchant data ----
+  var DATA = {
+    onboard:{
+      who:"Merchant #A-2214 · new signup", stg:"Stage · Activation",
+      sigs:["signed up <b>12d ago</b>","setup <b>1 / 5</b> steps","<b>0</b> transactions","opened <b>2</b> help articles"],
+      trace:[
+        "classifier → lifecycle stage: ACTIVATION (conf 0.91)",
+        "memory → no prior interventions on this merchant",
+        "risk → stalled onboarding, not churn; friction is setup",
+        "plan → nudge toward first payout; keep it zero-cost + reversible"
+      ],
+      actions:[
+        {tier:"auto",title:"Send contextual setup nudge",desc:"In-app prompt pointing to the exact next unfinished step, with a 3-min ‘first payout’ guide.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
+        {tier:"auto",title:"Surface activation checklist",desc:"Pin a progress checklist to the dashboard so remaining steps stay visible.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]}
+      ],
+      outcome:"Merchant completes setup within 48h and clears their first transaction. No human time spent.",
+      mem:"memory ← activation nudge effective for cold new signups · don't re-fire on this merchant"
+    },
+    decline:{
+      who:"Merchant #B-0471 · established", stg:"Stage · At-risk",
+      sigs:["30-day volume <b>−38%</b>","ticket sentiment <b>negative</b>","last login <b>9d</b>","tenure <b>14 mo</b>"],
+      trace:[
+        "classifier → lifecycle stage: AT-RISK (conf 0.87)",
+        "memory → check-in email sent 2q ago, no response",
+        "risk → real churn risk; friction signalled by ticket tone",
+        "plan → personal check-in (auto) + propose fee waiver to lower cost-to-stay (gated: touches margin)"
+      ],
+      actions:[
+        {tier:"auto",title:"Draft personal check-in",desc:"Outreach that names the specific volume drop and the open ticket — not a generic ‘we miss you’.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
+        {tier:"gate",title:"Propose 1-month fee waiver",desc:"A ₹6,000 fee waiver to reduce cost-to-stay while the friction is resolved.",meta:["cost <b>₹6,000</b>","confidence <b>0.74</b>","expected save <b>~₹52k LTV</b>"],cost:6000}
+      ],
+      outcome:"With the waiver approved, the merchant replies within a day and 30-day volume recovers ~60%.",
+      mem:"memory ← fee waiver accepted + effective for this decline pattern · log ROI on the ₹6k"
+    },
+    ceiling:{
+      who:"Merchant #C-1189 · growing", stg:"Stage · Expansion",
+      sigs:["3 months <b>growth</b>","at <b>94%</b> of plan tx limit","<b>2</b> feature-limit errors","volume <b>+22%</b> MoM"],
+      trace:[
+        "classifier → lifecycle stage: EXPANSION (conf 0.93)",
+        "memory → no prior expansion touch",
+        "risk → NOT churn; this is revenue left on the table",
+        "plan → in-app upgrade prompt (auto) + tailored expansion offer via CSM (gated: money + relationship)"
+      ],
+      actions:[
+        {tier:"auto",title:"Contextual upgrade prompt",desc:"In-app message triggered on the limit error, showing their own usage curve against the next tier.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
+        {tier:"gate",title:"Route expansion offer to CSM",desc:"Draft a tailored upgrade offer and a call agenda; hand to the CSM to send.",meta:["cost <b>₹0</b>","confidence <b>0.81</b>","expected <b>tier upgrade</b>"],cost:0}
+      ],
+      outcome:"Merchant upgrades to the higher tier after the CSM call; expansion revenue booked.",
+      mem:"memory ← expansion signals should route to CSM earlier next cycle, before the limit error"
+    },
+    enterprise:{
+      who:"Merchant #E-0007 · top-5% GMV", stg:"Stage · Renewal risk",
+      sigs:["top <b>5%</b> GMV","renewal in <b>45d</b>","exec sponsor <b>departed</b>","NPS <b>9 → 5</b>"],
+      trace:[
+        "classifier → lifecycle stage: RENEWAL-RISK (conf 0.88)",
+        "memory → strategic account; prior touches human-led only",
+        "risk → HIGH stakes, relationship-defining, above value threshold",
+        "plan → guardrail G-tier(human): agent will NOT contact or offer · assemble brief + escalate"
+      ],
+      actions:[
+        {tier:"auto",title:"Assemble account brief",desc:"Compile signals, history, GMV trend, and a suggested angle into a one-page brief.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
+        {tier:"human",title:"Escalate to named account owner",desc:"Hand the brief to the enterprise account owner. Agent does not email, offer, or negotiate here.",meta:["action <b>none</b>","owner <b>K. Rao</b>","tier <b>human-owned</b>"]}
+      ],
+      outcome:"A human-led save conversation is booked with the account owner inside 24h — agent stayed hands-off.",
+      mem:"memory ← enterprise renewals remain human-owned · agent surfaces, never acts, above threshold"
+    }
+  };
+
+  // ---- DOM ----
+  var panel=document.getElementById("panel"), hint=document.getElementById("conHint"),
+      who=document.getElementById("who"), stg=document.getElementById("stg"),
+      sigsEl=document.getElementById("sigs"), runBtn=document.getElementById("runBtn"),
+      trace=document.getElementById("trace"), traceLines=document.getElementById("traceLines"),
+      actionsEl=document.getElementById("actions"), outcome=document.getElementById("outcome"),
+      outcomeText=document.getElementById("outcomeText"), memText=document.getElementById("memText"),
+      status=document.getElementById("conStatus");
+  var current=null, running=false;
+
+  function reset(){
+    trace.classList.remove("on"); traceLines.innerHTML="";
+    actionsEl.innerHTML=""; outcome.classList.remove("on");
+    runBtn.disabled=false; runBtn.textContent="▶ Run agent"; running=false;
+  }
+
+  function selectSeg(key, btn){
+    if(running) return;
+    current=key;
+    document.querySelectorAll(".seg").forEach(function(b){b.setAttribute("aria-pressed", b===btn ? "true":"false");});
+    var d=DATA[key];
+    hint.style.display="none"; panel.classList.add("on");
+    who.textContent=d.who; stg.textContent=d.stg;
+    sigsEl.innerHTML=""; d.sigs.forEach(function(s){var el=document.createElement("span");el.className="sig";el.innerHTML=s;sigsEl.appendChild(el);});
+    reset();
+    status.textContent="merchant loaded";
+  }
+
+  function run(){
+    if(running||!current) return;
+    running=true; runBtn.disabled=true; runBtn.textContent="running…";
+    status.textContent="reasoning";
+    var d=DATA[current];
+    trace.classList.add("on"); traceLines.innerHTML="";
+    var lines=d.trace, i=0;
+    var step=reduce?0:520;
+    function next(){
+      if(i<lines.length){
+        var ln=document.createElement("div"); ln.className="ln"; ln.textContent=lines[i]; traceLines.appendChild(ln);
+        requestAnimationFrame(function(){ln.classList.add("show");});
+        i++; setTimeout(next, step);
+      } else { setTimeout(renderActions, reduce?0:300); }
+    }
+    next();
+  }
+
+  function renderActions(){
+    status.textContent="proposing actions";
+    var d=DATA[current]; actionsEl.innerHTML="";
+    var pending=0;
+    d.actions.forEach(function(a, idx){
+      var card=document.createElement("div"); card.className="act "+a.tier;
+      var badge = a.tier==="auto"?'<span class="badge auto">Auto</span>':a.tier==="gate"?'<span class="badge gate">Gate · your call</span>':'<span class="badge human">Human-owned</span>';
+      var metaHtml = a.meta.map(function(m){return "<span><b>"+m+"</b></span>";}).join("");
+      card.innerHTML =
+        '<div class="act-top">'+badge+'<span class="act-title">'+a.title+'</span></div>'+
+        '<p>'+a.desc+'</p>'+
+        '<div class="meta">'+metaHtml+'</div>'+
+        (a.tier==="gate"?'<div class="gate-ctl"><button class="b-approve">✓ Approve</button><button class="b-reject">✕ Reject</button></div>':'')+
+        '<div class="resolved"></div>';
+      actionsEl.appendChild(card);
+      setTimeout(function(){card.classList.add("show");}, reduce?0:idx*260);
+
+      var resolved=card.querySelector(".resolved");
+      if(a.tier==="auto"){
+        // auto executes on its own, respecting touch cap
+        setTimeout(function(){
+          resolved.className="resolved on ok"; resolved.textContent="✓ executed automatically · logged";
+          if(a.cost===undefined){ state.touches=Math.min(3,state.touches+1); paintRail(); }
+        }, reduce?0:(idx*260)+400);
+      } else if(a.tier==="human"){
+        setTimeout(function(){
+          resolved.className="resolved on routed"; resolved.textContent="→ routed to human · agent will not act";
+        }, reduce?0:(idx*260)+400);
+      } else {
+        pending++;
+        var ap=card.querySelector(".b-approve"), rj=card.querySelector(".b-reject");
+        ap.addEventListener("click", function(){
+          if(a.cost && state.spend + a.cost > SPEND_CAP){
+            resolved.className="resolved on held"; resolved.textContent="✕ blocked · would exceed weekly retention budget";
+            card.querySelector(".gate-ctl").style.display="none"; return;
+          }
+          resolved.className="resolved on ok"; resolved.textContent="✓ approved by you · executed · logged";
+          card.querySelector(".gate-ctl").style.display="none";
+          if(a.cost){ state.spend+=a.cost; }
+          state.touches=Math.min(3,state.touches+1); paintRail();
+          pending--; maybeOutcome(pending);
+        });
+        rj.addEventListener("click", function(){
+          resolved.className="resolved on held"; resolved.textContent="✕ rejected · fed back as training signal";
+          card.querySelector(".gate-ctl").style.display="none";
+          pending--; maybeOutcome(pending, true);
+        });
+      }
+    });
+    runBtn.textContent="✓ agent ran"; status.textContent="awaiting gate";
+    if(pending===0){ setTimeout(function(){showOutcome(false);}, reduce?0:900); }
+  }
+
+  function maybeOutcome(pending, rejected){
+    if(pending<=0){ showOutcome(rejected); }
+  }
+  function showOutcome(rejected){
+    var d=DATA[current];
+    status.textContent="loop closed";
+    outcome.classList.add("on");
+    outcomeText.textContent = rejected
+      ? "You held the gated action. The agent logs the rejection, keeps the auto-actions in play, and won't re-propose the same offer without new signal."
+      : d.outcome;
+    memText.innerHTML = "<b>"+d.mem+"</b>";
+  }
+
+  document.querySelectorAll(".seg").forEach(function(btn){
+    btn.addEventListener("click", function(){ selectSeg(btn.getAttribute("data-seg"), btn); });
+  });
+  runBtn.addEventListener("click", run);
+  paintRail();
+})();
 </script>
 
 <script src="https://giscus.app/client.js"
