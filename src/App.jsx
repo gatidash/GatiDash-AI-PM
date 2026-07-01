@@ -602,18 +602,18 @@ function SelectedWork() {
   const w = WORK[i]
   const go = (d) => setI((i + d + total) % total)
   return (
-    <section id="work" className="py-24 sm:py-32 border-t border-sand">
+    <section id="work" className="py-14 sm:py-20 border-t border-sand">
       <Container>
         <SectionLabel n="05">Work</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+        <h2 className="display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]">
           Three pieces of work that explain how I think.
         </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+        <p className="mt-3 text-base text-smoke max-w-2xl leading-relaxed">
           Anonymized where it has to be. The numbers are not. Each case names what shipped, what it took, and what I would tell the next team.
         </p>
 
-        <div className="mt-12">
-          <div className="flex items-center justify-between gap-4 border-t border-sand pt-6">
+        <div className="mt-8">
+          <div className="flex items-center justify-between gap-4 border-t border-sand pt-5">
             <div className="flex items-baseline gap-4 min-w-0">
               <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{w.n}</span>
               <span className="eyebrow truncate">{w.meta}</span>
@@ -639,12 +639,12 @@ function SelectedWork() {
             </div>
           </div>
 
-          <div key={w.n} className="work-fade grid lg:grid-cols-12 gap-y-8 gap-x-16 mt-8">
+          <div key={w.n} className="work-fade grid lg:grid-cols-12 gap-y-6 gap-x-12 mt-6">
             <div className="lg:col-span-8">
-              <h3 className="display-serif text-2xl sm:text-3xl lg:text-4xl leading-[1.15] max-w-prose-wide">
+              <h3 className="display-serif text-2xl sm:text-3xl leading-[1.15] max-w-prose-wide">
                 {w.title}
               </h3>
-              <div className="mt-6 space-y-5 max-w-prose-wide">
+              <div className="mt-5 space-y-4 max-w-prose-wide">
                 <Paragraph label="Context" body={w.context} />
                 <Paragraph label="What I did" body={w.move} />
                 <Paragraph label="What I would tell the next team" body={w.proves} accent />
@@ -664,7 +664,7 @@ function SelectedWork() {
             </aside>
           </div>
 
-          <div className="mt-10 flex items-center gap-2">
+          <div className="mt-8 flex items-center gap-2">
             {WORK.map((_, idx) => (
               <button
                 key={idx}
@@ -684,7 +684,7 @@ function Paragraph({ label, body, accent = false }) {
   return (
     <div>
       <div className={`eyebrow mb-2 ${accent ? 'text-accent' : ''}`}>{label}</div>
-      <p className={`text-base sm:text-lg leading-relaxed ${accent ? 'text-ink font-medium font-serif' : 'text-ink-soft'}`}>
+      <p className={`text-sm sm:text-base leading-relaxed ${accent ? 'text-ink font-medium font-serif' : 'text-ink-soft'}`}>
         {body}
       </p>
     </div>
@@ -695,7 +695,7 @@ function Capabilities() {
   const [tab, setTab] = useState(0)
   const c = CAPABILITIES[tab]
   return (
-    <section id="capabilities" className="py-24 sm:py-32 border-t border-sand">
+    <section id="capabilities" className="py-16 sm:py-24 border-t border-sand">
       <Container>
         <SectionLabel n="03">Capabilities</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
@@ -746,7 +746,7 @@ function Judgment() {
   const j = JUDGMENT[i]
   const go = (d) => setI((i + d + total) % total)
   return (
-    <section id="judgment" className="py-24 sm:py-32 border-t border-sand">
+    <section id="judgment" className="py-16 sm:py-24 border-t border-sand">
       <Container>
         <SectionLabel n="04">Judgment</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
@@ -821,7 +821,7 @@ function GovernanceToolkit() {
   const [tab, setTab] = useState(0)
   const t = TABS[tab]
   return (
-    <section id="toolkit" className="py-24 sm:py-32 bg-paper-dark border-t border-sand">
+    <section id="toolkit" className="py-16 sm:py-24 bg-paper-dark border-t border-sand">
       <Container>
         <SectionLabel n="02">Toolkit</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
@@ -955,7 +955,7 @@ function CareerArc() {
 function Leadership() {
   const [flipped, setFlipped] = useState(null)
   return (
-    <section id="leadership" className="py-24 sm:py-32 border-t border-sand">
+    <section id="leadership" className="py-16 sm:py-24 border-t border-sand">
       <Container>
         <SectionLabel n="06">Leadership</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
@@ -998,7 +998,7 @@ function Leadership() {
 
 function Contact() {
   return (
-    <section id="contact" className="py-24 sm:py-32 border-t border-sand">
+    <section id="contact" className="py-16 sm:py-24 border-t border-sand">
       <Container>
         <SectionLabel n="07">Contact</SectionLabel>
 
@@ -1114,7 +1114,7 @@ function SpaceBackdrop() {
 
 function CaseBanner() {
   return (
-    <section id="casestudies" className="py-24 sm:py-32 border-t border-sand">
+    <section id="casestudies" className="py-16 sm:py-24 border-t border-sand">
       <Container>
         <a
           href="/case-studies.html"
