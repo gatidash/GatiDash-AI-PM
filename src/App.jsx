@@ -19,9 +19,9 @@ const NAV = [
 ]
 
 const PROOF_LINES = [
-  '17+ years across data, regulatory platforms, and (since 2023) production AI work — at PayPal.',
-  'Most recent: led AI automation across compliance ops in 5 jurisdictions. Cut manual review by 60%, halved turnaround. Numbers held for two quarters past launch.',
-  'Earlier: scaled a single regulatory-reporting platform from 0 to 60+ reports, 3 markets onboarded in a quarter.',
+  'Building production AI in a money-touching, regulated environment — agentic automation, evals, and governance — at PayPal. 17+ years of platform depth is the moat.',
+  'Led AI automation across compliance ops in 5 jurisdictions: manual review down 60%, turnaround halved — and the numbers held two quarters past launch.',
+  'Built the platform layer the AI now runs on — scaled one regulatory-reporting system from 0 to 60+ reports, 3 markets onboarded in a quarter.',
 ]
 
 const WORK = [
@@ -508,7 +508,7 @@ function Profile() {
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-smoke leading-snug max-w-prose-wide font-serif font-normal">
-              Most of the last decade was compliance, risk, and regulatory reporting platforms. Most of the next is the AI-native versions of the same systems.
+              AI product leadership for regulated, high-stakes systems — turning compliance, risk, and regulatory operations into governed, AI-native products. The controls most teams bolt on last, I design in first.
             </p>
 
             {/* Restrained proof — three short lines with hairline dividers */}
