@@ -50,7 +50,7 @@ const WORK = [
     context:
       'We were building one tool per regulator. Each report took roughly a quarter to onboard, and the team was spending more time maintaining than shipping. Brexit and a handful of new mandates were about to make the maintenance load worse.',
     move:
-      'I led the case for a single platform with a common report-onboarding lifecycle. The hard work was not the engineering. It was talking three product groups and two ops teams into giving up their per-jurisdiction tooling. We shipped the platform in 14 months and grew it to 1,000+ reports across 15+ regulated entities.',
+      'I led the case for a single platform with a common report-onboarding lifecycle. The hard part was never the engineering — it was sitting with Legal and compliance across jurisdictions, and often directly with the regulators, to interpret each ask and translate it into requirements the whole platform could carry. The real discipline: making one regulator’s rule coexist with the next without breaking either, and designing customizable templates and auto-triggering rules so the next mandate is a configuration change, not a rebuild. Shipped in 14 months, grown to 1,000+ reports across 15+ regulated entities.',
     proves:
       'New reports went from a quarter to about two weeks. More importantly, the platform is now where the AI augmentation plugs in cleanly — validation, narrative generation, agent-assisted review — instead of needing one integration per legacy tool.',
     metrics: [
