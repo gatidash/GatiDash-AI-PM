@@ -9,6 +9,7 @@ import { track } from '@vercel/analytics'
 
 const NAV = [
   { id: 'profile', label: 'Profile' },
+  { id: 'angle', label: 'The Angle' },
   { id: 'career', label: 'Career' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'toolkit', label: 'Toolkit' },
@@ -897,6 +898,33 @@ function CompanyLogo({ name }) {
   )
 }
 
+function TheAngle() {
+  return (
+    <section id="angle" className="py-16 sm:py-24 border-t border-sand">
+      <Container>
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-ink/20" />
+          <span className="eyebrow">The angle I bring</span>
+        </div>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-4xl leading-[1.08]">
+          I don&apos;t come at product from the feature side. I come from the launch side.
+        </h2>
+        <div className="mt-8 grid lg:grid-cols-12 gap-8 lg:gap-16">
+          <p className="lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
+            For 17 years I&apos;ve sat in the go/no-go seat for the products PayPal shipped — Venmo, Xoom, Hyperwallet, and more — across 15+ regulated entities and jurisdictions, each with its own rules. Most PMs ship a handful of products in a career; I&apos;ve pressure-tested and post-mortemed more launches than most people ever see.
+          </p>
+          <p className="lg:col-span-5 text-base text-smoke leading-relaxed">
+            Then I built what almost no one does: a single source of truth unifying product, customer, and transaction data for audit and compliance — and the launch standards the company now runs on.
+          </p>
+        </div>
+        <p className="mt-9 display-serif text-xl sm:text-2xl text-ink max-w-prose-wide leading-snug">
+          That vantage is exactly why I can tell which AI products will survive contact with a regulator — and which won&apos;t.
+        </p>
+      </Container>
+    </section>
+  )
+}
+
 function CareerArc() {
   return (
     <section id="career" className="py-14 sm:py-20 border-t border-sand">
@@ -1158,6 +1186,7 @@ export default function App() {
         <NavBar />
         <main>
           <Profile />
+          <TheAngle />
           <CareerArc />
           <Leadership />
           <GovernanceToolkit />
