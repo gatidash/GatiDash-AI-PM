@@ -21,7 +21,7 @@ const NAV = [
 
 const PROOF_LINES = [
   'Building production AI in a money-touching, regulated environment — agentic automation, evals, and governance — at PayPal. 17+ years of platform depth is the moat.',
-  'Led AI automation across compliance ops in 5 jurisdictions: manual review down 60%, turnaround halved — and the numbers held two quarters past launch.',
+  'Shipped agentic AI into live compliance operations across 5 jurisdictions — in production, under governance, and durable well past launch, not just in the demo.',
   'Built the platform layer the AI now runs on — scaled regulatory reporting to 1,000+ reports across 15+ regulated entities.',
 ]
 
@@ -45,17 +45,17 @@ const WORK = [
   },
   {
     n: '02',
-    title: 'One regulatory reporting platform instead of sixty',
+    title: 'One regulatory-reporting platform, not one tool per regulator',
     meta: 'Platform consolidation · 2020–2023',
     context:
       'We were building one tool per regulator. Each report took roughly a quarter to onboard, and the team was spending more time maintaining than shipping. Brexit and a handful of new mandates were about to make the maintenance load worse.',
     move:
-      'I led the case for a single platform with a common report-onboarding lifecycle. The hard work was not the engineering. It was talking three product groups and two ops teams into giving up their per-jurisdiction tooling. We shipped the platform in 14 months and onboarded 60+ reports onto it over the following two years.',
+      'I led the case for a single platform with a common report-onboarding lifecycle. The hard work was not the engineering. It was talking three product groups and two ops teams into giving up their per-jurisdiction tooling. We shipped the platform in 14 months and grew it to 1,000+ reports across 15+ regulated entities.',
     proves:
       'New reports went from a quarter to about two weeks. More importantly, the platform is now where the AI augmentation plugs in cleanly — validation, narrative generation, agent-assisted review — instead of needing one integration per legacy tool.',
     metrics: [
-      { v: '60+', l: 'Reports onboarded' },
-      { v: '3 markets', l: 'Live in 3 months once platform was up' },
+      { v: '1,000+', l: 'Reports onboarded onto the platform' },
+      { v: '15+', l: 'Regulated entities served' },
       { v: '80%', l: 'Reduction in per-report onboarding time' },
       { v: '14 months', l: 'Platform build to v1' },
     ],
