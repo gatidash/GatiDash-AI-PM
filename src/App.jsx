@@ -21,7 +21,7 @@ const NAV = [
 const PROOF_LINES = [
   'Building production AI in a money-touching, regulated environment — agentic automation, evals, and governance — at PayPal. 17+ years of platform depth is the moat.',
   'Led AI automation across compliance ops in 5 jurisdictions: manual review down 60%, turnaround halved — and the numbers held two quarters past launch.',
-  'Built the platform layer the AI now runs on — scaled one regulatory-reporting system from 0 to 60+ reports, 3 markets onboarded in a quarter.',
+  'Built the platform layer the AI now runs on — scaled regulatory reporting to 1,000+ reports across 15+ regulated entities.',
 ]
 
 const WORK = [
