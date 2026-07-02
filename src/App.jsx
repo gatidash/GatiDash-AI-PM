@@ -31,15 +31,15 @@ const WORK = [
     title: 'The data foundation for financial crime — and the launches it unlocked',
     meta: 'GFC/AML data platform · CRR · Crypto & SAR reporting · 2018–2021',
     context:
-      'New bets — a Crypto Launch and a Payments License in China — were blocked on regulatory reporting infrastructure that didn’t exist yet, while PayPal’s financial-crime teams needed a data layer they could actually trust for AML and risk decisions. Compliance was being treated as a launch tax — and I’d just been moved into a new product role inside the data-engineering org to fix exactly that.',
+      'New bets — PayPal offering crypto to US customers for the first time (gated by NYDFS licensing) and a payments license in China — were blocked on regulatory reporting infrastructure that didn’t exist yet, while PayPal’s financial-crime teams needed a data layer they could actually trust for AML and risk decisions. Compliance was being treated as a launch tax — and I’d just been moved into a new product role inside the data-engineering org to fix exactly that.',
     move:
-      'I stood up the platform end to end — working across identity, payments, privacy, credit, and crypto; flagging upstream data gaps and getting them corrected before anything entered the platform; and designing the data lifecycle itself: what has to be real-time versus what can wait, and how governance and lineage are enforced. On that foundation I built products from scratch — Customer Risk Rating (CRR), an ML and weighted-scoring model that risk-scores every customer at onboarding and keeps revising it in real time on account activity; PayPal’s first crypto reporting platform, a prerequisite before any crypto product could launch; and the SAR reporting pipeline required for the China payments license.',
+      'I stood up the platform end to end — working across identity, payments, privacy, credit, and crypto; flagging upstream data gaps and getting them corrected before anything entered the platform; and designing the data lifecycle itself: what has to be real-time versus what can wait, and how governance and lineage are enforced. On that foundation I built products from scratch — Customer Risk Rating (CRR), an ML and weighted-scoring model that risk-scores every customer at onboarding and keeps revising it in real time on account activity; PayPal’s first crypto reporting platform, a prerequisite for the company to offer crypto in the US under NYDFS licensing; and the SAR reporting pipeline required for the payments license in China.',
     proves:
       'Financial-crime and compliance data isn’t a launch tax. It’s the cleanest path into a new market — and the trusted foundation everything since, the reporting platform and the agentic AI, has been built on.',
     metrics: [
       { v: '0 → 1', l: 'Customer Risk Rating built from scratch — ML + weighted scoring' },
       { v: 'Real-time', l: 'Every customer risk-scored at onboarding, revised on activity' },
-      { v: 'Crypto', l: 'First crypto reporting platform — cleared PayPal’s crypto launch' },
+      { v: 'NYDFS', l: 'First crypto reporting platform — enabled PayPal’s first US crypto product' },
       { v: 'China', l: 'SAR reporting pipeline — cleared the payments license in China' },
     ],
   },
