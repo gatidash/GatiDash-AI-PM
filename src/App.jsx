@@ -917,6 +917,13 @@ function TheAngle() {
             Then I built what almost no one does: a single source of truth unifying product, customer, and transaction data for audit and compliance — and the launch standards the company now runs on.
           </p>
         </div>
+
+        <div className="mt-8 border-l-2 border-accent pl-5 max-w-prose-wide">
+          <p className="text-base sm:text-lg text-ink-soft leading-relaxed">
+            In global payments, getting AML, cross-border, or crypto disclosure wrong isn&apos;t a bug ticket — it&apos;s a regulatory event. Regulators like Australia&apos;s AUSTRAC have handed major banks penalties from the hundreds of millions to well over a billion dollars for exactly these gaps, and the US, EU, UK, and Singapore do the same. The data platforms, automated governance, and audit logs I&apos;ve built over a decade are what keep a payments company defensible when the regulator comes looking.
+          </p>
+        </div>
+
         <p className="mt-9 display-serif text-xl sm:text-2xl text-ink max-w-prose-wide leading-snug">
           That vantage is exactly why I can tell which AI products will survive contact with a regulator — and which won&apos;t.
         </p>
