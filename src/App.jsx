@@ -1016,8 +1016,11 @@ function Contact() {
             <h2 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
               Let&apos;s talk.
             </h2>
-            <p className="mt-8 text-lg sm:text-xl text-ink-soft leading-relaxed max-w-prose-tight">
-              Most useful conversations I have are with founders, CPOs and CXOs at banks, fintechs, and regulated SaaS companies trying to ship AI under governance. If that sounds like your problem, email me.
+            <p className="mt-8 text-lg sm:text-xl text-ink leading-relaxed max-w-prose-tight font-serif">
+              If you&apos;re looking to drive an AI transformation — especially where it has to clear an audit, not just a demo — I&apos;m happy to discuss.
+            </p>
+            <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight">
+              Most of my best conversations are with founders, CPOs, and CXOs at banks, fintechs, and regulated SaaS companies trying to ship AI under governance.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
