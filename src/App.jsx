@@ -39,7 +39,7 @@ const WORK = [
     metrics: [
       { v: '0 → 1', l: 'Customer Risk Rating built from scratch — ML + weighted scoring' },
       { v: 'Real-time', l: 'Every customer risk-scored at onboarding, revised on activity' },
-      { v: 'NYDFS', l: 'First crypto reporting platform — enabled PayPal’s first US crypto product' },
+      { v: 'Crypto', l: 'First crypto reporting platform — enabled PayPal’s first US crypto offering, Q4 2020' },
       { v: 'China', l: 'SAR reporting pipeline — cleared the payments license in China' },
     ],
   },
