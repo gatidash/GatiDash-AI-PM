@@ -29,13 +29,13 @@ const WORK = [
   {
     n: '01',
     title: 'Agentic AI for compliance review at PayPal',
-    meta: 'LLM agents · 5 jurisdictions · 2023–2025',
+    meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–2025',
     context:
-      'Compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
+      'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
     move:
-      'We replaced the manual triage step with LLM agents that did the structured extraction and first-pass policy mapping, then routed everything policy-sensitive to a human reviewer with the agent’s reasoning attached. Every agent call went through schema validation before it touched the queue. We shipped in shadow mode for six weeks before any decision was acted on.',
+      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. It ran in shadow mode for six weeks before a single decision was acted on.',
     proves:
-      'The hard part was not the agents. It was wiring every agent call through a validator and a human override path before the first one shipped, not after the first incident.',
+      'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
     metrics: [
       { v: '60%', l: 'Reduction in manual review volume' },
       { v: '2 days → 8 hrs', l: 'Median case turnaround' },
