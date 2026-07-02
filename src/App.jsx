@@ -193,6 +193,7 @@ const CAREER_ARC = [
     tools: ['AML', 'SAR', 'GDPR', 'KYC'],
     companies: ['PayPal'],
     instinct: 'Where individual data work became platform product leadership.',
+    workIndex: 0,
   },
   {
     era: '03',
@@ -203,6 +204,7 @@ const CAREER_ARC = [
     tools: ['LLM agents', 'Evals', 'Governance'],
     companies: ['PayPal'],
     instinct: 'Where the earlier layers became the reason the AI ships.',
+    workIndex: 2,
   },
 ]
 
@@ -603,8 +605,7 @@ function Profile() {
   )
 }
 
-function SelectedWork() {
-  const [i, setI] = useState(0)
+function SelectedWork({ i, setI }) {
   const total = WORK.length
   const w = WORK[i]
   const go = (d) => setI((i + d + total) % total)
@@ -933,7 +934,7 @@ function TheAngle() {
   )
 }
 
-function CareerArc() {
+function CareerArc({ onSelectWork }) {
   return (
     <section id="career" className="py-14 sm:py-20 border-t border-sand">
       <Container>
@@ -985,6 +986,16 @@ function CareerArc() {
                 <span className="not-italic text-accent font-serif mr-1.5">↳</span>
                 {e.instinct}
               </p>
+              {e.workIndex != null && (
+                <a
+                  href="#work"
+                  onClick={() => onSelectWork(e.workIndex)}
+                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide-caps text-accent hover:gap-2.5 transition-all"
+                >
+                  See the work from this era
+                  <ArrowUpRight className="h-3 w-3" />
+                </a>
+              )}
             </div>
           ))}
         </div>
@@ -1187,6 +1198,7 @@ function CaseBanner() {
 }
 
 export default function App() {
+  const [workI, setWorkI] = useState(0)
   return (
     <div className="relative min-h-screen">
       <SpaceBackdrop />
@@ -1195,12 +1207,12 @@ export default function App() {
         <main>
           <Profile />
           <TheAngle />
-          <CareerArc />
+          <CareerArc onSelectWork={setWorkI} />
           <Leadership />
           <GovernanceToolkit />
           <Capabilities />
           <Judgment />
-          <SelectedWork />
+          <SelectedWork i={workI} setI={setWorkI} />
           <CaseBanner />
           <Contact />
         </main>
