@@ -28,19 +28,19 @@ const PROOF_LINES = [
 const WORK = [
   {
     n: '01',
-    title: 'Agentic AI for compliance review at PayPal',
-    meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–2025',
+    title: 'The data foundation for financial crime — and the launches it unlocked',
+    meta: 'GFC/AML data platform · CRR · Crypto & SAR reporting · 2018–2021',
     context:
-      'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
+      'New bets — crypto and China payments — were blocked on regulatory reporting infrastructure that didn’t exist yet, while PayPal’s financial-crime teams needed a data layer they could actually trust for AML and risk decisions. Compliance was being treated as a launch tax — and I’d just been moved into a new product role inside the data-engineering org to fix exactly that.',
     move:
-      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. The same layer runs automated regulatory assessment on every product change, surfacing the regulatory triggers a launch would create and routing them for resolution before they ever become an audit finding. It ran in shadow mode for six weeks before a single decision was acted on.',
+      'I stood up the platform end to end — working across identity, payments, privacy, credit, and crypto; flagging upstream data gaps and getting them corrected before anything entered the platform; and designing the data lifecycle itself: what has to be real-time versus what can wait, and how governance and lineage are enforced. On that foundation I built products from scratch — Customer Risk Rating (CRR), an ML and weighted-scoring model that risk-scores every customer at onboarding and keeps revising it in real time on account activity; PayPal’s first crypto reporting platform, a prerequisite before any crypto product could launch; and the SAR reporting pipeline required for the China payments license.',
     proves:
-      'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
+      'Financial-crime and compliance data isn’t a launch tax. It’s the cleanest path into a new market — and the trusted foundation everything since, the reporting platform and the agentic AI, has been built on.',
     metrics: [
-      { v: '80%+', l: 'Reduction in manual review volume' },
-      { v: '2 weeks → 2 hrs', l: 'Median case turnaround' },
-      { v: '5', l: 'Jurisdictions live' },
-      { v: '6 weeks', l: 'Shadow mode before go-live' },
+      { v: '0 → 1', l: 'Customer Risk Rating built from scratch — ML + weighted scoring' },
+      { v: 'Real-time', l: 'Every customer risk-scored at onboarding, revised on activity' },
+      { v: '1st', l: 'PayPal’s first crypto reporting platform — a launch prerequisite' },
+      { v: 'China license', l: 'SAR reporting pipeline required to unlock China payments' },
     ],
   },
   {
@@ -62,18 +62,19 @@ const WORK = [
   },
   {
     n: '03',
-    title: 'Compliance reporting as a go-to-market unlock',
-    meta: 'AML · SAR · Crypto reporting · 2018–2021',
+    title: 'Agentic AI for compliance review at PayPal',
+    meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–2025',
     context:
-      'Two new markets — China payments and US crypto — were blocked on missing AML and jurisdiction-specific reporting infrastructure. The business was treating compliance as a launch tax. The launches kept slipping.',
+      'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
     move:
-      'I delivered the AML and SAR reporting capabilities, the online-payments expansion support in China, and the crypto-transfer reporting infrastructure in the US. I also sat on the Go/No-Go forums for both launches and rewrote how compliance scope was estimated up-front, so future launches did not slip on the same surprises.',
+      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. The same layer runs automated regulatory assessment on every product change, surfacing the regulatory triggers a launch would create and routing them for resolution before they ever become an audit finding. It ran in shadow mode for six weeks before a single decision was acted on.',
     proves:
-      'Compliance reporting infrastructure is not a launch tax. It is the cleanest path into a new market, and now the cleanest foundation for AI-driven risk detection on top of it.',
+      'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
     metrics: [
-      { v: '~$4B', l: 'Revenue opportunity unlocked across two markets' },
-      { v: 'AML · SAR · Crypto', l: 'Capabilities shipped' },
-      { v: '2 launches', l: 'Off the slip list' },
+      { v: '80%+', l: 'Reduction in manual review volume' },
+      { v: '2 weeks → 2 hrs', l: 'Median case turnaround' },
+      { v: '5', l: 'Jurisdictions live' },
+      { v: '6 weeks', l: 'Shadow mode before go-live' },
     ],
   },
 ]
