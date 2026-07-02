@@ -911,7 +911,7 @@ function TheAngle() {
         </h2>
         <div className="mt-8 grid lg:grid-cols-12 gap-8 lg:gap-16">
           <p className="lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
-            For 17 years I&apos;ve sat in the go/no-go seat for the products PayPal shipped — Venmo, Xoom, Hyperwallet, and more — across 15+ regulated entities and jurisdictions, each with its own rules. Most PMs ship a handful of products in a career; I&apos;ve pressure-tested and post-mortemed more launches than most people ever see.
+            For the last five years I&apos;ve sat in the go/no-go seat for core product launches across PayPal and its brands — Venmo, Xoom, Hyperwallet — spanning 15+ regulated entities and jurisdictions, each with its own rules. Most PMs ship a handful of products in a career; I&apos;ve pressure-tested and post-mortemed more launches than most people ever see.
           </p>
           <p className="lg:col-span-5 text-base text-smoke leading-relaxed">
             Then I built what almost no one does: a single source of truth unifying product, customer, and transaction data for audit and compliance — and the launch standards the company now runs on.
