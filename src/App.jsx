@@ -37,8 +37,8 @@ const WORK = [
     proves:
       'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
     metrics: [
-      { v: '60%', l: 'Reduction in manual review volume' },
-      { v: '2 days → 8 hrs', l: 'Median case turnaround' },
+      { v: '80%+', l: 'Reduction in manual review volume' },
+      { v: '2 weeks → 2 hrs', l: 'Median case turnaround' },
       { v: '5', l: 'Jurisdictions live' },
       { v: '6 weeks', l: 'Shadow mode before go-live' },
     ],
