@@ -33,7 +33,7 @@ const WORK = [
     context:
       'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
     move:
-      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. It ran in shadow mode for six weeks before a single decision was acted on.',
+      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. The same layer runs automated regulatory assessment on every product change, surfacing the regulatory triggers a launch would create and routing them for resolution before they ever become an audit finding. It ran in shadow mode for six weeks before a single decision was acted on.',
     proves:
       'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
     metrics: [
