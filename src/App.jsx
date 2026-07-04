@@ -1167,36 +1167,6 @@ function SpaceBackdrop() {
   )
 }
 
-function CaseBanner() {
-  return (
-    <section id="casestudies" className="py-16 sm:py-24 border-t border-sand">
-      <Container>
-        <a
-          href="/case-studies.html"
-          onClick={() => track('open_case_studies', { from: 'banner' })}
-          className="group block rounded-2xl border border-accent bg-accent text-paper p-10 sm:p-14 transition-transform hover:-translate-y-1"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
-            <div>
-              <span className="text-[11px] uppercase tracking-wide-caps font-semibold text-paper/70">Case Studies</span>
-              <h2 className="display-serif text-3xl sm:text-4xl lg:text-5xl mt-4 leading-tight max-w-2xl">
-                Explore the interactive case studies.
-              </h2>
-              <p className="mt-4 text-lg text-paper/80 max-w-prose-tight leading-relaxed">
-                Two product deep-dives — a retention agent rebuilt from generative (2024) to agentic (2026), and an agentic RegTech strategy — each interactive, each with its own discussion.
-              </p>
-            </div>
-            <span className="inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap">
-              Open case studies
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </span>
-          </div>
-        </a>
-      </Container>
-    </section>
-  )
-}
-
 export default function App() {
   const [workI, setWorkI] = useState(0)
   return (
@@ -1213,7 +1183,6 @@ export default function App() {
           <Capabilities />
           <Judgment />
           <SelectedWork i={workI} setI={setWorkI} />
-          <CaseBanner />
           <Contact />
         </main>
         <Footer />
