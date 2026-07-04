@@ -14,23 +14,23 @@ export default {
         mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        // Deep-space mission-control palette (was warm-paper editorial)
+        // Deep-space mission-control palette — softened for reading comfort
         paper: {
-          DEFAULT: '#070B1A', // void / page background
-          dark: '#0E1430',    // raised panels
+          DEFAULT: '#0C1122', // void / page background (gently lifted from pure black-navy)
+          dark: '#151C31',    // raised panels
         },
         ink: {
-          DEFAULT: '#E9ECF7', // starlight (primary text)
-          soft: '#C5CADF',
+          DEFAULT: '#D4DAE8', // softer starlight — less halation than pure white
+          soft: '#AEB6CD',
         },
-        smoke: '#99A0C4', // muted text
-        dust: '#6E769F',  // captions / faint labels
-        sand: '#222C4F',  // hairline borders
+        smoke: '#8B92B1', // muted text
+        dust: '#6A7199',  // captions / faint labels
+        sand: '#28324E',  // hairline borders
         accent: {
-          DEFAULT: '#FF8A3D', // ignition (rocket exhaust amber-orange)
-          soft: '#FFB468',
+          DEFAULT: '#F79256', // ignition — slightly warmer/softer than neon orange
+          soft: '#FFB77E',
         },
-        plasma: '#5BD6E8', // telemetry cyan
+        plasma: '#63CEDD', // telemetry cyan (softened)
       },
       letterSpacing: {
         'editorial': '-0.018em',
