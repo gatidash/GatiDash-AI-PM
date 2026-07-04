@@ -9,17 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#070B1A;      /* page void */
-    --card:#0E1430;       /* raised panels */
-    --ink:#E9ECF7;        /* primary text */
-    --ink-soft:#C5CADF;   /* secondary text */
-    --deep:#0E1430;       /* raised panel navy */
-    --deep-2:#141C3D;     /* slightly lighter panel */
-    --flag:#FF8A3D;       /* ignition orange accent / flagged */
+    --paper:#0C1122;      /* page void (softened for reading comfort) */
+    --card:#151C31;       /* raised panels */
+    --ink:#D4DAE8;        /* primary text — softer than pure white */
+    --ink-soft:#AEB6CD;   /* secondary text */
+    --deep:#151C31;       /* raised panel navy */
+    --deep-2:#1B2540;     /* slightly lighter panel */
+    --flag:#F79256;       /* ignition orange accent / flagged */
     --clear:#46E0A0;      /* success green / cleared */
-    --line:rgba(233,236,247,.12);
-    --line-strong:rgba(233,236,247,.24);
-    --plasma:#5BD6E8;     /* cyan */
+    --line:rgba(212,218,232,.12);
+    --line-strong:rgba(212,218,232,.22);
+    --plasma:#63CEDD;     /* cyan */
     --maxw:1080px;
   }
   *{box-sizing:border-box}
@@ -34,7 +34,7 @@
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
-  ::selection{background:#FF8A3D;color:#1a0e00}
+  ::selection{background:#F79256;color:#1a0e00}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
   .mono{font-family:"Space Mono",monospace}
@@ -56,24 +56,24 @@
   /* ---------- HERO ---------- */
   header.hero{
     background:var(--deep);
-    color:#E9ECF7;
+    color:var(--ink);
     padding:64px 0 0;
     position:relative;overflow:hidden;
   }
   .hero .wrap{position:relative;z-index:2}
   .hero-meta{
     font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--plasma);display:flex;flex-wrap:wrap;gap:8px 26px;border-bottom:1px solid rgba(233,236,247,.12);
+    color:var(--plasma);display:flex;flex-wrap:wrap;gap:8px 26px;border-bottom:1px solid var(--line);
     padding-bottom:22px;margin-bottom:54px;
   }
   .hero-meta span{white-space:nowrap}
-  .hero-meta b{color:#FFB468;font-weight:500}
+  .hero-meta b{color:#FFB77E;font-weight:500}
   .hero h1{
-    font-size:clamp(40px,7.4vw,84px);color:#E9ECF7;max-width:14ch;margin-bottom:30px;
+    font-size:clamp(40px,7.4vw,84px);color:var(--ink);max-width:14ch;margin-bottom:30px;
   }
-  .hero h1 .hl{color:#FFB468;font-style:normal}
+  .hero h1 .hl{color:#FFB77E;font-style:normal}
   .hero-lede{
-    font-size:clamp(20px,2.5vw,25px);line-height:1.5;max-width:40ch;color:#C5CADF;
+    font-size:clamp(20px,2.5vw,25px);line-height:1.5;max-width:40ch;color:var(--ink-soft);
     border-left:2px solid var(--flag);padding-left:22px;margin-bottom:56px;
   }
   .hero-figure{position:relative;z-index:2;padding-bottom:54px}
@@ -103,12 +103,12 @@
 
   /* ---------- CALLOUT / BET ---------- */
   .bet{
-    background:var(--deep);color:#E9ECF7;border-radius:2px;padding:40px 42px;margin:8px 0;
+    background:var(--deep);color:var(--ink);border-radius:2px;padding:40px 42px;margin:8px 0;
     position:relative;
   }
-  .bet .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#FFB468;margin-bottom:16px}
-  .bet h3{color:#E9ECF7;font-size:25px;margin-bottom:14px}
-  .bet p{color:#C5CADF;margin-bottom:0}
+  .bet .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#FFB77E;margin-bottom:16px}
+  .bet h3{color:var(--ink);font-size:25px;margin-bottom:14px}
+  .bet p{color:var(--ink-soft);margin-bottom:0}
   .bet p+p{margin-top:.9em}
 
   /* ---------- PERSONA CARDS ---------- */
@@ -130,11 +130,11 @@
   .stage .num{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
   .stage h4{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
   .stage p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0;font-family:"Space Mono",monospace;letter-spacing:.01em}
-  .stage.gate{background:var(--deep);color:#E9ECF7}
-  .stage.gate .num{color:#FFB468}
-  .stage.gate h4{color:#E9ECF7}
-  .stage.gate p{color:#C5CADF}
-  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.16em;color:#FFB468;border:1px solid #FF8A3D;padding:2px 5px;border-radius:2px}
+  .stage.gate{background:var(--deep);color:var(--ink)}
+  .stage.gate .num{color:#FFB77E}
+  .stage.gate h4{color:var(--ink)}
+  .stage.gate p{color:var(--ink-soft)}
+  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.16em;color:#FFB77E;border:1px solid #F79256;padding:2px 5px;border-radius:2px}
   @media(max-width:880px){.pipe-row{grid-template-columns:1fr 1fr}.stage{border-bottom:1px solid var(--line)}}
   @media(max-width:480px){.pipe-row{grid-template-columns:1fr}}
   .pipe-flags{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px;font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
@@ -150,13 +150,13 @@
   .boundary{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-strong);border-radius:2px;overflow:hidden;margin-top:8px}
   .boundary>div{padding:30px 30px 34px}
   .boundary .agent{background:var(--card)}
-  .boundary .human{background:var(--deep);color:#E9ECF7}
+  .boundary .human{background:var(--deep);color:var(--ink)}
   .boundary .bhead{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
   .boundary .agent .bhead{color:var(--clear)}
-  .boundary .human .bhead{color:#FFB468}
+  .boundary .human .bhead{color:#FFB77E}
   .boundary ul{list-style:none;margin:0;padding:0}
   .boundary li{font-size:16px;line-height:1.4;padding:13px 0;border-top:1px solid var(--line)}
-  .boundary .human li{border-top:1px solid rgba(233,236,247,.13);color:#C5CADF}
+  .boundary .human li{border-top:1px solid var(--line);color:var(--ink-soft)}
   .boundary li:first-child{border-top:none}
   .boundary .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:11px;vertical-align:middle}
   @media(max-width:780px){.boundary{grid-template-columns:1fr}.boundary .human{border-top:1px solid var(--line-strong)}}
@@ -177,10 +177,10 @@
   .metric-grid h4{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16.5px;margin:0 0 8px}
   .metric-grid p{font-size:14.5px;line-height:1.45;color:var(--ink-soft);margin:0}
   @media(max-width:780px){.metric-grid{grid-template-columns:1fr}}
-  .northstar{background:var(--deep);color:#E9ECF7;border-radius:2px;padding:30px 34px;margin-top:22px}
-  .northstar .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#FFB468;margin-bottom:12px}
-  .northstar p{font-size:22px;line-height:1.4;margin:0;color:#E9ECF7}
-  .northstar p b{color:#FFB468;font-weight:400;font-style:italic}
+  .northstar{background:var(--deep);color:var(--ink);border-radius:2px;padding:30px 34px;margin-top:22px}
+  .northstar .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#FFB77E;margin-bottom:12px}
+  .northstar p{font-size:22px;line-height:1.4;margin:0;color:var(--ink)}
+  .northstar p b{color:#FFB77E;font-weight:400;font-style:italic}
 
   /* ---------- ROADMAP ---------- */
   .road{margin-top:8px}
@@ -207,10 +207,10 @@
   .reflect .q{font-family:"Space Grotesk",sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--deep);color:#C5CADF;padding:56px 0;border-top:none}
+  footer{background:var(--deep);color:var(--ink-soft);padding:56px 0;border-top:none}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:baseline}
   footer .mono{font-size:12.5px;letter-spacing:.04em}
-  footer b{color:#FFB468;font-weight:500}
+  footer b{color:#FFB77E;font-weight:500}
 
   /* reveal */
   .rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
@@ -219,18 +219,18 @@
 
   :focus-visible{outline:2px solid var(--flag);outline-offset:3px}
 
-  /* deep-space backdrop */
-  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.10),transparent 45%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.08),transparent 40%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.10),transparent 45%);}
-  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 7s ease-in-out infinite;}
-  @keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.45}}
+  /* deep-space backdrop (calmed for reading comfort) */
+  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.055),transparent 48%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.045),transparent 42%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.055),transparent 48%);}
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 16s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.48}50%{opacity:.36}}
 
-  /* back-to-portfolio link */
-  .topnav{position:sticky;top:0;z-index:50;background:rgba(7,11,26,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  /* nav header */
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(12,17,34,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav .wrap{height:56px;display:flex;align-items:center;justify-content:space-between}
-  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-2);border-radius:100px;padding:7px 14px;transition:all .2s}
+  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
   .backlink:hover{color:var(--flag);border-color:var(--flag)}
-  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:#E9ECF7;letter-spacing:-.01em}
-  .brand:hover{color:#FFB468}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .brand:hover{color:#FFB77E}
   .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
 </style>
 </head>
@@ -266,38 +266,38 @@
       <svg viewBox="0 0 1000 300" role="img" aria-label="A regulatory change flows into the Meridian agent, which fans out to the specific internal controls it affects, then passes through a human sign-off gate to an immutable log.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#5BD6E8"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#63CEDD"/>
           </marker>
           <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#FF8A3D"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#F79256"/>
           </marker>
         </defs>
         <!-- source -->
-        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#5BD6E8" stroke-width="1.4"/>
-        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#E9ECF7">AUSTRAC update</text>
-        <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#99A0C4">+ 749 other sources</text>
+        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.4"/>
+        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#D4DAE8">AUSTRAC update</text>
+        <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#8B92B1">+ 749 other sources</text>
         <!-- agent core -->
-        <rect x="300" y="105" width="190" height="90" rx="3" fill="#0E1430" stroke="#5BD6E8" stroke-width="1.6"/>
-        <text x="395" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="20" fill="#E9ECF7">MERIDIAN</text>
-        <text x="395" y="162" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#99A0C4">watch · interpret · map · draft</text>
-        <line x1="178" y1="150" x2="296" y2="150" stroke="#5BD6E8" stroke-width="1.4" marker-end="url(#arr)"/>
+        <rect x="300" y="105" width="190" height="90" rx="3" fill="#151C31" stroke="#63CEDD" stroke-width="1.6"/>
+        <text x="395" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="20" fill="#D4DAE8">MERIDIAN</text>
+        <text x="395" y="162" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#8B92B1">watch · interpret · map · draft</text>
+        <line x1="178" y1="150" x2="296" y2="150" stroke="#63CEDD" stroke-width="1.4" marker-end="url(#arr)"/>
         <!-- control fan -->
-        <g font-family="Space Mono, monospace" font-size="11" fill="#E9ECF7">
-          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#5BD6E8" stroke-width="1.1"/>
-          <text x="624" y="58" fill="#E9ECF7">CTRL-0142 · KYC refresh</text>
-          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#5BD6E8" stroke-width="1.1"/>
-          <text x="624" y="116" fill="#E9ECF7">CTRL-0307 · Consent log</text>
-          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#FF8A3D" stroke-width="1.4"/>
-          <text x="624" y="174" fill="#FFB468">CTRL-0511 · Data retention</text>
-          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#5BD6E8" stroke-width="1.1"/>
-          <text x="624" y="232" fill="#E9ECF7">CTRL-0688 · Reporting SLA</text>
+        <g font-family="Space Mono, monospace" font-size="11" fill="#D4DAE8">
+          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
+          <text x="624" y="58" fill="#D4DAE8">CTRL-0142 · KYC refresh</text>
+          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
+          <text x="624" y="116" fill="#D4DAE8">CTRL-0307 · Consent log</text>
+          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#F79256" stroke-width="1.4"/>
+          <text x="624" y="174" fill="#FFB77E">CTRL-0511 · Data retention</text>
+          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
+          <text x="624" y="232" fill="#D4DAE8">CTRL-0688 · Reporting SLA</text>
         </g>
-        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#5BD6E8" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#5BD6E8" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#FF8A3D" stroke-width="1.6" marker-end="url(#arrG)"/>
-        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#5BD6E8" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#F79256" stroke-width="1.6" marker-end="url(#arrG)"/>
+        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
         <!-- human gate label -->
-        <text x="700" y="284" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#FF8A3D">↑ flagged for human sign-off → immutable log</text>
+        <text x="700" y="284" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#F79256">↑ flagged for human sign-off → immutable log</text>
       </svg>
     </div>
   </div>
@@ -332,16 +332,16 @@
       <div class="colhead"><h2>A volume problem that humans structurally cannot win.</h2></div>
       <div>
         <p>Global regulators now publish on the order of <strong>200+ changes a day</strong> — roughly 56,000 a year across more than a thousand bodies. A regulated firm doesn't care about most of them, but it cannot know which ones matter without reading all of them. Industry surveys put a quarter of financial firms at a full working day every week spent just tracking change, before a single control is updated.</p>
-        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025, and the average cost of a single non-compliance event in 2026 is estimated in the eight figures. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
+        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025, and the average cost of a single non-compliance event is estimated in the eight figures. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
       </div>
     </div>
     <div class="stats" style="margin-top:46px">
       <div class="stat"><div class="n">200<small>+/day</small></div><div class="l">Regulatory changes published globally</div></div>
       <div class="stat"><div class="n">56k<small>/yr</small></div><div class="l">Alerts across 1,000+ regulators</div></div>
       <div class="stat"><div class="n">1<small> day/wk</small></div><div class="l">Spent tracking change at ~25% of firms</div></div>
-      <div class="stat"><div class="n">$14.8M</div><div class="l">Est. avg. cost of one non-compliance event, 2026</div></div>
+      <div class="stat"><div class="n">$14.8M</div><div class="l">Est. avg. cost of one non-compliance event (industry study)</div></div>
     </div>
-    <p class="src">Figures paraphrased from Thomson Reuters Regulatory Intelligence, MetricStream, and Maximize Market Research / FinTech Global (2025–26). Used directionally; a real case study would re-validate against primary sources.</p>
+    <p class="src">Figures paraphrased from Thomson Reuters Regulatory Intelligence, MetricStream, Ponemon/GlobalScape “True Cost of Compliance,” and Maximize Market Research / FinTech Global (2025–26). Used directionally; a real case study would re-validate against primary sources.</p>
   </div>
 </section>
 
@@ -379,8 +379,16 @@
       <div class="colhead"><h2>Three curves crossed at once.</h2></div>
       <div>
         <p><strong>Capability.</strong> Models can now read unstructured regulatory prose and align it to a structured control taxonomy — the exact translation step that defeated rules engines and kept this manual. Agentic orchestration lets that run continuously across systems instead of as a one-off query.</p>
-        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with financial-crime and AML supervision, the remit of regulators like AUSTRAC, MAS, and the EU’s CSSF, among the densest and fastest-moving.</p>
-        <p><strong>The counter-intuitive one.</strong> Regulators are now scrutinizing the AI itself — the EU AI Act treats compliance AI as high-risk, and buyers increasingly demand model cards and verifiable audit trails over black-box output. That <em>favors</em> a well-governed, fully-logged agent and punishes a slick autonomous one. The regulatory tide that threatens careless AI is a tailwind for a product built around traceability from day one.</p>
+        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with financial-crime and AML supervision, the remit of national regulators like Australia's AUSTRAC, Singapore's MAS, and Luxembourg's CSSF — and now the EU's own AML Authority, AMLA — among the densest and fastest-moving.</p>
+        <p><strong>The counter-intuitive one.</strong> Regulators are now scrutinizing the AI itself — and being precise about <em>how</em> is part of the credibility. The EU AI Act's high-risk list centers on things like credit scoring; the European Commission's 2026 guidance puts AML and compliance tooling largely <em>outside</em> that formal gate. The real pressure is broader and softer: supervisors — CSSF's AI thematic reviews, MAS's model-governance expectations — and buyers themselves now demand explainability, human oversight, and verifiable audit trails regardless of classification. That <em>favors</em> a well-governed, fully-logged agent and punishes a slick autonomous one. Traceability from day one is the advantage whether or not a high-risk obligation ever attaches — the regulatory tide is a tailwind for a product built around it.</p>
+        <div class="bet" style="margin-top:30px">
+          <div class="tag">Why now — the live firehose in the beachhead</div>
+          <h3>Three regulators, three instrument types, all changing at once.</h3>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">AUSTRAC:</b> Tranche 2 reforms commenced 1 July 2026, pulling ~80,000 newly regulated firms into the AML/CTF regime on top of a 120-page new rulebook and a redesigned program model.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">CSSF:</b> supervised firms are mid-transition to the EU's single AML rulebook — AMLA now stood up in Frankfurt, the AMLR applying from 2027 — layered over existing Luxembourg law and circulars.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">MAS:</b> Notice 626 re-amended effective 1 July 2025, with the COSMIC information-sharing platform live since 2024.</p>
+          <p style="color:var(--ink-soft)">No human team keeps a control library current against that by hand — which is precisely the mapping problem.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -394,12 +402,12 @@
       <div class="colhead"><h2>Win a narrow beachhead the incumbents ignore.</h2></div>
       <div>
         <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2, not the live firehose of jurisdictional change. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
-        <p><strong>Beachhead: financial-crime &amp; AML change across three tier-1 regulators — AUSTRAC (AU), MAS (SG), and the CSSF (LU/EU).</strong> Narrow by problem, not just geography: the AML and cross-border obligations every global fintech and bank answers to, where a missed change is a personal-liability event and even Western-built tools still bolt the mapping on by hand. It's also where I have direct operating context in global payments. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
+        <p><strong>Beachhead: financial-crime &amp; AML change across three tier-1 regulators — AUSTRAC (AU), MAS (SG), and the CSSF (LU).</strong> Narrow by problem, not just geography: the AML and cross-border obligations every global fintech and bank answers to, where a missed change is a personal-liability event and even Western-built tools still bolt the mapping on by hand. The three deliberately span different instrument types — AUSTRAC's consolidated Rules, MAS's binding Notices, and the CSSF's circulars plus the EU's incoming single rulebook — so an engine that survives all three generalizes: jurisdiction four is content, not engineering. It's also where I have direct operating context in global payments. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
         <div class="bet" style="margin-top:30px">
           <div class="tag">Scope discipline — v1</div>
           <h3>What ships, and what deliberately doesn't.</h3>
-          <p style="color:#C5CADF"><b style="color:#E9ECF7;font-weight:500">In:</b> continuous monitoring of a defined source set · obligation extraction · mapping to the customer's existing control library · drafted impact summaries, control redlines, and remediation tickets · full audit log.</p>
-          <p style="color:#FFB468"><b style="color:#FFB468;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">In:</b> continuous monitoring of a defined source set · obligation extraction · mapping to the customer's existing control library · drafted impact summaries, control redlines, and remediation tickets · full audit log.</p>
+          <p style="color:#FFB77E"><b style="color:#FFB77E;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
         </div>
       </div>
     </div>
@@ -476,7 +484,7 @@
       <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate is the headline number, not a footnote; periodic human spot-audits of "no impact" verdicts.</p></div>
       <div class="rowx"><div class="rl">Stale control library<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's control inventory, which drifts. <b>Answer:</b> treat library hygiene as part of the product, not the customer's problem; flag controls with no recent activity; reconcile against drafted changes.</p></div>
       <div class="rowx"><div class="rl">Automation complacency<span class="sev">Severity: high · cultural</span></div><p>Reviewers rubber-stamp because the agent is "usually right." <b>Answer:</b> design review for friction where it matters — surface disagreement and low confidence prominently; sample-inject known cases to keep reviewers honest.</p></div>
-      <div class="rowx"><div class="rl">We are regulated AI<span class="sev">Severity: existential</span></div><p>Our own system is high-risk AI under emerging law. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and sold as a differentiator.</p></div>
+      <div class="rowx"><div class="rl">We are governed AI<span class="sev">Severity: high</span></div><p>AML tooling sits largely outside the AI Act's high-risk list, but our customers' supervisors still expect model governance, explainability, and human oversight on anything touching a regulated decision. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and sold as a differentiator.</p></div>
     </div>
   </div>
 </section>
@@ -539,9 +547,9 @@
     <h2>A phased path that de-risks trust before it scales reach.</h2>
     <div class="road">
       <div class="phase"><div class="pn">Phase 0<small>~Quarter 1–2</small></div><div><h3>Prove the mapping bar</h3><p>Before building UI: assemble a human-labeled eval set of changes→controls and test whether mapping precision/recall can clear a usable threshold. If it can't, nothing else matters. Riskiest assumption, validated first.</p></div></div>
-      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>The six-stage loop for AUSTRAC, MAS, and CSSF, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
+      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>Lead with AUSTRAC — a self-contained rulebook and a live Tranche 2 change to ride as the first reference story — then fast-follow MAS and CSSF within the phase. The full six-stage loop, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
       <div class="phase"><div class="pn">Phase 2<small>~Year 2</small></div><div><h3>Evidence &amp; attestation</h3><p>Extend the proven trust boundary into evidence collection and policy-attestation cycles — the natural adjacency once sign-off is trusted.</p></div></div>
-      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set into the US, the UK, and the rest of APAC and the EU, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
+      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set into India (RBI, SEBI, DPDP data-residency), the US, the UK, and the rest of APAC and the EU, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
     </div>
   </div>
 </section>
@@ -571,7 +579,7 @@
 
 <footer>
   <div class="wrap">
-    <span class="mono"><a href="/case-studies.html" style="color:#FFB468;text-decoration:none">← Back to all case studies</a></span>
+    <span class="mono"><a href="/case-studies.html" style="color:#FFB77E;text-decoration:none">← Back to all case studies</a></span>
     <span class="mono">Product strategy case study · conceptual · <b>codename, not a shipped product</b></span>
   </div>
 </footer>
