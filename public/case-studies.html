@@ -31,6 +31,9 @@
   .backlink{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--sand);border-radius:22px;padding:7px 15px;transition:all .2s}
   .backlink:hover{border-color:var(--accent);color:var(--accent)}
   .topnav .name{font-family:'Space Grotesk',sans-serif;font-size:16px;color:var(--ink)}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:#E9ECF7;letter-spacing:-.01em}
+  .brand:hover{color:#FFB468}
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
 
   header.hero{padding:0 0 40px}
 
@@ -89,8 +92,11 @@
 
 <nav class="topnav">
   <div class="wrap">
-    <a class="backlink" href="/">← Back to portfolio</a>
-    <span class="name">Gatikrishna Dash</span>
+    <a class="brand" href="/">
+      <span class="brand-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/><path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="1.8" fill="#FF5E3A"/></svg></span>
+      Gatikrishna Dash
+    </a>
+    <a class="backlink" href="/">← Portfolio</a>
   </div>
 </nav>
 

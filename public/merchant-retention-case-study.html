@@ -72,6 +72,9 @@
   .nav-tag{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
     border:1px solid var(--line-2);border-radius:100px;padding:5px 11px}
   .nav-tag b{color:var(--agent);font-weight:700}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:#E9ECF7;letter-spacing:-.01em}
+  .brand:hover{color:#FFB468}
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
 
   /* ---- hero ---- */
   header.hero{padding:82px 0 40px;position:relative}
@@ -301,8 +304,11 @@
 
 <nav>
   <div class="nav-in">
+    <a class="brand" href="/">
+      <span class="brand-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/><path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="1.8" fill="#FF5E3A"/></svg></span>
+      Gatikrishna Dash
+    </a>
     <a class="nav-back" href="/case-studies.html">← Case studies</a>
-    <span class="nav-tag">Case 01 · 2024 → 2026 · <b>Agentic rebuild</b></span>
   </div>
 </nav>
 

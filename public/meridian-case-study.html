@@ -225,15 +225,27 @@
   @keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.45}}
 
   /* back-to-portfolio link */
-  .backbar{position:fixed;top:18px;left:18px;z-index:50}
-  .backbar a{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#E9ECF7;background:rgba(7,11,26,.82);border:1px solid rgba(233,236,247,.2);border-radius:3px;padding:8px 14px;text-decoration:none;backdrop-filter:blur(6px)}
-  .backbar a:hover{background:#141C3D}
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(7,11,26,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav .wrap{height:56px;display:flex;align-items:center;justify-content:space-between}
+  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-2);border-radius:100px;padding:7px 14px;transition:all .2s}
+  .backlink:hover{color:var(--flag);border-color:var(--flag)}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:#E9ECF7;letter-spacing:-.01em}
+  .brand:hover{color:#FFB468}
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
 </style>
 </head>
 <body>
 <div class="space-bg" aria-hidden="true"></div><div class="stars" aria-hidden="true"></div>
 
-<div class="backbar"><a href="/case-studies.html">← Case studies</a></div>
+<nav class="topnav">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/><path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="1.8" fill="#FF5E3A"/></svg></span>
+      Gatikrishna Dash
+    </a>
+    <a class="backlink" href="/case-studies.html">← Case studies</a>
+  </div>
+</nav>
 
 <!-- ===================== HERO ===================== -->
 <header class="hero">
