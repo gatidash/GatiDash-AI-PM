@@ -262,7 +262,7 @@
         </defs>
         <!-- source -->
         <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#5BD6E8" stroke-width="1.4"/>
-        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#E9ECF7">RBI circular</text>
+        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#E9ECF7">AUSTRAC update</text>
         <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#99A0C4">+ 749 other sources</text>
         <!-- agent core -->
         <rect x="300" y="105" width="190" height="90" rx="3" fill="#0E1430" stroke="#5BD6E8" stroke-width="1.6"/>
@@ -300,7 +300,7 @@
         <h2>Most "AI&nbsp;for compliance" is a search box. This isn't.</h2>
       </div>
       <div>
-        <p>The reflexive build for this space is retrieval over a regulatory corpus with a chat window on top — "ask questions about DPDP." It demos well and solves almost nothing, because the bottleneck inside a compliance team was never <em>understanding</em> a rule. It's the orchestration after: finding every internal control, policy, and data flow the rule touches; deciding what has to change; and producing an audit trail that survives a regulator's scrutiny.</p>
+        <p>The reflexive build for this space is retrieval over a regulatory corpus with a chat window on top — "ask questions about the AML/CTF rules." It demos well and solves almost nothing, because the bottleneck inside a compliance team was never <em>understanding</em> a rule. It's the orchestration after: finding every internal control, policy, and data flow the rule touches; deciding what has to change; and producing an audit trail that survives a regulator's scrutiny.</p>
         <p>That work has the four properties that actually justify an agent rather than a workflow: <strong>multi-step planning</strong> across a living queue of changes, <strong>tool use</strong> across fragmented systems of record, <strong>state</strong> held across a review that spans days, and <strong>bounded autonomy</strong> with explicit human checkpoints. Drop any one and an agent is over-engineering. Meridian is scoped to the problem where all four hold.</p>
       </div>
     </div>
@@ -367,7 +367,7 @@
       <div class="colhead"><h2>Three curves crossed at once.</h2></div>
       <div>
         <p><strong>Capability.</strong> Models can now read unstructured regulatory prose and align it to a structured control taxonomy — the exact translation step that defeated rules engines and kept this manual. Agentic orchestration lets that run continuously across systems instead of as a one-off query.</p>
-        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with APAC, and India specifically, the fastest-growing region.</p>
+        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with financial-crime and AML supervision, the remit of regulators like AUSTRAC, MAS, and the EU’s CSSF, among the densest and fastest-moving.</p>
         <p><strong>The counter-intuitive one.</strong> Regulators are now scrutinizing the AI itself — the EU AI Act treats compliance AI as high-risk, and buyers increasingly demand model cards and verifiable audit trails over black-box output. That <em>favors</em> a well-governed, fully-logged agent and punishes a slick autonomous one. The regulatory tide that threatens careless AI is a tailwind for a product built around traceability from day one.</p>
       </div>
     </div>
@@ -382,7 +382,7 @@
       <div class="colhead"><h2>Win a narrow beachhead the incumbents ignore.</h2></div>
       <div>
         <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2, not the live firehose of jurisdictional change. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
-        <p><strong>Beachhead: India BFSI &amp; fintech, RBI + DPDP first.</strong> It's the fastest-growing RegTech region, English-language, acutely painful under DPDP Rules 2025 and a fast-moving RBI, and structurally underserved by Western-built tools. It's also where I have real operating context. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
+        <p><strong>Beachhead: financial-crime &amp; AML change across three tier-1 regulators — AUSTRAC (AU), MAS (SG), and the CSSF (LU/EU).</strong> Narrow by problem, not just geography: the AML and cross-border obligations every global fintech and bank answers to, where a missed change is a personal-liability event and even Western-built tools still bolt the mapping on by hand. It's also where I have direct operating context in global payments. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
         <div class="bet" style="margin-top:30px">
           <div class="tag">Scope discipline — v1</div>
           <h3>What ships, and what deliberately doesn't.</h3>
@@ -501,8 +501,8 @@
       <div class="card">
         <h3>Motion</h3>
         <ul>
-          <li><b>Design partners first.</b> 3–5 India BFSI/fintech compliance teams; co-build the control-library onboarding, which is the real adoption bottleneck.</li>
-          <li><b>Land</b> on continuous change-to-control mapping for RBI + DPDP — the sharpest pain, narrowest scope.</li>
+          <li><b>Design partners first.</b> 3–5 compliance teams at global fintechs and banks that answer to AUSTRAC, MAS, or the CSSF; co-build the control-library onboarding, which is the real adoption bottleneck.</li>
+          <li><b>Land</b> on continuous change-to-control mapping for AUSTRAC, MAS, and CSSF AML obligations — the sharpest pain, narrowest scope.</li>
           <li><b>Expand</b> into evidence collection and attestation tracking once sign-off trust is established.</li>
           <li><b>Earn the buyer</b> with the audit trail and model cards — sell defensibility, not autonomy.</li>
         </ul>
@@ -527,9 +527,9 @@
     <h2>A phased path that de-risks trust before it scales reach.</h2>
     <div class="road">
       <div class="phase"><div class="pn">Phase 0<small>~Quarter 1–2</small></div><div><h3>Prove the mapping bar</h3><p>Before building UI: assemble a human-labeled eval set of changes→controls and test whether mapping precision/recall can clear a usable threshold. If it can't, nothing else matters. Riskiest assumption, validated first.</p></div></div>
-      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>The six-stage loop for RBI + DPDP, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
+      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>The six-stage loop for AUSTRAC, MAS, and CSSF, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
       <div class="phase"><div class="pn">Phase 2<small>~Year 2</small></div><div><h3>Evidence &amp; attestation</h3><p>Extend the proven trust boundary into evidence collection and policy-attestation cycles — the natural adjacency once sign-off is trusted.</p></div></div>
-      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set across APAC and into EU/US, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
+      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set into the US, the UK, and the rest of APAC and the EU, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
     </div>
   </div>
 </section>
