@@ -91,6 +91,31 @@
 
   .kicker{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
 
+  /* ---------- CASE-STUDY SHELL (summary rail) ---------- */
+  .cs-shell{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;align-items:start}
+  .cs-rail{position:sticky;top:72px;padding:48px 0 24px}
+  .rail-card{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:20px}
+  .rail-eye{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--flag);margin-bottom:16px}
+  .rail-row{display:flex;flex-direction:column;gap:2px;padding:9px 0;border-top:1px solid var(--line)}
+  .rail-row:first-of-type{border-top:none;padding-top:0}
+  .rail-k{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .rail-v{font-size:14px;color:var(--ink);line-height:1.35}
+  .rail-block{padding:13px 0 0;margin-top:13px;border-top:1px solid var(--line)}
+  .rail-block .rail-k{margin-bottom:6px;display:block}
+  .rail-block p{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin:0}
+  .cs-main .wrap{max-width:none;margin:0;padding:0}
+  .cs-main .hero{background:transparent;padding:56px 0 0;overflow:visible}
+  .cs-main .hero h1{font-size:clamp(32px,4.4vw,54px);max-width:17ch;margin-bottom:28px}
+  .cs-main .hero-lede{font-size:clamp(17px,2vw,21px);margin-bottom:52px}
+  .cs-main section{padding:78px 0}
+  /* Constructor rhythm: eyebrow → big full-width headline → a comfortable text column */
+  .cs-main .lead-grid{display:block}
+  .cs-main .lead-grid .colhead{position:static;top:auto;margin-bottom:36px}
+  .cs-main .lead-grid > div:last-child{max-width:66ch}
+  .cs-main h2{font-size:clamp(31px,4.3vw,52px);line-height:1.02;margin-bottom:.6em;max-width:20ch}
+  .cs-main .eyebrow{margin-bottom:24px}
+  @media(max-width:900px){.cs-shell{grid-template-columns:1fr;gap:0}.cs-rail{position:static;padding:28px 0 8px}.cs-main section{padding:56px 0}}
+
   /* ---------- STAT STRIP ---------- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:8px 0 0}
   .stat{background:var(--paper);padding:26px 22px}
@@ -246,6 +271,21 @@
     <a class="backlink" href="/case-studies.html">← Case studies</a>
   </div>
 </nav>
+
+<div class="cs-shell">
+  <aside class="cs-rail">
+    <div class="rail-card">
+      <div class="rail-eye">Case study</div>
+      <div class="rail-row"><span class="rail-k">Role</span><span class="rail-v">Product strategy (concept)</span></div>
+      <div class="rail-row"><span class="rail-k">Type</span><span class="rail-v">Conceptual case study</span></div>
+      <div class="rail-row"><span class="rail-k">Focus</span><span class="rail-v">Agentic RegTech · AML change intelligence</span></div>
+      <div class="rail-row"><span class="rail-k">Regulators</span><span class="rail-v">AUSTRAC · MAS · CSSF</span></div>
+      <div class="rail-block"><span class="rail-k">Problem</span><p>200+ regulatory changes a day; mapping each to the controls it breaks is manual and error-prone.</p></div>
+      <div class="rail-block"><span class="rail-k">The bet</span><p>Restraint, not autonomy — do the 80%, then stop at every act of judgment.</p></div>
+      <div class="rail-block"><span class="rail-k">Outcome</span><p>An audit-ready package a Chief Compliance Officer will put their name on.</p></div>
+    </div>
+  </aside>
+  <div class="cs-main">
 
 <!-- ===================== HERO ===================== -->
 <header class="hero">
@@ -576,6 +616,9 @@
     <div class="giscus" style="margin-top:30px"></div>
   </div>
 </section>
+
+  </div>
+</div>
 
 <footer>
   <div class="wrap">

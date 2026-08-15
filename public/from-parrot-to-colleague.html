@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Parrot to Colleague — A True Story of Every AI Buzzword · Gatikrishna Dash</title>
+<meta name="description" content="A true story of every AI buzzword — and how each public, expensive, occasionally absurd failure became the blueprint for the next win, until trust stopped being a feeling and became an engineering discipline.">
+<meta property="og:title" content="From Parrot to Colleague — A True Story of Every AI Buzzword">
+<meta property="og:description" content="Every AI failure since 2022 has been public, expensive, occasionally absurd — and every one became the curriculum for the next win.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0C1122;
+    --card:#151C31;
+    --ink:#D4DAE8;
+    --ink-soft:#AEB6CD;
+    --deep:#151C31;
+    --flag:#F79256;
+    --flag-soft:#FFB77E;
+    --plasma:#63CEDD;
+    --line:rgba(212,218,232,.12);
+    --line-strong:rgba(212,218,232,.22);
+    --maxw:720px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",Georgia,serif;font-size:19px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  ::selection{background:#F79256;color:#1a0e00}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+  .wide{max-width:900px}
+  .mono{font-family:"Space Mono",monospace}
+  a{color:var(--plasma)}
+
+  /* ---------- NAV ---------- */
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(12,17,34,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav .wrap{max-width:900px;height:56px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .brand:hover{color:var(--flag-soft)}
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
+  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
+  .backlink:hover{color:var(--flag);border-color:var(--flag)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:72px 0 34px}
+  .eyebrow{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--flag);display:flex;align-items:center;gap:12px;margin:0 0 26px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
+  h1{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.025em;line-height:1.03;font-size:clamp(38px,6.2vw,66px);margin:0 0 24px}
+  .deck{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:var(--ink-soft);max-width:34ch;margin:0 0 34px}
+  .byline{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.05em;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
+  .byline b{color:var(--flag-soft);font-weight:500}
+
+  /* ---------- ARTICLE ---------- */
+  article{padding:14px 0 8px}
+  article p{margin:0 0 1.5em}
+  article > .wrap > p:first-of-type::first-letter{
+    font-family:"Space Grotesk",sans-serif;font-weight:800;float:left;
+    font-size:66px;line-height:.82;padding:6px 14px 0 0;color:var(--flag-soft);
+  }
+  .term{color:var(--flag-soft);font-weight:500;font-style:normal}
+  em{font-style:italic;color:var(--ink)}
+  strong{font-weight:600;color:var(--ink)}
+  .pull{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:-.015em;
+    font-size:clamp(23px,3.4vw,30px);line-height:1.28;color:var(--ink);
+    border-left:2px solid var(--flag);padding:6px 0 6px 26px;margin:44px 0;max-width:24ch;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .tl-sec{padding:60px 0 20px;border-top:1px solid var(--line);margin-top:56px}
+  .tl-head .eyebrow{margin-bottom:20px}
+  .tl-head h2{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(30px,4.4vw,44px);line-height:1.05;margin:0 0 14px}
+  .tl-head p{color:var(--ink-soft);max-width:52ch;margin:0 0 8px}
+  .tl{margin:44px 0 0;position:relative}
+  .tl::before{content:"";position:absolute;left:118px;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .tl-item{display:grid;grid-template-columns:104px 1fr;gap:0 34px;padding:0 0 30px;position:relative}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-year{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--flag);letter-spacing:.02em;text-align:right;padding-top:1px}
+  .tl-body{position:relative;padding-left:26px}
+  .tl-body::before{content:"";position:absolute;left:-8px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--flag);box-shadow:0 0 0 4px var(--paper)}
+  .tl-terms{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;line-height:1.3}
+  .tl-desc{font-size:15.5px;line-height:1.55;color:var(--ink-soft);margin:0}
+  @media(max-width:620px){
+    .tl::before{left:0}
+    .tl-item{grid-template-columns:1fr;gap:4px}
+    .tl-year{text-align:left;padding-left:26px}
+    .tl-body{padding-left:26px}
+    .tl-body::before{top:2px}
+  }
+
+  /* ---------- DISCUSSION + FOOTER ---------- */
+  .disc{padding:56px 0 10px;border-top:1px solid var(--line);margin-top:56px}
+  .disc h2{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(26px,3.6vw,36px);margin:0 0 .35em}
+  .disc p{color:var(--ink-soft);max-width:52ch;margin:0}
+  .giscus{margin-top:28px}
+  footer{background:var(--deep);color:var(--ink-soft);padding:52px 0;margin-top:64px}
+  footer .wrap{max-width:900px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:baseline}
+  footer .mono{font-size:12.5px;letter-spacing:.04em}
+  footer a{color:var(--flag-soft);text-decoration:none}
+  footer b{color:var(--flag-soft);font-weight:500}
+
+  :focus-visible{outline:2px solid var(--flag);outline-offset:3px}
+
+  /* deep-space backdrop */
+  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.055),transparent 48%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.045),transparent 42%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.055),transparent 48%);}
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 16s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.48}50%{opacity:.36}}
+
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="space-bg" aria-hidden="true"></div><div class="stars" aria-hidden="true"></div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/><path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="1.8" fill="#FF5E3A"/></svg></span>
+      Gatikrishna Dash
+    </a>
+    <a class="backlink" href="/case-studies.html">← Case studies</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap wide">
+    <p class="eyebrow">Field note · Essay</p>
+    <h1>From Parrot to Colleague</h1>
+    <p class="deck">A true story of every AI buzzword — and how each failure built the trust we run on today.</p>
+    <div class="byline">
+      <span>By <b>Gatikrishna Dash</b></span>
+      <span>~11 min read</span>
+      <span>2022 → 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== ARTICLE ===================== -->
+<article>
+  <div class="wrap">
+    <p>In the middle of November 2022, Meta released a language model called Galactica, trained on millions of scientific papers, and pulled it offline within three days after it confidently fabricated research that never existed. Two weeks later, OpenAI released ChatGPT — a system with exactly the same flaw — and it became the fastest-adopted consumer application in history, a hundred million users in two months. The difference wasn't the technology. The world simply got long enough to fall in love before it discovered the defect. And that, it turns out, is the real story of modern AI: every failure since has been public, expensive, occasionally absurd — and every single one became the blueprint for the next win.</p>
+
+    <p>Underneath the chat box sat a <span class="term">large language model</span> — an LLM — a neural network built on the <span class="term">transformer</span> architecture Google researchers published in 2017, with billions of parameters tuned not by hand-written rules but by finding patterns across oceans of training data. That approach, <span class="term">deep learning</span>, is a branch of machine learning, and because one such model could bend to almost any task, researchers called it a <span class="term">foundation model</span>; its defining talent, producing new text rather than sorting old text, gave the era its umbrella term, <span class="term">generative AI</span>. The machine didn't read words at all — it read <span class="term">tokens</span>, small chunks of words, predicting the next one over and over in a process called <span class="term">inference</span>, while holding only so much in mind at once: its <span class="term">context window</span>. The field had been humbled before, twice collapsing into the funding droughts remembered as <span class="term">AI winters</span> when promises outran results. This time the promises would be tested in public, at scale, in court.</p>
+
+    <p>The failures came fast, and each one taught a different lesson. In February 2023, Google demoed its rival Bard with an ad in which the model got a fact about the James Webb telescope wrong; Alphabet's market value dropped by roughly a hundred billion dollars in a day, and every executive on earth learned that an ungrounded model is a balance-sheet risk. The same month, Microsoft's Bing chatbot — the persona the internet came to know as Sydney — spiralled into unsettling late-night conversations with a journalist, and Microsoft responded with something quietly historic: it capped conversation lengths and constrained the persona. The first real <span class="term">guardrails</span> had shipped, born directly from a public meltdown. That June, a New York lawyer was fined for filing a brief stuffed with court cases ChatGPT had invented, and in February 2024 a Canadian tribunal ordered Air Canada to compensate a grieving passenger after its chatbot described a bereavement refund policy that didn't exist — rejecting the airline's argument that the bot was a separate entity responsible for its own words. The industry's defining defect now had a name, <span class="term">hallucination</span> — fluent, plausible, wrong — and, crucially, it now had legal consequences. Accountability had entered the chat.</p>
+
+    <p class="pull">Every one of those embarrassments funded an innovation.</p>
+
+    <p><span class="term">Prompt engineering</span> — wording instructions the way you'd brief a brilliant intern who takes everything literally — became a profession almost overnight. <span class="term">Fine-tuning</span> taught models a company's own voice. But the lasting cure attacked the root cause: if the model invents evidence, give it real evidence. <span class="term">Retrieval-augmented generation</span> — RAG, a technique Meta researchers had named back in 2020 — had systems fetch actual documents before answering, powered by <span class="term">embeddings</span>, strings of numbers that capture meaning, stored in <span class="term">vector databases</span> where "refund delay" can find "settlement timeline" though the phrases share no words. Even retrieval then failed instructively: in May 2024, Google's AI Overviews briefly advised the world to put glue on pizza, having retrieved a joke as a source — and the industry learned that grounding is only as good as what you ground in. Source quality, not just search, became the discipline.</p>
+
+    <p>The models grew new senses and new price points along the way. They became <span class="term">multimodal</span>, reading images, audio and video as easily as text. <span class="term">Small language models</span> took the routine traffic for a fraction of a cent, and OpenAI's o1, in late 2024, mainstreamed the <span class="term">reasoning model</span> — a system that deliberates step by step in a visible <span class="term">chain of thought</span>, buying accuracy with extra <span class="term">test-time compute</span>. When the Chinese lab DeepSeek shipped comparable reasoning at a fraction of the cost in January 2025, briefly wiping hundreds of billions off American chip stocks, even that shock became a gift: it proved capable AI would be cheap and plural, not scarce and singular.</p>
+
+    <p>Yet through all of it the machines could only talk, and talk was never the point. The customer with a stuck payment didn't want an explanation; she wanted it fixed. Closing that gap became the obsession of 2025 and 2026, under the banner of <span class="term">agentic AI</span>. An <span class="term">AI agent</span> doesn't stop at answering — it plans steps, checks systems, calls APIs through <span class="term">tool calling</span>, retries what fails, and returns with the problem solved rather than described. When Anthropic open-sourced the <span class="term">Model Context Protocol</span> — MCP — in November 2024 and OpenAI and Google adopted it within months, agents got their USB moment: one standard port into everything. Single agents became coordinated teams through <span class="term">orchestration</span> of <span class="term">multi-agent systems</span>, and by 2026 Gartner was predicting four in ten enterprise applications would embed agents by year's end, up from fewer than one in twenty a year before.</p>
+
+    <p>Then the agent era produced its own formative disasters, right on cue. In July 2025, an AI coding agent at Replit deleted a live production database during an explicit code freeze — then generated output misrepresenting what it had done. The incident went viral not because it was unusual but because everyone building agents recognised the nightmare: a system that can act can act wrongly, at machine speed. The market added insult with <span class="term">agent washing</span> — Gartner estimated that of thousands of vendors suddenly selling "agents," only around a hundred and thirty were building genuinely agentic systems. And the genuine ones failed in strange new ways: a hallucinated "fact" written into an agent's memory and later quoted as truth (<span class="term">context poisoning</span>), long histories smothering fresh reasoning (<span class="term">context distraction</span>), too many irrelevant tools degrading decisions (<span class="term">context confusion</span>), contradictory information colliding mid-task (<span class="term">context clash</span>).</p>
+
+    <p>The response to this wave of failures is precisely where today's confidence comes from. Curating the minimum high-signal information a model sees became its own discipline — <span class="term">context engineering</span>, the term Shopify's Tobi Lütke championed and Andrej Karpathy endorsed in mid-2025, quietly retiring prompt engineering. Lilian Weng, whose 2023 essay had defined the anatomy of an agent, returned in 2026 with the frame that named the decade's quiet heroics: <span class="term">harness engineering</span>, the scaffolding that makes autonomy safe — <span class="term">evals</span> that measure quality before anything ships, guardrails that keep a human in the loop exactly where judgment matters, <span class="term">observability</span> so every agent decision leaves an auditable trail. At the AI Engineer World's Fair in mid-2026 the corridor buzzword was simply "loops": humans stepping up to the <span class="term">outer loop</span>, setting goals and reviewing outcomes, while agents run the <span class="term">inner loop</span> of execution. Even the way software gets written absorbed the lesson — Karpathy's February 2025 coinage <span class="term">vibe coding</span>, describing what you want in plain language and steering an agent by review, became Collins Dictionary's word of the year precisely because review, not blind trust, was built into the workflow. And when the internet drowned in <span class="term">AI slop</span> — cheap, soulless machine-generated filler — the failure taught the era's commercial lesson: volume without judgment is a liability, and human taste became the differentiator.</p>
+
+    <p class="pull">Trust stopped being a feeling and became an engineering discipline.</p>
+
+    <p>The physical world ran the same failure-to-feature loop. A year after McDonald's ended its AI drive-thru experiment in 2024 amid viral videos of orders gone absurdly wrong, the lesson — deploy narrow, test hard, respect messy reality — was visible everywhere at Hannover Messe 2026, where <span class="term">physical AI</span>, agentic reasoning embodied in robots and machine controllers, rivalled agentic AI as the fair's defining term, and analysts counted most industrial agent solutions on show as commercially available rather than pilots. The deeper shift: failure itself got industrialised. Robots now fail millions of times safely inside <span class="term">world models</span> — simulations that understand physics and consequence, the bet behind Fei-Fei Li's World Labs and Yann LeCun's long insistence that language alone won't get us there — trained on <span class="term">synthetic data</span> and checked against <span class="term">digital twins</span> of real facilities, so that <span class="term">embodied AI</span> arrives in the real world having already made its mistakes somewhere cheap.</p>
+
+    <p>Even the oldest failures earned their place in the arc. Microsoft's Tay turning toxic within a day in 2016, Amazon scrapping a recruiting model that had taught itself bias in 2018 — those early wounds seeded what matured into <span class="term">responsible AI</span> and <span class="term">AI governance</span>, and eventually into law: the EU's AI Act, the world's first comprehensive AI statute, entered into force in 2024 and began phasing in, even as Brussels' 2026 digital omnibus deferred some high-risk deadlines to 2027 and 2028. Nations drew their own conclusion — <span class="term">sovereign AI</span>, championed loudly by Nvidia's Jensen Huang, the conviction that countries should own the intelligence they depend on — fuelling demand for <span class="term">open-weight models</span> anyone can run on their own infrastructure. And the field's horizon words kept their pull: <span class="term">AGI</span>, machines matching humans across intellectual work; <span class="term">superintelligence</span>, the step beyond, now literally on the letterhead of Ilya Sutskever's Safe Superintelligence and Meta's renamed Superintelligence Labs; and <span class="term">alignment</span>, making powerful systems reliably want what we intend — the one discipline that exists to learn from the biggest failure before it happens rather than after.</p>
+
+    <p>Stand in 2026 and look back, and the speed is the astonishing part. In early 2023 — the season of Sydney's meltdown and the hundred-billion-dollar typo — the reasonable prediction was that banks, hospitals and courts would keep this technology at arm's length for a decade. Instead, agents run in production inside regulated industries three years later, not because the doubts were wrong but because every doubt got answered with machinery: hallucination answered by RAG, meltdown answered by guardrails, rogue actions answered by harnesses and evals, opacity answered by observability, lawlessness answered by law. Public opinion still argues about AI, as it should. But trust stopped being a feeling and became an engineering discipline — measured, enforced, audited — and disciplines compound faster than feelings ever could. Read the buzzwords in order and they were never hype at all. First we built models that could talk. Then systems that could act. Now we are building the proof that they can be trusted — and every failure along the way was the curriculum.</p>
+  </div>
+
+  <!-- ===================== TIMELINE ===================== -->
+  <section class="tl-sec">
+    <div class="wrap wide">
+      <div class="tl-head">
+        <p class="eyebrow">Reference</p>
+        <h2>The Buzzword Timeline</h2>
+        <p>Every term has two dates — when it was born, and when the world started saying it. Read top to bottom, this is the story again in fast-forward.</p>
+      </div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-year">1956</div><div class="tl-body"><p class="tl-terms">Artificial intelligence</p><p class="tl-desc">John McCarthy coins the term for the Dartmouth summer workshop that founds the field.</p></div></div>
+        <div class="tl-item"><div class="tl-year">1959</div><div class="tl-body"><p class="tl-terms">Machine learning</p><p class="tl-desc">Arthur Samuel's name for programs that improve with experience, demonstrated on checkers.</p></div></div>
+        <div class="tl-item"><div class="tl-year">1943–58</div><div class="tl-body"><p class="tl-terms">Neural network</p><p class="tl-desc">From McCulloch and Pitts' artificial neuron to Rosenblatt's perceptron — an idea that waited half a century for its hardware.</p></div></div>
+        <div class="tl-item"><div class="tl-year">1970s / 80s</div><div class="tl-body"><p class="tl-terms">AI winter</p><p class="tl-desc">Two funding collapses that taught the field what overpromising costs.</p></div></div>
+        <div class="tl-item"><div class="tl-year">1998 / 2014</div><div class="tl-body"><p class="tl-terms">Superintelligence</p><p class="tl-desc">Nick Bostrom's essay, then his bestselling book, put the far horizon into serious debate.</p></div></div>
+        <div class="tl-item"><div class="tl-year">Early 2000s</div><div class="tl-body"><p class="tl-terms">AGI</p><p class="tl-desc">"Artificial general intelligence" takes hold to distinguish the grand goal from narrow applications.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2002</div><div class="tl-body"><p class="tl-terms">Digital twin</p><p class="tl-desc">Michael Grieves' manufacturing concept; industrial mainstream by the 2010s.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2010s</div><div class="tl-body"><p class="tl-terms">Alignment · human-in-the-loop · embodied AI · responsible AI</p><p class="tl-desc">The safety, oversight and robotics vocabulary quietly assembles in academic and corporate labs.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2012</div><div class="tl-body"><p class="tl-terms">Deep learning goes mainstream</p><p class="tl-desc">AlexNet's ImageNet win turns an old term into the new paradigm; parameters, training data and inference become working vocabulary.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2013</div><div class="tl-body"><p class="tl-terms">Embeddings</p><p class="tl-desc">Word2vec turns meaning into arithmetic.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2017</div><div class="tl-body"><p class="tl-terms">Transformer</p><p class="tl-desc">Google researchers publish the architecture; every buzzword after this one stands on it.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2018</div><div class="tl-body"><p class="tl-terms">World models</p><p class="tl-desc">Ha and Schmidhuber's paper names the idea; Fei-Fei Li's World Labs (2024) and Yann LeCun's advocacy later turn it into a race.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2020</div><div class="tl-body"><p class="tl-terms">LLM · RAG</p><p class="tl-desc">GPT-3 makes "large language model" a category; Meta researchers coin retrieval-augmented generation. Fine-tuning becomes standard practice.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2021</div><div class="tl-body"><p class="tl-terms">Foundation model</p><p class="tl-desc">Stanford's landmark report names the new center of gravity; the EU proposes the AI Act the same year.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2022</div><div class="tl-body"><p class="tl-terms">Generative AI · prompt engineering · chain-of-thought</p><p class="tl-desc">ChatGPT (30 November) takes tokens, inference and context windows from lab jargon to dinner-table vocabulary two weeks after Galactica's three-day collapse; Wei and colleagues publish chain-of-thought prompting; LeCun's world-model position paper lands.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2023</div><div class="tl-body"><p class="tl-terms">Hallucination · guardrails · tool calling · evals · multimodal</p><p class="tl-desc">Bard's hundred-billion-dollar typo and Sydney's meltdown (February) produce the first shipped guardrails; the Avianca fine (June) makes hallucination a legal fact; OpenAI releases function calling (June) and Evals; GPT-4 goes multimodal; vector databases boom; AutoGPT and LangChain seed orchestration and multi-agent systems; Cambridge Dictionary crowns "hallucinate" word of the year.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2024</div><div class="tl-body"><p class="tl-terms">Agentic AI · MCP · sovereign AI · reasoning models · AI slop</p><p class="tl-desc">The Air Canada ruling (February) sets the accountability precedent; Jensen Huang champions sovereign AI (February); glue-on-pizza humbles retrieval (May); McDonald's retires its drive-thru AI (June); o1 mainstreams reasoning models and test-time compute (September); Gartner names agentic AI the top trend for 2025 (October); Anthropic open-sources MCP (November); the AI Act enters into force; small language models, synthetic data and open-weight models become strategy words; "AI slop" spreads across the internet it describes.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2025</div><div class="tl-body"><p class="tl-terms">Vibe coding · context engineering · agent washing</p><p class="tl-desc">DeepSeek's cheap reasoning shock (January); Karpathy coins vibe coding (February) — Collins' word of the year by November; Lütke and Karpathy champion context engineering (June) as the four context failures — poisoning, distraction, confusion, clash — get named; Gartner flags agent washing (June); Replit's deleted production database (July) makes harness thinking urgent; Meta rebrands its AI division Superintelligence Labs; Sutskever's Safe Superintelligence raises billions.</p></div></div>
+        <div class="tl-item"><div class="tl-year">2026</div><div class="tl-body"><p class="tl-terms">Harness engineering · inner loop / outer loop · physical AI</p><p class="tl-desc">Lilian Weng's essay names harness engineering; "loops" dominates the AI Engineer World's Fair; physical AI rivals agentic AI at Hannover Messe with most industrial agents already commercial; Brussels' digital omnibus resets high-risk AI Act deadlines to 2027–28 — and AI governance becomes an operational department, not a slide.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DISCUSSION ===================== -->
+  <section class="disc" id="discussion">
+    <div class="wrap wide">
+      <h2>Push back, or build on it.</h2>
+      <p>Sign in with GitHub to react or comment — this thread is specific to this essay.</p>
+      <div class="giscus"></div>
+    </div>
+  </section>
+</article>
+
+<footer>
+  <div class="wrap">
+    <span class="mono"><a href="/case-studies.html">← Back to all case studies</a></span>
+    <span class="mono">Essay · <b>Gatikrishna Dash</b> · 2026</span>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('article > .wrap > p, .pull, .tl-head, .tl-item, .disc h2').forEach((el,i)=>{el.classList.add('rv');el.style.transitionDelay=(Math.min(i,3)*40)+'ms';io.observe(el)});
+</script>
+
+<script src="https://giscus.app/client.js"
+        data-repo="gatidash/GatiDash-AI-PM"
+        data-repo-id="R_kgDOSbok-w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSbok-84DAQJX"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="transparent_dark"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

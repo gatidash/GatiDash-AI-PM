@@ -16,6 +16,7 @@ const NAV = [
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
+  { id: 'blogs', label: 'Blogs' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -355,6 +356,18 @@ const LEADERSHIP = [
     n: '03',
     title: 'Precision over volume',
     body: 'I don’t chase complexity. I lead with a clear lens on customer value, business alignment, and simplicity — because real transformation isn’t about doing more; it’s about doing what matters most, with precision and purpose.',
+  },
+]
+
+const BLOGS = [
+  {
+    title: 'From Parrot to Colleague',
+    deck: 'A true story of every AI buzzword — and how each public, expensive, occasionally absurd failure became the blueprint for the next win, until trust stopped being a feeling and became an engineering discipline.',
+    href: '/from-parrot-to-colleague.html',
+    tag: 'Essay · Field note',
+    read: '~11 min read',
+    date: '2026',
+    chips: ['2022 → 2026', '40+ terms, in order', 'Buzzword timeline'],
   },
 ]
 
@@ -1048,11 +1061,62 @@ function Leadership() {
   )
 }
 
+function Blogs() {
+  return (
+    <section id="blogs" className="py-16 sm:py-24 border-t border-sand">
+      <Container>
+        <SectionLabel n="07">Blogs</SectionLabel>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          Field notes on AI.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          Essays on where AI product work is actually heading — written for people who have to ship it under governance, not just talk about it.
+        </p>
+
+        <div className="mt-12 flex flex-col gap-5">
+          {BLOGS.map((b, i) => (
+            <a
+              key={b.href}
+              href={b.href}
+              onClick={() => track('open_blog', { slug: b.href })}
+              className="blog-card group grid sm:grid-cols-[auto_1fr] gap-5 sm:gap-8 items-start rounded-2xl border border-sand bg-paper-dark p-6 sm:p-8 hover:border-accent transition-colors"
+            >
+              <div className="font-serif text-4xl sm:text-5xl text-sand group-hover:text-accent leading-none transition-colors">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="eyebrow text-accent">{b.tag}</span>
+                  <span className="text-xs text-dust">· {b.read} · {b.date}</span>
+                </div>
+                <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.12] mt-3 max-w-[24ch]">
+                  {b.title}
+                </h3>
+                <p className="mt-3 text-base text-smoke leading-relaxed max-w-prose-wide">
+                  {b.deck}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                  {b.chips.map((c) => (
+                    <span key={c} className="career-chip">{c}</span>
+                  ))}
+                  <span className="sm:ml-auto inline-flex items-center gap-1.5 text-sm font-semibold text-accent group-hover:gap-2.5 transition-all">
+                    Read essay <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function Contact() {
   return (
     <section id="contact" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="07">Contact</SectionLabel>
+        <SectionLabel n="08">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -1183,6 +1247,7 @@ export default function App() {
           <Capabilities />
           <Judgment />
           <SelectedWork i={workI} setI={setWorkI} />
+          <Blogs />
           <Contact />
         </main>
         <Footer />
