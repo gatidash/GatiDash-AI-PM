@@ -48,22 +48,29 @@
   .backlink:hover{color:var(--flag);border-color:var(--flag)}
 
   /* ---------- HERO ---------- */
-  .hero{padding:72px 0 34px}
+  .hero{padding:72px 0 20px}
+  .cover-wrap{padding:6px 0 26px}
+  .cover{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+  .cover-cap{font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);opacity:.8;letter-spacing:.02em;margin:14px 2px 0;text-align:center}
   .eyebrow{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--flag);display:flex;align-items:center;gap:12px;margin:0 0 26px}
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
   h1{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.025em;line-height:1.03;font-size:clamp(38px,6.2vw,66px);margin:0 0 24px}
   .deck{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:var(--ink-soft);max-width:34ch;margin:0 0 34px}
-  .byline{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.05em;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
-  .byline b{color:var(--flag-soft);font-weight:500}
+  .byline{display:flex;align-items:center;gap:13px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin-top:30px}
+  .byline .avatar{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1px solid var(--line-strong);flex:none;background:var(--card)}
+  .byline .name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);letter-spacing:-.01em}
+  .byline .sub{font-family:"Space Mono",monospace;font-size:12.5px;color:var(--ink-soft);margin-top:4px;letter-spacing:.02em}
 
-  /* ---------- ARTICLE ---------- */
-  article{padding:14px 0 8px}
-  article p{margin:0 0 1.5em}
+  /* ---------- ARTICLE (Medium / Substack reading column) ---------- */
+  article{padding:14px 0 8px;font-family:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;font-size:21px;line-height:1.82;color:#E4E8F2}
+  article p{margin:0 0 1.55em;letter-spacing:.002em}
   article > .wrap > p:first-of-type::first-letter{
     font-family:"Space Grotesk",sans-serif;font-weight:800;float:left;
-    font-size:66px;line-height:.82;padding:6px 14px 0 0;color:var(--flag-soft);
+    font-size:72px;line-height:.8;padding:8px 14px 0 0;color:var(--flag-soft);
   }
-  .term{color:var(--flag-soft);font-weight:500;font-style:normal}
+  .term{color:#EFE3D6;font-weight:500;font-style:normal;border-bottom:1px solid rgba(247,146,86,.34);padding-bottom:.5px}
+  article strong{font-weight:700;color:#F2F5FB}
+  article em{font-style:italic;color:#EDF0F7}
   em{font-style:italic;color:var(--ink)}
   strong{font-weight:600;color:var(--ink)}
   .pull{
@@ -137,12 +144,22 @@
     <h1>From Parrot to Colleague</h1>
     <p class="deck">A true story of every AI buzzword — and how each failure built the trust we run on today.</p>
     <div class="byline">
-      <span>By <b>Gatikrishna Dash</b></span>
-      <span>~11 min read</span>
-      <span>2022 → 2026</span>
+      <img class="avatar" src="/profile.png" alt="Gatikrishna Dash" onerror="this.style.display='none'">
+      <div class="who">
+        <div class="name">Gatikrishna Dash</div>
+        <div class="sub">Aug 2026 · ~11 min read</div>
+      </div>
     </div>
   </div>
 </header>
+
+<!-- ===================== COVER ===================== -->
+<div class="cover-wrap">
+  <div class="wrap wide">
+    <img class="cover" src="/blog-parrot-to-colleague.svg" alt="A dotted trajectory arcs from a &quot;Parrot — it could only talk&quot; node up to a &quot;Colleague — now it can act&quot; node.">
+    <p class="cover-cap">First we built models that could talk. Then systems that could act.</p>
+  </div>
+</div>
 
 <!-- ===================== ARTICLE ===================== -->
 <article>
