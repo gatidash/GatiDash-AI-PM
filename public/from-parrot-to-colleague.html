@@ -206,14 +206,6 @@
     </div>
   </section>
 
-  <!-- ===================== DISCUSSION ===================== -->
-  <section class="disc" id="discussion">
-    <div class="wrap wide">
-      <h2>Push back, or build on it.</h2>
-      <p>Sign in with GitHub to react or comment — this thread is specific to this essay.</p>
-      <div class="giscus"></div>
-    </div>
-  </section>
 </article>
 
 <footer>
@@ -228,21 +220,6 @@
   document.querySelectorAll('article > .wrap > p, .pull, .tl-head, .tl-item, .disc h2').forEach((el,i)=>{el.classList.add('rv');el.style.transitionDelay=(Math.min(i,3)*40)+'ms';io.observe(el)});
 </script>
 
-<script src="https://giscus.app/client.js"
-        data-repo="gatidash/GatiDash-AI-PM"
-        data-repo-id="R_kgDOSbok-w"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOSbok-84DAQJX"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="transparent_dark"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
