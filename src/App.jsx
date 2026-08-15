@@ -362,12 +362,13 @@ const LEADERSHIP = [
 const BLOGS = [
   {
     title: 'From Parrot to Colleague',
-    deck: 'A true story of every AI buzzword — and how each public, expensive, occasionally absurd failure became the blueprint for the next win, until trust stopped being a feeling and became an engineering discipline.',
+    excerpt:
+      'A true story of every AI buzzword — and how each public, expensive, occasionally absurd failure became the blueprint for the next win.',
     href: '/from-parrot-to-colleague.html',
-    tag: 'Essay · Field note',
-    read: '~11 min read',
-    date: '2026',
-    chips: ['2022 → 2026', '40+ terms, in order', 'Buzzword timeline'],
+    topic: 'Essay · AI',
+    read: '11 min read',
+    date: 'Aug 2026',
+    cover: '/blog-parrot-to-colleague.svg',
   },
 ]
 
@@ -1073,36 +1074,44 @@ function Blogs() {
           Essays on where AI product work is actually heading — written for people who have to ship it under governance, not just talk about it.
         </p>
 
-        <div className="mt-12 flex flex-col gap-5">
-          {BLOGS.map((b, i) => (
+        <div className="mt-12 border-t border-sand">
+          {BLOGS.map((b) => (
             <a
               key={b.href}
               href={b.href}
               onClick={() => track('open_blog', { slug: b.href })}
-              className="blog-card group grid sm:grid-cols-[auto_1fr] gap-5 sm:gap-8 items-start rounded-2xl border border-sand bg-paper-dark p-6 sm:p-8 hover:border-accent transition-colors"
+              className="group grid grid-cols-[1fr_108px] sm:grid-cols-[1fr_220px] gap-5 sm:gap-10 items-center py-7 sm:py-9 border-b border-sand"
             >
-              <div className="font-serif text-4xl sm:text-5xl text-sand group-hover:text-accent leading-none transition-colors">
-                {String(i + 1).padStart(2, '0')}
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span className="eyebrow text-accent">{b.tag}</span>
-                  <span className="text-xs text-dust">· {b.read} · {b.date}</span>
-                </div>
-                <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.12] mt-3 max-w-[24ch]">
+              <div className="min-w-0">
+                <span className="text-[11px] font-semibold uppercase tracking-wide-caps text-accent">
+                  {b.topic}
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl lg:text-[28px] text-ink tracking-editorial leading-snug mt-2.5 group-hover:text-accent transition-colors">
                   {b.title}
                 </h3>
-                <p className="mt-3 text-base text-smoke leading-relaxed max-w-prose-wide">
-                  {b.deck}
+                <p className="mt-2.5 text-sm sm:text-base text-smoke leading-relaxed max-w-prose-wide">
+                  {b.excerpt}
                 </p>
-                <div className="mt-5 flex flex-wrap items-center gap-2.5">
-                  {b.chips.map((c) => (
-                    <span key={c} className="career-chip">{c}</span>
-                  ))}
-                  <span className="sm:ml-auto inline-flex items-center gap-1.5 text-sm font-semibold text-accent group-hover:gap-2.5 transition-all">
-                    Read essay <ArrowUpRight className="h-4 w-4" />
-                  </span>
+                <div className="mt-4 flex items-center gap-2.5 text-xs sm:text-sm text-dust">
+                  <img
+                    src={LINKS.photo}
+                    alt=""
+                    className="h-5 w-5 rounded-full object-cover border border-sand"
+                  />
+                  <span className="text-ink-soft">Gatikrishna Dash</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{b.date}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{b.read}</span>
                 </div>
+              </div>
+              <div className="aspect-[3/2] w-full overflow-hidden rounded-lg border border-sand bg-paper-dark">
+                <img
+                  src={b.cover}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                />
               </div>
             </a>
           ))}
