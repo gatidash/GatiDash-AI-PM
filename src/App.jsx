@@ -1064,7 +1064,7 @@ function Leadership() {
 
 function Blogs() {
   return (
-    <section id="blogs" className="py-16 sm:py-24 border-t border-sand">
+    <section id="blogs" className="min-h-screen flex flex-col justify-center border-t border-sand py-20 sm:py-24">
       <Container>
         <SectionLabel n="07">Blogs</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
@@ -1074,29 +1074,37 @@ function Blogs() {
           Essays on where AI product work is actually heading — written for people who have to ship it under governance, not just talk about it.
         </p>
 
-        <div className="mt-12 border-t border-sand">
+        <div className="mt-10 sm:mt-14 flex flex-col gap-8">
           {BLOGS.map((b) => (
             <a
               key={b.href}
               href={b.href}
               onClick={() => track('open_blog', { slug: b.href })}
-              className="group grid grid-cols-[1fr_108px] sm:grid-cols-[1fr_220px] gap-5 sm:gap-10 items-center py-7 sm:py-9 border-b border-sand"
+              className="group grid lg:grid-cols-[1.05fr_1fr] overflow-hidden rounded-2xl border border-sand bg-paper-dark hover:border-accent transition-colors"
             >
-              <div className="min-w-0">
+              <div className="bg-paper overflow-hidden aspect-[16/10] lg:aspect-auto">
+                <img
+                  src={b.cover}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
                 <span className="text-[11px] font-semibold uppercase tracking-wide-caps text-accent">
                   {b.topic}
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl lg:text-[28px] text-ink tracking-editorial leading-snug mt-2.5 group-hover:text-accent transition-colors">
+                <h3 className="display-serif text-2xl sm:text-3xl lg:text-[38px] text-ink leading-[1.08] mt-3 group-hover:text-accent transition-colors">
                   {b.title}
                 </h3>
-                <p className="mt-2.5 text-sm sm:text-base text-smoke leading-relaxed max-w-prose-wide">
+                <p className="mt-4 text-base sm:text-lg text-smoke leading-relaxed">
                   {b.excerpt}
                 </p>
-                <div className="mt-4 flex items-center gap-2.5 text-xs sm:text-sm text-dust">
+                <div className="mt-6 flex items-center gap-2.5 text-sm text-dust">
                   <img
                     src={LINKS.photo}
                     alt=""
-                    className="h-5 w-5 rounded-full object-cover border border-sand"
+                    className="h-6 w-6 rounded-full object-cover border border-sand"
                   />
                   <span className="text-ink-soft">Gatikrishna Dash</span>
                   <span aria-hidden="true">·</span>
@@ -1104,14 +1112,9 @@ function Blogs() {
                   <span aria-hidden="true">·</span>
                   <span>{b.read}</span>
                 </div>
-              </div>
-              <div className="aspect-[3/2] w-full overflow-hidden rounded-lg border border-sand bg-paper-dark">
-                <img
-                  src={b.cover}
-                  alt=""
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-                />
+                <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+                  Read essay <ArrowUpRight className="h-4 w-4" />
+                </span>
               </div>
             </a>
           ))}
