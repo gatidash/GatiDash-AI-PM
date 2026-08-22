@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,jsx}",
@@ -7,30 +8,33 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // 'serif' is repointed to the rocketship display face so every existing
-        // `font-serif` / `display-serif` usage becomes Space Grotesk automatically.
-        serif: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Mono display for headings (21st Portfolio Hero theme)
+        serif: ['Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['Fira Code', 'ui-monospace', 'monospace'],
+        grotesk: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
+      // All colors are CSS-variable backed so light/dark flips in one place.
       colors: {
-        // Deep-space mission-control palette — softened for reading comfort
         paper: {
-          DEFAULT: '#0C1122', // void / page background (gently lifted from pure black-navy)
-          dark: '#151C31',    // raised panels
+          DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+          dark: 'rgb(var(--paper-dark) / <alpha-value>)',
         },
         ink: {
-          DEFAULT: '#D4DAE8', // softer starlight — less halation than pure white
-          soft: '#AEB6CD',
+          DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+          soft: 'rgb(var(--ink-soft) / <alpha-value>)',
         },
-        smoke: '#8B92B1', // muted text
-        dust: '#6A7199',  // captions / faint labels
-        sand: '#28324E',  // hairline borders
+        smoke: 'rgb(var(--smoke) / <alpha-value>)',
+        dust: 'rgb(var(--dust) / <alpha-value>)',
+        sand: 'rgb(var(--sand) / <alpha-value>)',
         accent: {
-          DEFAULT: '#F79256', // ignition — slightly warmer/softer than neon orange
-          soft: '#FFB77E',
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          soft: 'rgb(var(--accent-soft) / <alpha-value>)',
         },
-        plasma: '#63CEDD', // telemetry cyan (softened)
+        // Neon lime — the constant primary highlight (same in both modes)
+        lime: 'rgb(var(--lime) / <alpha-value>)',
+        plasma: 'rgb(var(--plasma) / <alpha-value>)',
       },
       letterSpacing: {
         'editorial': '-0.018em',

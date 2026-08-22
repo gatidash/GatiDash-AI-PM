@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
 import { Analytics } from '@vercel/analytics/react'
+import { POSTS } from './blogPosts'
 import { track } from '@vercel/analytics'
+import { HeroDark, HeroLight, HeroSwitcher } from './Heroes'
+import PortfolioHero from '@/components/ui/portfolio-hero'
+import { Carousel } from '@/components/ui/carousel'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -25,6 +29,16 @@ const PROOF_LINES = [
   'Shipped agentic AI into live compliance operations across 5 jurisdictions — in production, under governance, and durable well past launch, not just in the demo.',
   'Built the platform layer the AI now runs on — scaled regulatory reporting to 1,000+ reports across 15+ regulated entities.',
 ]
+
+const HERO_METRICS = [
+  { v: '17+', l: 'Years across regulated fintech' },
+  { v: '1,000+', l: 'Regulatory reports on the platform' },
+  { v: '15+', l: 'Regulated entities served' },
+  { v: '5', l: 'Jurisdictions live on agentic AI' },
+]
+
+// Typographic wordmark strip (21st "logo cloud marquee" pattern)
+const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Hyperwallet', 'Barclays', 'Lloyds', 'Wipro', 'Cognizant']
 
 const WORK = [
   {
@@ -365,6 +379,7 @@ const BLOGS = [
     excerpt:
       'A true story of every AI buzzword — and how each public, expensive, occasionally absurd failure became the blueprint for the next win.',
     href: '/from-parrot-to-colleague.html',
+    slug: 'from-parrot-to-colleague',
     topic: 'Essay · AI',
     read: '11 min read',
     date: 'Aug 2026',
@@ -433,18 +448,29 @@ function Avatar({ src, alt, size = 'large' }) {
   )
 }
 
-function NavBar() {
+function NavBar({ heroVariant = 'dark' }) {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  // Over the dark hero at the top, use light text on a transparent bar.
+  const onDark = heroVariant === 'dark' && !scrolled
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-paper/85 backdrop-blur-md border-b border-sand/60">
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
+        scrolled ? 'bg-paper/85 backdrop-blur-md border-b border-sand/60' : 'bg-transparent border-b border-transparent'
+      }`}
+    >
       <Container className="h-16 flex items-center justify-between">
-        <a href="#profile" className="flex items-center gap-2.5 font-serif text-lg text-ink tracking-editorial hover:text-accent transition-colors">
-          <span className="nav-rocket" aria-hidden="true">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/>
-              <path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="9" r="1.8" fill="#FF9E2C"/>
-            </svg>
-          </span>
+        <a
+          href="#profile"
+          className={`font-serif text-lg tracking-editorial transition-colors ${
+            onDark ? 'text-white hover:text-white/80' : 'text-ink hover:text-accent'
+          }`}
+        >
           Gatikrishna Dash
         </a>
         <div className="flex items-center gap-5 sm:gap-7">
@@ -453,7 +479,9 @@ function NavBar() {
               <a
                 key={n.id}
                 href={n.href || `#${n.id}`}
-                className="text-sm text-smoke hover:text-ink transition-colors"
+                className={`text-sm transition-colors ${
+                  onDark ? 'text-white/70 hover:text-white' : 'text-smoke hover:text-ink'
+                }`}
               >
                 {n.label}
               </a>
@@ -477,28 +505,29 @@ function NavBar() {
 // SECTIONS
 // ─────────────────────────────────────────────────────────────
 
+function WorkedWith() {
+  const loop = [...WORKED_WITH, ...WORKED_WITH]
+  return (
+    <section aria-label="Platforms and institutions worked with" className="border-t border-sand py-11 sm:py-14">
+      <Container>
+        <p className="eyebrow text-center mb-8">Platforms &amp; institutions I&apos;ve built for</p>
+        <div className="marquee">
+          <div className="marquee-track">
+            {loop.map((name, i) => (
+              <span key={i} className="wordmark" aria-hidden={i >= WORKED_WITH.length ? 'true' : undefined}>
+                {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function Profile() {
   return (
     <section id="profile" className="relative pt-24 pb-20 overflow-hidden">
-      <div className="hero-trajectory hidden lg:block" aria-hidden="true">
-        <svg className="absolute right-0 top-8 w-[42vw] max-w-[620px] h-auto opacity-50" viewBox="0 0 600 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M-20 430 C 170 410, 360 280, 478 70" stroke="url(#traj)" strokeWidth="1.5" strokeDasharray="5 8" fill="none" />
-          <circle cx="-10" cy="424" r="3" fill="#FF8A3D" />
-          <g className="rocket-bob" transform="translate(458 38) rotate(38)">
-            <path d="M0 -16 C7 -4 8 10 5 22 H-5 C-8 10 -7 -4 0 -16 Z" fill="#E9ECF7" />
-            <circle cx="0" cy="-2" r="3.4" fill="#070B1A" stroke="#5BD6E8" strokeWidth="1.2" />
-            <path d="M-5 16 L-12 28 L-5 23 Z" fill="#FF5E3A" />
-            <path d="M5 16 L12 28 L5 23 Z" fill="#FF5E3A" />
-            <path d="M-3 22 C-2 32 0 40 0 40 C0 40 2 32 3 22 Z" fill="#FF9E2C" />
-          </g>
-          <defs>
-            <linearGradient id="traj" x1="0" y1="440" x2="500" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#FF5E3A" stopOpacity="0.05" />
-              <stop offset="1" stopColor="#5BD6E8" stopOpacity="0.75" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
       <Container>
         {/* Mobile-only identity strip */}
         <div className="lg:hidden flex items-center gap-5 mb-10">
@@ -555,6 +584,16 @@ function Profile() {
                 Connect on LinkedIn
               </a>
             </div>
+
+            {/* Proof-at-a-glance metric band */}
+            <dl className="metric-band mt-11 max-w-prose-wide">
+              {HERO_METRICS.map((m) => (
+                <div key={m.l} className="metric-cell">
+                  <dt className="metric-v">{m.v}</dt>
+                  <dd className="metric-l">{m.l}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {/* Right-aligned profile card */}
@@ -619,10 +658,37 @@ function Profile() {
   )
 }
 
+function WorkSlide({ w }) {
+  return (
+    <div className="grid lg:grid-cols-12 gap-y-6 gap-x-12">
+      <div className="lg:col-span-8">
+        <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{w.n}</span>
+        <h3 className="display-serif text-2xl sm:text-3xl leading-[1.15] max-w-prose-wide mt-4">
+          {w.title}
+        </h3>
+        <div className="mt-5 space-y-4 max-w-prose-wide">
+          <Paragraph label="Context" body={w.context} />
+          <Paragraph label="What I did" body={w.move} />
+          <Paragraph label="What I would tell the next team" body={w.proves} accent />
+        </div>
+      </div>
+
+      <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
+        <div className="eyebrow mb-6">Operating impact</div>
+        <dl className="divide-y divide-sand">
+          {w.metrics.map((m) => (
+            <div key={m.l} className="py-4 first:pt-0">
+              <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
+              <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+    </div>
+  )
+}
+
 function SelectedWork({ i, setI }) {
-  const total = WORK.length
-  const w = WORK[i]
-  const go = (d) => setI((i + d + total) % total)
   return (
     <section id="work" className="py-14 sm:py-20 border-t border-sand">
       <Container>
@@ -635,67 +701,13 @@ function SelectedWork({ i, setI }) {
         </p>
 
         <div className="mt-8">
-          <div className="flex items-center justify-between gap-4 border-t border-sand pt-5">
-            <div className="flex items-baseline gap-4 min-w-0">
-              <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{w.n}</span>
-              <span className="eyebrow truncate">{w.meta}</span>
-            </div>
-            <div className="flex items-center gap-4 flex-shrink-0">
-              <span className="text-sm text-dust tabular-nums">
-                {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-              </span>
-              <button
-                onClick={() => go(-1)}
-                aria-label="Previous case"
-                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => go(1)}
-                aria-label="Next case"
-                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-
-          <div key={w.n} className="work-fade grid lg:grid-cols-12 gap-y-6 gap-x-12 mt-6">
-            <div className="lg:col-span-8">
-              <h3 className="display-serif text-2xl sm:text-3xl leading-[1.15] max-w-prose-wide">
-                {w.title}
-              </h3>
-              <div className="mt-5 space-y-4 max-w-prose-wide">
-                <Paragraph label="Context" body={w.context} />
-                <Paragraph label="What I did" body={w.move} />
-                <Paragraph label="What I would tell the next team" body={w.proves} accent />
-              </div>
-            </div>
-
-            <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
-              <div className="eyebrow mb-6">Operating impact</div>
-              <dl className="divide-y divide-sand">
-                {w.metrics.map((m) => (
-                  <div key={m.l} className="py-4 first:pt-0">
-                    <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
-                    <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
-                  </div>
-                ))}
-              </dl>
-            </aside>
-          </div>
-
-          <div className="mt-8 flex items-center gap-2">
-            {WORK.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                aria-label={`Go to case ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all ${i === idx ? 'w-7 bg-accent' : 'w-1.5 bg-sand hover:bg-dust'}`}
-              />
-            ))}
-          </div>
+          <Carousel
+            ariaLabel="Selected work case studies"
+            index={i}
+            onIndex={setI}
+            slideLabels={WORK.map((w) => w.meta)}
+            slides={WORK.map((w) => <WorkSlide key={w.n} w={w} />)}
+          />
         </div>
       </Container>
     </section>
@@ -713,9 +725,26 @@ function Paragraph({ label, body, accent = false }) {
   )
 }
 
+function CapabilitySlide({ c }) {
+  return (
+    <div className="grid lg:grid-cols-12 gap-y-8 gap-x-16">
+      <div className="lg:col-span-5">
+        <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.15]">{c.group}</h3>
+        <p className="mt-4 text-lg text-smoke leading-relaxed max-w-prose-tight">{c.blurb}</p>
+      </div>
+      <ul className="lg:col-span-7 grid sm:grid-cols-2 gap-x-10 gap-y-4 self-center">
+        {c.items.map((item) => (
+          <li key={item} className="flex items-start gap-3 text-base text-ink-soft leading-snug">
+            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent flex-shrink-0" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function Capabilities() {
-  const [tab, setTab] = useState(0)
-  const c = CAPABILITIES[tab]
   return (
     <section id="capabilities" className="py-16 sm:py-24 border-t border-sand">
       <Container>
@@ -724,49 +753,49 @@ function Capabilities() {
           What I actually do.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Four areas I spend my time on. Select one for the concrete work underneath.
+          Four areas I spend my time on. Step through the concrete work under each.
         </p>
 
-        <div className="mt-12 flex flex-wrap gap-2.5">
-          {CAPABILITIES.map((x, idx) => (
-            <button
-              key={x.group}
-              onClick={() => setTab(idx)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
-                tab === idx
-                  ? 'bg-accent text-paper border-accent'
-                  : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
-              }`}
-            >
-              {x.group}
-            </button>
-          ))}
-        </div>
-
-        <div key={c.group} className="work-fade mt-10 grid lg:grid-cols-12 gap-y-8 gap-x-16 border-t border-sand pt-10">
-          <div className="lg:col-span-5">
-            <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.15]">{c.group}</h3>
-            <p className="mt-4 text-lg text-smoke leading-relaxed max-w-prose-tight">{c.blurb}</p>
-          </div>
-          <ul className="lg:col-span-7 grid sm:grid-cols-2 gap-x-10 gap-y-4 self-center">
-            {c.items.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-base text-ink-soft leading-snug">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent flex-shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
+        <div className="mt-10">
+          <Carousel
+            ariaLabel="Capability areas"
+            slideLabels={CAPABILITIES.map((c) => c.group)}
+            slides={CAPABILITIES.map((c) => <CapabilitySlide key={c.group} c={c} />)}
+          />
         </div>
       </Container>
     </section>
   )
 }
 
+function JudgmentSlide({ j }) {
+  return (
+    <div className="grid lg:grid-cols-12 gap-y-7 gap-x-16">
+      <div className="lg:col-span-4">
+        <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{j.n}</span>
+        <h3 className="font-serif text-2xl sm:text-3xl text-ink tracking-editorial mt-6 leading-snug">
+          {j.title}
+        </h3>
+      </div>
+      <dl className="lg:col-span-8 space-y-4 text-base leading-relaxed self-center">
+        <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+          <dt className="eyebrow pt-1">Tension</dt>
+          <dd className="text-ink-soft">{j.tension}</dd>
+        </div>
+        <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+          <dt className="eyebrow pt-1">Call I make</dt>
+          <dd className="text-ink">{j.judgment}</dd>
+        </div>
+        <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
+          <dt className="eyebrow pt-1">Why</dt>
+          <dd className="text-smoke italic">{j.why}</dd>
+        </div>
+      </dl>
+    </div>
+  )
+}
+
 function Judgment() {
-  const [i, setI] = useState(0)
-  const total = JUDGMENT.length
-  const j = JUDGMENT[i]
-  const go = (d) => setI((i + d + total) % total)
   return (
     <section id="judgment" className="py-16 sm:py-24 border-t border-sand">
       <Container>
@@ -778,70 +807,44 @@ function Judgment() {
           The most important AI product decisions in regulated work are rarely about model choice. They are about where to standardize, where to keep humans, and what to refuse to ship.
         </p>
 
-        <div className="mt-12 max-w-prose-wide">
-          <div className="flex items-center justify-between border-t border-sand pt-6">
-            <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{j.n}</span>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-dust tabular-nums">
-                {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-              </span>
-              <button
-                onClick={() => go(-1)}
-                aria-label="Previous"
-                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => go(1)}
-                aria-label="Next"
-                className="h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-
-          <div key={j.n} className="judgment-fade">
-            <h3 className="font-serif text-2xl sm:text-3xl text-ink tracking-editorial mt-8 leading-snug min-h-[2.6em]">
-              {j.title}
-            </h3>
-            <dl className="mt-7 space-y-4 text-base leading-relaxed">
-              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                <dt className="eyebrow pt-1">Tension</dt>
-                <dd className="text-ink-soft">{j.tension}</dd>
-              </div>
-              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                <dt className="eyebrow pt-1">Call I make</dt>
-                <dd className="text-ink">{j.judgment}</dd>
-              </div>
-              <div className="grid sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-1">
-                <dt className="eyebrow pt-1">Why</dt>
-                <dd className="text-smoke italic">{j.why}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="mt-10 flex items-center gap-2">
-            {JUDGMENT.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                aria-label={`Go to ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all ${i === idx ? 'w-7 bg-accent' : 'w-1.5 bg-sand hover:bg-dust'}`}
-              />
-            ))}
-          </div>
+        <div className="mt-12">
+          <Carousel
+            ariaLabel="Judgment calls"
+            slideLabels={JUDGMENT.map((j) => j.title)}
+            slides={JUDGMENT.map((j) => <JudgmentSlide key={j.n} j={j} />)}
+          />
         </div>
       </Container>
     </section>
   )
 }
 
+function ToolkitSlide({ t }) {
+  return t.beliefs ? (
+    <ol className="grid sm:grid-cols-2 gap-x-12 gap-y-6 max-w-prose-wide">
+      {t.beliefs.map((idea, i) => (
+        <li key={i} className="flex items-start gap-4">
+          <span className="font-serif text-sm text-accent mt-1 w-6 flex-shrink-0">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span className="text-base text-ink-soft leading-relaxed">{idea}</span>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <dl className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-8">
+      {t.items.map((item) => (
+        <div key={item.title}>
+          <dt className="font-serif text-lg text-ink tracking-editorial">{item.title}</dt>
+          <dd className="mt-1.5 text-sm text-ink-soft leading-relaxed">{item.body}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 function GovernanceToolkit() {
   const TABS = [...GOVERNANCE_TOOLKIT, { group: 'Operating beliefs', beliefs: POV_IDEAS }]
-  const [tab, setTab] = useState(0)
-  const t = TABS[tab]
   return (
     <section id="toolkit" className="py-16 sm:py-24 bg-paper-dark border-t border-sand">
       <Container>
@@ -853,54 +856,27 @@ function GovernanceToolkit() {
           Most are dull. Most are the difference between an AI feature that reaches production and one that gets pulled in week six.
         </p>
 
-        <div className="mt-12 flex flex-wrap gap-2.5">
-          {TABS.map((x, idx) => (
-            <button
-              key={x.group}
-              onClick={() => setTab(idx)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border ${
-                tab === idx
-                  ? 'bg-accent text-paper border-accent'
-                  : 'bg-paper text-ink-soft border-sand hover:border-accent-soft hover:text-accent'
-              }`}
-            >
-              {x.group}
-            </button>
-          ))}
-        </div>
-
-        <div key={t.group} className="work-fade mt-10 border-t border-sand pt-10">
-          {t.beliefs ? (
-            <ol className="grid sm:grid-cols-2 gap-x-12 gap-y-6 max-w-prose-wide">
-              {t.beliefs.map((idea, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="font-serif text-sm text-accent mt-1 w-6 flex-shrink-0">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-base text-ink-soft leading-relaxed">{idea}</span>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <dl className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-8">
-              {t.items.map((item) => (
-                <div key={item.title}>
-                  <dt className="font-serif text-lg text-ink tracking-editorial">{item.title}</dt>
-                  <dd className="mt-1.5 text-sm text-ink-soft leading-relaxed">{item.body}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
+        <div className="mt-10">
+          <Carousel
+            ariaLabel="Governance toolkit"
+            slideLabels={TABS.map((t) => t.group)}
+            slides={TABS.map((t) => <ToolkitSlide key={t.group} t={t} />)}
+          />
         </div>
       </Container>
     </section>
   )
 }
 
+// Only these have an SVG in /public/logos. Anything else renders as a wordmark
+// instead of firing a request that 404s in the network tab. Drop a new file in
+// public/logos/<slug>.svg and add the slug here to switch a name to its mark.
+const AVAILABLE_LOGOS = new Set(['paypal'])
+
 function CompanyLogo({ name }) {
   const [failed, setFailed] = useState(false)
   const slug = name.toLowerCase().replace(/\s+/g, '-')
-  if (failed) {
+  if (failed || !AVAILABLE_LOGOS.has(slug)) {
     return <span className="career-co-text">{name}</span>
   }
   return (
@@ -929,7 +905,7 @@ function TheAngle() {
           <p className="lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
             For the last five years I&apos;ve sat in the go/no-go seat for core product launches across PayPal and its brands — Venmo, Xoom, Hyperwallet — spanning 15+ regulated entities and jurisdictions, each with its own rules. Most PMs ship a handful of products in a career; I&apos;ve pressure-tested and post-mortemed more launches than most people ever see.
           </p>
-          <p className="lg:col-span-5 text-base text-smoke leading-relaxed">
+          <p className="lg:col-span-5 text-base text-ink-soft leading-relaxed">
             Then I built what almost no one does: a single source of truth unifying product, customer, and transaction data for audit and compliance — and the launch standards the company now runs on.
           </p>
         </div>
@@ -964,7 +940,7 @@ function CareerArc({ onSelectWork }) {
           {CAREER_ARC.map((e, i) => (
             <div
               key={e.era}
-              className="career-card relative flex flex-col h-full rounded-xl border border-sand border-t-2 border-t-accent bg-paper p-5 pt-6"
+              className="career-card card-lift relative flex flex-col h-full rounded-xl border border-sand border-t-2 border-t-accent bg-paper p-5 pt-6"
               style={{ animationDelay: `${i * 130}ms` }}
             >
               <span className="career-node" />
@@ -1018,8 +994,21 @@ function CareerArc({ onSelectWork }) {
   )
 }
 
+function LeadershipSlide({ p }) {
+  return (
+    <div className="grid lg:grid-cols-12 gap-y-6 gap-x-16">
+      <div className="lg:col-span-5">
+        <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{p.n}</span>
+        <h3 className="display-serif text-2xl sm:text-3xl text-ink leading-[1.15] mt-5">{p.title}</h3>
+      </div>
+      <p className="lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide self-center">
+        {p.body}
+      </p>
+    </div>
+  )
+}
+
 function Leadership() {
-  const [flipped, setFlipped] = useState(null)
   return (
     <section id="leadership" className="py-16 sm:py-24 border-t border-sand">
       <Container>
@@ -1028,41 +1017,52 @@ function Leadership() {
           How I lead.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Three principles that shape every product call I make. Select one to read it.
+          Three principles that shape every product call I make. Step through them.
         </p>
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
-          {LEADERSHIP.map((p, i) => (
-            <button
-              key={p.n}
-              type="button"
-              onClick={() => setFlipped(flipped === i ? null : i)}
-              aria-pressed={flipped === i}
-              className={`lead-card ${flipped === i ? 'is-flipped' : ''}`}
-            >
-              <div className="lead-inner">
-                <div className="lead-face lead-front">
-                  <span className="font-serif text-base text-accent">{p.n}</span>
-                  <h3 className="display-serif text-2xl sm:text-[27px] text-ink leading-[1.15] mt-5">
-                    {p.title}
-                  </h3>
-                  <span className="lead-hint">
-                    Read <span className="lead-arrow">→</span>
-                  </span>
-                </div>
-                <div className="lead-face lead-back">
-                  <p className="text-base text-ink-soft leading-relaxed">{p.body}</p>
-                  <span className="lead-hint">← Back</span>
-                </div>
-              </div>
-            </button>
-          ))}
+        <div className="mt-10">
+          <Carousel
+            ariaLabel="Leadership principles"
+            slideLabels={LEADERSHIP.map((p) => p.title)}
+            slides={LEADERSHIP.map((p) => <LeadershipSlide key={p.n} p={p} />)}
+          />
         </div>
       </Container>
     </section>
   )
 }
 
-function Blogs() {
+function BlogReader({ slug, onClose }) {
+  const post = POSTS[slug]
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    window.scrollTo(0, 0)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [onClose])
+  if (!post) return null
+  return (
+    <div className="fixed inset-0 z-[100] bg-paper overflow-y-auto">
+      <div className="sticky top-0 z-10 bg-paper/90 backdrop-blur-md border-b border-sand">
+        <Container className="h-14 flex items-center justify-between">
+          <button
+            onClick={onClose}
+            className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to portfolio
+          </button>
+          <span className="font-serif text-sm text-ink tracking-editorial">Gatikrishna Dash</span>
+        </Container>
+      </div>
+      <div className="blog-reader pb-24" dangerouslySetInnerHTML={{ __html: post.html }} />
+    </div>
+  )
+}
+
+function Blogs({ onOpen }) {
   return (
     <section id="blogs" className="min-h-screen flex flex-col justify-center border-t border-sand py-20 sm:py-24">
       <Container>
@@ -1076,11 +1076,11 @@ function Blogs() {
 
         <div className="mt-10 sm:mt-14 flex flex-col gap-8">
           {BLOGS.map((b) => (
-            <a
-              key={b.href}
-              href={b.href}
-              onClick={() => track('open_blog', { slug: b.href })}
-              className="group grid lg:grid-cols-[1.05fr_1fr] overflow-hidden rounded-2xl border border-sand bg-paper-dark hover:border-accent transition-colors"
+            <button
+              key={b.slug}
+              type="button"
+              onClick={() => { track('open_blog', { slug: b.slug }); onOpen(b.slug) }}
+              className="group card-lift text-left w-full grid lg:grid-cols-[1.05fr_1fr] overflow-hidden rounded-2xl border border-sand bg-paper-dark"
             >
               <div className="bg-paper overflow-hidden aspect-[16/10] lg:aspect-auto">
                 <img
@@ -1116,7 +1116,7 @@ function Blogs() {
                   Read essay <ArrowUpRight className="h-4 w-4" />
                 </span>
               </div>
-            </a>
+            </button>
           ))}
         </div>
       </Container>
@@ -1235,23 +1235,65 @@ function Footer() {
 // ─────────────────────────────────────────────────────────────
 
 function SpaceBackdrop() {
-  return (
-    <div className="space-backdrop" aria-hidden="true">
-      <div className="starfield" />
-      <div className="starfield layer-2" />
-    </div>
-  )
+  return null
 }
 
 export default function App() {
   const [workI, setWorkI] = useState(0)
+  const [openBlog, setOpenBlog] = useState(null)
+
+  // Hero variant: default → 21st Portfolio Hero; ?v=dark / ?v=light show the legacy comparison heroes
+  const vParam =
+    typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('v') : null
+  const heroVariant = vParam === 'dark' ? 'dark' : vParam === 'light' ? 'light' : 'portfolio'
+
+  // Global light/dark theme — drives the CSS-variable tokens on <html>. Default dark.
+  const [theme, setTheme] = useState('dark')
+  useEffect(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
+    if (saved === 'light' || saved === 'dark') setTheme(saved)
+  }, [])
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.toggle('dark', theme === 'dark')
+    try { localStorage.setItem('theme', theme) } catch (e) { /* ignore */ }
+  }, [theme])
+  const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
+
+  // Reveal-on-scroll — fade each section up as it enters. Sections already
+  // in view on load are shown immediately (no flash); reduced-motion opts out.
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const secs = Array.from(document.querySelectorAll('main > section'))
+    if (reduce) { secs.forEach((s) => s.classList.add('reveal', 'in')); return }
+    const vh = window.innerHeight
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+      }),
+      { threshold: 0.06, rootMargin: '0px 0px -6% 0px' }
+    )
+    secs.forEach((s) => {
+      if (s.getBoundingClientRect().top < vh * 0.92) s.classList.add('reveal', 'in')
+      else { s.classList.add('reveal'); io.observe(s) }
+    })
+    return () => io.disconnect()
+  }, [])
+
   return (
     <div className="relative min-h-screen">
-      <SpaceBackdrop />
       <div className="relative z-10">
-        <NavBar />
+        {/* Variant C brings its own header (hamburger + signature + theme toggle) */}
+        {heroVariant !== 'portfolio' && <NavBar heroVariant={heroVariant} />}
         <main>
-          <Profile />
+          {heroVariant === 'portfolio' ? (
+            <PortfolioHero theme={theme} onToggleTheme={toggleTheme} />
+          ) : heroVariant === 'light' ? (
+            <HeroLight />
+          ) : (
+            <HeroDark />
+          )}
+          <WorkedWith />
           <TheAngle />
           <CareerArc onSelectWork={setWorkI} />
           <Leadership />
@@ -1259,11 +1301,13 @@ export default function App() {
           <Capabilities />
           <Judgment />
           <SelectedWork i={workI} setI={setWorkI} />
-          <Blogs />
+          <Blogs onOpen={setOpenBlog} />
           <Contact />
         </main>
         <Footer />
       </div>
+      {openBlog && <BlogReader slug={openBlog} onClose={() => setOpenBlog(null)} />}
+      <HeroSwitcher variant={heroVariant} />
       <Analytics />
     </div>
   )
