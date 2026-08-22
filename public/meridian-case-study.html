@@ -168,6 +168,52 @@
   /* ---------- SVG SIGNATURE ---------- */
   figure{margin:8px 0 0}
   .fig-cap{font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);margin-top:16px;letter-spacing:.02em;line-height:1.5}
+  /* ── The sign-off package ─────────────────────────────────────
+     A specimen of the deliverable rather than a flow diagram: the
+     boxes-and-arrows version restated the sentence above it and was
+     unreadable on a phone. Reads as a document, reflows as one. */
+  .sop-title{
+    font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;
+    font-weight:700;font-size:clamp(21px,2.6vw,30px);line-height:1.2;
+    letter-spacing:-.02em;color:var(--ink);margin:0 0 26px;max-width:22ch;
+  }
+  .sop{border-top:1px solid var(--line-strong)}
+  .sop-row{
+    display:grid;grid-template-columns:3rem minmax(0,1.15fr) minmax(0,.85fr);
+    gap:0 34px;align-items:baseline;
+    padding:20px 0 22px;border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .sop-n{
+    font-family:'Space Mono',ui-monospace,monospace;font-size:12px;
+    color:var(--ink-soft);opacity:.4;letter-spacing:.02em;
+  }
+  .sop-field{
+    display:block;font-family:'Space Mono',ui-monospace,monospace;
+    font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+    color:var(--plasma);margin-bottom:9px;
+  }
+  .sop-what{
+    margin:0;font-size:clamp(16px,1.7vw,19px);line-height:1.45;color:var(--ink);
+  }
+  .sop-why{
+    margin:0;font-size:14.5px;line-height:1.5;color:var(--ink-soft);opacity:.62;
+  }
+  /* the human gate is the only place the accent is spent */
+  .sop-row.is-gate{border-left:2px solid var(--flag);margin-left:-18px;padding-left:16px}
+  .sop-row.is-gate .sop-n{color:var(--flag);opacity:.85}
+  .sop-row.is-gate .sop-field{color:var(--flag)}
+  .sop-row.is-gate .sop-why{opacity:.8}
+  .sop-foot{
+    margin:16px 0 0;font-family:'Space Mono',ui-monospace,monospace;
+    font-size:11.5px;letter-spacing:.03em;color:var(--ink-soft);opacity:.4;
+  }
+  @media (max-width:820px){
+    .sop-row{grid-template-columns:2.25rem minmax(0,1fr);gap:0 18px;padding:18px 0 20px}
+    .sop-why{grid-column:2;margin-top:10px;font-size:14px}
+    .sop-row.is-gate{margin-left:-12px;padding-left:10px}
+  }
+
   .svg-frame{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:18px}
   svg{display:block;width:100%;height:auto}
 
@@ -300,46 +346,64 @@
     <p class="hero-lede">An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign — not a chatbot that answers questions about the law.</p>
   </div>
   <div class="wrap hero-figure">
-    <div class="codeline">// the core job, in one diagram</div>
-    <div class="svg-frame">
-      <!-- SIGNATURE: regulatory change -> agent -> mapped controls -> human gate -->
-      <svg viewBox="0 0 1000 300" role="img" aria-label="A regulatory change flows into the Meridian agent, which fans out to the specific internal controls it affects, then passes through a human sign-off gate to an immutable log.">
-        <defs>
-          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#7FB3AD"/>
-          </marker>
-          <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#C3E41D"/>
-          </marker>
-        </defs>
-        <!-- source -->
-        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.4"/>
-        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#F2F0EA">AUSTRAC update</text>
-        <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#9A978C">+ 749 other sources</text>
-        <!-- agent core -->
-        <rect x="300" y="105" width="190" height="90" rx="3" fill="#0C0C0E" stroke="#7FB3AD" stroke-width="1.6"/>
-        <text x="395" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="20" fill="#F2F0EA">MERIDIAN</text>
-        <text x="395" y="162" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#9A978C">watch · interpret · map · draft</text>
-        <line x1="178" y1="150" x2="296" y2="150" stroke="#7FB3AD" stroke-width="1.4" marker-end="url(#arr)"/>
-        <!-- control fan -->
-        <g font-family="Space Mono, monospace" font-size="11" fill="#F2F0EA">
-          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
-          <text x="624" y="58" fill="#F2F0EA">CTRL-0142 · KYC refresh</text>
-          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
-          <text x="624" y="116" fill="#F2F0EA">CTRL-0307 · Consent log</text>
-          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#C3E41D" stroke-width="1.4"/>
-          <text x="624" y="174" fill="#D6EE5C">CTRL-0511 · Data retention</text>
-          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
-          <text x="624" y="232" fill="#F2F0EA">CTRL-0688 · Reporting SLA</text>
-        </g>
-        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#C3E41D" stroke-width="1.6" marker-end="url(#arrG)"/>
-        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
-        <!-- human gate label -->
-        <text x="700" y="284" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#C3E41D">↑ flagged for human sign-off → immutable log</text>
-      </svg>
+    <p class="eyebrow">The deliverable</p>
+    <h3 class="sop-title">What the compliance officer actually signs</h3>
+    <div class="sop">
+      <div class="sop-row">
+        <span class="sop-n">01</span>
+        <div class="sop-body">
+          <span class="sop-field">the change</span>
+          <p class="sop-what">The regulator&rsquo;s own wording, cited to source and date &mdash; not the agent&rsquo;s summary of it.</p>
+        </div>
+        <p class="sop-why">A package that paraphrases the regulator is a package nobody can defend in a review.</p>
+      </div>
+
+      <div class="sop-row">
+        <span class="sop-n">02</span>
+        <div class="sop-body">
+          <span class="sop-field">the mapping</span>
+          <p class="sop-what">Which internal controls the change touches, each one carrying the basis for the claim.</p>
+        </div>
+        <p class="sop-why">Every mapping is a proposition, not an answer. The officer has to be able to reject one.</p>
+      </div>
+
+      <div class="sop-row">
+        <span class="sop-n">03</span>
+        <div class="sop-body">
+          <span class="sop-field">the delta</span>
+          <p class="sop-what">Current control text against required control text, diffed at the line.</p>
+        </div>
+        <p class="sop-why">At the level a control owner edits &mdash; not the level an executive skims.</p>
+      </div>
+
+      <div class="sop-row">
+        <span class="sop-n">04</span>
+        <div class="sop-body">
+          <span class="sop-field">the uncertainty</span>
+          <p class="sop-what">Where the interpretation is thin, stated plainly, with what would resolve it.</p>
+        </div>
+        <p class="sop-why">An agent that never admits doubt has told you nothing when it stays quiet.</p>
+      </div>
+
+      <div class="sop-row is-gate">
+        <span class="sop-n">05</span>
+        <div class="sop-body">
+          <span class="sop-field">the decision</span>
+          <p class="sop-what">Accept, amend, or refuse &mdash; attributed to a named human, before anything moves.</p>
+        </div>
+        <p class="sop-why">The one step the agent is never given. This is the whole product.</p>
+      </div>
+
+      <div class="sop-row">
+        <span class="sop-n">06</span>
+        <div class="sop-body">
+          <span class="sop-field">the record</span>
+          <p class="sop-what">Inputs, reasoning, the person, the timestamp &mdash; and the overrules.</p>
+        </div>
+        <p class="sop-why">A trail that only logs agreement proves nothing. The disagreements are the evidence.</p>
+      </div>
     </div>
+    <p class="sop-foot">Structure of the package, not a screenshot &mdash; the field content is illustrative.</p>
   </div>
 </header>
 
