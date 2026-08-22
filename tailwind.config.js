@@ -12,7 +12,7 @@ export default {
         serif: ['Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace'],
         display: ['Fira Code', 'ui-monospace', 'monospace'],
         grotesk: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Spectral', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
         mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       // All colors are CSS-variable backed so light/dark flips in one place.
