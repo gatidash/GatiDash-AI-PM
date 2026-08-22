@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Menu, X, ChevronDown, Sun, Moon, ArrowUpRight, Download, Linkedin } from 'lucide-react'
+import { Menu, X, ChevronDown, Sun, Moon, ArrowUpRight, FileText, Linkedin } from 'lucide-react'
 
 // 21st.dev "Portfolio Hero" — ported to JSX, driven by the global site theme.
 // Neon lime in dark mode; a deep sage stands in when the page is light (lime on
@@ -55,7 +55,7 @@ const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', cl
   )
 }
 
-export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {} }) {
+export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}, workedWith = [] }) {
   const isDark = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -105,7 +105,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
   ]
 
   const nameClass =
-    'font-bold text-[68px] sm:text-[120px] md:text-[164px] lg:text-[200px] leading-[0.78] tracking-tighter uppercase justify-center whitespace-nowrap'
+    'hero-name font-bold text-[68px] sm:text-[120px] md:text-[164px] lg:text-[200px] leading-[0.78] tracking-tighter uppercase justify-center whitespace-nowrap'
   const nameStyle = { color: accent, fontFamily: "'Fira Code', monospace" }
 
   return (
@@ -196,7 +196,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
 
       {/* Hero — a real flow column so mobile stacks instead of stranding the
           wordmark in the middle of an empty screen. */}
-      <main className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-28 pb-24 sm:pb-28">
+      <main className="hero-stack relative min-h-screen flex flex-col items-center justify-center px-6 pt-28 pb-24 sm:pb-28">
         {/* Wordmark + portrait */}
         <div className="flex flex-col items-center sm:flex-row sm:items-end sm:justify-center">
           {/* Cut-out portrait — no card, no grey studio backdrop. Stacked above
@@ -205,7 +205,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
           <img
             src="/profile-cutout.webp"
             alt="Portrait of Gatikrishna Dash"
-            className="pointer-events-none select-none relative z-0 mb-4 h-[132px] w-auto sm:order-2 sm:mb-0 sm:-ml-10 md:-ml-12 lg:-ml-14 sm:h-[212px] md:h-[286px] lg:h-[344px]"
+            className="hero-portrait-img pointer-events-none select-none relative z-0 mb-4 h-[132px] w-auto sm:order-2 sm:mb-0 sm:-ml-10 md:-ml-12 lg:-ml-14 sm:h-[212px] md:h-[286px] lg:h-[344px]"
             style={{ filter: `drop-shadow(0 18px 40px ${isDark ? 'rgba(0,0,0,0.6)' : 'rgba(60,58,48,0.25)'})` }}
           />
 
@@ -257,7 +257,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
               fontFamily: "'Space Grotesk', sans-serif",
             }}
           >
-            <Download className="h-4 w-4" /> Résumé
+            <FileText className="h-4 w-4" /> Résumé
           </a>
           <a
             href={LINKEDIN}
@@ -269,6 +269,32 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
         </div>
+
+        {/* Proof strip — the names carry more weight up here than they did
+            as a standalone band below the fold. */}
+        {workedWith.length > 0 && (
+          <div className="hero-proof mt-12 sm:mt-14 w-full max-w-4xl">
+            <p
+              className="text-center text-[9px] tracking-[0.16em] sm:text-[11px] sm:tracking-[0.22em] uppercase mb-5"
+              style={{ color: isDark ? 'rgba(255,255,255,0.34)' : '#9C9887', fontFamily: "'Fira Code', monospace" }}
+            >
+              Platforms &amp; institutions I&apos;ve built for
+            </p>
+            <div className="marquee marquee--hero">
+              <div className="marquee-track">
+                {[...workedWith, ...workedWith].map((name, i) => (
+                  <span
+                    key={i}
+                    className="wordmark"
+                    aria-hidden={i >= workedWith.length ? 'true' : undefined}
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Scroll indicator */}
         <a

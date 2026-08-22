@@ -725,3 +725,25 @@ h1, h2, h3 {
   .pcard:hover { transform: none; }
   .pcard:hover .pcard-media img { transform: none; }
 }
+
+/* Marquee inside the hero — quieter than the standalone band was, so the
+   wordmark still leads. */
+.marquee--hero .marquee-track { gap: 40px; animation-duration: 46s; }
+.marquee--hero .wordmark { font-size: clamp(15px, 1.5vw, 19px); opacity: 0.5; }
+.marquee--hero:hover .wordmark { opacity: 0.32; }
+.marquee--hero .wordmark:hover { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee--hero .marquee-track { row-gap: 12px; }
+}
+
+/* Short laptop viewports: the hero now carries a proof strip as well, so scale
+   the wordmark and portrait to the viewport height rather than letting the
+   strip fall past the fold. */
+@media (min-width: 640px) and (max-height: 840px) {
+  .hero-stack { padding-top: 6rem; padding-bottom: 4rem; }
+  .hero-stack .hero-name { font-size: clamp(80px, 13.5vh, 200px); }
+  /* Keep the portrait locked to the wordmark's proportions (344/200 ≈ 1.72),
+     or it outgrows the type and starts covering the letters again. */
+  .hero-stack .hero-portrait-img { height: clamp(138px, 23.2vh, 344px); margin-left: -1.5rem; }
+  .hero-stack .hero-proof { margin-top: 2.25rem; }
+}

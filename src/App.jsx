@@ -534,25 +534,6 @@ function NavBar({ heroVariant = 'dark' }) {
 // SECTIONS
 // ─────────────────────────────────────────────────────────────
 
-function WorkedWith() {
-  const loop = [...WORKED_WITH, ...WORKED_WITH]
-  return (
-    <section aria-label="Platforms and institutions worked with" className="border-t border-sand py-11 sm:py-14">
-      <Container>
-        <p className="eyebrow text-center mb-8">Platforms &amp; institutions I&apos;ve built for</p>
-        <div className="marquee">
-          <div className="marquee-track">
-            {loop.map((name, i) => (
-              <span key={i} className="wordmark" aria-hidden={i >= WORKED_WITH.length ? 'true' : undefined}>
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  )
-}
 
 function Profile() {
   return (
@@ -1502,13 +1483,12 @@ export default function App() {
         {heroVariant !== 'portfolio' && <NavBar heroVariant={heroVariant} />}
         <main>
           {heroVariant === 'portfolio' ? (
-            <PortfolioHero theme={theme} onToggleTheme={toggleTheme} />
+            <PortfolioHero theme={theme} onToggleTheme={toggleTheme} workedWith={WORKED_WITH} />
           ) : heroVariant === 'light' ? (
             <HeroLight />
           ) : (
             <HeroDark />
           )}
-          <WorkedWith />
           <TheAngle />
           <CareerArc onSelectWork={setWorkI} />
           <Leadership />
