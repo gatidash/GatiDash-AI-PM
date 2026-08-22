@@ -658,3 +658,70 @@ h1, h2, h3 {
   .blog-reader .tl-body{ padding-left:26px; }
   .blog-reader .tl-body::before{ top:2px; }
 }
+
+/* ───────────────────────────────────────────────
+   CARD CAROUSEL
+   Native scroll-snap track: real momentum, interruptible mid-flight,
+   composited off the main thread. Scrollbar hidden — the arrows,
+   dots and counter carry the affordance.
+   ─────────────────────────────────────────────── */
+.card-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-padding-left: 0;
+  cursor: grab;
+  /* Let the row bleed to the viewport edge on phones so the peek reads as
+     "there is more", not as a clipped card. */
+  padding-inline: 0.125rem;
+}
+.card-track::-webkit-scrollbar { display: none; }
+.card-track:active { cursor: grabbing; }
+.card-track > * { scroll-snap-stop: always; }
+.card-track:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-track { scroll-behavior: auto; }
+}
+
+/* Card surface shared by blogs, case studies and work */
+.pcard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 18px;
+  border: 1px solid rgb(var(--sand));
+  background: rgb(var(--paper-dark));
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+              border-color 0.3s ease, box-shadow 0.35s ease;
+  will-change: transform;
+}
+.pcard:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--accent) / 0.55);
+  box-shadow: 0 18px 40px rgb(var(--shadow) / 0.28);
+}
+.card-track:active .pcard:hover { transform: none; box-shadow: none; }
+.pcard-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: rgb(var(--paper));
+}
+.pcard-media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.pcard:hover .pcard-media img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) {
+  .pcard, .pcard-media img { transition: none; }
+  .pcard:hover { transform: none; }
+  .pcard:hover .pcard-media img { transform: none; }
+}

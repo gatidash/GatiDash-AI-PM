@@ -6,20 +6,20 @@
 <title>Meridian — Agentic Regulatory-Change Intelligence · Product Strategy Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#0C1122;      /* page void (softened for reading comfort) */
-    --card:#151C31;       /* raised panels */
-    --ink:#D4DAE8;        /* primary text — softer than pure white */
-    --ink-soft:#AEB6CD;   /* secondary text */
-    --deep:#151C31;       /* raised panel navy */
-    --deep-2:#1B2540;     /* slightly lighter panel */
-    --flag:#F79256;       /* ignition orange accent / flagged */
+    --paper:#000000;      /* page void (softened for reading comfort) */
+    --card:#0C0C0E;       /* raised panels */
+    --ink:#F2F0EA;        /* primary text — softer than pure white */
+    --ink-soft:#C9C7BE;   /* secondary text */
+    --deep:#0C0C0E;       /* raised panel navy */
+    --deep-2:#141417;     /* slightly lighter panel */
+    --flag:#C3E41D;       /* ignition orange accent / flagged */
     --clear:#46E0A0;      /* success green / cleared */
-    --line:rgba(212,218,232,.12);
-    --line-strong:rgba(212,218,232,.22);
-    --plasma:#63CEDD;     /* cyan */
+    --line:rgba(242,240,234,.13);
+    --line-strong:rgba(242,240,234,.24);
+    --plasma:#7FB3AD;     /* cyan */
     --maxw:1080px;
   }
   *{box-sizing:border-box}
@@ -34,7 +34,7 @@
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
-  ::selection{background:#F79256;color:#1a0e00}
+  ::selection{background:#C3E41D;color:#1a0e00}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
   .mono{font-family:"Space Mono",monospace}
@@ -45,7 +45,7 @@
     display:flex;align-items:center;gap:12px;margin:0 0 22px;
   }
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
-  h1,h2,h3{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0}
+  h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0}
   h2{font-size:clamp(28px,4.4vw,46px);margin-bottom:.5em}
   h3{font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.18}
   p{margin:0 0 1.05em}
@@ -67,11 +67,11 @@
     padding-bottom:22px;margin-bottom:54px;
   }
   .hero-meta span{white-space:nowrap}
-  .hero-meta b{color:#FFB77E;font-weight:500}
+  .hero-meta b{color:#D6EE5C;font-weight:500}
   .hero h1{
     font-size:clamp(40px,7.4vw,84px);color:var(--ink);max-width:14ch;margin-bottom:30px;
   }
-  .hero h1 .hl{color:#FFB77E;font-style:normal}
+  .hero h1 .hl{color:#D6EE5C;font-style:normal}
   .hero-lede{
     font-size:clamp(20px,2.5vw,25px);line-height:1.5;max-width:40ch;color:var(--ink-soft);
     border-left:2px solid var(--flag);padding-left:22px;margin-bottom:56px;
@@ -89,7 +89,7 @@
   .lead-grid .colhead{position:sticky;top:28px}
   @media(max-width:780px){.lead-grid{grid-template-columns:1fr;gap:6px}.lead-grid .colhead{position:static}}
 
-  .kicker{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
+  .kicker{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
 
   /* ---------- CASE-STUDY SHELL (summary rail) ---------- */
   .cs-shell{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;align-items:start}
@@ -119,7 +119,7 @@
   /* ---------- STAT STRIP ---------- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:8px 0 0}
   .stat{background:var(--paper);padding:26px 22px}
-  .stat .n{font-family:"Space Grotesk",sans-serif;font-weight:800;font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .stat .n{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;line-height:1;color:var(--ink)}
   .stat .n small{font-size:.5em;font-weight:700;letter-spacing:0}
   .stat .l{font-family:"Space Mono",monospace;font-size:12px;line-height:1.45;color:var(--ink-soft);margin-top:14px;text-transform:uppercase;letter-spacing:.04em}
   @media(max-width:780px){.stats{grid-template-columns:1fr 1fr}}
@@ -131,7 +131,7 @@
     background:var(--deep);color:var(--ink);border-radius:2px;padding:40px 42px;margin:8px 0;
     position:relative;
   }
-  .bet .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#FFB77E;margin-bottom:16px}
+  .bet .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#D6EE5C;margin-bottom:16px}
   .bet h3{color:var(--ink);font-size:25px;margin-bottom:14px}
   .bet p{color:var(--ink-soft);margin-bottom:0}
   .bet p+p{margin-top:.9em}
@@ -153,13 +153,13 @@
   .stage{padding:22px 18px 24px;border-right:1px solid var(--line);background:var(--card);position:relative}
   .stage:last-child{border-right:none}
   .stage .num{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
-  .stage h4{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
+  .stage h4{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
   .stage p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0;font-family:"Space Mono",monospace;letter-spacing:.01em}
   .stage.gate{background:var(--deep);color:var(--ink)}
-  .stage.gate .num{color:#FFB77E}
+  .stage.gate .num{color:#D6EE5C}
   .stage.gate h4{color:var(--ink)}
   .stage.gate p{color:var(--ink-soft)}
-  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.16em;color:#FFB77E;border:1px solid #F79256;padding:2px 5px;border-radius:2px}
+  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.16em;color:#D6EE5C;border:1px solid #C3E41D;padding:2px 5px;border-radius:2px}
   @media(max-width:880px){.pipe-row{grid-template-columns:1fr 1fr}.stage{border-bottom:1px solid var(--line)}}
   @media(max-width:480px){.pipe-row{grid-template-columns:1fr}}
   .pipe-flags{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px;font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
@@ -178,7 +178,7 @@
   .boundary .human{background:var(--deep);color:var(--ink)}
   .boundary .bhead{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
   .boundary .agent .bhead{color:var(--clear)}
-  .boundary .human .bhead{color:#FFB77E}
+  .boundary .human .bhead{color:#D6EE5C}
   .boundary ul{list-style:none;margin:0;padding:0}
   .boundary li{font-size:16px;line-height:1.4;padding:13px 0;border-top:1px solid var(--line)}
   .boundary .human li{border-top:1px solid var(--line);color:var(--ink-soft)}
@@ -189,7 +189,7 @@
   /* ---------- FAILURE / RISK LIST ---------- */
   .rows{margin-top:8px;border-top:1px solid var(--line)}
   .rowx{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px 46px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
-  .rowx .rl{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .rowx .rl{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:18px;letter-spacing:-.01em}
   .rowx .rl .sev{display:block;font-family:"Space Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;color:var(--flag)}
   .rowx p{font-size:16.5px;margin:0;color:var(--ink-soft)}
   .rowx p b{color:var(--ink);font-weight:500}
@@ -199,19 +199,19 @@
   .metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px}
   .metric-grid>div{background:var(--paper);padding:24px 22px}
   .metric-grid .mt{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);margin-bottom:10px}
-  .metric-grid h4{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16.5px;margin:0 0 8px}
+  .metric-grid h4{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16.5px;margin:0 0 8px}
   .metric-grid p{font-size:14.5px;line-height:1.45;color:var(--ink-soft);margin:0}
   @media(max-width:780px){.metric-grid{grid-template-columns:1fr}}
   .northstar{background:var(--deep);color:var(--ink);border-radius:2px;padding:30px 34px;margin-top:22px}
-  .northstar .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#FFB77E;margin-bottom:12px}
+  .northstar .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D6EE5C;margin-bottom:12px}
   .northstar p{font-size:22px;line-height:1.4;margin:0;color:var(--ink)}
-  .northstar p b{color:#FFB77E;font-weight:400;font-style:italic}
+  .northstar p b{color:#D6EE5C;font-weight:400;font-style:italic}
 
   /* ---------- ROADMAP ---------- */
   .road{margin-top:8px}
   .phase{display:grid;grid-template-columns:140px 1fr;gap:36px;padding:26px 0;border-top:1px solid var(--line);align-items:baseline}
   .phase:first-child{border-top:none}
-  .phase .pn{font-family:"Space Grotesk",sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--flag)}
+  .phase .pn{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--flag)}
   .phase .pn small{display:block;font-family:"Space Mono",monospace;font-weight:400;font-size:11px;letter-spacing:.06em;color:var(--ink-soft);margin-top:6px;text-transform:uppercase}
   .phase h3{font-size:19px;margin-bottom:8px}
   .phase p{font-size:16px;margin:0;color:var(--ink-soft)}
@@ -229,13 +229,13 @@
   /* ---------- REFLECTION ---------- */
   .reflect{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:42px 44px;margin-top:8px}
   .reflect p:last-child{margin-bottom:0}
-  .reflect .q{font-family:"Space Grotesk",sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
+  .reflect .q{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
 
   /* ---------- FOOTER ---------- */
   footer{background:var(--deep);color:var(--ink-soft);padding:56px 0;border-top:none}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:baseline}
   footer .mono{font-size:12.5px;letter-spacing:.04em}
-  footer b{color:#FFB77E;font-weight:500}
+  footer b{color:#D6EE5C;font-weight:500}
 
   /* reveal */
   .rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
@@ -245,8 +245,8 @@
   :focus-visible{outline:2px solid var(--flag);outline-offset:3px}
 
   /* deep-space backdrop (calmed for reading comfort) */
-  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(255,138,61,.055),transparent 48%),radial-gradient(circle at 85% 20%,rgba(91,214,232,.045),transparent 42%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.055),transparent 48%);}
-  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(233,236,247,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(233,236,247,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(233,236,247,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(233,236,247,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(233,236,247,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 16s ease-in-out infinite;}
+  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(195,228,29,.07),transparent 48%),radial-gradient(circle at 85% 20%,rgba(127,179,173,.045),transparent 42%),radial-gradient(circle at 10% 80%,rgba(124,92,231,.055),transparent 48%);}
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 20% 30%,rgba(242,240,234,.9),transparent),radial-gradient(1px 1px at 75% 18%,rgba(242,240,234,.7),transparent),radial-gradient(1.4px 1.4px at 40% 70%,rgba(200,225,255,.8),transparent),radial-gradient(1px 1px at 88% 60%,rgba(242,240,234,.6),transparent),radial-gradient(1.2px 1.2px at 12% 55%,rgba(255,220,235,.7),transparent),radial-gradient(1px 1px at 60% 42%,rgba(242,240,234,.6),transparent),radial-gradient(1.3px 1.3px at 30% 12%,rgba(242,240,234,.8),transparent),radial-gradient(1px 1px at 95% 88%,rgba(200,225,255,.6),transparent);background-repeat:repeat;background-size:700px 700px;animation:twinkle 16s ease-in-out infinite;}
   @keyframes twinkle{0%,100%{opacity:.48}50%{opacity:.36}}
 
   /* nav header */
@@ -254,9 +254,9 @@
   .topnav .wrap{height:56px;display:flex;align-items:center;justify-content:space-between}
   .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
   .backlink:hover{color:var(--flag);border-color:var(--flag)}
-  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-  .brand:hover{color:#FFB77E}
-  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .brand:hover{color:#D6EE5C}
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:var(--accent,#C3E41D);color:#12140A;font-family:'Fira Code',ui-monospace,monospace;font-weight:700;font-size:13px;line-height:1}
 </style>
 </head>
 <body>
@@ -265,7 +265,7 @@
 <nav class="topnav">
   <div class="wrap">
     <a class="brand" href="/">
-      <span class="brand-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2c3.5 4 5 8 4 14H8c-1-6 .5-10 4-14Z" fill="#240e00"/><path d="M8 16l-3 4 4-1m6-3l3 4-4-1" stroke="#240e00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="1.8" fill="#FF5E3A"/></svg></span>
+      <span class="brand-badge">G</span>
       Gatikrishna Dash
     </a>
     <a class="backlink" href="/case-studies.html">← Case studies</a>
@@ -306,38 +306,38 @@
       <svg viewBox="0 0 1000 300" role="img" aria-label="A regulatory change flows into the Meridian agent, which fans out to the specific internal controls it affects, then passes through a human sign-off gate to an immutable log.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#63CEDD"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#7FB3AD"/>
           </marker>
           <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#F79256"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#C3E41D"/>
           </marker>
         </defs>
         <!-- source -->
-        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.4"/>
-        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#D4DAE8">AUSTRAC update</text>
-        <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#8B92B1">+ 749 other sources</text>
+        <rect x="24" y="120" width="150" height="60" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.4"/>
+        <text x="99" y="146" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" fill="#F2F0EA">AUSTRAC update</text>
+        <text x="99" y="164" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#9A978C">+ 749 other sources</text>
         <!-- agent core -->
-        <rect x="300" y="105" width="190" height="90" rx="3" fill="#151C31" stroke="#63CEDD" stroke-width="1.6"/>
-        <text x="395" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="20" fill="#D4DAE8">MERIDIAN</text>
-        <text x="395" y="162" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#8B92B1">watch · interpret · map · draft</text>
-        <line x1="178" y1="150" x2="296" y2="150" stroke="#63CEDD" stroke-width="1.4" marker-end="url(#arr)"/>
+        <rect x="300" y="105" width="190" height="90" rx="3" fill="#0C0C0E" stroke="#7FB3AD" stroke-width="1.6"/>
+        <text x="395" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="20" fill="#F2F0EA">MERIDIAN</text>
+        <text x="395" y="162" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#9A978C">watch · interpret · map · draft</text>
+        <line x1="178" y1="150" x2="296" y2="150" stroke="#7FB3AD" stroke-width="1.4" marker-end="url(#arr)"/>
         <!-- control fan -->
-        <g font-family="Space Mono, monospace" font-size="11" fill="#D4DAE8">
-          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
-          <text x="624" y="58" fill="#D4DAE8">CTRL-0142 · KYC refresh</text>
-          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
-          <text x="624" y="116" fill="#D4DAE8">CTRL-0307 · Consent log</text>
-          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#F79256" stroke-width="1.4"/>
-          <text x="624" y="174" fill="#FFB77E">CTRL-0511 · Data retention</text>
-          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#63CEDD" stroke-width="1.1"/>
-          <text x="624" y="232" fill="#D4DAE8">CTRL-0688 · Reporting SLA</text>
+        <g font-family="Space Mono, monospace" font-size="11" fill="#F2F0EA">
+          <rect x="610" y="36" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
+          <text x="624" y="58" fill="#F2F0EA">CTRL-0142 · KYC refresh</text>
+          <rect x="610" y="94" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
+          <text x="624" y="116" fill="#F2F0EA">CTRL-0307 · Consent log</text>
+          <rect x="610" y="152" width="186" height="34" rx="3" fill="none" stroke="#C3E41D" stroke-width="1.4"/>
+          <text x="624" y="174" fill="#D6EE5C">CTRL-0511 · Data retention</text>
+          <rect x="610" y="210" width="186" height="34" rx="3" fill="none" stroke="#7FB3AD" stroke-width="1.1"/>
+          <text x="624" y="232" fill="#F2F0EA">CTRL-0688 · Reporting SLA</text>
         </g>
-        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
-        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#F79256" stroke-width="1.6" marker-end="url(#arrG)"/>
-        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#63CEDD" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,140 C545,90 560,53 606,53" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,146 C545,120 560,111 606,111" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
+        <path d="M492,154 C545,160 560,169 606,169" fill="none" stroke="#C3E41D" stroke-width="1.6" marker-end="url(#arrG)"/>
+        <path d="M492,160 C545,200 560,227 606,227" fill="none" stroke="#7FB3AD" stroke-width="1.2" marker-end="url(#arr)"/>
         <!-- human gate label -->
-        <text x="700" y="284" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#F79256">↑ flagged for human sign-off → immutable log</text>
+        <text x="700" y="284" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#C3E41D">↑ flagged for human sign-off → immutable log</text>
       </svg>
     </div>
   </div>
@@ -447,7 +447,7 @@
           <div class="tag">Scope discipline — v1</div>
           <h3>What ships, and what deliberately doesn't.</h3>
           <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">In:</b> continuous monitoring of a defined source set · obligation extraction · mapping to the customer's existing control library · drafted impact summaries, control redlines, and remediation tickets · full audit log.</p>
-          <p style="color:#FFB77E"><b style="color:#FFB77E;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
+          <p style="color:#D6EE5C"><b style="color:#D6EE5C;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
         </div>
       </div>
     </div>
@@ -622,7 +622,7 @@
 
 <footer>
   <div class="wrap">
-    <span class="mono"><a href="/case-studies.html" style="color:#FFB77E;text-decoration:none">← Back to all case studies</a></span>
+    <span class="mono"><a href="/case-studies.html" style="color:#D6EE5C;text-decoration:none">← Back to all case studies</a></span>
     <span class="mono">Product strategy case study · conceptual · <b>codename, not a shipped product</b></span>
   </div>
 </footer>

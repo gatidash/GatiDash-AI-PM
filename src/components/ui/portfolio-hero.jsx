@@ -99,9 +99,9 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
     { label: 'CAREER', href: '#career' },
     { label: 'WORK', href: '#work' },
     { label: 'JUDGMENT', href: '#judgment' },
+    { label: 'CASE STUDIES', href: '#case-studies' },
     { label: 'WRITING', href: '#blogs' },
     { label: 'CONTACT', href: '#contact' },
-    { label: 'CASE STUDIES →', href: '/case-studies.html' },
   ]
 
   const nameClass =

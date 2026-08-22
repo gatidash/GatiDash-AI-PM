@@ -6,6 +6,7 @@ import { track } from '@vercel/analytics'
 import { HeroDark, HeroLight, HeroSwitcher } from './Heroes'
 import PortfolioHero from '@/components/ui/portfolio-hero'
 import { Carousel } from '@/components/ui/carousel'
+import { CardCarousel } from '@/components/ui/card-carousel'
 
 // ─────────────────────────────────────────────────────────────
 // CONTENT — edit copy here without touching JSX
@@ -20,6 +21,7 @@ const NAV = [
   { id: 'capabilities', label: 'Capabilities' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
+  { id: 'case-studies', label: 'Case Studies' },
   { id: 'blogs', label: 'Blogs' },
   { id: 'contact', label: 'Contact' },
 ]
@@ -45,6 +47,7 @@ const WORK = [
     n: '01',
     title: 'The data foundation for financial crime — and the launches it unlocked',
     meta: 'GFC/AML data platform · CRR · Crypto & SAR reporting · 2018–2021',
+    kicker: '2018–2021 · Data platform',
     context:
       'New bets — PayPal offering crypto to US customers for the first time (gated by NYDFS licensing) and a payments license in China — were blocked on regulatory reporting infrastructure that didn’t exist yet, while PayPal’s financial-crime teams needed a data layer they could actually trust for AML and risk decisions. Compliance was being treated as a launch tax — and I’d just been moved into a new product role inside the data-engineering org to fix exactly that.',
     move:
@@ -62,6 +65,7 @@ const WORK = [
     n: '02',
     title: 'One regulatory-reporting platform, not one tool per regulator',
     meta: 'Platform consolidation · 2020–2023',
+    kicker: '2020–2023 · Consolidation',
     context:
       'We were building one tool per regulator. Each report took roughly a quarter to onboard, and the team was spending more time maintaining than shipping. Brexit and a handful of new mandates were about to make the maintenance load worse.',
     move:
@@ -79,6 +83,7 @@ const WORK = [
     n: '03',
     title: 'Agentic AI for compliance review at PayPal',
     meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–2025',
+    kicker: '2023–2025 · Agentic AI',
     context:
       'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
     move:
@@ -387,6 +392,30 @@ const BLOGS = [
   },
 ]
 
+// Standalone deep-dive pages that live in /public
+const CASE_STUDIES = [
+  {
+    n: '01',
+    title: 'Retention, Rebuilt: Generative \u2192 Agentic',
+    kicker: '2024 \u2192 2026 \u00b7 Retention',
+    excerpt:
+      "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop \u2014 an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
+    href: '/merchant-retention-case-study.html',
+    tags: ['\u221260% churn', '+25\u201340% LTV', '3 autonomy tiers'],
+    kind: 'Interactive',
+  },
+  {
+    n: '02',
+    title: 'Meridian \u2014 Agentic Regulatory-Change Intelligence',
+    kicker: 'Agentic \u00b7 RegTech',
+    excerpt:
+      'An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign \u2014 not a chatbot that answers questions about the law.',
+    href: '/meridian-case-study.html',
+    tags: ['AUSTRAC \u00b7 MAS \u00b7 CSSF', '200+ changes/day', 'Concept'],
+    kind: 'Concept',
+  },
+]
+
 const LINKS = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
@@ -658,37 +687,98 @@ function Profile() {
   )
 }
 
-function WorkSlide({ w }) {
+function WorkCard({ w, onOpen }) {
   return (
-    <div className="grid lg:grid-cols-12 gap-y-6 gap-x-12">
-      <div className="lg:col-span-8">
-        <span className="font-serif text-4xl sm:text-5xl text-accent leading-none">{w.n}</span>
-        <h3 className="display-serif text-2xl sm:text-3xl leading-[1.15] max-w-prose-wide mt-4">
-          {w.title}
-        </h3>
-        <div className="mt-5 space-y-4 max-w-prose-wide">
-          <Paragraph label="Context" body={w.context} />
-          <Paragraph label="What I did" body={w.move} />
-          <Paragraph label="What I would tell the next team" body={w.proves} accent />
-        </div>
+    <button type="button" onClick={() => onOpen(w.n)} className="pcard w-full p-7 sm:p-8 group">
+      <div className="flex items-baseline gap-4">
+        <span className="font-serif text-3xl sm:text-4xl text-accent leading-none">{w.n}</span>
+        <span className="eyebrow truncate">{w.kicker}</span>
       </div>
 
-      <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
-        <div className="eyebrow mb-6">Operating impact</div>
-        <dl className="divide-y divide-sand">
-          {w.metrics.map((m) => (
-            <div key={m.l} className="py-4 first:pt-0">
-              <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
-              <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
-            </div>
-          ))}
-        </dl>
-      </aside>
+      <h3 className="display-serif text-xl sm:text-2xl text-ink leading-[1.2] mt-5 group-hover:text-accent transition-colors">
+        {w.title}
+      </h3>
+
+      <p className="mt-4 text-[15px] text-smoke leading-relaxed line-clamp-4">{w.context}</p>
+
+      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-sand pt-5">
+        {w.metrics.slice(0, 2).map((m) => (
+          <div key={m.l}>
+            <dt className="font-serif text-xl text-ink leading-none">{m.v}</dt>
+            <dd className="mt-1.5 text-xs text-smoke leading-snug line-clamp-2">{m.l}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+        Read the case <ArrowUpRight className="h-4 w-4" />
+      </span>
+    </button>
+  )
+}
+
+// Full detail for one piece of work, opened from a card.
+function WorkReader({ n, onClose }) {
+  const w = WORK.find((x) => x.n === n)
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    window.scrollTo(0, 0)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [onClose])
+  if (!w) return null
+  return (
+    <div className="fixed inset-0 z-[100] bg-paper overflow-y-auto">
+      <div className="sticky top-0 z-10 bg-paper/90 backdrop-blur-md border-b border-sand">
+        <Container className="h-14 flex items-center justify-between">
+          <button
+            onClick={onClose}
+            className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to portfolio
+          </button>
+          <span className="font-serif text-sm text-ink tracking-editorial">Selected work</span>
+        </Container>
+      </div>
+
+      <Container className="py-12 sm:py-16">
+        <div className="eyebrow">{w.meta}</div>
+        <h1 className="display-serif text-3xl sm:text-4xl lg:text-5xl leading-[1.1] mt-4 max-w-4xl">
+          {w.title}
+        </h1>
+
+        <div className="mt-10 grid lg:grid-cols-12 gap-y-10 gap-x-12">
+          <div className="lg:col-span-8 space-y-6 max-w-prose-wide">
+            <Paragraph label="Context" body={w.context} />
+            <Paragraph label="What I did" body={w.move} />
+            <Paragraph label="What I would tell the next team" body={w.proves} accent />
+          </div>
+          <aside className="lg:col-span-4 lg:pl-8 lg:border-l border-sand">
+            <div className="eyebrow mb-6">Operating impact</div>
+            <dl className="divide-y divide-sand">
+              {w.metrics.map((m) => (
+                <div key={m.l} className="py-4 first:pt-0">
+                  <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
+                  <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </div>
+      </Container>
     </div>
   )
 }
 
-function SelectedWork({ i, setI }) {
+function SelectedWork({ i, onOpen }) {
+  const api = useRef(null)
+  useEffect(() => {
+    api.current?.scrollToIndex(i)
+  }, [i])
   return (
     <section id="work" className="py-14 sm:py-20 border-t border-sand">
       <Container>
@@ -701,12 +791,12 @@ function SelectedWork({ i, setI }) {
         </p>
 
         <div className="mt-8">
-          <Carousel
-            ariaLabel="Selected work case studies"
-            index={i}
-            onIndex={setI}
-            slideLabels={WORK.map((w) => w.meta)}
-            slides={WORK.map((w) => <WorkSlide key={w.n} w={w} />)}
+          <CardCarousel
+            ariaLabel="Selected work"
+            items={WORK}
+            itemKey={(w) => w.n}
+            onReady={(a) => (api.current = a)}
+            renderItem={(w) => <WorkCard w={w} onOpen={onOpen} />}
           />
         </div>
       </Container>
@@ -1062,11 +1152,164 @@ function BlogReader({ slug, onClose }) {
   )
 }
 
+function CaseStudyCard({ c }) {
+  return (
+    <a
+      href={c.href}
+      onClick={() => track('open_case_study', { href: c.href })}
+      className="pcard p-7 sm:p-8 group"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span className="eyebrow truncate">{c.kicker}</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wide-caps text-accent border border-accent/40 rounded-full px-2.5 py-1 flex-shrink-0">
+          {c.kind}
+        </span>
+      </div>
+
+      <h3 className="display-serif text-xl sm:text-2xl text-ink leading-[1.2] mt-5 group-hover:text-accent transition-colors">
+        {c.title}
+      </h3>
+
+      <p className="mt-4 text-[15px] text-smoke leading-relaxed">{c.excerpt}</p>
+
+      <ul className="mt-6 flex flex-wrap gap-2">
+        {c.tags.map((t) => (
+          <li
+            key={t}
+            className="rounded-full border border-sand px-3 py-1 font-mono text-[11px] text-ink-soft"
+          >
+            {t}
+          </li>
+        ))}
+      </ul>
+
+      <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+        Explore case <ArrowUpRight className="h-4 w-4" />
+      </span>
+    </a>
+  )
+}
+
+function CaseStudies() {
+  return (
+    <section id="case-studies" className="py-16 sm:py-24 border-t border-sand">
+      <Container>
+        <SectionLabel n="07">Case studies</SectionLabel>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          Interactive deep-dives.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          How I frame a problem, scope it for governance, and design AI that has to clear an audit. Each one opens end to end.
+        </p>
+
+        <div className="mt-10">
+          <CardCarousel
+            ariaLabel="Case studies"
+            items={CASE_STUDIES}
+            itemKey={(c) => c.href}
+            cardClass="w-[86%] sm:w-[64%] lg:w-[52%]" 
+            renderItem={(c) => <CaseStudyCard c={c} />}
+          />
+        </div>
+
+        <a
+          href="/case-studies.html"
+          className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:gap-3 transition-all"
+        >
+          All case studies <ArrowUpRight className="h-4 w-4" />
+        </a>
+      </Container>
+    </section>
+  )
+}
+
+function FeatureBlogCard({ b, onOpen }) {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        track('open_blog', { slug: b.slug })
+        onOpen(b.slug)
+      }}
+      className="pcard w-full grid lg:grid-cols-[1.05fr_1fr] group"
+    >
+      <div className="pcard-media aspect-[16/10] lg:aspect-auto">
+        <img src={b.cover} alt="" loading="lazy" />
+      </div>
+      <div className="p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
+        <span className="text-[11px] font-semibold uppercase tracking-wide-caps text-accent">
+          {b.topic}
+        </span>
+        <h3 className="display-serif text-2xl sm:text-3xl lg:text-[38px] text-ink leading-[1.08] mt-3 group-hover:text-accent transition-colors">
+          {b.title}
+        </h3>
+        <p className="mt-4 text-base sm:text-lg text-smoke leading-relaxed">{b.excerpt}</p>
+        <div className="mt-6 flex items-center gap-2.5 text-sm text-dust">
+          <img
+            src={LINKS.photo}
+            alt=""
+            className="h-6 w-6 rounded-full object-cover border border-sand"
+          />
+          <span className="text-ink-soft">Gatikrishna Dash</span>
+          <span aria-hidden="true">·</span>
+          <span>{b.date}</span>
+          <span aria-hidden="true">·</span>
+          <span>{b.read}</span>
+        </div>
+        <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+          Read essay <ArrowUpRight className="h-4 w-4" />
+        </span>
+      </div>
+    </button>
+  )
+}
+
+function BlogCard({ b, onOpen }) {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        track('open_blog', { slug: b.slug })
+        onOpen(b.slug)
+      }}
+      className="pcard w-full group"
+    >
+      <div className="pcard-media">
+        <img src={b.cover} alt="" loading="lazy" />
+      </div>
+      <div className="flex flex-1 flex-col p-7 sm:p-8">
+        <span className="text-[11px] font-semibold uppercase tracking-wide-caps text-accent">
+          {b.topic}
+        </span>
+        <h3 className="display-serif text-xl sm:text-2xl text-ink leading-[1.18] mt-3 group-hover:text-accent transition-colors">
+          {b.title}
+        </h3>
+        <p className="mt-4 text-[15px] text-smoke leading-relaxed">{b.excerpt}</p>
+        <div className="mt-6 flex items-center gap-2.5 text-sm text-dust">
+          <img
+            src={LINKS.photo}
+            alt=""
+            className="h-6 w-6 rounded-full object-cover border border-sand"
+          />
+          <span className="text-ink-soft">Gatikrishna Dash</span>
+          <span aria-hidden="true">·</span>
+          <span>{b.date}</span>
+          <span aria-hidden="true">·</span>
+          <span>{b.read}</span>
+        </div>
+        <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+          Read essay <ArrowUpRight className="h-4 w-4" />
+        </span>
+      </div>
+    </button>
+  )
+}
+
 function Blogs({ onOpen }) {
   return (
-    <section id="blogs" className="min-h-screen flex flex-col justify-center border-t border-sand py-20 sm:py-24">
+    <section id="blogs" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="07">Blogs</SectionLabel>
+        <SectionLabel n="08">Blogs</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Field notes on AI.
         </h2>
@@ -1074,50 +1317,21 @@ function Blogs({ onOpen }) {
           Essays on where AI product work is actually heading — written for people who have to ship it under governance, not just talk about it.
         </p>
 
-        <div className="mt-10 sm:mt-14 flex flex-col gap-8">
-          {BLOGS.map((b) => (
-            <button
-              key={b.slug}
-              type="button"
-              onClick={() => { track('open_blog', { slug: b.slug }); onOpen(b.slug) }}
-              className="group card-lift text-left w-full grid lg:grid-cols-[1.05fr_1fr] overflow-hidden rounded-2xl border border-sand bg-paper-dark"
-            >
-              <div className="bg-paper overflow-hidden aspect-[16/10] lg:aspect-auto">
-                <img
-                  src={b.cover}
-                  alt=""
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
-                <span className="text-[11px] font-semibold uppercase tracking-wide-caps text-accent">
-                  {b.topic}
-                </span>
-                <h3 className="display-serif text-2xl sm:text-3xl lg:text-[38px] text-ink leading-[1.08] mt-3 group-hover:text-accent transition-colors">
-                  {b.title}
-                </h3>
-                <p className="mt-4 text-base sm:text-lg text-smoke leading-relaxed">
-                  {b.excerpt}
-                </p>
-                <div className="mt-6 flex items-center gap-2.5 text-sm text-dust">
-                  <img
-                    src={LINKS.photo}
-                    alt=""
-                    className="h-6 w-6 rounded-full object-cover border border-sand"
-                  />
-                  <span className="text-ink-soft">Gatikrishna Dash</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{b.date}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{b.read}</span>
-                </div>
-                <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
-                  Read essay <ArrowUpRight className="h-4 w-4" />
-                </span>
-              </div>
-            </button>
-          ))}
+        <div className="mt-10">
+          {BLOGS.length > 1 ? (
+            <CardCarousel
+              ariaLabel="Essays"
+              items={BLOGS}
+              itemKey={(b) => b.slug}
+              cardClass="w-[85%] sm:w-[58%] lg:w-[42%]"
+              renderItem={(b) => <BlogCard b={b} onOpen={onOpen} />}
+            />
+          ) : (
+            // One essay so far — a lone 42%-wide card in a 1160px row reads as a
+            // mistake, so a single post gets the wide split card. The carousel
+            // takes over automatically at two.
+            <FeatureBlogCard b={BLOGS[0]} onOpen={onOpen} />
+          )}
         </div>
       </Container>
     </section>
@@ -1128,7 +1342,7 @@ function Contact() {
   return (
     <section id="contact" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="08">Contact</SectionLabel>
+        <SectionLabel n="09">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -1241,6 +1455,7 @@ function SpaceBackdrop() {
 export default function App() {
   const [workI, setWorkI] = useState(0)
   const [openBlog, setOpenBlog] = useState(null)
+  const [openWork, setOpenWork] = useState(null)
 
   // Hero variant: default → 21st Portfolio Hero; ?v=dark / ?v=light show the legacy comparison heroes
   const vParam =
@@ -1300,13 +1515,15 @@ export default function App() {
           <GovernanceToolkit />
           <Capabilities />
           <Judgment />
-          <SelectedWork i={workI} setI={setWorkI} />
+          <SelectedWork i={workI} onOpen={setOpenWork} />
+          <CaseStudies />
           <Blogs onOpen={setOpenBlog} />
           <Contact />
         </main>
         <Footer />
       </div>
       {openBlog && <BlogReader slug={openBlog} onClose={() => setOpenBlog(null)} />}
+      {openWork && <WorkReader n={openWork} onClose={() => setOpenWork(null)} />}
       <HeroSwitcher variant={heroVariant} />
       <Analytics />
     </div>
