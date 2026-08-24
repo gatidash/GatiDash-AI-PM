@@ -1686,6 +1686,27 @@ export default function App() {
     return () => io.disconnect()
   }, [])
 
+  // Deep links like /#artifacts — the "← Artifacts" back-link on an artifact
+  // page, or any shared section URL — must land on that section, not the top.
+  // The browser's native anchor jump fires before hydration and the async hero
+  // image/fonts settle, so it doesn't stick. Re-align once the layout is stable.
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.replace('#', ''))
+    if (!id) return
+    const align = () => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView()
+    }
+    const frame = requestAnimationFrame(() => requestAnimationFrame(align))
+    const t = setTimeout(align, 250)
+    window.addEventListener('load', align)
+    return () => {
+      cancelAnimationFrame(frame)
+      clearTimeout(t)
+      window.removeEventListener('load', align)
+    }
+  }, [])
+
   return (
     <div className="relative min-h-screen">
       <div className="relative z-10">

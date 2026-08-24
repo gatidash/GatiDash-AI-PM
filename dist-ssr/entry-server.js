@@ -1885,6 +1885,22 @@ function App() {
     });
     return () => io.disconnect();
   }, []);
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.replace("#", ""));
+    if (!id) return;
+    const align = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView();
+    };
+    const frame = requestAnimationFrame(() => requestAnimationFrame(align));
+    const t = setTimeout(align, 250);
+    window.addEventListener("load", align);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(t);
+      window.removeEventListener("load", align);
+    };
+  }, []);
   return /* @__PURE__ */ jsxs("div", { className: "relative min-h-screen", children: [
     /* @__PURE__ */ jsxs("div", { className: "relative z-10", children: [
       heroVariant !== "portfolio" && /* @__PURE__ */ jsx(NavBar, { heroVariant }),
