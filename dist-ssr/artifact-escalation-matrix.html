@@ -193,8 +193,12 @@ ROW A: AGENT ABSTAINED
                  every partial finding with its citations, and the source
                  document at the cited offsets. The reviewer starts from the
                  agent&#x27;s work, not from zero.
-  On breach      Escalates to T3 queue. An unreviewed abstention is an open
-                 regulatory question with nobody&#x27;s name on it.
+  On breach      Escalates to the T3 queue. If the case is already sitting in T3
+                 for another reason, T3&#x27;s own breach rule applies instead and the
+                 action class is suspended, which is the stricter of the two. The
+                 row sets a floor on the failure path. It never softens one. An
+                 unreviewed abstention is an open regulatory question with
+                 nobody&#x27;s name on it.
   Why            The agent stopping is a signal, not an absence of one. Silent
                  abstentions are how a backlog of unanswered obligations forms.
 
@@ -228,7 +232,10 @@ INVARIANTS - checked in code at policy load, not left to reviewers
       timestamp, and the exact payload approved. No approver, no execution.
   I5  Approval is bound to a payload hash. If the agent re-derives the action,
       the old approval is void.
-  I6  A tier may be raised at runtime. It may never be lowered at runtime.
+  I6  A tier may be raised at runtime. It may never be lowered at runtime. The
+      same rule applies to on_timeout: an override may make the failure path
+      stricter and never weaker, which is why a special row&#x27;s on_timeout is a
+      floor rather than a replacement.
 
   THE SAME TABLE, OUTSIDE COMPLIANCE
   Nothing above is specific to a regulator. The tier is set by what the action
@@ -495,11 +502,25 @@ POLICY: dict[str, Any] = json.loads(Path(<span class="s">&quot;policy/hitl_routi
 TIER_ORDER = [<span class="s">&quot;T0&quot;</span>, <span class="s">&quot;T1&quot;</span>, <span class="s">&quot;T2&quot;</span>, <span class="s">&quot;T3&quot;</span>]
 LEGAL_TIMEOUT_ACTIONS = {<span class="s">&quot;park&quot;</span>, <span class="s">&quot;escalate&quot;</span>, <span class="s">&quot;cancel&quot;</span>, <span class="s">&quot;suspend&quot;</span>, <span class="b">None</span>}
 
-<span class="c"># Timeout behaviours ranked by how much they restrain the system. An override</span>
-<span class="c"># may make the failure path stricter. It may never make it weaker -- that is</span>
-<span class="c"># I6 applied to the timeout, and it is a real bug if you skip it: an override</span>
-<span class="c"># that raises the tier while quietly relaxing on_timeout hands you a stricter</span>
-<span class="c"># approver and a looser failure mode.</span>
+<span class="c"># Timeout behaviours ranked by how much they restrain the system, not by how</span>
+<span class="c"># much attention they attract. &quot;escalate&quot; sits below &quot;park&quot; on purpose: an</span>
+<span class="c"># escalated item is still live and can still be approved by somebody further up,</span>
+<span class="c"># while a parked one cannot move at all until a human comes back to it. &quot;cancel&quot;</span>
+<span class="c"># voids the proposal, &quot;suspend&quot; takes the whole action class off the table.</span>
+<span class="c">#</span>
+<span class="c"># An override&#x27;s on_timeout is a floor and nothing else. It may make the failure</span>
+<span class="c"># path stricter. It may never make it weaker -- that is I6 applied to the</span>
+<span class="c"># timeout, and skipping it is a real bug: an override that raises the tier while</span>
+<span class="c"># quietly relaxing on_timeout hands you a stricter approver and a looser failure</span>
+<span class="c"># mode.</span>
+<span class="c">#</span>
+<span class="c"># The consequence, written down so nobody reads the policy and expects more:</span>
+<span class="c"># `agent_abstained` carries on_timeout &quot;escalate&quot; and min_tier &quot;T2&quot;, and every</span>
+<span class="c"># tier an abstention can land in already meets or beats that floor (T2 escalates,</span>
+<span class="c"># T3 suspends). So that field never changes an outcome under this policy. It is</span>
+<span class="c"># a guard against a future edit that drops a tier&#x27;s on_timeout, not a live</span>
+<span class="c"># behaviour. If you want abstentions to fail harder than their tier does, raise</span>
+<span class="c"># the tier. That is what min_tier is for.</span>
 TIMEOUT_SEVERITY = {<span class="b">None</span>: <span class="n">0</span>, <span class="s">&quot;escalate&quot;</span>: <span class="n">1</span>, <span class="s">&quot;park&quot;</span>: <span class="n">2</span>, <span class="s">&quot;cancel&quot;</span>: <span class="n">3</span>, <span class="s">&quot;suspend&quot;</span>: <span class="n">4</span>}
 GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <span class="s">&quot;merchant.apply&quot;</span>, <span class="s">&quot;merchant.change&quot;</span>,
                           <span class="s">&quot;merchant.pause&quot;</span>, <span class="s">&quot;meridian.attach&quot;</span>, <span class="s">&quot;meridian.decommission&quot;</span>,
@@ -677,18 +698,31 @@ validate_policy(POLICY)   <span class="c"># import-time. A bad policy never reac
         print(f<span class="s">&quot;{ex[&#x27;action_class&#x27;]:&lt;38} -&gt; {r.tier}  &quot;</span>
               f<span class="s">&quot;approvals={r.approvals_required}  sla={r.sla_minutes}  &quot;</span>
               f<span class="s">&quot;timeout={r.on_timeout}  overrides={r.applied_overrides or &#x27;-&#x27;}&quot;</span>)
-    <span class="c"># Expected (illustrative):</span>
+    <span class="c"># Real stdout (illustrative inputs), pasted, not written from memory:</span>
     <span class="c">#   merchant.apply_fee_concession          -&gt; T2  approvals=1  sla=240  timeout=escalate  overrides=-</span>
-    <span class="c">#   merchant.apply_fee_concession          -&gt; T3  approvals=2  sla=1440 timeout=suspend   overrides=[&#x27;low_confidence_high_impact&#x27;]</span>
-    <span class="c">#   meridian.emit_control_impact_packet    -&gt; T3  approvals=2  sla=1440 timeout=escalate  overrides=[&#x27;agent_abstained&#x27;, &#x27;low_confidence_high_impact&#x27;, &#x27;no_precedent&#x27;]</span>
-    <span class="c">#   merchant.send_outreach                 -&gt; T3  approvals=2  sla=1440 timeout=suspend   overrides=[&#x27;flagged_entity&#x27;]</span>
-</code></pre>
+    <span class="c">#   merchant.apply_fee_concession          -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;low_confidence_high_impact&#x27;]</span>
+    <span class="c">#   meridian.emit_control_impact_packet    -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;agent_abstained&#x27;, &#x27;low_confidence_high_impact&#x27;, &#x27;no_precedent&#x27;]</span>
+    <span class="c">#   merchant.send_outreach                 -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;flagged_entity&#x27;]</span>
+    <span class="c">#</span>
+    <span class="c"># Trace the third one, because it does not land where the override row reads</span>
+    <span class="c"># like it should. Base tier T1 for emit_control_impact_packet. `agent_abstained`</span>
+    <span class="c"># raises it to T2. `low_confidence_high_impact` matches at 0.55 confidence on a</span>
+    <span class="c"># critical band and bumps T2 to T3. `no_precedent` matches at 0.42 similarity and</span>
+    <span class="c"># asks for T2, which changes nothing. Resolved tier is T3, whose own on_timeout is</span>
+    <span class="c"># &quot;suspend&quot;. The abstention override asks for &quot;escalate&quot;, severity 1 against</span>
+    <span class="c"># suspend&#x27;s 4, so _strictest_timeout keeps &quot;suspend&quot;.</span>
+    <span class="c">#</span>
+    <span class="c"># So an abstention that lands in T3 does not escalate on breach. It suspends the</span>
+    <span class="c"># action class programme-wide until a human re-arms it. That is the floor working</span>
+    <span class="c"># as specified. It only ever raises the failure path, and here the tier had</span>
+    <span class="c"># already raised it further.</span></code></pre>
 </div>
 </div></section>
 
 <section><div class="wrap">
   <div class="tradeoff">
-    <p class="eyebrow">The tradeoff</p>
+    <p class="eyebrow">What breaks first</p>
+    <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">Routing policies fail in predictable places. These are mine.</p>
     <ul><li>Fail-closed timeouts mean real work stalls when an approver is away, and the honest fix is staffing the backup rota rather than softening the rule.</li><li>Four tiers is a compromise: fewer and everything piles into one queue, more and nobody remembers which is which without opening the document.</li><li>Routing abstentions to T2 by default guarantees some reviewer time is spent on cases where the agent was simply being over-careful.</li><li>Letting confidence raise a tier but never lower one throws away most of the efficiency a good calibration curve could buy, and I&#x27;ll take that until the calibration has years of evidence behind it.</li><li>The tier belongs to the action, not the agent and not the industry — which is why the same table works for refunds and merges to main.</li></ul>
   </div>
 </div></section>

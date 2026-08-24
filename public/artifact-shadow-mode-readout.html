@@ -109,7 +109,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
 <section><div class="wrap">
   <div class="code-wrap">
   <div class="code-head">
-    <span class="code-label">Shadow mode readout template (illustrative numbers, ending in NO-GO)</span>
+    <span class="code-label">Shadow mode readout template (illustrative numbers): one NO-GO, then one GO on a signed waiver</span>
     <span class="code-lang">Plain text</span>
   </div>
   <pre><code><span class="k">SHADOW MODE READOUT - TEMPLATE</span>
@@ -193,7 +193,7 @@ every period, because each one is blind to something:
   M1  REVERSE SAMPLING. Take every obligation the human found, check whether the
       agent surfaced it. This is the only method that measures the real rate.
         Human-found obligations: 612    Agent also found: 578    Missed: 34
-        Recall 94.4%   (95% Wilson lower bound 92.2%)
+        Recall 94.4%   (578/612, 95% Wilson lower bound 92.3%)
 
   M2  SEEDED CANARIES. Inject known-impacted changes with known control mappings
       into the live stream at a low, logged rate. Nobody on the modelling side
@@ -242,7 +242,7 @@ every period, because each one is blind to something:
   1   Pairing coverage                                  &gt;= 85%      91.6%    <span class="ok">PASS</span>
   2   agent-wrong-dangerous count                       = 0         4        <span class="bad">FAIL</span>
   3   Unadjudicated disagreements                       = 0         12       <span class="bad">FAIL</span>
-  4   Reverse-sampled recall, 95% lower bound           &gt;= 95%      92.2%    <span class="bad">FAIL</span>
+  4   Reverse-sampled recall, 95% lower bound           &gt;= 95%      92.3%    <span class="bad">FAIL</span>
   5   Canary recall (M2)                                = 100%      97.5%    <span class="bad">FAIL</span>
   6   Incident-library replay (M4)                      = 100%      100%     <span class="ok">PASS</span>
   7   Reviewer kappa, latest week                       &gt;= 0.75     0.71     <span class="bad">FAIL</span>
@@ -254,6 +254,11 @@ every period, because each one is blind to something:
 
   DECISION: NO-<span class="ok">GO</span>. Five gates failed. Gates 2 and 5 are each independently
   sufficient to stop the rollout.
+
+  Every gate on this list blocks, gate 11 included. A latency gate that cannot
+  stop a rollout is a chart, and I have no use for a chart in this table. What
+  it buys me is section 9: when latency is the only thing failing, somebody has
+  to decide and sign, and the code will not decide for them.
 
   Note on gate 7: it fails on reviewer agreement, not on the agent. That still
   blocks. If the humans have drifted apart, sections 3 and 4 are measuring a
@@ -286,42 +291,78 @@ every period, because each one is blind to something:
 9. THE OTHER OUTCOME: SHIPPING WITH A RESIDUAL RISK ON THE RECORD
 =================================================================================
   The readout above is a NO-<span class="ok">GO</span>, and I have shown that one first because it is
-  the discipline people skip. But a gate regime that only ever refuses is not a
-  gate regime, it is an alibi. Most of the value shows up on the periods where
-  the answer is yes and somebody has to own what is still broken.
+  the discipline people skip. But a gate regime that only ever refuses turns
+  into an alibi. Most of the value shows up on the periods where the answer is
+  yes and somebody has to own what is still broken.
 
-  Here is the same template, one cycle later, resolving the other way.
-  (Illustrative numbers, same as above.)
+  Here are the same twelve gates, same code, one cycle later, resolving the
+  other way. (Illustrative numbers. Recall is 1160 of 1187 human-found obligations;
+  the bound is wilson_lower(1160, 1187).)
 
-  GATE                                        RESULT
-  1  Volume &gt;= 500 items, &gt;= 3 case types      612 items, 4 types      <span class="ok">PASS</span>
-  2  Zero agent-wrong-dangerous                0 events                <span class="ok">PASS</span>
-  3  Control-mapping recall LB &gt;= 0.97         0.9731                  <span class="ok">PASS</span>
-  4  Citation fidelity LB &gt;= 0.99              0.9946                  <span class="ok">PASS</span>
-  5  Canary catch rate = 100%                  18/18                   <span class="ok">PASS</span>
-  6  Abstention within 4-11% band              7.4%                    <span class="ok">PASS</span>
-  7  Reviewer kappa &gt;= 0.75                    0.81                    <span class="ok">PASS</span>
-  8  p95 latency &lt;= 90s                        104s                    <span class="bad">FAIL</span>
+   #  GATE                                   REQUIRED       ACTUAL    RESULT
+   ---------------------------------------------------------------------------
+   1  pairing coverage                       &gt;= 0.85        0.9380    <span class="ok">PASS</span>
+   2  agent-wrong-dangerous                  = 0            0         <span class="ok">PASS</span>
+   3  unadjudicated disagreements            = 0            0         <span class="ok">PASS</span>
+   4  reverse-sampled recall (95% lower)     &gt;= 0.95        0.9671    <span class="ok">PASS</span>
+   5  canary recall                          = 1.0          1.0000    <span class="ok">PASS</span>
+   6  incident-library replay                = 1.0          1.0000    <span class="ok">PASS</span>
+   7  reviewer kappa                         &gt;= 0.75        0.8100    <span class="ok">PASS</span>
+   8  input PSI                              &lt;= 0.25        0.0900    <span class="ok">PASS</span>
+   9  abstention rate in band                0.02-0.35      0.0740    <span class="ok">PASS</span>
+  10  approval record coverage               = 1.0          1.0000    <span class="ok">PASS</span>
+  11  p95 latency                            &lt;= 60000ms     78400     <span class="bad">FAIL</span>
+  12  reviewer minutes vs baseline           &lt; baseline     6.8000    <span class="ok">PASS</span>
 
-  DECISION: <span class="ok">GO</span> at 5% of volume. One gate failed and I am shipping anyway.
+  One gate failed and it is a blocking one, so there is no automatic yes here:
+
+    &gt;&gt;&gt; go_no_go(later, ramp_step=0.05)
+    (False, [&#x27;#11 p95 latency&#x27;], [])
+
+  Shipping this takes a waiver, and a waiver takes a name and a date:
+
+    waiver = Waiver(gate_number=11,
+                    accepted_by=&quot;&lt;named accountable owner&gt;&quot;,
+                    accepted_on=&quot;2026-09-14&quot;,
+                    expires_after_ramp_step=0.05,
+                    rationale=&quot;one connector&#x27;s maintenance window; the 5%&quot;
+                              &quot; queue absorbs it&quot;)
+
+    &gt;&gt;&gt; go_no_go(later, [waiver], ramp_step=0.05)
+    (True,
+     [],
+     [&#x27;#11 p95 latency (accepted by &lt;named accountable owner&gt; on 2026-09-14,&#x27;
+      &#x27; expires after ramp step 0.05)&#x27;])
+
+  DECISION: <span class="ok">GO</span> at 5% of volume, on a waiver, with gate 11 still reading <span class="bad">FAIL</span> in
+  the log. The waiver does not repair the gate. It records who owns the failure
+  and until when.
 
   ACCEPTED RESIDUAL RISK
-  R1  p95 latency is 104s against a 90s bar, driven by one connector&#x27;s
-      maintenance window. At 5% of volume the queue absorbs it; at 25% it would
-      not. Accepted for this ramp step only. Re-tested before the next one.
-      This is the cost of the ramp, not a target we quietly moved.
+  R1  p95 latency is 78.4s against the 60s bar, about 31% over, driven by one
+      connector&#x27;s maintenance window. At 5% of volume the queue absorbs it. At
+      25% it would not, and the waiver says so in a field the code reads:
 
-  WHAT I WOULD NOT HAVE ACCEPTED
-  Any failure on gates 2, 3, 4 or 5. Those are correctness and provenance. A
+        &gt;&gt;&gt; go_no_go(later, [waiver], ramp_step=0.25)
+        (False, [&#x27;#11 p95 latency&#x27;], [])
+
+      Same waiver, next ramp step, gate blocks again. That is what stops
+      &quot;accepted for this step&quot; turning into a bar somebody quietly moved. It is
+      the cost of the ramp, and it is re-tested rather than inherited.
+
+  WHAT COULD NOT HAVE BEEN WAIVED
+  Gates 2, 3, 4, 5, 6 and 10 are in NON_WAIVABLE, and go_no_go() raises if you
+  hand it a waiver for one of them. Those are correctness and provenance. A
   latency miss makes the system slow and everyone can see it. A recall miss
   makes it wrong and nobody can see it. I will trade the first. I will not trade
   the second, and I would rather lose the argument about the date.
 
   WHO SIGNED
-  Named accountable owner for R1, with the review date on the record, in the
-  same log as the gate results. An accepted risk with no name against it is an
-  unaccepted risk that nobody is tracking.
-</code></pre>
+  The placeholder above stands in for a person, because I will not put an
+  invented name in a template. In a real log that field carries one, next to the
+  date and the review date, in the same log as the gate results. go_no_go()
+  rejects a waiver with an empty name for the same reason: an accepted risk with
+  nobody against it is an unaccepted risk that nobody is tracking.</code></pre>
 </div><div class="code-wrap">
   <div class="code-head">
     <span class="code-label">shadow/metrics_contract.v1.2.0.json - what gets measured and what blocks</span>
@@ -504,8 +545,9 @@ every period, because each one is blind to something:
         <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
         <span class="k">&quot;value&quot;</span>: <span class="n">60000</span><span class="p">,</span>
         <span class="k">&quot;on&quot;</span>: <span class="s">&quot;p95&quot;</span><span class="p">,</span>
-        <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
-      <span class="p">}</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;Blocking, but waivable. A gate that cannot stop a rollout is a chart. This one can stop it, and a named person can accept the failure for one ramp step - see NON_WAIVABLE in readout.py for the gates where that is not on offer.&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="k">&quot;cost_per_decision_usd&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;report&quot;</span>: <span class="s">&quot;mean&quot;</span><span class="p">,</span>
@@ -571,6 +613,18 @@ every period, because each one is blind to something:
     <span class="k">&quot;min_period_per_step&quot;</span>: <span class="s">&quot;2 weeks&quot;</span><span class="p">,</span>
     <span class="k">&quot;requires&quot;</span>: <span class="s">&quot;a fresh readout with all blocking gates passing at each step&quot;</span><span class="p">,</span>
     <span class="k">&quot;permanent_shadow_sample&quot;</span>: <span class="n">0.05</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;_waivers&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;rule&quot;</span>: <span class="s">&quot;a blocking gate that fails may be waived only by a named person, with a date, for one ramp step&quot;</span><span class="p">,</span>
+    <span class="k">&quot;non_waivable&quot;</span>: <span class="p">[</span>
+      <span class="s">&quot;agent_wrong_dangerous&quot;</span><span class="p">,</span>
+      <span class="s">&quot;unadjudicated&quot;</span><span class="p">,</span>
+      <span class="s">&quot;reverse_sampling&quot;</span><span class="p">,</span>
+      <span class="s">&quot;seeded_canaries&quot;</span><span class="p">,</span>
+      <span class="s">&quot;incident_library_replay&quot;</span><span class="p">,</span>
+      <span class="s">&quot;actions_with_approval_record&quot;</span>
+    <span class="p">]</span><span class="p">,</span>
+    <span class="k">&quot;note&quot;</span>: <span class="s">&quot;a waiver does not make the gate pass; the gate still reads FAIL in the readout and the log&quot;</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre>
 </div><div class="code-wrap">
@@ -745,16 +799,60 @@ SAFE_MARKERS = {
         (<span class="n">9</span>, <span class="s">&quot;abstention rate in band&quot;</span>, f<span class="s">&quot;{band[0]}-{band[1]}&quot;</span>, abstention_rate,
          band[<span class="n">0</span>] &lt;= abstention_rate &lt;= band[<span class="n">1</span>], <span class="b">True</span>),
         (<span class="n">10</span>, <span class="s">&quot;approval record coverage&quot;</span>, <span class="s">&quot;= 1.0&quot;</span>, approval_coverage, approval_coverage &gt;= <span class="n">1.0</span>, <span class="b">True</span>),
-        (<span class="n">11</span>, <span class="s">&quot;p95 latency&quot;</span>, <span class="s">&quot;&lt;= 60000ms&quot;</span>, p95_latency_ms, p95_latency_ms &lt;= <span class="n">60000</span>, <span class="b">False</span>),
+        (<span class="n">11</span>, <span class="s">&quot;p95 latency&quot;</span>, <span class="s">&quot;&lt;= 60000ms&quot;</span>, p95_latency_ms, p95_latency_ms &lt;= <span class="n">60000</span>, <span class="b">True</span>),
         (<span class="n">12</span>, <span class="s">&quot;reviewer minutes vs baseline&quot;</span>, <span class="s">&quot;&lt; baseline&quot;</span>, reviewer_minutes,
          reviewer_minutes &lt; baseline_minutes, <span class="b">True</span>),
     ]
     <span class="b">return</span> [Gate(*s) <span class="b">for</span> s <span class="b">in</span> specs]
 
 
-<span class="b">def</span> go_no_go(gates: Sequence[Gate]) -&gt; tuple[bool, list[str]]:
-    failed = [f<span class="s">&quot;#{g.number} {g.name}&quot;</span> <span class="b">for</span> g <span class="b">in</span> gates <span class="b">if</span> g.blocking <span class="b">and</span> <span class="b">not</span> g.passed]
-    <span class="b">return</span> (<span class="b">not</span> failed), failed
+<span class="c"># Gates nobody may waive. Correctness and provenance: a missed obligation, an</span>
+<span class="c"># unadjudicated disagreement, a missed canary, an action with no approval record.</span>
+<span class="c"># Waiving one of these would be a decision to ship something wrong on purpose,</span>
+<span class="c"># so the code refuses rather than leaving it to a bad afternoon. Latency is not on this list, and that is the whole difference.</span>
+NON_WAIVABLE = {<span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">10</span>}
+
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Waiver:
+    <span class="s">&quot;&quot;&quot;A blocking gate failed and a named person accepted it anyway.
+
+    A waiver does not make the gate pass. The gate still reads FAIL in the log
+    and in the readout. All this records is who owns the failure, until when.
+    &quot;&quot;&quot;</span>
+    gate_number: int
+    accepted_by: str            <span class="c"># a person. &quot;the platform team&quot; is not a name.</span>
+    accepted_on: str            <span class="c"># ISO date</span>
+    expires_after_ramp_step: float
+    rationale: str
+
+
+<span class="b">def</span> go_no_go(gates: Sequence[Gate], waivers: Sequence[Waiver] = (),
+             ramp_step: float = <span class="n">0.05</span>) -&gt; tuple[bool, list[str], list[str]]:
+    <span class="s">&quot;&quot;&quot;Returns (go, unwaived blocking failures, waived blocking failures).
+
+    A waiver applies to one ramp step and expires. The next step re-tests the
+    gate with no waiver, which is what stops &quot;accepted for this step&quot; turning
+    into a threshold somebody quietly moved.
+    &quot;&quot;&quot;</span>
+    <span class="b">for</span> w <span class="b">in</span> waivers:
+        <span class="b">if</span> w.gate_number <span class="b">in</span> NON_WAIVABLE:
+            <span class="b">raise</span> ValueError(f<span class="s">&quot;gate #{w.gate_number} cannot be waived&quot;</span>)
+        <span class="b">if</span> <span class="b">not</span> w.accepted_by <span class="b">or</span> <span class="b">not</span> w.accepted_on:
+            <span class="b">raise</span> ValueError(f<span class="s">&quot;gate #{w.gate_number}: a waiver needs a name and a date&quot;</span>)
+    live = {w.gate_number: w <span class="b">for</span> w <span class="b">in</span> waivers <span class="b">if</span> ramp_step &lt;= w.expires_after_ramp_step}
+    failed: list[str] = []
+    waived: list[str] = []
+    <span class="b">for</span> g <span class="b">in</span> gates:
+        <span class="b">if</span> g.passed <span class="b">or</span> <span class="b">not</span> g.blocking:
+            <span class="b">continue</span>
+        w = live.get(g.number)
+        <span class="b">if</span> w <span class="b">is</span> <span class="b">None</span>:
+            failed.append(f<span class="s">&quot;#{g.number} {g.name}&quot;</span>)
+        <span class="b">else</span>:
+            waived.append(f<span class="s">&quot;#{g.number} {g.name} (accepted by {w.accepted_by} &quot;</span>
+                          f<span class="s">&quot;on {w.accepted_on}, expires after ramp step {w.expires_after_ramp_step})&quot;</span>)
+    <span class="b">return</span> (<span class="b">not</span> failed), failed, waived
 
 
 <span class="b">if</span> __name__ == <span class="s">&quot;__main__&quot;</span>:
@@ -777,15 +875,37 @@ SAFE_MARKERS = {
               f<span class="s">&quot;actual {g.actual!s:&lt;10} {&#x27;PASS&#x27; if g.passed else &#x27;FAIL&#x27;}&quot;</span>
               f<span class="s">&quot;{&#x27; [BLOCKING]&#x27; if g.blocking else &#x27;&#x27;}&quot;</span>)
 
-    ok, failed = go_no_go(gates)
+    ok, failed, waived = go_no_go(gates, ramp_step=<span class="n">0.05</span>)
     print(<span class="s">&quot;\nDECISION:&quot;</span>, <span class="s">&quot;GO&quot;</span> <span class="b">if</span> ok <span class="b">else</span> <span class="s">&quot;NO-GO - blocked by &quot;</span> + <span class="s">&quot;; &quot;</span>.join(failed))
-</code></pre>
+
+    <span class="c"># ---------------------------------------------------------------- cycle two</span>
+    <span class="c"># Same gate list, one cycle later, resolving the other way. Only gate 11</span>
+    <span class="c"># fails, and it is waivable, so this is a decision somebody has to make and</span>
+    <span class="c"># sign rather than one the code makes for them.</span>
+    later = build_gates(
+        pairing_rate=<span class="n">0.938</span>, counts=Counter(), recall_lower=wilson_lower(<span class="n">1160</span>, <span class="n">1187</span>),
+        canary=<span class="n">1.0</span>, incident_catch=<span class="n">1.0</span>, kappa=<span class="n">0.81</span>, input_psi=<span class="n">0.09</span>,
+        abstention_rate=<span class="n">0.074</span>, approval_coverage=<span class="n">1.0</span>, p95_latency_ms=<span class="n">78400</span>,
+        reviewer_minutes=<span class="n">6.8</span>, baseline_minutes=<span class="n">18.4</span>,
+    )
+    print(<span class="s">&quot;\ncycle two, no waiver:&quot;</span>, go_no_go(later, ramp_step=<span class="n">0.05</span>)[:<span class="n">2</span>])
+
+    waiver = Waiver(gate_number=<span class="n">11</span>, accepted_by=<span class="s">&quot;&lt;named accountable owner&gt;&quot;</span>,
+                    accepted_on=<span class="s">&quot;2026-09-14&quot;</span>, expires_after_ramp_step=<span class="n">0.05</span>,
+                    rationale=<span class="s">&quot;one connector&#x27;s maintenance window; the 5% queue absorbs it&quot;</span>)
+    ok2, failed2, waived2 = go_no_go(later, [waiver], ramp_step=<span class="n">0.05</span>)
+    print(<span class="s">&quot;cycle two, waived at 5%:&quot;</span>, <span class="s">&quot;GO&quot;</span> <span class="b">if</span> ok2 <span class="b">else</span> <span class="s">&quot;NO-GO&quot;</span>, <span class="s">&quot;| waived:&quot;</span>, waived2)
+
+    <span class="c"># The same waiver at the next ramp step. It has expired, so the gate blocks.</span>
+    ok3, failed3, _ = go_no_go(later, [waiver], ramp_step=<span class="n">0.25</span>)
+    print(<span class="s">&quot;cycle two, same waiver at 25%:&quot;</span>, <span class="s">&quot;GO&quot;</span> <span class="b">if</span> ok3 <span class="b">else</span> <span class="s">&quot;NO-GO - blocked by &quot;</span> + <span class="s">&quot;; &quot;</span>.join(failed3))</code></pre>
 </div>
 </div></section>
 
 <section><div class="wrap">
   <div class="tradeoff">
-    <p class="eyebrow">The tradeoff</p>
+    <p class="eyebrow">What I am still unsure about</p>
+    <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">Shadow mode answers less than people want it to.</p>
     <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live compliance stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li><li>A gate regime that only ever says no teaches people to route around it, so the readout has to show the ship decision as well as the refusal.</li></ul>
   </div>
 </div></section>

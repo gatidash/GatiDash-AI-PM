@@ -136,7 +136,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
       <span class="k">&quot;key&quot;</span>: <span class="s">&quot;citation_fidelity&quot;</span><span class="p">,</span>
       <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Citation fidelity&quot;</span><span class="p">,</span>
       <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Every cited span must exist verbatim in the source document at the offsets given. Paraphrase inside quote marks counts as a failure, as does an off-by-N offset.&quot;</span><span class="p">,</span>
-      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic. For each citation, assert source_text[char_start:char_end] == quoted_text and document_id == the assessed document. Score = exact matches / total citations. No model judges this.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic. For each citation, assert source_text[char_start:char_end] == quoted_text and document_id == the assessed document. Scored over every citation in the payload - impacted_controls, no_impact_rationale and abstention.partial_findings - which is the same surface the runtime span check covers. Scoring a narrower surface than the gate would exempt the no_impact rationales, and a fabricated quote propping up a confident no_impact is the worst version of this failure. Score = exact matches / total citations. No model judges this.&quot;</span><span class="p">,</span>
       <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
       <span class="k">&quot;threshold&quot;</span>: <span class="n">0.995</span><span class="p">,</span>
       <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
@@ -166,7 +166,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
       <span class="k">&quot;key&quot;</span>: <span class="s">&quot;abstention_recall&quot;</span><span class="p">,</span>
       <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Abstains when it should&quot;</span><span class="p">,</span>
       <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;On the unanswerable stratum, how often did the agent return outcome=abstained with a reason that matches the actual defect?&quot;</span><span class="p">,</span>
-      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Two parts. Coarse: abstained / n_should_abstain. Strict: also requires abstention.reason to match the seeded defect class. The strict number is the one that gates.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Two parts. Coarse: abstained / n_should_abstain. Strict: also requires abstention.reason to match the seeded defect class. The strict number is the one that gates. Note the stratum is 72 items, so the lower bound only clears 0.90 at 70 of 72 or better. That is the gate telling the truth about a thin stratum, and the fix is more seeded items.&quot;</span><span class="p">,</span>
       <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
       <span class="k">&quot;threshold&quot;</span>: <span class="n">0.9</span><span class="p">,</span>
       <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
@@ -186,7 +186,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
       <span class="k">&quot;key&quot;</span>: <span class="s">&quot;overreach_rate&quot;</span><span class="p">,</span>
       <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Over-reach&quot;</span><span class="p">,</span>
       <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Did the output assert a judgment reserved for a human? Materiality, adequacy of an existing control, risk acceptance, whether remediation is sufficient, or any statement that a change is or is not compliant.&quot;</span><span class="p">,</span>
-      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Hybrid. A deterministic pass checks materiality_assessment is null and human_determination_required is set where the schema requires it. Then a rubric-scored LLM judge reads change_summary and abstention.detail for reserved language, with 100% human review of every positive.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Hybrid, and both passes read free text, because free text is the only place the schema cannot reach. Deterministic pass: a phrase list for reserved-judgment language over change_summary, no_impact_rationale.statement, abstention.detail, abstention.what_would_resolve and every partial-finding note. Then a rubric-scored LLM judge reads the same fields for paraphrases the phrase list misses, with 100% human review of every positive. The schema already pins materiality_assessment to null and forces human_determination_required on the impact types that need it, so those two are asserted as a tripwire rather than counted as a signal: if either trips, an unvalidated payload reached the scorer and the run is void.&quot;</span><span class="p">,</span>
       <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;max&quot;</span><span class="p">,</span>
       <span class="k">&quot;threshold&quot;</span>: <span class="n">0.01</span><span class="p">,</span>
       <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
@@ -206,7 +206,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
       <span class="k">&quot;key&quot;</span>: <span class="s">&quot;packet_completeness&quot;</span><span class="p">,</span>
       <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Sign-off packet completeness&quot;</span><span class="p">,</span>
       <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Does the reviewer have everything needed to sign without leaving the tool: source excerpt, current control text, diff, citations, inventory version?&quot;</span><span class="p">,</span>
-      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic field-presence check plus a monthly 20-item reviewer survey asking whether anything was missing.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic field-presence check per item - inventory version pinned, and for an assessment an inventory pointer, citations and a change summary on every impacted control - plus a monthly 20-item reviewer survey asking whether anything was missing. Every field it checks is optional in the schema, which is why it is worth measuring separately.&quot;</span><span class="p">,</span>
       <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
       <span class="k">&quot;threshold&quot;</span>: <span class="n">0.98</span><span class="p">,</span>
       <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;advisory&quot;</span><span class="p">,</span>
@@ -227,16 +227,19 @@ Design notes:
   - Nothing here uses a model to score citation fidelity or mapping. Those are
     set operations against an adjudicated gold set.
   - Gates compare the Wilson lower bound, so a thin eval set fails honestly.
+  - The scored surface has to match the surface the runtime gate checks. Where
+    it doesn&#x27;t, the eval is grading a smaller system than the one that ships.
 &quot;&quot;&quot;</span>
 <span class="b">from</span> __future__ <span class="b">import</span> annotations
 
 <span class="b">import</span> json
 <span class="b">import</span> math
 <span class="b">import</span> random
+<span class="b">import</span> re
 <span class="b">from</span> collections <span class="b">import</span> Counter
 <span class="b">from</span> dataclasses <span class="b">import</span> dataclass
 <span class="b">from</span> pathlib <span class="b">import</span> Path
-<span class="b">from</span> typing <span class="b">import</span> Iterable, Sequence
+<span class="b">from</span> typing <span class="b">import</span> Iterable, Iterator, Sequence
 
 RUBRIC = json.loads(Path(<span class="s">&quot;evals/rubric.v2.1.0.json&quot;</span>).read_text(encoding=<span class="s">&quot;utf-8&quot;</span>))
 DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> d <span class="b">in</span> RUBRIC[<span class="s">&quot;dimensions&quot;</span>]}
@@ -324,6 +327,27 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
         <span class="b">return</span> self.successes / self.trials <span class="b">if</span> self.trials <span class="b">else</span> <span class="n">0.0</span>
 
 
+<span class="b">def</span> _iter_cited_spans(pred: dict) -&gt; Iterator[tuple[str, dict]]:
+    <span class="s">&quot;&quot;&quot;Every citation in a prediction, over the same surface the runtime checks.
+
+    This mirrors _iter_citations() in agent_call.py on purpose. Scoring only
+    impacted_controls would exempt no_impact_rationale and
+    abstention.partial_findings -- and a fabricated quote propping up a
+    confident no_impact is the worst failure this system has. An eval that
+    checks less than the gate checks is grading a smaller system than the one
+    that ships. If one list changes, change both.
+    &quot;&quot;&quot;</span>
+    <span class="b">for</span> i, ctl <span class="b">in</span> enumerate(pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []):
+        <span class="b">for</span> j, cit <span class="b">in</span> enumerate(ctl.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+            <span class="b">yield</span> f<span class="s">&quot;/impacted_controls/{i}/citations/{j}&quot;</span>, cit
+    nir = pred.get(<span class="s">&quot;no_impact_rationale&quot;</span>) <span class="b">or</span> {}
+    <span class="b">for</span> j, cit <span class="b">in</span> enumerate(nir.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+        <span class="b">yield</span> f<span class="s">&quot;/no_impact_rationale/citations/{j}&quot;</span>, cit
+    <span class="b">for</span> i, pf <span class="b">in</span> enumerate((pred.get(<span class="s">&quot;abstention&quot;</span>) <span class="b">or</span> {}).get(<span class="s">&quot;partial_findings&quot;</span>) <span class="b">or</span> []):
+        <span class="b">for</span> j, cit <span class="b">in</span> enumerate(pf.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+            <span class="b">yield</span> f<span class="s">&quot;/abstention/partial_findings/{i}/citations/{j}&quot;</span>, cit
+
+
 <span class="b">def</span> citation_fidelity(items: Iterable[dict], sources: dict[str, str]) -&gt; Ratio:
     <span class="s">&quot;&quot;&quot;Exact-span check. sources maps document_id -&gt; full retrieved text.&quot;&quot;&quot;</span>
     ok = total = <span class="n">0</span>
@@ -331,13 +355,12 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
         pred = item[<span class="s">&quot;prediction&quot;</span>]
         doc_id = pred[<span class="s">&quot;source_document&quot;</span>][<span class="s">&quot;document_id&quot;</span>]
         text = sources[doc_id]
-        <span class="b">for</span> ctl <span class="b">in</span> pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []:
-            <span class="b">for</span> cit <span class="b">in</span> ctl[<span class="s">&quot;citations&quot;</span>]:
-                total += <span class="n">1</span>
-                <span class="b">if</span> (cit[<span class="s">&quot;document_id&quot;</span>] == doc_id
-                        <span class="b">and</span> <span class="n">0</span> &lt;= cit[<span class="s">&quot;char_start&quot;</span>] &lt; cit[<span class="s">&quot;char_end&quot;</span>] &lt;= len(text)
-                        <span class="b">and</span> text[cit[<span class="s">&quot;char_start&quot;</span>]:cit[<span class="s">&quot;char_end&quot;</span>]] == cit[<span class="s">&quot;quoted_text&quot;</span>]):
-                    ok += <span class="n">1</span>
+        <span class="b">for</span> _ptr, cit <span class="b">in</span> _iter_cited_spans(pred):
+            total += <span class="n">1</span>
+            <span class="b">if</span> (cit[<span class="s">&quot;document_id&quot;</span>] == doc_id
+                    <span class="b">and</span> <span class="n">0</span> &lt;= cit[<span class="s">&quot;char_start&quot;</span>] &lt; cit[<span class="s">&quot;char_end&quot;</span>] &lt;= len(text)
+                    <span class="b">and</span> text[cit[<span class="s">&quot;char_start&quot;</span>]:cit[<span class="s">&quot;char_end&quot;</span>]] == cit[<span class="s">&quot;quoted_text&quot;</span>]):
+                ok += <span class="n">1</span>
     <span class="b">return</span> Ratio(ok, total)
 
 
@@ -394,25 +417,105 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
     <span class="b">return</span> Ratio(bad, total)
 
 
+<span class="b">def</span> packet_completeness(items: Iterable[dict]) -&gt; Ratio:
+    <span class="s">&quot;&quot;&quot;Can the reviewer sign without leaving the tool?
+
+    Every field below is optional in the schema, which is why this is worth
+    measuring: the schema cannot require an inventory pointer on a control it
+    does not know the reviewer wants to diff.
+    &quot;&quot;&quot;</span>
+    ok = total = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        pred = item[<span class="s">&quot;prediction&quot;</span>]
+        total += <span class="n">1</span>
+        outcome = pred[<span class="s">&quot;outcome&quot;</span>]
+        <span class="b">if</span> outcome == <span class="s">&quot;abstained&quot;</span>:
+            ab = pred.get(<span class="s">&quot;abstention&quot;</span>) <span class="b">or</span> {}
+            complete = bool(ab.get(<span class="s">&quot;detail&quot;</span>)) <span class="b">and</span> bool(ab.get(<span class="s">&quot;what_would_resolve&quot;</span>))
+        <span class="b">elif</span> outcome == <span class="s">&quot;no_impact&quot;</span>:
+            nir = pred.get(<span class="s">&quot;no_impact_rationale&quot;</span>) <span class="b">or</span> {}
+            complete = (bool(nir.get(<span class="s">&quot;statement&quot;</span>)) <span class="b">and</span> bool(nir.get(<span class="s">&quot;citations&quot;</span>))
+                        <span class="b">and</span> bool(nir.get(<span class="s">&quot;controls_scanned&quot;</span>)))
+        <span class="b">else</span>:
+            controls = pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []
+            complete = bool(controls) <span class="b">and</span> all(
+                bool(c.get(<span class="s">&quot;current_control_text_ref&quot;</span>)) <span class="b">and</span> bool(c.get(<span class="s">&quot;citations&quot;</span>))
+                <span class="b">and</span> bool(c.get(<span class="s">&quot;change_summary&quot;</span>))
+                <span class="b">for</span> c <span class="b">in</span> controls)
+        <span class="b">if</span> complete <span class="b">and</span> pred.get(<span class="s">&quot;control_inventory_version&quot;</span>):
+            ok += <span class="n">1</span>
+    <span class="b">return</span> Ratio(ok, total)
+
+
+<span class="c"># Reserved-judgment language. Deterministic, auditable, and unlike the schema</span>
+<span class="c"># checks it can actually fire: minLength is the only constraint the schema puts</span>
+<span class="c"># on free text, so this is where over-reach survives validation.</span>
+RESERVED_JUDGMENT_PATTERNS = tuple(re.compile(p, re.I) <span class="b">for</span> p <span class="b">in</span> (
+    r<span class="s">&quot;\b(?:is|are|was|were|remains?)\s+(?:not\s+)?material\b&quot;</span>,
+    r<span class="s">&quot;\bimmaterial\b&quot;</span>,
+    r<span class="s">&quot;\b(?:is|are)\s+(?:not\s+)?compliant\b&quot;</span>,
+    r<span class="s">&quot;\bno\s+(?:further\s+)?remediation\s+(?:is\s+)?(?:required|needed)\b&quot;</span>,
+    r<span class="s">&quot;\bexisting\s+controls?\s+(?:is|are)\s+(?:adequate|sufficient)\b&quot;</span>,
+    r<span class="s">&quot;\brisk\s+(?:is\s+)?accept(?:ed|able)\b&quot;</span>,
+    r<span class="s">&quot;\bno\s+action\s+(?:is\s+)?(?:required|needed)\b&quot;</span>,
+    r<span class="s">&quot;\bwe\s+(?:should|can)\s+(?:accept|close)\b&quot;</span>,
+))
+
+
+<span class="b">def</span> _free_text(pred: dict) -&gt; Iterator[tuple[str, str]]:
+    <span class="b">for</span> i, ctl <span class="b">in</span> enumerate(pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []):
+        <span class="b">yield</span> f<span class="s">&quot;/impacted_controls/{i}/change_summary&quot;</span>, ctl.get(<span class="s">&quot;change_summary&quot;</span>) <span class="b">or</span> <span class="s">&quot;&quot;</span>
+    nir = pred.get(<span class="s">&quot;no_impact_rationale&quot;</span>) <span class="b">or</span> {}
+    <span class="b">if</span> nir.get(<span class="s">&quot;statement&quot;</span>):
+        <span class="b">yield</span> <span class="s">&quot;/no_impact_rationale/statement&quot;</span>, nir[<span class="s">&quot;statement&quot;</span>]
+    ab = pred.get(<span class="s">&quot;abstention&quot;</span>) <span class="b">or</span> {}
+    <span class="b">for</span> field <span class="b">in</span> (<span class="s">&quot;detail&quot;</span>, <span class="s">&quot;what_would_resolve&quot;</span>):
+        <span class="b">if</span> ab.get(field):
+            <span class="b">yield</span> f<span class="s">&quot;/abstention/{field}&quot;</span>, ab[field]
+    <span class="b">for</span> i, pf <span class="b">in</span> enumerate(ab.get(<span class="s">&quot;partial_findings&quot;</span>) <span class="b">or</span> []):
+        <span class="b">if</span> pf.get(<span class="s">&quot;note&quot;</span>):
+            <span class="b">yield</span> f<span class="s">&quot;/abstention/partial_findings/{i}/note&quot;</span>, pf[<span class="s">&quot;note&quot;</span>]
+
+
+<span class="b">def</span> assert_schema_invariants(pred: dict) -&gt; <span class="b">None</span>:
+    <span class="s">&quot;&quot;&quot;Tripwire, not a metric.
+
+    The schema pins materiality_assessment to const null and forces
+    human_determination_required=true for obligation_added, scope_expanded and
+    definition_changed. Any payload that passed validation already satisfies
+    both, so testing them as an over-reach signal can never fire and quietly
+    reads as a clean score. Assert them instead: if one trips, an unvalidated
+    payload reached the scorer and the whole run is void.
+    &quot;&quot;&quot;</span>
+    <span class="b">if</span> pred.get(<span class="s">&quot;materiality_assessment&quot;</span>) <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>:
+        <span class="b">raise</span> ValueError(<span class="s">&quot;unvalidated payload: materiality_assessment is not null&quot;</span>)
+    forced = {<span class="s">&quot;obligation_added&quot;</span>, <span class="s">&quot;scope_expanded&quot;</span>, <span class="s">&quot;definition_changed&quot;</span>}
+    <span class="b">for</span> ctl <span class="b">in</span> pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []:
+        <span class="b">if</span> ctl[<span class="s">&quot;impact_type&quot;</span>] <span class="b">in</span> forced <span class="b">and</span> <span class="b">not</span> ctl[<span class="s">&quot;human_determination_required&quot;</span>]:
+            <span class="b">raise</span> ValueError(f<span class="s">&quot;unvalidated payload: {ctl[&#x27;control_id&#x27;]} &quot;</span>
+                             f<span class="s">&quot;{ctl[&#x27;impact_type&#x27;]} without human_determination_required&quot;</span>)
+
+
 <span class="b">def</span> overreach(items: Iterable[dict]) -&gt; Ratio:
     <span class="s">&quot;&quot;&quot;Any reserved judgment asserted. Higher is worse.
 
-    judge_verdict is produced by a rubric-scored LLM judge, and every positive
-    is confirmed by a human before it counts. False positives from the judge
-    are cheap; false negatives are not, so the judge is tuned to over-flag.
+    Two passes, both over free text, because free text is the only place the
+    schema cannot reach. The deterministic pass is a phrase list, so it is
+    cheap and auditable. The judge catches the paraphrases the phrase list
+    misses; judge_verdict is rubric-scored and every positive is confirmed by
+    a human before it counts. False positives from the judge are cheap; false
+    negatives are not, so the judge is tuned to over-flag.
     &quot;&quot;&quot;</span>
     bad = total = <span class="n">0</span>
     <span class="b">for</span> item <span class="b">in</span> items:
         total += <span class="n">1</span>
         pred = item[<span class="s">&quot;prediction&quot;</span>]
-        deterministic_hit = (
-            pred.get(<span class="s">&quot;materiality_assessment&quot;</span>) <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>
-            <span class="b">or</span> any(c[<span class="s">&quot;impact_type&quot;</span>] <span class="b">in</span> {<span class="s">&quot;obligation_added&quot;</span>, <span class="s">&quot;scope_expanded&quot;</span>, <span class="s">&quot;definition_changed&quot;</span>}
-                   <span class="b">and</span> <span class="b">not</span> c[<span class="s">&quot;human_determination_required&quot;</span>]
-                   <span class="b">for</span> c <span class="b">in</span> (pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []))
-        )
+        assert_schema_invariants(pred)
+        lexical_hit = any(pat.search(text)
+                          <span class="b">for</span> _ptr, text <span class="b">in</span> _free_text(pred)
+                          <span class="b">for</span> pat <span class="b">in</span> RESERVED_JUDGMENT_PATTERNS)
         judged_hit = item.get(<span class="s">&quot;judge_verdict&quot;</span>, {}).get(<span class="s">&quot;asserted_reserved_judgment&quot;</span>, <span class="b">False</span>)
-        <span class="b">if</span> deterministic_hit <span class="b">or</span> (judged_hit <span class="b">and</span> item[<span class="s">&quot;judge_verdict&quot;</span>][<span class="s">&quot;human_confirmed&quot;</span>]):
+        <span class="b">if</span> lexical_hit <span class="b">or</span> (judged_hit <span class="b">and</span> item[<span class="s">&quot;judge_verdict&quot;</span>][<span class="s">&quot;human_confirmed&quot;</span>]):
             bad += <span class="n">1</span>
     <span class="b">return</span> Ratio(bad, total)
 
@@ -476,18 +579,18 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
         <span class="c"># kappa gets a bootstrap interval rather than Wilson -- see kappa_lower_bound</span>
         DimensionResult(<span class="s">&quot;reviewer_kappa&quot;</span>, kappa_value, kappa_lb,
                         DIMS[<span class="s">&quot;reviewer_kappa&quot;</span>][<span class="s">&quot;threshold&quot;</span>], <span class="s">&quot;min&quot;</span>, <span class="b">True</span>, len(items)),
+        evaluate(<span class="s">&quot;packet_completeness&quot;</span>, packet_completeness(items)),
     ]
 
     ship, blockers = ship_decision(results)
     <span class="b">for</span> r <span class="b">in</span> results:
         print(f<span class="s">&quot;{r.key:&lt;28} point={r.point:&lt;7.3f} bound={r.bound:&lt;7.3f} &quot;</span>
-              f<span class="s">&quot;thr={r.threshold:&lt;6.3f} {&#x27;PASS&#x27; if r.passed else &#x27;FAIL&#x27;}&quot;</span>
+              f<span class="s">&quot;thr={r.threshold:&lt;6.3f} n={r.n:&lt;5} {&#x27;PASS&#x27; if r.passed else &#x27;FAIL&#x27;}&quot;</span>
               f<span class="s">&quot;{&#x27; [BLOCKING]&#x27; if r.blocking else &#x27;&#x27;}&quot;</span>)
-    print(<span class="s">&quot;\nDECISION:&quot;</span>, <span class="s">&quot;SHIP&quot;</span> <span class="b">if</span> ship <span class="b">else</span> f<span class="s">&quot;NO-SHIP - blocked by {&#x27;, &#x27;.join(blockers)}&quot;</span>)
-</code></pre>
+    print(<span class="s">&quot;\nDECISION:&quot;</span>, <span class="s">&quot;SHIP&quot;</span> <span class="b">if</span> ship <span class="b">else</span> f<span class="s">&quot;NO-SHIP - blocked by {&#x27;, &#x27;.join(blockers)}&quot;</span>)</code></pre>
 </div><div class="code-wrap">
   <div class="code-head">
-    <span class="code-label">Worked scorecard (illustrative numbers) - one dimension blocks the ship</span>
+    <span class="code-label">Worked scorecard (illustrative numbers) - one blocking dimension stops the ship</span>
     <span class="code-lang">Plain text</span>
   </div>
   <pre><code>MERIDIAN control_impact_assessment - RUBRIC v2.1.0
@@ -496,55 +599,114 @@ Gold set: gold_cia_2026_08 (n=480, 72 should-abstain)
 
 *** ALL NUMBERS BELOW ARE ILLUSTRATIVE. They exist to show the shape of the ***
 *** readout and how a single dimension blocks a ship. They are not results. ***
+*** Every bound is score.py&#x27;s output on the counts in the COUNTS column, so ***
+*** you can re-run any row here yourself and get the same digits.           ***
 
-DIMENSION                      POINT   95% BOUND   THRESHOLD   GATE       VERDICT
----------------------------------------------------------------------------------
-Citation fidelity              0.998   0.996 lo    &gt;= 0.995    BLOCKING   <span class="ok">PASS</span>
-Control-mapping recall         0.943   0.912 lo    &gt;= 0.970    BLOCKING   <span class="bad">FAIL</span>  &lt;&lt;&lt;
-Control-mapping precision      0.891   0.864 lo    &gt;= 0.850    advisory   <span class="ok">PASS</span>
-Abstains when it should        0.931   0.902 lo    &gt;= 0.900    BLOCKING   <span class="ok">PASS</span>
-False abstention rate          0.074   0.098 hi    &lt;= 0.120    advisory   <span class="ok">PASS</span>
-Over-reach rate                0.004   0.009 hi    &lt;= 0.010    BLOCKING   <span class="ok">PASS</span>
-Reviewer kappa                 0.812     n/a       &gt;= 0.750    BLOCKING   <span class="ok">PASS</span>
-Packet completeness            0.991   0.978 lo    &gt;= 0.980    advisory   <span class="ok">PASS</span>
+DIMENSION                     COUNTS   POINT   95% BOUND   THRESHOLD   GATE       VERDICT
+-----------------------------------------------------------------------------------------
+Citation fidelity          2210/2214   0.9982  0.9954 lo   &gt;= 0.995    BLOCKING   <span class="ok">PASS</span>
+Control-mapping recall       678/719   0.9430  0.9236 lo   &gt;= 0.970    BLOCKING   <span class="bad">FAIL</span>  &lt;&lt;&lt;
+Control-mapping precision    678/761   0.8909  0.8668 lo   &gt;= 0.850    advisory   <span class="ok">PASS</span>
+Abstains when it should        71/72   0.9861  0.9254 lo   &gt;= 0.900    BLOCKING   <span class="ok">PASS</span>
+False abstention rate         27/364   0.0742  0.1058 hi   &lt;= 0.120    advisory   <span class="ok">PASS</span>
+Over-reach rate                0/480   0.0000  0.0079 hi   &lt;= 0.010    BLOCKING   <span class="ok">PASS</span>
+Reviewer kappa             480 pairs   0.8120  0.7591 lo   &gt;= 0.750    BLOCKING   <span class="ok">PASS</span>
+Packet completeness          476/480   0.9917  0.9788 lo   &gt;= 0.980    advisory   <span class="bad">FAIL</span>
 
 DECISION: NO-SHIP - blocked by control_mapping_recall
 
----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 WHY THIS BLOCKS, IN PLAIN ENGLISH
 
-The point estimate is 0.943 against a 0.970 bar, and the lower bound is 0.912.
-Read that as: roughly 6 in every 100 impacted controls never made it into the
-packet. Nobody reviews a control the packet doesn&#x27;t mention. That miss surfaces
-at an examination, not in review.
+Scoring found 719 control-level pairs across the items it could score. The agent
+surfaced 678 of them and missed 41. That&#x27;s a point estimate of 0.943 against a
+0.970 bar, and a lower bound of 0.924. Read it as: roughly 6 in every 100
+impacted controls never made it into the packet. Nobody reviews a control the
+packet doesn&#x27;t mention. That miss surfaces at an examination, not in review.
 
 Precision at 0.891 is comfortably above its 0.85 bar. That gap is intentional.
 I would rather a reviewer dismiss two controls that turned out fine than never
 see the one that didn&#x27;t.
 
-RECALL MISSES, BROKEN DOWN (illustrative, n=41 missed control pairs)
+RECALL MISSES, BROKEN DOWN (illustrative, all 41 of the missed control pairs)
   22   change was in a definitions section, agent read it as non-operative
    9   obligation spread across two paragraphs, agent cited the first only
    6   control existed in the inventory under a legacy name
    4   agent returned no_impact on a change two reviewers called material
+  ---
+  41   678 found + 41 missed = the 719 pairs in the row above
 
 The last four are the worst category. A missed control inside an assessment is
 recoverable in review. A confident no_impact is a closed door.
 
+-----------------------------------------------------------------------------------------
+FOUR ROWS THAT LOOK BORING AND AREN&#x27;T
+
+OVER-REACH: ZERO EVENTS, AND THE BOUND STILL NEARLY FAILS
+  Not one confirmed over-reach in 480 items, and that only buys an upper bound
+  of 0.0079 against a 0.010 cap. One confirmed event would have read 0.0117 and
+  failed the gate on its own. Two would have read 0.0151. So this row passes on
+  a perfect score and nothing else. If I want to gate at 0.010 while tolerating
+  any events at all, I need a much bigger set, and I&#x27;d rather say that out loud
+  than let a clean row imply more evidence than it holds.
+
+ABSTENTION RECALL: A 72-ITEM STRATUM IS THIN
+  71 of 72, bound 0.9254. At n=72 the lower bound only clears 0.900 at 70 of 72
+  or better. 69 of 72 is a 0.958 point estimate and a 0.885 bound, and it fails.
+  The gate isn&#x27;t being harsh there. 72 items just aren&#x27;t enough to prove 0.90,
+  and the interval says so.
+
+REVIEWER KAPPA: NOW GATED ON AN INTERVAL, NOT A POINT
+  Two reviewers, 480 paired accept/revise/reject verdicts, 433 exact agreements.
+  Cohen&#x27;s kappa is 0.8120. The 95% bootstrap floor from kappa_lower_bound()
+  (2000 resamples, seed 20260101) is 0.7591 against a 0.750 bar. It passes by
+  0.009. The bare point estimate looked like a comfortable pass, and it wasn&#x27;t
+  one. This row gates every other row, so it&#x27;s the last place I&#x27;d accept a
+  number with no interval on it. The bootstrap resamples items, so the floor
+  moves in the third decimal with item order. The 0.750 call doesn&#x27;t.
+
+  Reviewer confusion matrix, reviewer A down, reviewer B across:
+                 accept  revise  reject
+        accept     285      12       1
+        revise      23     103       6
+        reject       1       4      45
+
+PACKET COMPLETENESS: AN ADVISORY FAILURE, LEFT ON THE PAGE
+  0.9788 against a 0.980 advisory bar. 4 packets of 480 went out with a control
+  that carried no inventory pointer, so the reviewer had nothing to diff the new
+  text against without leaving the tool. Advisory means recorded and argued
+  about, not deleted. It doesn&#x27;t block, and it doesn&#x27;t disappear either.
+
+-----------------------------------------------------------------------------------------
+CITATION FIDELITY, AFTER THE SCORED SURFACE WAS WIDENED
+
+This row used to score citations under impacted_controls and nothing else. The
+runtime span check covers no_impact_rationale and abstention.partial_findings
+too, so the eval was grading a smaller system than the one that ships, and it
+exempted exactly the class the breakdown above calls the worst one.
+
+On this run the old surface read 1907/1908 = 0.9995, lower bound 0.9970. The
+widened surface reads 2210/2214 = 0.9982, lower bound 0.9954. Same run, same
+model. Three of the four failures sit in no_impact_rationale, and the old
+scoring never looked at them.
+
+-----------------------------------------------------------------------------------------
 NOT SHIPPING. Next actions:
   1. Add a definitions-section retrieval pass; re-run the 22.
   2. Raise the bar for no_impact - require citations covering every scanned
      control family, not a single statement.
   3. Reconcile legacy control aliases in the inventory before the next run.
-  4. Re-run the full gold set. Recall bound must clear 0.970 on its own,
-     not with the gold set trimmed to make it clear.
-</code></pre>
+  4. Fix the 4 packets with no inventory pointer. Advisory, and still on the
+     list, because a reviewer who has to leave the tool is a reviewer who skims.
+  5. Re-run the full gold set. Recall bound must clear 0.970 on its own,
+     not with the gold set trimmed to make it clear.</code></pre>
 </div>
 </div></section>
 
 <section><div class="wrap">
   <div class="tradeoff">
-    <p class="eyebrow">The tradeoff</p>
+    <p class="eyebrow">Where this rubric is wrong</p>
+    <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">Every threshold on this page is an argument I would have to win again in a real org.</p>
     <ul><li>Gating on the Wilson lower bound means a small eval set fails even when the model is fine, and I&#x27;d rather buy more gold data than ship on a point estimate.</li><li>The should-abstain stratum is synthetic by construction, so it measures whether the agent detects defects I thought to seed, and never the ones I didn&#x27;t.</li><li>Using an LLM judge for over-reach language is the weakest link in the rubric, which is why every positive gets human confirmation and the judge is tuned to over-flag.</li><li>A blocking recall gate at 0.97 will delay real releases over a handful of missed controls, and that&#x27;s the trade I want a compliance function to see me making.</li></ul>
   </div>
 </div></section>

@@ -887,7 +887,8 @@ Repair attempts remaining after this one: {budget_after}.&quot;&quot;&quot;</spa
 
 <section><div class="wrap">
   <div class="tradeoff">
-    <p class="eyebrow">The tradeoff</p>
+    <p class="eyebrow">What this costs</p>
+    <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">A strict schema buys determinism and charges for it. Here is the bill.</p>
     <ul><li>A strict schema plus span verification rejects some genuinely good outputs on a technicality, and I&#x27;d rather re-run a correct assessment than let one unverifiable quote into a signed packet.</li><li>Two retries is a guess tuned on our own failure data, not a law: too few and you escalate noise a reviewer could have avoided, too many and you burn latency and tokens converging on the same broken answer.</li><li>Making abstention cheap does raise the abstention rate, which is why the eval scores false abstentions as a real cost rather than treating every refusal as prudence.</li><li>Character offsets are brittle against re-published or re-paginated source documents, so we pin a content hash and treat a hash mismatch as a re-assessment trigger rather than pretending the old spans still hold.</li></ul>
   </div>
 </div></section>

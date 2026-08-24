@@ -251,8 +251,8 @@ const GOVERNANCE_TOOLKIT = [
 
 // Case study — interactive merchant lifecycle console
 const CASE_METRICS = [
-  { v: '25–40%', l: 'Modeled lift in merchant lifetime value', proof: 'Modeled' },
-  { v: '−60%', l: 'Modeled churn reduction from early intervention', proof: 'Modeled' },
+  { v: '25–40%', l: 'Lift in merchant lifetime value — published industry benchmark, not mine', proof: 'Concept' },
+  { v: '−60%', l: 'Churn reduction from early intervention — published benchmark, not mine', proof: 'Concept' },
   { v: '4', l: 'Lifecycle segments with tailored playbooks', proof: 'Concept' },
   { v: '0', l: 'Manual playbooks to maintain — all generated', proof: 'Concept' },
 ]
@@ -405,8 +405,8 @@ const CASE_STUDIES = [
       "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
     href: '/merchant-retention-case-study.html',
     tags: [
-      { t: '−60% churn', proof: 'Modeled' },
-      { t: '+25–40% LTV', proof: 'Modeled' },
+      { t: '−60% churn — someone else’s benchmark', proof: 'Concept' },
+      { t: '+25–40% LTV — someone else’s benchmark', proof: 'Concept' },
       { t: '3 autonomy tiers', proof: 'Concept' },
     ],
     kind: 'Concept',
@@ -1101,12 +1101,10 @@ function About({ onSelectWork }) {
             that the humans never agreed with each other either.
           </p>
           <p className="mt-6 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
-            Shadow mode was supposed to tell me how good the agent was. It told me
-            something more useful. Reviewers had been resolving the same ambiguous
-            obligations different ways for years, and nobody had noticed, because
-            nothing had ever put their answers side by side. Some of the best output
-            from that phase was written guidance for people rather than changes to
-            the model.
+            I ran the agent alongside the humans expecting to learn how good the agent
+            was. What I got was a map of where the humans diverged from each other. On the
+            genuinely ambiguous obligations, two reviewers would reach two defensible answers
+            and both would file. Nobody was wrong. Nobody had ever looked.
           </p>
           <p className="mt-5 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
             It changed how I start. I now measure how much the humans agree before I
@@ -1615,11 +1613,10 @@ function Footer() {
           </dl>
           <p className="mt-6 text-sm text-smoke max-w-2xl leading-relaxed">
             Figures from my time at PayPal come from my résumé and from what I can say
-            publicly. They are point estimates without intervals, which is a weaker standard
-            than the one I hold my own evals to — I can give you the baseline, the window and
-            the denominator on any of them in a conversation, but I am not going to publish
-            numbers I cannot show the working for. Where I could not substantiate a figure at
-            all, I removed it rather than round it.
+            publicly. They are point estimates without intervals, which is a weaker standard than the
+            one my own evals hold. Read them as the résumé claims they are, and ask me for the
+            baseline and the denominator. Where I could not substantiate a figure at all, I
+            removed it rather than round it.
           </p>
         </div>
 
