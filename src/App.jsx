@@ -1102,7 +1102,7 @@ function About({ onSelectWork }) {
   return (
     <section id="about" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="05">About</SectionLabel>
+        <SectionLabel n="06">About</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-4xl leading-[1.08]">
           I don&apos;t come at product from the feature side. I come from the launch side.
         </h2>
@@ -1439,7 +1439,7 @@ function Artifacts() {
   return (
     <section id="artifacts" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="03b">Artifacts</SectionLabel>
+        <SectionLabel n="04">Artifacts</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           The actual objects.
         </h2>
@@ -1486,7 +1486,7 @@ function Blogs({ onOpen }) {
   return (
     <section id="blogs" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="04">Writing</SectionLabel>
+        <SectionLabel n="05">Writing</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Field notes on AI.
         </h2>
@@ -1519,7 +1519,7 @@ function Contact() {
   return (
     <section id="contact" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="06">Contact</SectionLabel>
+        <SectionLabel n="07">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">

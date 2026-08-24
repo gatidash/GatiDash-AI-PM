@@ -1446,7 +1446,7 @@ function CompanyLogo({ name }) {
 }
 function About({ onSelectWork }) {
   return /* @__PURE__ */ jsx("section", { id: "about", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "05", children: "About" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "06", children: "About" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-4xl leading-[1.08]", children: "I don't come at product from the feature side. I come from the launch side." }),
     /* @__PURE__ */ jsxs("div", { className: "mt-8 grid lg:grid-cols-12 gap-8 lg:gap-16", children: [
       /* @__PURE__ */ jsx("p", { className: "lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide", children: "For two years I sat on PayPal's Business Advisory Group, shaping go/no-go calls on new launches. Before that and ever since, I've been building the layer those calls depend on — one source of truth for product, customer and transaction data that audit and compliance can actually use." }),
@@ -1705,7 +1705,7 @@ function BlogCard({ b, onOpen }) {
 }
 function Artifacts() {
   return /* @__PURE__ */ jsx("section", { id: "artifacts", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "03b", children: "Artifacts" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "04", children: "Artifacts" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]", children: "The actual objects." }),
     /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-smoke max-w-2xl leading-relaxed", children: "Anyone can say they design governed agents. These are four of the artifacts that work produces — the schema, the rubric, the routing matrix, the pre-launch readout. Read them and decide for yourself." }),
     /* @__PURE__ */ jsx("p", { className: "mt-4 text-sm text-dust max-w-2xl leading-relaxed", children: "Reference implementations, written against my own concept systems — Meridian and the retention agent. I can’t publish my employer’s code, so I wrote these from scratch to show the reasoning." }),
@@ -1725,7 +1725,7 @@ function Artifacts() {
 }
 function Blogs({ onOpen }) {
   return /* @__PURE__ */ jsx("section", { id: "blogs", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "04", children: "Writing" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "05", children: "Writing" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]", children: "Field notes on AI." }),
     /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-smoke max-w-2xl leading-relaxed", children: "Essays on where AI product work is actually heading — written for the people who have to ship it under governance." }),
     /* @__PURE__ */ jsx("div", { className: "mt-10", children: BLOGS.length > 1 ? /* @__PURE__ */ jsx(
@@ -1747,7 +1747,7 @@ function Blogs({ onOpen }) {
 }
 function Contact() {
   return /* @__PURE__ */ jsx("section", { id: "contact", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "06", children: "Contact" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "07", children: "Contact" }),
     /* @__PURE__ */ jsxs("div", { className: "mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20", children: [
       /* @__PURE__ */ jsxs("div", { className: "lg:col-span-7", children: [
         /* @__PURE__ */ jsxs("p", { className: "inline-flex items-center gap-2 text-sm text-accent mb-5", children: [
