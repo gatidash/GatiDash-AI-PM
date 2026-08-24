@@ -1,0 +1,67 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="From Parrot to Colleague — essay cover">
+  <defs>
+    <linearGradient id="traj" x1="0" y1="800" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF5E3A" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#F79256" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#63CEDD" stop-opacity="0.95"/>
+    </linearGradient>
+    <radialGradient id="neb1" cx="18%" cy="22%" r="55%">
+      <stop offset="0" stop-color="#FF8A3D" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FF8A3D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="neb2" cx="86%" cy="80%" r="55%">
+      <stop offset="0" stop-color="#63CEDD" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#63CEDD" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowO" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFB77E" stop-opacity="1"/>
+      <stop offset="1" stop-color="#FFB77E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowC" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#8FE4EF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#8FE4EF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="#0C1122"/>
+  <rect width="1200" height="800" fill="url(#neb1)"/>
+  <rect width="1200" height="800" fill="url(#neb2)"/>
+
+  <!-- stars -->
+  <g fill="#E9ECF7">
+    <circle cx="140" cy="120" r="1.6" opacity=".8"/>
+    <circle cx="300" cy="80" r="1.1" opacity=".55"/>
+    <circle cx="520" cy="150" r="1.4" opacity=".7"/>
+    <circle cx="760" cy="90" r="1" opacity=".5"/>
+    <circle cx="980" cy="160" r="1.5" opacity=".7"/>
+    <circle cx="1080" cy="300" r="1.1" opacity=".5"/>
+    <circle cx="210" cy="360" r="1.2" opacity=".6"/>
+    <circle cx="420" cy="620" r="1.4" opacity=".6"/>
+    <circle cx="650" cy="700" r="1" opacity=".45"/>
+    <circle cx="880" cy="640" r="1.5" opacity=".7"/>
+    <circle cx="1050" cy="560" r="1.1" opacity=".5"/>
+    <circle cx="120" cy="560" r="1.3" opacity=".55"/>
+  </g>
+
+  <!-- trajectory: parrot -> colleague -->
+  <path d="M150 660 C 420 610, 560 460, 660 360 S 900 200, 1050 150"
+        fill="none" stroke="url(#traj)" stroke-width="2.4" stroke-dasharray="3 11" stroke-linecap="round"/>
+
+  <!-- start node (parrot / mimicry) -->
+  <circle cx="150" cy="660" r="46" fill="url(#glowO)" opacity="0.55"/>
+  <circle cx="150" cy="660" r="9" fill="#0C1122" stroke="#F79256" stroke-width="2.4"/>
+  <text x="150" y="726" text-anchor="middle" font-family="'Space Mono', monospace" font-size="21" letter-spacing="2" fill="#FFB77E">PARROT</text>
+  <text x="150" y="752" text-anchor="middle" font-family="'Space Mono', monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">it could only talk</text>
+
+  <!-- end node (colleague / agency) -->
+  <circle cx="1050" cy="150" r="58" fill="url(#glowC)" opacity="0.5"/>
+  <circle cx="1050" cy="150" r="12" fill="#0C1122" stroke="#63CEDD" stroke-width="2.6"/>
+  <circle cx="1050" cy="150" r="4" fill="#63CEDD"/>
+  <text x="1050" y="234" text-anchor="middle" font-family="'Space Mono', monospace" font-size="21" letter-spacing="2" fill="#8FE4EF">COLLEAGUE</text>
+  <text x="1050" y="260" text-anchor="middle" font-family="'Space Mono', monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">now it can act</text>
+
+  <!-- mid waypoints -->
+  <circle cx="490" cy="500" r="4.5" fill="#F79256"/>
+  <circle cx="700" cy="330" r="4.5" fill="#9BA0C9"/>
+  <circle cx="860" cy="245" r="4.5" fill="#63CEDD"/>
+</svg>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
+import { HERO_METRICS } from './siteData'
 
 // ─────────────────────────────────────────────────────────────
 // Shared hero content (same copy + proof across both variants)
@@ -15,13 +16,8 @@ const HERO = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
   location: 'Hyderabad, India',
-  photo: '/profile.png',
-  metrics: [
-    { v: '17+', l: 'Years across regulated fintech' },
-    { v: '1,000+', l: 'Regulatory reports on the platform' },
-    { v: '15+', l: 'Regulated entities served' },
-    { v: '5', l: 'Jurisdictions live on agentic AI' },
-  ],
+  photo: '/profile-avatar.webp',
+  metrics: HERO_METRICS,
 }
 
 const EASE = [0.2, 0.7, 0.2, 1]

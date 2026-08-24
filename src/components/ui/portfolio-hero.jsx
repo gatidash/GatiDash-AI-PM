@@ -11,7 +11,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/gati-dash'
 const RESUME = '/GatiDash_Resume.pdf'
 
 // BlurText animation component
-const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', className = '', style }) => {
+const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', className = '', style, instant = false }) => {
   const [inView, setInView] = useState(false)
   const ref = useRef(null)
 
@@ -31,6 +31,23 @@ const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', cl
 
   const byWords = animateBy === 'words'
   const segments = useMemo(() => (byWords ? text.split(' ') : text.split('')), [text, byWords])
+
+  // `instant` opts an element out of the entrance animation entirely.
+  // The wordmark uses it: it is the largest text on the page, so it is the
+  // LCP element, and starting it at opacity 0 meant the headline did not
+  // paint until JS had hydrated and the observer had fired. It also left the
+  // prerendered HTML invisible to anyone without JS.
+  if (instant) {
+    return (
+      <p className={`flex ${byWords ? 'gap-x-[0.3em]' : ''} ${className}`} style={style}>
+        {segments.map((segment, i) => (
+          <span key={i} style={{ display: 'inline-block', whiteSpace: 'pre' }}>
+            {segment}
+          </span>
+        ))}
+      </p>
+    )
+  }
 
   // The segments are flex items, so a literal space between them collapses.
   // Word mode needs a real gap or the sentence renders as one long word.
@@ -203,15 +220,21 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
               the wordmark on phones; from sm up it stands beside it and tucks
               behind the final letter, so the face and every letter stay clear. */}
           <img
-            src="/profile-cutout.webp"
+            src="/profile-cutout-400.webp"
+            srcSet="/profile-cutout-240.webp 240w, /profile-cutout-400.webp 400w, /profile-cutout-760.webp 760w"
+            sizes="(max-width: 640px) 122px, (max-width: 768px) 196px, (max-width: 1024px) 264px, 318px"
+            width="760"
+            height="824"
+            fetchPriority="high"
+            decoding="async"
             alt="Portrait of Gatikrishna Dash"
             className="hero-portrait-img pointer-events-none select-none relative z-0 mb-4 h-[132px] w-auto sm:order-2 sm:mb-0 sm:-ml-10 md:-ml-12 lg:-ml-14 sm:h-[212px] md:h-[286px] lg:h-[344px]"
             style={{ filter: `drop-shadow(0 18px 40px ${isDark ? 'rgba(0,0,0,0.6)' : 'rgba(60,58,48,0.25)'})` }}
           />
 
           <div className="relative z-10 text-center sm:order-1">
-            <BlurText text="GATI" delay={100} animateBy="letters" direction="top" className={nameClass} style={nameStyle} />
-            <BlurText text="DASH" delay={100} animateBy="letters" direction="top" className={nameClass} style={nameStyle} />
+            <BlurText text="GATI" instant animateBy="letters" className={nameClass} style={nameStyle} />
+            <BlurText text="DASH" instant animateBy="letters" className={nameClass} style={nameStyle} />
           </div>
         </div>
 

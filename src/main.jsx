@@ -1,10 +1,19 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root')
+const tree = (
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
+
+// The build prerenders the app into #root (see scripts/prerender.mjs), so in
+// production there is markup to hydrate. In dev there isn't — fall back.
+if (container.hasChildNodes()) {
+  hydrateRoot(container, tree)
+} else {
+  createRoot(container).render(tree)
+}

@@ -1,0 +1,40 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://gatidash.com/#person",
+      "name": "Gatikrishna Dash",
+      "alternateName": "Gati Dash",
+      "jobTitle": "Lead Product Manager",
+      "description": "AI product leader working on agentic systems in regulated financial services. Fifteen years in data and product.",
+      "url": "https://gatidash.com/",
+      "image": "https://gatidash.com/profile-cutout.webp",
+      "email": "mailto:gati4dash@gmail.com",
+      "sameAs": ["https://www.linkedin.com/in/gati-dash"],
+      "worksFor": { "@type": "Organization", "name": "PayPal" },
+      "address": { "@type": "PostalAddress", "addressLocality": "Hyderabad", "addressCountry": "IN" },
+      "knowsAbout": [
+        "Agentic AI systems",
+        "AI governance and evals",
+        "Human-in-the-loop system design",
+        "Regulatory reporting platforms",
+        "Anti-money-laundering (AML) compliance",
+        "Enterprise platform strategy"
+      ],
+      "alumniOf": [
+        { "@type": "EducationalOrganization", "name": "Indian School of Business (ISB)" },
+        { "@type": "EducationalOrganization", "name": "Kellogg School of Management, Northwestern University" },
+        { "@type": "EducationalOrganization", "name": "Biju Patnaik University of Technology" }
+      ]
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://gatidash.com/#profilepage",
+      "url": "https://gatidash.com/",
+      "name": "Gatikrishna Dash — AI Product & Transformation Leader",
+      "mainEntity": { "@id": "https://gatidash.com/#person" },
+      "about": { "@id": "https://gatidash.com/#person" }
+    }
+  ]
+}

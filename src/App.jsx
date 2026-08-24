@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
 import { Analytics } from '@vercel/analytics/react'
-import { POSTS } from './blogPosts'
 import { track } from '@vercel/analytics'
 import { HeroDark, HeroLight, HeroSwitcher } from './Heroes'
 import PortfolioHero from '@/components/ui/portfolio-hero'
 import { Carousel } from '@/components/ui/carousel'
+import { HERO_METRICS } from './siteData'
 import { CardCarousel } from '@/components/ui/card-carousel'
 
 // ─────────────────────────────────────────────────────────────
@@ -29,12 +29,6 @@ const PROOF_LINES = [
 ]
 
 
-const HERO_METRICS = [
-  { v: '60%', l: 'Less manual intervention on high-volume workflows', proof: 'Shipped' },
-  { v: '5', l: 'Jurisdictions running the agentic platform', proof: 'Shipped' },
-  { v: '60+', l: 'Regulatory reports onboarded in three months', proof: 'Shipped' },
-  { v: '15+', l: 'Years in data and product', proof: 'Shipped' },
-]
 
 
 // Typographic wordmark strip (21st "logo cloud marquee" pattern)
@@ -485,7 +479,7 @@ const LINKS = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
   resume: '/GatiDash_Resume.pdf', // file lives in /public
-  photo: '/profile.png',
+  photo: '/profile-avatar.webp',
   location: 'Hyderabad, India',
 }
 
@@ -1233,7 +1227,18 @@ function LeadershipSlide({ p }) {
 
 
 function BlogReader({ slug, onClose }) {
-  const post = POSTS[slug]
+  // The essay is ~25KB of HTML string. Loading it with the app made every
+  // visitor pay for a page most of them never open.
+  const [post, setPost] = useState(null)
+  useEffect(() => {
+    let live = true
+    import('./blogPosts').then((m) => {
+      if (live) setPost(m.POSTS[slug] || null)
+    })
+    return () => {
+      live = false
+    }
+  }, [slug])
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -1244,7 +1249,6 @@ function BlogReader({ slug, onClose }) {
       window.removeEventListener('keydown', onKey)
     }
   }, [onClose])
-  if (!post) return null
   return (
     <div className="fixed inset-0 z-[100] bg-paper overflow-y-auto">
       <div className="sticky top-0 z-10 bg-paper/90 backdrop-blur-md border-b border-sand">
@@ -1258,7 +1262,13 @@ function BlogReader({ slug, onClose }) {
           <span className="font-serif text-sm text-ink tracking-editorial">Gatikrishna Dash</span>
         </Container>
       </div>
-      <div className="blog-reader pb-24" dangerouslySetInnerHTML={{ __html: post.html }} />
+      {post ? (
+        <div className="blog-reader pb-24" dangerouslySetInnerHTML={{ __html: post.html }} />
+      ) : (
+        <Container className="py-24">
+          <p className="eyebrow">Loading the essay…</p>
+        </Container>
+      )}
     </div>
   )
 }
@@ -1360,6 +1370,10 @@ function FeatureBlogCard({ b, onOpen }) {
           <img
             src={LINKS.photo}
             alt=""
+            width="24"
+            height="24"
+            loading="lazy"
+            decoding="async"
             className="h-6 w-6 rounded-full object-cover border border-sand"
           />
           <span className="text-ink-soft">Gatikrishna Dash</span>
@@ -1401,6 +1415,10 @@ function BlogCard({ b, onOpen }) {
           <img
             src={LINKS.photo}
             alt=""
+            width="24"
+            height="24"
+            loading="lazy"
+            decoding="async"
             className="h-6 w-6 rounded-full object-cover border border-sand"
           />
           <span className="text-ink-soft">Gatikrishna Dash</span>
