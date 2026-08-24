@@ -384,12 +384,16 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
         ] })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "mt-10 sm:mt-12 w-full max-w-2xl flex flex-col items-center gap-3 text-center", children: [
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxs(
           "span",
           {
-            className: "text-[10px] sm:text-[11px] uppercase tracking-[0.22em]",
-            style: { color: isDark ? "rgba(255,255,255,0.4)" : "#94917F", fontFamily: "'Fira Code', monospace" },
-            children: "AI Product & Transformation Leader · PayPal"
+            className: "text-[11px] sm:text-[13px] font-semibold uppercase tracking-[0.15em]",
+            style: { color: isDark ? "rgba(255,255,255,0.82)" : "#3A382E", fontFamily: "'Fira Code', monospace" },
+            children: [
+              "Lead Product Manager, AI & Transformation",
+              /* @__PURE__ */ jsx("span", { className: "mx-2 opacity-40", children: "·" }),
+              /* @__PURE__ */ jsx("span", { style: { color: accent }, children: "PayPal" })
+            ]
           }
         ),
         /* @__PURE__ */ jsx(

@@ -241,10 +241,12 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
         {/* Role + tagline */}
         <div className="mt-10 sm:mt-12 w-full max-w-2xl flex flex-col items-center gap-3 text-center">
           <span
-            className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em]"
-            style={{ color: isDark ? 'rgba(255,255,255,0.4)' : '#94917F', fontFamily: "'Fira Code', monospace" }}
+            className="text-[11px] sm:text-[13px] font-semibold uppercase tracking-[0.15em]"
+            style={{ color: isDark ? 'rgba(255,255,255,0.82)' : '#3A382E', fontFamily: "'Fira Code', monospace" }}
           >
-            AI Product &amp; Transformation Leader · PayPal
+            Lead Product Manager, AI &amp; Transformation
+            <span className="mx-2 opacity-40">·</span>
+            <span style={{ color: accent }}>PayPal</span>
           </span>
           <BlurText
             text="Agents that take actions you can't undo."
