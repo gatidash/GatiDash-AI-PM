@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>The Shadow Mode Readout · Artifact · Gatikrishna Dash</title>
+<meta name="description" content="What I measure before the agent is allowed to touch anything.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
+  --ink:#F2F0EA; --ink-soft:#C9C7BE; --smoke:#9A978C; --dust:#6E6C63;
+  --line:rgba(242,240,234,.13); --line-strong:rgba(242,240,234,.24);
+  --accent:#C3E41D; --accent-2:#D6EE5C; --plasma:#7FB3AD;
+  --ok:#46E0A0; --bad:#F2716B; --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#12140A}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+
+.topnav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Fira Code',monospace;font-weight:700;font-size:15px}
+.brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;
+  background:var(--accent);color:#12140A;font-family:'Fira Code',monospace;font-weight:700;font-size:13px;line-height:1}
+.backlink{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:.2s}
+.backlink:hover{border-color:var(--accent);color:var(--accent)}
+
+header.head{padding:64px 0 26px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--plasma);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,4.4vw,50px);max-width:19ch;margin-bottom:18px}
+.kicker{font-size:clamp(17px,2vw,21px);color:var(--smoke);max-width:52ch}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;
+  padding:5px 12px;color:var(--smoke);margin-top:26px}
+.badge b{color:var(--accent);font-weight:700}
+
+section{padding:34px 0}
+h2{font-size:clamp(20px,2.5vw,27px);margin-bottom:18px}
+p{margin-bottom:16px;color:var(--ink-soft);max-width:62ch}
+p strong{color:var(--ink);font-weight:600}
+
+.code-wrap{margin:26px 0 30px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card)}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--deep-2)}
+.code-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--smoke);letter-spacing:.03em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
+pre{overflow-x:auto;padding:20px 18px;margin:0}
+code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
+  color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
+code .k{color:var(--accent)}
+code .s{color:var(--plasma)}
+code .n{color:#D6EE5C}
+code .b{color:#C3E41D;font-weight:700}
+code .p{color:var(--dust)}
+code .c{color:var(--dust);font-style:italic}
+code .ok{color:var(--ok);font-weight:700}
+code .bad{color:var(--bad);font-weight:700}
+
+.tradeoff{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:34px 0 8px;max-width:64ch}
+.tradeoff .eyebrow{margin-bottom:14px}
+.tradeoff li{list-style:none;color:var(--ink-soft);margin-bottom:11px;padding-left:20px;position:relative}
+.tradeoff li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.pager{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 70px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.pager a{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.pager a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:26px 0 60px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
+@media (max-width:640px){ body{font-size:16.5px} pre{padding:16px 14px} code{font-size:11.5px} }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-badge">G</span>Gatikrishna Dash</a>
+  <a class="backlink" href="/#artifacts">← Artifacts</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <p class="eyebrow">Artifact</p>
+  <h1>The Shadow Mode Readout</h1>
+  <p class="kicker">What I measure before the agent is allowed to touch anything.</p>
+  <span class="badge">Reference implementation · <b>built for my own concept systems</b></span>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The problem</h2>
+  <p>Shadow mode is simple to describe. The agent runs on live inputs and produces a complete decision. A human decides in parallel, blind to the agent&#x27;s answer. Nothing the agent produces reaches a merchant, a control record or a regulator. Then we compare.</p><p>The trap is agreement rate. It&#x27;s the number everyone asks for and it&#x27;s close to useless on its own. An agent that escalates everything agrees with a cautious human most of the time and delivers nothing. What matters is the shape of the disagreements. Wrong-and-cautious costs a reviewer ten minutes. Wrong-and-dangerous is the one that ends the programme, and there are always far fewer of those, which is exactly why you have to count them individually rather than let them average away.</p><p>The other half is hunting for misses. You can&#x27;t find a false negative by reviewing what the agent flagged. So I start from what the human found, seed canaries the modelling side can&#x27;t see, and replay every incident that already bit us once. Then I write down the numbers that stop the rollout, before I know what the numbers are going to be.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">Shadow mode readout template (illustrative numbers, ending in NO-GO)</span>
+    <span class="code-lang">Plain text</span>
+  </div>
+  <pre><code><span class="k">SHADOW MODE READOUT - TEMPLATE</span>
+System: ................  Period: ....-..-.. to ....-..-..  Build: ........
+Owner: ................   Decision meeting: ....-..-..
+
+Shadow mode means the agent runs on live inputs, produces a full decision, and
+that decision goes nowhere. A human decides in parallel, blind to the agent&#x27;s
+answer. We compare afterwards. Nothing the agent says reaches a merchant, a
+control record, or a regulator.
+
+*** EVERY NUMBER BELOW IS ILLUSTRATIVE. It shows the shape of the readout ***
+*** and how a gate fails. These are not results from a real system.       ***
+
+=================================================================================
+1. VOLUME AND COVERAGE
+=================================================================================
+  Decisions produced by agent              1,847
+  Paired with an independent human answer  1,691   (91.6%)
+  Unpaired (human never got to it)           156   excluded from all rates below
+  Jurisdiction mix (Meridian)              AUSTRAC 44% / MAS 33% / CSSF 23%
+
+  Coverage below ~85% makes every rate on this page unreliable. Say so if it is.
+
+=================================================================================
+2. HEADLINE AGREEMENT
+=================================================================================
+  Exact agreement (same decision)          1,402 / 1,691   82.9%
+  Disagreement                               289 / 1,691   17.1%
+
+  Agreement on its own is close to meaningless. An agent that always says
+  &quot;escalate&quot; agrees with a cautious human most of the time and is worth nothing.
+  Read section 3 instead. This number is here so nobody asks for it later.
+
+=================================================================================
+3. DISAGREEMENT TAXONOMY   &lt;- the actual readout
+=================================================================================
+Every disagreement is adjudicated by a reviewer who did not make either call.
+
+  CLASS                      N     %of disagr   TREND vs last period
+  ------------------------------------------------------------------------
+  A. agent-wrong-DANGEROUS    4        1.4%      +2   &lt;&lt;&lt; see below
+  B. agent-wrong-safe       131       45.3%      -18
+  C. human-wrong             38       13.1%      +5
+  D. both-defensible        104       36.0%      +9
+  E. unadjudicated            12        4.2%      (must reach 0 before the gate)
+
+  A. AGENT-WRONG-DANGEROUS
+     The agent missed something, or asserted something, in a direction that
+     causes harm if executed. Missed obligation. Fabricated or drifted citation.
+     Asserted a judgment reserved for a human. Money moved the wrong way.
+     This class is counted, not rated. Each one gets a written post-mortem.
+     Detail on the 4:
+       2  missed an obligation in a definitions section (same root cause as the
+          recall failure in the eval rubric - not yet fixed)
+       1  cited a span that existed in a superseded version of the document
+       1  proposed a fee concession on an account with an open SAR flag; the
+          routing policy would have stopped execution, the reasoning was still wrong
+
+  B. AGENT-WRONG-SAFE
+     Wrong, in the direction of doing less. Over-escalated, abstained on an
+     answerable item, flagged a control that was not impacted. Costs reviewer
+     minutes. Does not cost a licence. This is where you want the mass to sit.
+
+  C. HUMAN-WRONG
+     Adjudicator sided with the agent. Do not celebrate these. Each one is
+     evidence the gold set and the reviewer guidance need work, and a high
+     C rate quietly inflates every other metric on this page.
+
+  D. BOTH-DEFENSIBLE
+     Genuine judgment calls where two competent people would differ. A rising D
+     is not a failure. It means the agent is operating where judgment lives,
+     which is exactly where it should be stopping and asking.
+
+=================================================================================
+4. FALSE-NEGATIVE HUNTING
+=================================================================================
+You cannot find misses by reviewing what the agent flagged. Four methods, run
+every period, because each one is blind to something:
+
+  M1  REVERSE SAMPLING. Take every obligation the human found, check whether the
+      agent surfaced it. This is the only method that measures the real rate.
+        Human-found obligations: 612    Agent also found: 578    Missed: 34
+        Recall 94.4%   (95% Wilson lower bound 92.2%)
+
+  M2  SEEDED CANARIES. Inject known-impacted changes with known control mappings
+      into the live stream at a low, logged rate. Nobody on the modelling side
+      knows which. Recall on canaries must be 100%. Anything else is a stop.
+        Canaries injected: 40   Detected: 39   MISSED: 1   -&gt; 97.5%   <span class="bad">FAIL</span>
+
+  M3  RETROSPECTIVE REPLAY. Re-run the last 24 months of closed regulatory
+      changes where the impact is now settled fact. Catches regressions that a
+      short live window is too small to see.
+        Replayed: 214   Recall 96.3%   Regressions vs previous build: 3
+
+  M4  INCIDENT LIBRARY REPLAY. Every past near-miss and finding, turned into a
+      test case. If the agent cannot catch the thing that already bit us once,
+      nothing else on this page matters.
+        Cases: 61   Caught: 61   100%   <span class="ok">PASS</span>
+
+=================================================================================
+5. DRIFT
+=================================================================================
+  INPUT DRIFT   PSI on document length, jurisdiction mix, novel-term rate
+                  PSI = 0.11   (&lt;0.10 stable, 0.10-0.25 watch, &gt;0.25 investigate)
+  OUTPUT DRIFT  Abstention rate week over week: 9.1% -&gt; 8.7% -&gt; 11.4% -&gt; 10.2%
+                  Control-family distribution KL vs baseline: 0.06
+  REVIEWER DRIFT  Cohen&#x27;s kappa between the two reviewers, weekly:
+                  0.83 / 0.81 / 0.76 / 0.71   &lt;- falling. Reviewers are drifting
+                  apart, probably fatigue. Fix this before trusting section 3.
+
+=================================================================================
+6. LATENCY, COST, REVIEWER LOAD
+=================================================================================
+  Latency p50 / p95 / p99         11.2s / 34.7s / 71.9s
+  Cost per assessment (mean)      $0.41   (incl. repair retries)
+  Repair retries consumed         attempt 1: 78.4%  attempt 2: 17.1%  attempt 3: 4.5%
+  Escalated after budget spent    1.9% of runs
+  Reviewer minutes per item       human alone 18.4  |  with agent packet 7.9
+  Projected steady-state queue    ~62 items/day at 2.1 FTE
+
+  Reviewer load is a go/no-go input, not a footnote. An agent that halves review
+  time but doubles queue volume has made the compliance team&#x27;s week worse.
+
+=================================================================================
+7. <span class="ok">GO</span> / NO-<span class="ok">GO</span> GATES
+=================================================================================
+  #   GATE                                              REQUIRED    ACTUAL   RESULT
+  ------------------------------------------------------------------------------
+  1   Pairing coverage                                  &gt;= 85%      91.6%    <span class="ok">PASS</span>
+  2   agent-wrong-dangerous count                       = 0         4        <span class="bad">FAIL</span>
+  3   Unadjudicated disagreements                       = 0         12       <span class="bad">FAIL</span>
+  4   Reverse-sampled recall, 95% lower bound           &gt;= 95%      92.2%    <span class="bad">FAIL</span>
+  5   Canary recall (M2)                                = 100%      97.5%    <span class="bad">FAIL</span>
+  6   Incident-library replay (M4)                      = 100%      100%     <span class="ok">PASS</span>
+  7   Reviewer kappa, latest week                       &gt;= 0.75     0.71     <span class="bad">FAIL</span>
+  8   Input PSI                                         &lt;= 0.25     0.11     <span class="ok">PASS</span>
+  9   Abstention rate inside band                       2%-35%      10.2%    <span class="ok">PASS</span>
+  10  Every simulated action carries an approval record = 100%      100%     <span class="ok">PASS</span>
+  11  p95 latency                                       &lt;= 60s      34.7s    <span class="ok">PASS</span>
+  12  Reviewer minutes per item vs baseline             lower       7.9      <span class="ok">PASS</span>
+
+  DECISION: NO-<span class="ok">GO</span>. Five gates failed. Gates 2 and 5 are each independently
+  sufficient to stop the rollout.
+
+  Note on gate 7: it fails on reviewer agreement, not on the agent. That still
+  blocks. If the humans have drifted apart, sections 3 and 4 are measuring a
+  moving target and I will not make a go decision on top of them.
+
+=================================================================================
+8. WHAT WOULD MAKE ME <span class="bad">STOP</span> THE ROLLOUT, EVEN MID-RAMP
+=================================================================================
+  S1  Any agent-wrong-dangerous event in a period. One is enough. Halt, write
+      the post-mortem, fix the class, re-run shadow.
+  S2  A missed canary. It means the detector we use to check the detector is
+      broken, so no other number is trustworthy.
+  S3  Any action executed without a matching approval record. That is a control
+      break, not a quality issue, and it goes to the second line the same day.
+  S4  Abstention rate leaving its band in either direction. Collapse toward zero
+      means the agent stopped recognising its own limits. Spike means something
+      upstream changed and it knows before we do.
+  S5  Reviewer kappa below 0.70. We are no longer measuring anything.
+  S6  Input PSI above 0.25 sustained over two periods. The world moved.
+  S7  Reviewer minutes per item rising above the human-alone baseline. The agent
+      is now net negative for the team it was built to help.
+  S8  Any citation traced to a superseded document version. The provenance chain
+      is the product; a break in it is not a tuning problem.
+
+  Ramp plan, only if every gate passes: 5% of volume for two weeks, then 25%,
+  then 50%, then full. Each step needs a fresh readout. Shadow mode never gets
+  switched off entirely - it becomes the 5% sample that runs forever.
+</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">shadow/metrics_contract.v1.2.0.json - what gets measured and what blocks</span>
+    <span class="code-lang">JSON</span>
+  </div>
+  <pre><code><span class="p">{</span>
+  <span class="k">&quot;contract_id&quot;</span>: <span class="s">&quot;shadow_mode_readout&quot;</span><span class="p">,</span>
+  <span class="k">&quot;version&quot;</span>: <span class="s">&quot;1.2.0&quot;</span><span class="p">,</span>
+  <span class="k">&quot;cadence&quot;</span>: <span class="s">&quot;weekly, with a rollup at the go/no-go meeting&quot;</span><span class="p">,</span>
+  <span class="k">&quot;_illustrative&quot;</span>: <span class="s">&quot;All thresholds below are illustrative starting values for a concept system.&quot;</span><span class="p">,</span>
+  <span class="k">&quot;period&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;start&quot;</span>: <span class="s">&quot;date-time&quot;</span><span class="p">,</span>
+    <span class="k">&quot;end&quot;</span>: <span class="s">&quot;date-time&quot;</span><span class="p">,</span>
+    <span class="k">&quot;build_sha&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+    <span class="k">&quot;policy_version&quot;</span>: <span class="s">&quot;string&quot;</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;coverage&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;decisions_produced&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+    <span class="k">&quot;paired_with_human&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+    <span class="k">&quot;pairing_rate&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;ratio&quot;</span><span class="p">,</span>
+      <span class="k">&quot;min_valid&quot;</span>: <span class="n">0.85</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;below this, suppress every downstream rate rather than publishing it&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;agreement&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;exact_agreement_rate&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;ratio&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="b">null</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;reported, never gated on - a maximally cautious agent games it&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;disagreement_taxonomy&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;adjudication&quot;</span>: <span class="s">&quot;third reviewer, blind to which answer came from the agent&quot;</span><span class="p">,</span>
+    <span class="k">&quot;classes&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;agent_wrong_dangerous&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in a direction that causes harm if executed: missed obligation, fabricated or drifted citation, reserved judgment asserted, value moved incorrectly&quot;</span><span class="p">,</span>
+        <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;absolute count, never a rate&quot;</span><span class="p">,</span>
+        <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+          <span class="k">&quot;value&quot;</span>: <span class="n">0</span><span class="p">,</span>
+          <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;on_breach&quot;</span>: <span class="s">&quot;halt ramp, written post-mortem per event, re-run shadow after fix&quot;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;agent_wrong_safe&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in the direction of doing less: over-escalated, abstained on an answerable item, flagged an unimpacted control&quot;</span><span class="p">,</span>
+        <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;rate over adjudicated disagreements&quot;</span><span class="p">,</span>
+        <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
+          <span class="k">&quot;value&quot;</span>: <span class="n">0.6</span><span class="p">,</span>
+          <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;note&quot;</span>: <span class="s">&quot;costs reviewer minutes; this is where the mass should sit&quot;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;human_wrong&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;adjudicator sided with the agent&quot;</span><span class="p">,</span>
+        <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;rate over adjudicated disagreements&quot;</span><span class="p">,</span>
+        <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
+          <span class="k">&quot;value&quot;</span>: <span class="n">0.2</span><span class="p">,</span>
+          <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;note&quot;</span>: <span class="s">&quot;a high rate means the gold set and reviewer guidance need work, and it silently inflates every other metric&quot;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;both_defensible&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;genuine judgment call; two competent reviewers would differ&quot;</span><span class="p">,</span>
+        <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;rate over adjudicated disagreements&quot;</span><span class="p">,</span>
+        <span class="k">&quot;gate&quot;</span>: <span class="b">null</span><span class="p">,</span>
+        <span class="k">&quot;note&quot;</span>: <span class="s">&quot;rising is not a failure - it means the agent is stopping where judgment lives&quot;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;unadjudicated&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;disagreement not yet reviewed&quot;</span><span class="p">,</span>
+        <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;absolute count&quot;</span><span class="p">,</span>
+        <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+          <span class="k">&quot;value&quot;</span>: <span class="n">0</span><span class="p">,</span>
+          <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;note&quot;</span>: <span class="s">&quot;an unadjudicated disagreement is an unknown, and unknowns cannot be netted against known passes&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;false_negative_hunting&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;reverse_sampling&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;method&quot;</span>: <span class="s">&quot;start from every obligation the human found, check whether the agent surfaced it&quot;</span><span class="p">,</span>
+      <span class="k">&quot;metric&quot;</span>: <span class="s">&quot;recall_wilson_lower_95&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;gte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0.95</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;seeded_canaries&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;method&quot;</span>: <span class="s">&quot;inject known-impacted changes with known mappings into the live stream at a low logged rate; modelling side is blind to which&quot;</span><span class="p">,</span>
+      <span class="k">&quot;injection_rate&quot;</span>: <span class="n">0.02</span><span class="p">,</span>
+      <span class="k">&quot;metric&quot;</span>: <span class="s">&quot;canary_recall&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">1.0</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;on_breach&quot;</span>: <span class="s">&quot;STOP. The detector that checks the detector is broken.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;retrospective_replay&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;method&quot;</span>: <span class="s">&quot;re-run closed changes from the last 24 months where impact is settled fact&quot;</span><span class="p">,</span>
+      <span class="k">&quot;metric&quot;</span>: <span class="s">&quot;recall&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;gte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0.95</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;also_report&quot;</span>: <span class="s">&quot;regressions_vs_previous_build&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;incident_library_replay&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;method&quot;</span>: <span class="s">&quot;every past near-miss and audit finding as a test case&quot;</span><span class="p">,</span>
+      <span class="k">&quot;metric&quot;</span>: <span class="s">&quot;catch_rate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">1.0</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;drift&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;input_psi&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;features&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;document_char_length&quot;</span><span class="p">,</span>
+        <span class="s">&quot;jurisdiction_mix&quot;</span><span class="p">,</span>
+        <span class="s">&quot;novel_term_rate&quot;</span><span class="p">,</span>
+        <span class="s">&quot;instrument_type_mix&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;bands&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;stable&quot;</span>: <span class="n">0.1</span><span class="p">,</span>
+        <span class="k">&quot;watch&quot;</span>: <span class="n">0.25</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0.25</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;output_abstention_rate&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;band&quot;</span>: <span class="p">[</span>
+        <span class="n">0.02</span><span class="p">,</span>
+        <span class="n">0.35</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;in_band&quot;</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;collapse toward zero is as alarming as a spike&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;output_distribution_kl&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;against&quot;</span>: <span class="s">&quot;baseline_control_family_mix&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0.2</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;reviewer_kappa&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;method&quot;</span>: <span class="s">&quot;Cohen&#x27;s kappa between the two independent reviewers, weekly&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;gte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0.75</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;gates the measurement, not the agent&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;operations&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;latency_ms&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;report&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;p50&quot;</span><span class="p">,</span>
+        <span class="s">&quot;p95&quot;</span><span class="p">,</span>
+        <span class="s">&quot;p99&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">60000</span><span class="p">,</span>
+        <span class="k">&quot;on&quot;</span>: <span class="s">&quot;p95&quot;</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">false</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;cost_per_decision_usd&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;report&quot;</span>: <span class="s">&quot;mean&quot;</span><span class="p">,</span>
+      <span class="k">&quot;include&quot;</span>: <span class="s">&quot;repair retries&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="b">null</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;retry_budget_histogram&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;buckets&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;attempt_1&quot;</span><span class="p">,</span>
+        <span class="s">&quot;attempt_2&quot;</span><span class="p">,</span>
+        <span class="s">&quot;attempt_3&quot;</span><span class="p">,</span>
+        <span class="s">&quot;escalated&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;reviewer_minutes_per_item&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;compare_to&quot;</span>: <span class="s">&quot;human_alone_baseline&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lt&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="s">&quot;baseline&quot;</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;an agent that increases reviewer load has failed regardless of accuracy&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;projected_queue_depth_per_day&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;report&quot;</span>: <span class="s">&quot;point_estimate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="b">null</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;auditability&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;actions_with_approval_record&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">1.0</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;in shadow the actions are simulated; the approval record must still exist for every one&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;citations_against_superseded_versions&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="k">&quot;value&quot;</span>: <span class="n">0</span><span class="p">,</span>
+        <span class="k">&quot;blocking&quot;</span>: <span class="b">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;stop_conditions&quot;</span>: <span class="p">[</span>
+    <span class="s">&quot;any agent_wrong_dangerous event in the period&quot;</span><span class="p">,</span>
+    <span class="s">&quot;any missed canary&quot;</span><span class="p">,</span>
+    <span class="s">&quot;any executed action without a matching approval record&quot;</span><span class="p">,</span>
+    <span class="s">&quot;abstention rate outside [0.02, 0.35]&quot;</span><span class="p">,</span>
+    <span class="s">&quot;reviewer kappa below 0.70&quot;</span><span class="p">,</span>
+    <span class="s">&quot;input PSI above 0.25 sustained over two periods&quot;</span><span class="p">,</span>
+    <span class="s">&quot;reviewer minutes per item above the human-alone baseline&quot;</span><span class="p">,</span>
+    <span class="s">&quot;any citation traced to a superseded document version&quot;</span>
+  <span class="p">]</span><span class="p">,</span>
+  <span class="k">&quot;ramp&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;steps&quot;</span>: <span class="p">[</span>
+      <span class="n">0.05</span><span class="p">,</span>
+      <span class="n">0.25</span><span class="p">,</span>
+      <span class="n">0.5</span><span class="p">,</span>
+      <span class="n">1.0</span>
+    <span class="p">]</span><span class="p">,</span>
+    <span class="k">&quot;min_period_per_step&quot;</span>: <span class="s">&quot;2 weeks&quot;</span><span class="p">,</span>
+    <span class="k">&quot;requires&quot;</span>: <span class="s">&quot;a fresh readout with all blocking gates passing at each step&quot;</span><span class="p">,</span>
+    <span class="k">&quot;permanent_shadow_sample&quot;</span>: <span class="n">0.05</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">shadow/readout.py - taxonomy, FN hunting, drift, go/no-go</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;shadow/readout.py
+
+Turns a period of paired shadow decisions into the readout and the go/no-go call.
+
+The only opinionated part is classify_disagreement. Everything else is counting.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> json
+<span class="b">import</span> math
+<span class="b">from</span> collections <span class="b">import</span> Counter
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass
+<span class="b">from</span> pathlib <span class="b">import</span> Path
+<span class="b">from</span> typing <span class="b">import</span> Iterable, Sequence
+
+CONTRACT = json.loads(Path(<span class="s">&quot;shadow/metrics_contract.v1.2.0.json&quot;</span>).read_text(encoding=<span class="s">&quot;utf-8&quot;</span>))
+
+DANGEROUS_MARKERS = {
+    <span class="s">&quot;missed_obligation&quot;</span>,
+    <span class="s">&quot;citation_not_in_source&quot;</span>,
+    <span class="s">&quot;citation_superseded_version&quot;</span>,
+    <span class="s">&quot;reserved_judgment_asserted&quot;</span>,
+    <span class="s">&quot;value_direction_wrong&quot;</span>,
+    <span class="s">&quot;flagged_entity_ignored&quot;</span>,
+}
+SAFE_MARKERS = {
+    <span class="s">&quot;over_escalated&quot;</span>,
+    <span class="s">&quot;abstained_on_answerable&quot;</span>,
+    <span class="s">&quot;flagged_unimpacted_control&quot;</span>,
+    <span class="s">&quot;redundant_evidence_request&quot;</span>,
+}
+
+
+<span class="c"># ------------------------------------------------------------------ taxonomy</span>
+
+<span class="b">def</span> classify_disagreement(pair: dict) -&gt; str:
+    <span class="s">&quot;&quot;&quot;One paired decision -&gt; one taxonomy class.
+
+    pair keys:
+      agent_decision, human_decision, adjudication {verdict, markers}
+    adjudication.verdict is one of: agent_correct, human_correct, both_defensible
+    and is set by a third reviewer who does not know which answer came from the agent.
+    &quot;&quot;&quot;</span>
+    <span class="b">if</span> pair[<span class="s">&quot;agent_decision&quot;</span>] == pair[<span class="s">&quot;human_decision&quot;</span>]:
+        <span class="b">return</span> <span class="s">&quot;agreement&quot;</span>
+
+    adj = pair.get(<span class="s">&quot;adjudication&quot;</span>)
+    <span class="b">if</span> <span class="b">not</span> adj:
+        <span class="b">return</span> <span class="s">&quot;unadjudicated&quot;</span>
+
+    verdict = adj[<span class="s">&quot;verdict&quot;</span>]
+    <span class="b">if</span> verdict == <span class="s">&quot;agent_correct&quot;</span>:
+        <span class="b">return</span> <span class="s">&quot;human_wrong&quot;</span>
+    <span class="b">if</span> verdict == <span class="s">&quot;both_defensible&quot;</span>:
+        <span class="b">return</span> <span class="s">&quot;both_defensible&quot;</span>
+
+    <span class="c"># The agent was wrong. The direction is what matters.</span>
+    markers = set(adj.get(<span class="s">&quot;markers&quot;</span>) <span class="b">or</span> [])
+    <span class="b">if</span> markers &amp; DANGEROUS_MARKERS:
+        <span class="b">return</span> <span class="s">&quot;agent_wrong_dangerous&quot;</span>
+    <span class="b">if</span> markers &amp; SAFE_MARKERS:
+        <span class="b">return</span> <span class="s">&quot;agent_wrong_safe&quot;</span>
+    <span class="c"># Unmarked agent error defaults to dangerous. An error nobody characterised</span>
+    <span class="c"># is not evidence of safety, and defaulting the other way hides exactly the</span>
+    <span class="c"># class this readout exists to catch.</span>
+    <span class="b">return</span> <span class="s">&quot;agent_wrong_dangerous&quot;</span>
+
+
+<span class="b">def</span> taxonomy(pairs: Iterable[dict]) -&gt; Counter:
+    <span class="b">return</span> Counter(classify_disagreement(p) <span class="b">for</span> p <span class="b">in</span> pairs)
+
+
+<span class="c"># ------------------------------------------------------- false-negative hunting</span>
+
+<span class="b">def</span> wilson_lower(successes: int, trials: int, z: float = <span class="n">1.96</span>) -&gt; float:
+    <span class="b">if</span> trials &lt;= <span class="n">0</span>:
+        <span class="b">return</span> <span class="n">0.0</span>
+    p = successes / trials
+    denom = <span class="n">1.0</span> + z * z / trials
+    centre = p + z * z / (<span class="n">2</span> * trials)
+    margin = z * math.sqrt((p * (<span class="n">1.0</span> - p) + z * z / (<span class="n">4</span> * trials)) / trials)
+    <span class="b">return</span> max(<span class="n">0.0</span>, (centre - margin) / denom)
+
+
+<span class="b">def</span> reverse_sampled_recall(pairs: Iterable[dict]) -&gt; tuple[float, float, int, int]:
+    <span class="s">&quot;&quot;&quot;Start from what the HUMAN found. This is the only honest recall estimate.
+
+    Sampling from what the agent flagged can never surface a miss.
+    &quot;&quot;&quot;</span>
+    found = total = <span class="n">0</span>
+    <span class="b">for</span> p <span class="b">in</span> pairs:
+        human_ids = set(p[<span class="s">&quot;human_findings&quot;</span>])
+        agent_ids = set(p[<span class="s">&quot;agent_findings&quot;</span>])
+        total += len(human_ids)
+        found += len(human_ids &amp; agent_ids)
+    point = found / total <span class="b">if</span> total <span class="b">else</span> <span class="n">0.0</span>
+    <span class="b">return</span> point, wilson_lower(found, total), found, total
+
+
+<span class="b">def</span> canary_recall(canaries: Sequence[dict]) -&gt; tuple[float, list[str]]:
+    <span class="s">&quot;&quot;&quot;Seeded known-positives. Anything short of 1.0 is a stop condition.&quot;&quot;&quot;</span>
+    missed = [c[<span class="s">&quot;canary_id&quot;</span>] <span class="b">for</span> c <span class="b">in</span> canaries
+              <span class="b">if</span> <span class="b">not</span> set(c[<span class="s">&quot;expected_control_ids&quot;</span>]) &lt;= set(c[<span class="s">&quot;agent_control_ids&quot;</span>])]
+    detected = len(canaries) - len(missed)
+    <span class="b">return</span> (detected / len(canaries) <span class="b">if</span> canaries <span class="b">else</span> <span class="n">0.0</span>), missed
+
+
+<span class="c"># --------------------------------------------------------------------- drift</span>
+
+<span class="b">def</span> psi(baseline: Sequence[float], current: Sequence[float], bins: int = <span class="n">10</span>) -&gt; float:
+    <span class="s">&quot;&quot;&quot;Population Stability Index over a numeric feature.
+
+    Bin edges come from the BASELINE quantiles, so a shifted current distribution
+    actually registers instead of being re-binned into looking stable.
+    &quot;&quot;&quot;</span>
+    <span class="b">if</span> <span class="b">not</span> baseline <span class="b">or</span> <span class="b">not</span> current:
+        <span class="b">raise</span> ValueError(<span class="s">&quot;both distributions must be non-empty&quot;</span>)
+    ordered = sorted(baseline)
+    edges = [ordered[min(int(len(ordered) * i / bins), len(ordered) - <span class="n">1</span>)] <span class="b">for</span> i <span class="b">in</span> range(<span class="n">1</span>, bins)]
+
+    <span class="b">def</span> bucket(values: Sequence[float]) -&gt; list[float]:
+        counts = [<span class="n">0</span>] * bins
+        <span class="b">for</span> v <span class="b">in</span> values:
+            idx = <span class="n">0</span>
+            <span class="b">while</span> idx &lt; len(edges) <span class="b">and</span> v &gt; edges[idx]:
+                idx += <span class="n">1</span>
+            counts[idx] += <span class="n">1</span>
+        n = len(values)
+        eps = 1e-<span class="n">6</span>
+        <span class="b">return</span> [max(c / n, eps) <span class="b">for</span> c <span class="b">in</span> counts]
+
+    b, c = bucket(baseline), bucket(current)
+    <span class="b">return</span> sum((ci - bi) * math.log(ci / bi) <span class="b">for</span> bi, ci <span class="b">in</span> zip(b, c))
+
+
+<span class="c"># ---------------------------------------------------------------- go / no-go</span>
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Gate:
+    number: int
+    name: str
+    required: str
+    actual: float | int
+    passed: bool
+    blocking: bool
+
+
+<span class="b">def</span> build_gates(*, pairing_rate: float, counts: Counter, recall_lower: float,
+                canary: float, incident_catch: float, kappa: float,
+                input_psi: float, abstention_rate: float,
+                approval_coverage: float, p95_latency_ms: int,
+                reviewer_minutes: float, baseline_minutes: float) -&gt; list[Gate]:
+    band = CONTRACT[<span class="s">&quot;drift&quot;</span>][<span class="s">&quot;output_abstention_rate&quot;</span>][<span class="s">&quot;band&quot;</span>]
+    specs = [
+        (<span class="n">1</span>, <span class="s">&quot;pairing coverage&quot;</span>, <span class="s">&quot;&gt;= 0.85&quot;</span>, pairing_rate, pairing_rate &gt;= <span class="n">0.85</span>, <span class="b">True</span>),
+        (<span class="n">2</span>, <span class="s">&quot;agent-wrong-dangerous&quot;</span>, <span class="s">&quot;= 0&quot;</span>, counts[<span class="s">&quot;agent_wrong_dangerous&quot;</span>],
+         counts[<span class="s">&quot;agent_wrong_dangerous&quot;</span>] == <span class="n">0</span>, <span class="b">True</span>),
+        (<span class="n">3</span>, <span class="s">&quot;unadjudicated disagreements&quot;</span>, <span class="s">&quot;= 0&quot;</span>, counts[<span class="s">&quot;unadjudicated&quot;</span>],
+         counts[<span class="s">&quot;unadjudicated&quot;</span>] == <span class="n">0</span>, <span class="b">True</span>),
+        (<span class="n">4</span>, <span class="s">&quot;reverse-sampled recall (95% lower)&quot;</span>, <span class="s">&quot;&gt;= 0.95&quot;</span>, recall_lower, recall_lower &gt;= <span class="n">0.95</span>, <span class="b">True</span>),
+        (<span class="n">5</span>, <span class="s">&quot;canary recall&quot;</span>, <span class="s">&quot;= 1.0&quot;</span>, canary, canary &gt;= <span class="n">1.0</span>, <span class="b">True</span>),
+        (<span class="n">6</span>, <span class="s">&quot;incident-library replay&quot;</span>, <span class="s">&quot;= 1.0&quot;</span>, incident_catch, incident_catch &gt;= <span class="n">1.0</span>, <span class="b">True</span>),
+        (<span class="n">7</span>, <span class="s">&quot;reviewer kappa&quot;</span>, <span class="s">&quot;&gt;= 0.75&quot;</span>, kappa, kappa &gt;= <span class="n">0.75</span>, <span class="b">True</span>),
+        (<span class="n">8</span>, <span class="s">&quot;input PSI&quot;</span>, <span class="s">&quot;&lt;= 0.25&quot;</span>, input_psi, input_psi &lt;= <span class="n">0.25</span>, <span class="b">True</span>),
+        (<span class="n">9</span>, <span class="s">&quot;abstention rate in band&quot;</span>, f<span class="s">&quot;{band[0]}-{band[1]}&quot;</span>, abstention_rate,
+         band[<span class="n">0</span>] &lt;= abstention_rate &lt;= band[<span class="n">1</span>], <span class="b">True</span>),
+        (<span class="n">10</span>, <span class="s">&quot;approval record coverage&quot;</span>, <span class="s">&quot;= 1.0&quot;</span>, approval_coverage, approval_coverage &gt;= <span class="n">1.0</span>, <span class="b">True</span>),
+        (<span class="n">11</span>, <span class="s">&quot;p95 latency&quot;</span>, <span class="s">&quot;&lt;= 60000ms&quot;</span>, p95_latency_ms, p95_latency_ms &lt;= <span class="n">60000</span>, <span class="b">False</span>),
+        (<span class="n">12</span>, <span class="s">&quot;reviewer minutes vs baseline&quot;</span>, <span class="s">&quot;&lt; baseline&quot;</span>, reviewer_minutes,
+         reviewer_minutes &lt; baseline_minutes, <span class="b">True</span>),
+    ]
+    <span class="b">return</span> [Gate(*s) <span class="b">for</span> s <span class="b">in</span> specs]
+
+
+<span class="b">def</span> go_no_go(gates: Sequence[Gate]) -&gt; tuple[bool, list[str]]:
+    failed = [f<span class="s">&quot;#{g.number} {g.name}&quot;</span> <span class="b">for</span> g <span class="b">in</span> gates <span class="b">if</span> g.blocking <span class="b">and</span> <span class="b">not</span> g.passed]
+    <span class="b">return</span> (<span class="b">not</span> failed), failed
+
+
+<span class="b">if</span> __name__ == <span class="s">&quot;__main__&quot;</span>:
+    pairs = [json.loads(l) <span class="b">for</span> l <span class="b">in</span> Path(<span class="s">&quot;shadow/pairs_latest.jsonl&quot;</span>).read_text().splitlines()]
+    counts = taxonomy(pairs)
+    point, lower, found, total = reverse_sampled_recall(pairs)
+
+    print(<span class="s">&quot;disagreement taxonomy:&quot;</span>, dict(counts))
+    print(f<span class="s">&quot;reverse-sampled recall: {point:.3f} (95% lower {lower:.3f}) on {total} human findings&quot;</span>)
+
+    <span class="c"># Values below stand in for the rest of the pipeline in this example.</span>
+    gates = build_gates(
+        pairing_rate=<span class="n">0.916</span>, counts=counts, recall_lower=lower,
+        canary=<span class="n">0.975</span>, incident_catch=<span class="n">1.0</span>, kappa=<span class="n">0.71</span>, input_psi=<span class="n">0.11</span>,
+        abstention_rate=<span class="n">0.102</span>, approval_coverage=<span class="n">1.0</span>, p95_latency_ms=<span class="n">34700</span>,
+        reviewer_minutes=<span class="n">7.9</span>, baseline_minutes=<span class="n">18.4</span>,
+    )
+    <span class="b">for</span> g <span class="b">in</span> gates:
+        print(f<span class="s">&quot;  {g.number:&gt;2}  {g.name:&lt;38} req {g.required:&lt;14} &quot;</span>
+              f<span class="s">&quot;actual {g.actual!s:&lt;10} {&#x27;PASS&#x27; if g.passed else &#x27;FAIL&#x27;}&quot;</span>
+              f<span class="s">&quot;{&#x27; [BLOCKING]&#x27; if g.blocking else &#x27;&#x27;}&quot;</span>)
+
+    ok, failed = go_no_go(gates)
+    print(<span class="s">&quot;\nDECISION:&quot;</span>, <span class="s">&quot;GO&quot;</span> <span class="b">if</span> ok <span class="b">else</span> <span class="s">&quot;NO-GO - blocked by &quot;</span> + <span class="s">&quot;; &quot;</span>.join(failed))
+</code></pre>
+</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tradeoff">
+    <p class="eyebrow">The tradeoff</p>
+    <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live compliance stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li></ul>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager"><a href="/artifact-escalation-matrix.html">← The Escalation Matrix</a><span></span></div></div>
+
+<footer><div class="wrap">
+  <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>
+  <span>Reference implementation · not production code from any employer</span>
+</div></footer>
+</body>
+</html>

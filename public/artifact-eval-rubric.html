@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>An Eval Rubric That Can Say No · Artifact · Gatikrishna Dash</title>
+<meta name="description" content="Eight dimensions, four blocking gates, and a worked scorecard that fails.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
+  --ink:#F2F0EA; --ink-soft:#C9C7BE; --smoke:#9A978C; --dust:#6E6C63;
+  --line:rgba(242,240,234,.13); --line-strong:rgba(242,240,234,.24);
+  --accent:#C3E41D; --accent-2:#D6EE5C; --plasma:#7FB3AD;
+  --ok:#46E0A0; --bad:#F2716B; --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#12140A}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+
+.topnav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Fira Code',monospace;font-weight:700;font-size:15px}
+.brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;
+  background:var(--accent);color:#12140A;font-family:'Fira Code',monospace;font-weight:700;font-size:13px;line-height:1}
+.backlink{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:.2s}
+.backlink:hover{border-color:var(--accent);color:var(--accent)}
+
+header.head{padding:64px 0 26px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--plasma);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,4.4vw,50px);max-width:19ch;margin-bottom:18px}
+.kicker{font-size:clamp(17px,2vw,21px);color:var(--smoke);max-width:52ch}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;
+  padding:5px 12px;color:var(--smoke);margin-top:26px}
+.badge b{color:var(--accent);font-weight:700}
+
+section{padding:34px 0}
+h2{font-size:clamp(20px,2.5vw,27px);margin-bottom:18px}
+p{margin-bottom:16px;color:var(--ink-soft);max-width:62ch}
+p strong{color:var(--ink);font-weight:600}
+
+.code-wrap{margin:26px 0 30px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card)}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--deep-2)}
+.code-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--smoke);letter-spacing:.03em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
+pre{overflow-x:auto;padding:20px 18px;margin:0}
+code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
+  color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
+code .k{color:var(--accent)}
+code .s{color:var(--plasma)}
+code .n{color:#D6EE5C}
+code .b{color:#C3E41D;font-weight:700}
+code .p{color:var(--dust)}
+code .c{color:var(--dust);font-style:italic}
+code .ok{color:var(--ok);font-weight:700}
+code .bad{color:var(--bad);font-weight:700}
+
+.tradeoff{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:34px 0 8px;max-width:64ch}
+.tradeoff .eyebrow{margin-bottom:14px}
+.tradeoff li{list-style:none;color:var(--ink-soft);margin-bottom:11px;padding-left:20px;position:relative}
+.tradeoff li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.pager{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 70px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.pager a{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.pager a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:26px 0 60px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
+@media (max-width:640px){ body{font-size:16.5px} pre{padding:16px 14px} code{font-size:11.5px} }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-badge">G</span>Gatikrishna Dash</a>
+  <a class="backlink" href="/#artifacts">← Artifacts</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <p class="eyebrow">Artifact</p>
+  <h1>An Eval Rubric That Can Say No</h1>
+  <p class="kicker">Eight dimensions, four blocking gates, and a worked scorecard that fails.</p>
+  <span class="badge">Reference implementation · <b>built for my own concept systems</b></span>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The problem</h2>
+  <p>Most agent evals measure whether the output looks right. That&#x27;s the easy half. For a compliance agent I need to know something harder: what did it miss, and did it overstep.</p><p>Those two failures aren&#x27;t symmetric. A control the agent flags wrongly costs a reviewer five minutes, and the reviewer catches it. A control it never mentions is invisible, and it stays invisible until an examiner finds it. So recall gets a higher bar than precision, and I say out loud that I&#x27;m buying recall with precision.</p><p>The other thing I insist on is a rubric that can block a ship. If every dimension is advisory, the rubric is a dashboard rather than a gate. Four of these are blocking, one of them gates the eval itself: if the two human reviewers don&#x27;t agree with each other, every number above them is noise and no decision built on it means anything.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">evals/rubric.v2.1.0.json - dimensions, methods, thresholds</span>
+    <span class="code-lang">JSON</span>
+  </div>
+  <pre><code><span class="p">{</span>
+  <span class="k">&quot;rubric_id&quot;</span>: <span class="s">&quot;meridian_cia_rubric&quot;</span><span class="p">,</span>
+  <span class="k">&quot;version&quot;</span>: <span class="s">&quot;2.1.0&quot;</span><span class="p">,</span>
+  <span class="k">&quot;applies_to&quot;</span>: <span class="s">&quot;control_impact_assessment v1.4.x&quot;</span><span class="p">,</span>
+  <span class="k">&quot;gold_set&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;id&quot;</span>: <span class="s">&quot;gold_cia_2026_08&quot;</span><span class="p">,</span>
+    <span class="k">&quot;n_items&quot;</span>: <span class="n">480</span><span class="p">,</span>
+    <span class="k">&quot;composition&quot;</span>: <span class="s">&quot;regulatory changes across AU_AUSTRAC / SG_MAS / LU_CSSF, each adjudicated by two independent compliance reviewers, disagreements resolved by a third&quot;</span><span class="p">,</span>
+    <span class="k">&quot;abstain_stratum&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;n_should_abstain&quot;</span>: <span class="n">72</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;Items deliberately built to be unanswerable: truncated sources, stale inventory refs, conflicting obligations. Without this stratum you cannot measure abstention at all.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;refresh_policy&quot;</span>: <span class="s">&quot;20% rotated each quarter; full set never shown to prompt authors&quot;</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;scoring_rules&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;gate_on&quot;</span>: <span class="s">&quot;lower bound of the 95% Wilson interval, not the point estimate&quot;</span><span class="p">,</span>
+    <span class="k">&quot;rationale&quot;</span>: <span class="s">&quot;A point estimate of 0.97 on 60 items is not evidence of 0.97. Gating on the lower bound makes small eval sets fail honestly instead of passing by luck.&quot;</span><span class="p">,</span>
+    <span class="k">&quot;ship_decision&quot;</span>: <span class="s">&quot;ALL blocking dimensions must pass. Advisory failures are recorded, argued about, and may still ship.&quot;</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;dimensions&quot;</span>: <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;citation_fidelity&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Citation fidelity&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Every cited span must exist verbatim in the source document at the offsets given. Paraphrase inside quote marks counts as a failure, as does an off-by-N offset.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic. For each citation, assert source_text[char_start:char_end] == quoted_text and document_id == the assessed document. Score = exact matches / total citations. No model judges this.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.995</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;A fabricated quote in a signed compliance packet is the single failure that ends the programme. There is no acceptable rate above roughly zero.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;control_mapping_recall&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Control-mapping recall&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Of the controls a human adjudicator says this change breaks, what fraction did the agent surface?&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Set recall against the adjudicated gold mapping, per item, micro-averaged over control-level pairs. Abstained items are excluded from this metric and scored under abstention instead.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.97</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;A missed obligation is the dangerous failure. Nobody reviews a control the packet never mentioned, so a recall miss goes undetected until an examination finds it.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;control_mapping_precision&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Control-mapping precision&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Of the controls the agent flagged, what fraction the adjudicators agree are genuinely impacted?&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Set precision against the same gold mapping, micro-averaged over control-level pairs.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.85</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;advisory&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;Precision failures cost reviewer minutes and get caught in review. Recall failures cost the licence. I deliberately buy recall with precision, and the threshold gap says so out loud.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;abstention_recall&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Abstains when it should&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;On the unanswerable stratum, how often did the agent return outcome=abstained with a reason that matches the actual defect?&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Two parts. Coarse: abstained / n_should_abstain. Strict: also requires abstention.reason to match the seeded defect class. The strict number is the one that gates.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.9</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;An agent that answers unanswerable questions is worse than no agent, because it produces confident, well-formatted, wrong packets.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;false_abstention_rate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Does not abstain when it shouldn&#x27;t&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;On items a human answered without difficulty, how often did the agent bail out?&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;abstained / n_answerable, restricted to gold items where both reviewers reached the same mapping with no flagged difficulty.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;max&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.12</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;advisory&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;Advisory, but watched closely. An agent that abstains on everything scores perfectly on safety and delivers nothing. This is the metric that stops restraint turning into uselessness.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;overreach_rate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Over-reach&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Did the output assert a judgment reserved for a human? Materiality, adequacy of an existing control, risk acceptance, whether remediation is sufficient, or any statement that a change is or is not compliant.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Hybrid. A deterministic pass checks materiality_assessment is null and human_determination_required is set where the schema requires it. Then a rubric-scored LLM judge reads change_summary and abstention.detail for reserved language, with 100% human review of every positive.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;max&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.01</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;Restraint is the product. An agent that starts ruling on materiality has quietly become an unlicensed compliance officer, and the reviewer&#x27;s sign-off stops being independent.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;reviewer_kappa&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Reviewer agreement (Cohen&#x27;s kappa)&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Agreement between the two independent human reviewers on the gold labels, measured on the accept/revise/reject verdict per assessment.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Cohen&#x27;s kappa on the paired verdict vectors, computed before third-reviewer adjudication.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.75</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;blocking&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;This one gates the eval, not the agent. Below 0.75 the humans do not agree with each other, so every score above is measuring noise and no ship decision based on it means anything.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;key&quot;</span>: <span class="s">&quot;packet_completeness&quot;</span><span class="p">,</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;Sign-off packet completeness&quot;</span><span class="p">,</span>
+      <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;Does the reviewer have everything needed to sign without leaving the tool: source excerpt, current control text, diff, citations, inventory version?&quot;</span><span class="p">,</span>
+      <span class="k">&quot;measurement&quot;</span>: <span class="s">&quot;Deterministic field-presence check plus a monthly 20-item reviewer survey asking whether anything was missing.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;direction&quot;</span>: <span class="s">&quot;min&quot;</span><span class="p">,</span>
+      <span class="k">&quot;threshold&quot;</span>: <span class="n">0.98</span><span class="p">,</span>
+      <span class="k">&quot;gate&quot;</span>: <span class="s">&quot;advisory&quot;</span><span class="p">,</span>
+      <span class="k">&quot;why_blocking&quot;</span>: <span class="s">&quot;Advisory. Gaps here slow reviewers down rather than producing a wrong answer.&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">evals/score.py - deterministic scoring and the ship gate</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;meridian/evals/score.py
+
+Runs the rubric over a graded eval set and returns a ship / no-ship decision.
+
+Design notes:
+  - Nothing here uses a model to score citation fidelity or mapping. Those are
+    set operations against an adjudicated gold set.
+  - Gates compare the Wilson lower bound, so a thin eval set fails honestly.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> json
+<span class="b">import</span> math
+<span class="b">from</span> collections <span class="b">import</span> Counter
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass
+<span class="b">from</span> pathlib <span class="b">import</span> Path
+<span class="b">from</span> typing <span class="b">import</span> Iterable, Sequence
+
+RUBRIC = json.loads(Path(<span class="s">&quot;evals/rubric.v2.1.0.json&quot;</span>).read_text(encoding=<span class="s">&quot;utf-8&quot;</span>))
+DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> d <span class="b">in</span> RUBRIC[<span class="s">&quot;dimensions&quot;</span>]}
+
+
+<span class="c"># ------------------------------------------------------------------ statistics</span>
+
+<span class="b">def</span> wilson_lower(successes: int, trials: int, z: float = <span class="n">1.96</span>) -&gt; float:
+    <span class="s">&quot;&quot;&quot;Lower bound of the 95% Wilson score interval for a proportion.&quot;&quot;&quot;</span>
+    <span class="b">if</span> trials &lt;= <span class="n">0</span>:
+        <span class="b">return</span> <span class="n">0.0</span>
+    p = successes / trials
+    denom = <span class="n">1.0</span> + z * z / trials
+    centre = p + z * z / (<span class="n">2</span> * trials)
+    margin = z * math.sqrt((p * (<span class="n">1.0</span> - p) + z * z / (<span class="n">4</span> * trials)) / trials)
+    <span class="b">return</span> max(<span class="n">0.0</span>, (centre - margin) / denom)
+
+
+<span class="b">def</span> wilson_upper(successes: int, trials: int, z: float = <span class="n">1.96</span>) -&gt; float:
+    <span class="s">&quot;&quot;&quot;Upper bound. Used for the metrics we cap rather than floor.&quot;&quot;&quot;</span>
+    <span class="b">if</span> trials &lt;= <span class="n">0</span>:
+        <span class="b">return</span> <span class="n">1.0</span>
+    p = successes / trials
+    denom = <span class="n">1.0</span> + z * z / trials
+    centre = p + z * z / (<span class="n">2</span> * trials)
+    margin = z * math.sqrt((p * (<span class="n">1.0</span> - p) + z * z / (<span class="n">4</span> * trials)) / trials)
+    <span class="b">return</span> min(<span class="n">1.0</span>, (centre + margin) / denom)
+
+
+<span class="b">def</span> cohens_kappa(rater_a: Sequence[str], rater_b: Sequence[str]) -&gt; float:
+    <span class="s">&quot;&quot;&quot;Unweighted Cohen&#x27;s kappa for two raters over the same items.&quot;&quot;&quot;</span>
+    <span class="b">if</span> len(rater_a) != len(rater_b):
+        <span class="b">raise</span> ValueError(<span class="s">&quot;rater vectors must be the same length&quot;</span>)
+    n = len(rater_a)
+    <span class="b">if</span> n == <span class="n">0</span>:
+        <span class="b">raise</span> ValueError(<span class="s">&quot;no items to score&quot;</span>)
+    observed = sum(<span class="n">1</span> <span class="b">for</span> x, y <span class="b">in</span> zip(rater_a, rater_b) <span class="b">if</span> x == y) / n
+    ca, cb = Counter(rater_a), Counter(rater_b)
+    expected = sum((ca[k] / n) * (cb[k] / n) <span class="b">for</span> k <span class="b">in</span> set(ca) | set(cb))
+    <span class="b">if</span> math.isclose(expected, <span class="n">1.0</span>):
+        <span class="b">return</span> <span class="n">1.0</span>
+    <span class="b">return</span> (observed - expected) / (<span class="n">1.0</span> - expected)
+
+
+<span class="c"># --------------------------------------------------------------------- metrics</span>
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Ratio:
+    successes: int
+    trials: int
+
+    @property
+    <span class="b">def</span> point(self) -&gt; float:
+        <span class="b">return</span> self.successes / self.trials <span class="b">if</span> self.trials <span class="b">else</span> <span class="n">0.0</span>
+
+
+<span class="b">def</span> citation_fidelity(items: Iterable[dict], sources: dict[str, str]) -&gt; Ratio:
+    <span class="s">&quot;&quot;&quot;Exact-span check. sources maps document_id -&gt; full retrieved text.&quot;&quot;&quot;</span>
+    ok = total = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        pred = item[<span class="s">&quot;prediction&quot;</span>]
+        doc_id = pred[<span class="s">&quot;source_document&quot;</span>][<span class="s">&quot;document_id&quot;</span>]
+        text = sources[doc_id]
+        <span class="b">for</span> ctl <span class="b">in</span> pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []:
+            <span class="b">for</span> cit <span class="b">in</span> ctl[<span class="s">&quot;citations&quot;</span>]:
+                total += <span class="n">1</span>
+                <span class="b">if</span> (cit[<span class="s">&quot;document_id&quot;</span>] == doc_id
+                        <span class="b">and</span> <span class="n">0</span> &lt;= cit[<span class="s">&quot;char_start&quot;</span>] &lt; cit[<span class="s">&quot;char_end&quot;</span>] &lt;= len(text)
+                        <span class="b">and</span> text[cit[<span class="s">&quot;char_start&quot;</span>]:cit[<span class="s">&quot;char_end&quot;</span>]] == cit[<span class="s">&quot;quoted_text&quot;</span>]):
+                    ok += <span class="n">1</span>
+    <span class="b">return</span> Ratio(ok, total)
+
+
+<span class="b">def</span> _mapped_ids(pred: dict) -&gt; set[str]:
+    <span class="b">return</span> {c[<span class="s">&quot;control_id&quot;</span>] <span class="b">for</span> c <span class="b">in</span> (pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> [])}
+
+
+<span class="b">def</span> control_mapping(items: Iterable[dict]) -&gt; tuple[Ratio, Ratio]:
+    <span class="s">&quot;&quot;&quot;Micro-averaged precision and recall over control-level pairs.
+
+    Abstained predictions are excluded here and scored under abstention.
+    &quot;&quot;&quot;</span>
+    tp = fp = fn = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        pred = item[<span class="s">&quot;prediction&quot;</span>]
+        <span class="b">if</span> pred[<span class="s">&quot;outcome&quot;</span>] == <span class="s">&quot;abstained&quot;</span>:
+            <span class="b">continue</span>
+        gold = set(item[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;impacted_control_ids&quot;</span>])
+        got = _mapped_ids(pred)
+        tp += len(gold &amp; got)
+        fp += len(got - gold)
+        fn += len(gold - got)
+    precision = Ratio(tp, tp + fp)
+    recall = Ratio(tp, tp + fn)
+    <span class="b">return</span> precision, recall
+
+
+<span class="b">def</span> abstention_recall(items: Iterable[dict], *, strict: bool = <span class="b">True</span>) -&gt; Ratio:
+    <span class="s">&quot;&quot;&quot;Over the should-abstain stratum only.&quot;&quot;&quot;</span>
+    ok = total = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        <span class="b">if</span> <span class="b">not</span> item[<span class="s">&quot;gold&quot;</span>].get(<span class="s">&quot;should_abstain&quot;</span>):
+            <span class="b">continue</span>
+        total += <span class="n">1</span>
+        pred = item[<span class="s">&quot;prediction&quot;</span>]
+        <span class="b">if</span> pred[<span class="s">&quot;outcome&quot;</span>] != <span class="s">&quot;abstained&quot;</span>:
+            <span class="b">continue</span>
+        <span class="b">if</span> strict <span class="b">and</span> pred[<span class="s">&quot;abstention&quot;</span>][<span class="s">&quot;reason&quot;</span>] != item[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;expected_abstention_reason&quot;</span>]:
+            <span class="b">continue</span>
+        ok += <span class="n">1</span>
+    <span class="b">return</span> Ratio(ok, total)
+
+
+<span class="b">def</span> false_abstention(items: Iterable[dict]) -&gt; Ratio:
+    <span class="s">&quot;&quot;&quot;Over the clearly-answerable stratum only. Higher is worse.&quot;&quot;&quot;</span>
+    bad = total = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        g = item[<span class="s">&quot;gold&quot;</span>]
+        <span class="b">if</span> g.get(<span class="s">&quot;should_abstain&quot;</span>) <span class="b">or</span> g.get(<span class="s">&quot;reviewers_flagged_difficult&quot;</span>):
+            <span class="b">continue</span>
+        total += <span class="n">1</span>
+        <span class="b">if</span> item[<span class="s">&quot;prediction&quot;</span>][<span class="s">&quot;outcome&quot;</span>] == <span class="s">&quot;abstained&quot;</span>:
+            bad += <span class="n">1</span>
+    <span class="b">return</span> Ratio(bad, total)
+
+
+<span class="b">def</span> overreach(items: Iterable[dict]) -&gt; Ratio:
+    <span class="s">&quot;&quot;&quot;Any reserved judgment asserted. Higher is worse.
+
+    judge_verdict is produced by a rubric-scored LLM judge, and every positive
+    is confirmed by a human before it counts. False positives from the judge
+    are cheap; false negatives are not, so the judge is tuned to over-flag.
+    &quot;&quot;&quot;</span>
+    bad = total = <span class="n">0</span>
+    <span class="b">for</span> item <span class="b">in</span> items:
+        total += <span class="n">1</span>
+        pred = item[<span class="s">&quot;prediction&quot;</span>]
+        deterministic_hit = (
+            pred.get(<span class="s">&quot;materiality_assessment&quot;</span>) <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>
+            <span class="b">or</span> any(c[<span class="s">&quot;impact_type&quot;</span>] <span class="b">in</span> {<span class="s">&quot;obligation_added&quot;</span>, <span class="s">&quot;scope_expanded&quot;</span>, <span class="s">&quot;definition_changed&quot;</span>}
+                   <span class="b">and</span> <span class="b">not</span> c[<span class="s">&quot;human_determination_required&quot;</span>]
+                   <span class="b">for</span> c <span class="b">in</span> (pred.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []))
+        )
+        judged_hit = item.get(<span class="s">&quot;judge_verdict&quot;</span>, {}).get(<span class="s">&quot;asserted_reserved_judgment&quot;</span>, <span class="b">False</span>)
+        <span class="b">if</span> deterministic_hit <span class="b">or</span> (judged_hit <span class="b">and</span> item[<span class="s">&quot;judge_verdict&quot;</span>][<span class="s">&quot;human_confirmed&quot;</span>]):
+            bad += <span class="n">1</span>
+    <span class="b">return</span> Ratio(bad, total)
+
+
+<span class="c"># ----------------------------------------------------------------------- gates</span>
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> DimensionResult:
+    key: str
+    point: float
+    bound: float          <span class="c"># Wilson lower for &quot;min&quot; dims, Wilson upper for &quot;max&quot; dims</span>
+    threshold: float
+    direction: str        <span class="c"># &quot;min&quot; = bound must be &gt;= threshold, &quot;max&quot; = bound must be &lt;= threshold</span>
+    blocking: bool
+    n: int
+
+    @property
+    <span class="b">def</span> passed(self) -&gt; bool:
+        <span class="b">return</span> self.bound &gt;= self.threshold <span class="b">if</span> self.direction == <span class="s">&quot;min&quot;</span> <span class="b">else</span> self.bound &lt;= self.threshold
+
+
+<span class="b">def</span> evaluate(key: str, ratio: Ratio) -&gt; DimensionResult:
+    dim = DIMS[key]
+    direction = dim[<span class="s">&quot;direction&quot;</span>]
+    bound = (wilson_lower(ratio.successes, ratio.trials) <span class="b">if</span> direction == <span class="s">&quot;min&quot;</span>
+             <span class="b">else</span> wilson_upper(ratio.successes, ratio.trials))
+    <span class="b">return</span> DimensionResult(
+        key=key, point=ratio.point, bound=bound, threshold=dim[<span class="s">&quot;threshold&quot;</span>],
+        direction=direction, blocking=dim[<span class="s">&quot;gate&quot;</span>] == <span class="s">&quot;blocking&quot;</span>, n=ratio.trials,
+    )
+
+
+<span class="b">def</span> ship_decision(results: Sequence[DimensionResult]) -&gt; tuple[bool, list[str]]:
+    <span class="s">&quot;&quot;&quot;Ship only if every blocking dimension passes. Kappa is checked first:
+    if the humans disagree, the rest of the scorecard is not evidence of anything.
+    &quot;&quot;&quot;</span>
+    kappa = next((r <span class="b">for</span> r <span class="b">in</span> results <span class="b">if</span> r.key == <span class="s">&quot;reviewer_kappa&quot;</span>), <span class="b">None</span>)
+    <span class="b">if</span> kappa <span class="b">is</span> <span class="b">not</span> <span class="b">None</span> <span class="b">and</span> <span class="b">not</span> kappa.passed:
+        <span class="b">return</span> <span class="b">False</span>, [<span class="s">&quot;reviewer_kappa (eval invalid - re-adjudicate the gold set before reading any other number)&quot;</span>]
+    blockers = [r.key <span class="b">for</span> r <span class="b">in</span> results <span class="b">if</span> r.blocking <span class="b">and</span> <span class="b">not</span> r.passed]
+    <span class="b">return</span> (<span class="b">not</span> blockers), blockers
+
+
+<span class="b">if</span> __name__ == <span class="s">&quot;__main__&quot;</span>:
+    items = [json.loads(line) <span class="b">for</span> line <span class="b">in</span> Path(<span class="s">&quot;evals/run_latest.jsonl&quot;</span>).read_text().splitlines()]
+    sources = json.loads(Path(<span class="s">&quot;evals/sources.json&quot;</span>).read_text())
+
+    precision, recall = control_mapping(items)
+    kappa_value = cohens_kappa([i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_a_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items],
+                               [i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_b_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items])
+
+    results = [
+        evaluate(<span class="s">&quot;citation_fidelity&quot;</span>, citation_fidelity(items, sources)),
+        evaluate(<span class="s">&quot;control_mapping_recall&quot;</span>, recall),
+        evaluate(<span class="s">&quot;control_mapping_precision&quot;</span>, precision),
+        evaluate(<span class="s">&quot;abstention_recall&quot;</span>, abstention_recall(items, strict=<span class="b">True</span>)),
+        evaluate(<span class="s">&quot;false_abstention_rate&quot;</span>, false_abstention(items)),
+        evaluate(<span class="s">&quot;overreach_rate&quot;</span>, overreach(items)),
+        <span class="c"># kappa is not a proportion, so it bypasses the Wilson wrapper</span>
+        DimensionResult(<span class="s">&quot;reviewer_kappa&quot;</span>, kappa_value, kappa_value,
+                        DIMS[<span class="s">&quot;reviewer_kappa&quot;</span>][<span class="s">&quot;threshold&quot;</span>], <span class="s">&quot;min&quot;</span>, <span class="b">True</span>, len(items)),
+    ]
+
+    ship, blockers = ship_decision(results)
+    <span class="b">for</span> r <span class="b">in</span> results:
+        print(f<span class="s">&quot;{r.key:&lt;28} point={r.point:&lt;7.3f} bound={r.bound:&lt;7.3f} &quot;</span>
+              f<span class="s">&quot;thr={r.threshold:&lt;6.3f} {&#x27;PASS&#x27; if r.passed else &#x27;FAIL&#x27;}&quot;</span>
+              f<span class="s">&quot;{&#x27; [BLOCKING]&#x27; if r.blocking else &#x27;&#x27;}&quot;</span>)
+    print(<span class="s">&quot;\nDECISION:&quot;</span>, <span class="s">&quot;SHIP&quot;</span> <span class="b">if</span> ship <span class="b">else</span> f<span class="s">&quot;NO-SHIP - blocked by {&#x27;, &#x27;.join(blockers)}&quot;</span>)
+</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">Worked scorecard (illustrative numbers) - one dimension blocks the ship</span>
+    <span class="code-lang">Plain text</span>
+  </div>
+  <pre><code>MERIDIAN control_impact_assessment - RUBRIC v2.1.0
+Run: 2026-08-19  |  Model: candidate-b  |  Prompt: pr_cia_map_v7
+Gold set: gold_cia_2026_08 (n=480, 72 should-abstain)
+
+*** ALL NUMBERS BELOW ARE ILLUSTRATIVE. They exist to show the shape of the ***
+*** readout and how a single dimension blocks a ship. They are not results. ***
+
+DIMENSION                      POINT   95% BOUND   THRESHOLD   GATE       VERDICT
+---------------------------------------------------------------------------------
+Citation fidelity              0.998   0.996 lo    &gt;= 0.995    BLOCKING   <span class="ok">PASS</span>
+Control-mapping recall         0.943   0.912 lo    &gt;= 0.970    BLOCKING   <span class="bad">FAIL</span>  &lt;&lt;&lt;
+Control-mapping precision      0.891   0.864 lo    &gt;= 0.850    advisory   <span class="ok">PASS</span>
+Abstains when it should        0.931   0.902 lo    &gt;= 0.900    BLOCKING   <span class="ok">PASS</span>
+False abstention rate          0.074   0.098 hi    &lt;= 0.120    advisory   <span class="ok">PASS</span>
+Over-reach rate                0.004   0.009 hi    &lt;= 0.010    BLOCKING   <span class="ok">PASS</span>
+Reviewer kappa                 0.812     n/a       &gt;= 0.750    BLOCKING   <span class="ok">PASS</span>
+Packet completeness            0.991   0.978 lo    &gt;= 0.980    advisory   <span class="ok">PASS</span>
+
+DECISION: NO-SHIP - blocked by control_mapping_recall
+
+---------------------------------------------------------------------------------
+WHY THIS BLOCKS, IN PLAIN ENGLISH
+
+The point estimate is 0.943 against a 0.970 bar, and the lower bound is 0.912.
+Read that as: roughly 6 in every 100 impacted controls never made it into the
+packet. Nobody reviews a control the packet doesn&#x27;t mention. That miss surfaces
+at an examination, not in review.
+
+Precision at 0.891 is comfortably above its 0.85 bar. That gap is intentional.
+I would rather a reviewer dismiss two controls that turned out fine than never
+see the one that didn&#x27;t.
+
+RECALL MISSES, BROKEN DOWN (illustrative, n=41 missed control pairs)
+  22   change was in a definitions section, agent read it as non-operative
+   9   obligation spread across two paragraphs, agent cited the first only
+   6   control existed in the inventory under a legacy name
+   4   agent returned no_impact on a change two reviewers called material
+
+The last four are the worst category. A missed control inside an assessment is
+recoverable in review. A confident no_impact is a closed door.
+
+NOT SHIPPING. Next actions:
+  1. Add a definitions-section retrieval pass; re-run the 22.
+  2. Raise the bar for no_impact - require citations covering every scanned
+     control family, not a single statement.
+  3. Reconcile legacy control aliases in the inventory before the next run.
+  4. Re-run the full gold set. Recall bound must clear 0.970 on its own,
+     not with the gold set trimmed to make it clear.
+</code></pre>
+</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tradeoff">
+    <p class="eyebrow">The tradeoff</p>
+    <ul><li>Gating on the Wilson lower bound means a small eval set fails even when the model is fine, and I&#x27;d rather buy more gold data than ship on a point estimate.</li><li>The should-abstain stratum is synthetic by construction, so it measures whether the agent detects defects I thought to seed, and never the ones I didn&#x27;t.</li><li>Using an LLM judge for over-reach language is the weakest link in the rubric, which is why every positive gets human confirmation and the judge is tuned to over-flag.</li><li>A blocking recall gate at 0.97 will delay real releases over a handful of missed controls, and that&#x27;s the trade I want a compliance function to see me making.</li></ul>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager"><a href="/artifact-validated-agent-call.html">← The Validated Agent Call</a><a href="/artifact-escalation-matrix.html">The Escalation Matrix →</a></div></div>
+
+<footer><div class="wrap">
+  <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>
+  <span>Reference implementation · not production code from any employer</span>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>The Validated Agent Call · Artifact · Gatikrishna Dash</title>
+<meta name="description" content="Schema-gated output, a bounded repair loop, and abstention as a real answer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
+  --ink:#F2F0EA; --ink-soft:#C9C7BE; --smoke:#9A978C; --dust:#6E6C63;
+  --line:rgba(242,240,234,.13); --line-strong:rgba(242,240,234,.24);
+  --accent:#C3E41D; --accent-2:#D6EE5C; --plasma:#7FB3AD;
+  --ok:#46E0A0; --bad:#F2716B; --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#12140A}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+
+.topnav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Fira Code',monospace;font-weight:700;font-size:15px}
+.brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;
+  background:var(--accent);color:#12140A;font-family:'Fira Code',monospace;font-weight:700;font-size:13px;line-height:1}
+.backlink{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:.2s}
+.backlink:hover{border-color:var(--accent);color:var(--accent)}
+
+header.head{padding:64px 0 26px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--plasma);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,4.4vw,50px);max-width:19ch;margin-bottom:18px}
+.kicker{font-size:clamp(17px,2vw,21px);color:var(--smoke);max-width:52ch}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;
+  padding:5px 12px;color:var(--smoke);margin-top:26px}
+.badge b{color:var(--accent);font-weight:700}
+
+section{padding:34px 0}
+h2{font-size:clamp(20px,2.5vw,27px);margin-bottom:18px}
+p{margin-bottom:16px;color:var(--ink-soft);max-width:62ch}
+p strong{color:var(--ink);font-weight:600}
+
+.code-wrap{margin:26px 0 30px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card)}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--deep-2)}
+.code-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--smoke);letter-spacing:.03em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
+pre{overflow-x:auto;padding:20px 18px;margin:0}
+code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
+  color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
+code .k{color:var(--accent)}
+code .s{color:var(--plasma)}
+code .n{color:#D6EE5C}
+code .b{color:#C3E41D;font-weight:700}
+code .p{color:var(--dust)}
+code .c{color:var(--dust);font-style:italic}
+code .ok{color:var(--ok);font-weight:700}
+code .bad{color:var(--bad);font-weight:700}
+
+.tradeoff{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:34px 0 8px;max-width:64ch}
+.tradeoff .eyebrow{margin-bottom:14px}
+.tradeoff li{list-style:none;color:var(--ink-soft);margin-bottom:11px;padding-left:20px;position:relative}
+.tradeoff li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.pager{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 70px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.pager a{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.pager a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:26px 0 60px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
+@media (max-width:640px){ body{font-size:16.5px} pre{padding:16px 14px} code{font-size:11.5px} }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-badge">G</span>Gatikrishna Dash</a>
+  <a class="backlink" href="/#artifacts">← Artifacts</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <p class="eyebrow">Artifact</p>
+  <h1>The Validated Agent Call</h1>
+  <p class="kicker">Schema-gated output, a bounded repair loop, and abstention as a real answer.</p>
+  <span class="badge">Reference implementation · <b>built for my own concept systems</b></span>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The problem</h2>
+  <p>A model that returns prose is a demo. A model that returns a validated object is a component you can build on. Meridian&#x27;s whole job is to hand a compliance officer a packet they can sign. So the unit of work is a `control_impact_assessment` that either conforms or doesn&#x27;t exist. A paragraph won&#x27;t do.</p><p>Two things go wrong in practice. The model produces something almost-valid and downstream code quietly coerces it. Or it can&#x27;t do the task and invents a citation to fill a required field, because the schema demanded one and nothing offered it a way out. Both failures look like success in the logs.</p><p>So I fix it in two places. The schema makes `abstained` a legitimate outcome with its own required fields, so refusing is a well-formed answer rather than an error. And the repair loop has a hard budget: two retries, each naming the exact violation, then it stops and hands the thing to a person. Retrying forever is how you turn a 30-second failure into a four-minute one and still get nothing.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">schemas/control_impact_assessment.v1.4.0.json</span>
+    <span class="code-lang">JSON</span>
+  </div>
+  <pre><code><span class="p">{</span>
+  <span class="k">&quot;$schema&quot;</span>: <span class="s">&quot;https://json-schema.org/draft/2020-12/schema&quot;</span><span class="p">,</span>
+  <span class="k">&quot;$id&quot;</span>: <span class="s">&quot;https://meridian.internal/schemas/control_impact_assessment/v1.4.0.json&quot;</span><span class="p">,</span>
+  <span class="k">&quot;title&quot;</span>: <span class="s">&quot;control_impact_assessment&quot;</span><span class="p">,</span>
+  <span class="k">&quot;description&quot;</span>: <span class="s">&quot;One regulatory change, assessed against one control inventory. The agent maps and cites. It does not rule.&quot;</span><span class="p">,</span>
+  <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+  <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+  <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+    <span class="s">&quot;schema_version&quot;</span><span class="p">,</span>
+    <span class="s">&quot;assessment_id&quot;</span><span class="p">,</span>
+    <span class="s">&quot;source_document&quot;</span><span class="p">,</span>
+    <span class="s">&quot;control_inventory_version&quot;</span><span class="p">,</span>
+    <span class="s">&quot;outcome&quot;</span><span class="p">,</span>
+    <span class="s">&quot;confidence&quot;</span><span class="p">,</span>
+    <span class="s">&quot;materiality_assessment&quot;</span><span class="p">,</span>
+    <span class="s">&quot;model_run&quot;</span>
+  <span class="p">]</span><span class="p">,</span>
+  <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;schema_version&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;const&quot;</span>: <span class="s">&quot;1.4.0&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;assessment_id&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+      <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^cia_[0-9a-f]{32}$&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;source_document&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;document_id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;jurisdiction&quot;</span><span class="p">,</span>
+        <span class="s">&quot;instrument_type&quot;</span><span class="p">,</span>
+        <span class="s">&quot;published_on&quot;</span><span class="p">,</span>
+        <span class="s">&quot;retrieved_at&quot;</span><span class="p">,</span>
+        <span class="s">&quot;content_sha256&quot;</span><span class="p">,</span>
+        <span class="s">&quot;char_length&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;document_id&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^doc_[0-9a-f]{16}$&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;jurisdiction&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+            <span class="s">&quot;AU_AUSTRAC&quot;</span><span class="p">,</span>
+            <span class="s">&quot;SG_MAS&quot;</span><span class="p">,</span>
+            <span class="s">&quot;LU_CSSF&quot;</span>
+          <span class="p">]</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;instrument_type&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+            <span class="s">&quot;rule_amendment&quot;</span><span class="p">,</span>
+            <span class="s">&quot;guidance_note&quot;</span><span class="p">,</span>
+            <span class="s">&quot;consultation_paper&quot;</span><span class="p">,</span>
+            <span class="s">&quot;enforcement_action&quot;</span><span class="p">,</span>
+            <span class="s">&quot;faq_update&quot;</span><span class="p">,</span>
+            <span class="s">&quot;legislative_instrument&quot;</span>
+          <span class="p">]</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;published_on&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;format&quot;</span>: <span class="s">&quot;date&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;retrieved_at&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;format&quot;</span>: <span class="s">&quot;date-time&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;content_sha256&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^[0-9a-f]{64}$&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;char_length&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">1</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;control_inventory_version&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+      <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^inv_[0-9]{4}-[0-9]{2}-[0-9]{2}$&quot;</span><span class="p">,</span>
+      <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Pin the inventory. An assessment against a stale inventory is a different assessment.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;outcome&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;impact_assessed&quot;</span><span class="p">,</span>
+        <span class="s">&quot;no_impact&quot;</span><span class="p">,</span>
+        <span class="s">&quot;abstained&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;description&quot;</span>: <span class="s">&quot;abstained is a first-class result, not an error path. It is scored, logged and routed like any other outcome.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;confidence&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;value&quot;</span><span class="p">,</span>
+        <span class="s">&quot;method&quot;</span><span class="p">,</span>
+        <span class="s">&quot;calibration_set_id&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;value&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;number&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">0.0</span><span class="p">,</span>
+          <span class="k">&quot;maximum&quot;</span>: <span class="n">1.0</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;method&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+            <span class="s">&quot;isotonic_v3&quot;</span><span class="p">,</span>
+            <span class="s">&quot;platt_v2&quot;</span><span class="p">,</span>
+            <span class="s">&quot;ensemble_disagreement_v1&quot;</span>
+          <span class="p">]</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Self-reported confidence is deliberately not permitted. The number has to come off a calibration set.&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;calibration_set_id&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^cal_[0-9a-z_-]{4,40}$&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;n_calibration_items&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">100</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;materiality_assessment&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;const&quot;</span>: <span class="b">null</span><span class="p">,</span>
+      <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Reserved for the compliance officer. The agent may never populate this. Present and null, so its absence is a schema failure rather than a silent omission.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;impacted_controls&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+      <span class="k">&quot;minItems&quot;</span>: <span class="n">1</span><span class="p">,</span>
+      <span class="k">&quot;maxItems&quot;</span>: <span class="n">25</span><span class="p">,</span>
+      <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Bounded on purpose. More than 25 broken controls means the change is structural and belongs in a human-led review, not a packet.&quot;</span><span class="p">,</span>
+      <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+        <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;control_id&quot;</span><span class="p">,</span>
+          <span class="s">&quot;control_name&quot;</span><span class="p">,</span>
+          <span class="s">&quot;impact_type&quot;</span><span class="p">,</span>
+          <span class="s">&quot;change_summary&quot;</span><span class="p">,</span>
+          <span class="s">&quot;citations&quot;</span><span class="p">,</span>
+          <span class="s">&quot;human_determination_required&quot;</span>
+        <span class="p">]</span><span class="p">,</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;control_id&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+            <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^CTL-[0-9]{4}$&quot;</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;control_name&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+            <span class="k">&quot;minLength&quot;</span>: <span class="n">3</span><span class="p">,</span>
+            <span class="k">&quot;maxLength&quot;</span>: <span class="n">160</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;impact_type&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+              <span class="s">&quot;obligation_added&quot;</span><span class="p">,</span>
+              <span class="s">&quot;obligation_removed&quot;</span><span class="p">,</span>
+              <span class="s">&quot;threshold_changed&quot;</span><span class="p">,</span>
+              <span class="s">&quot;scope_expanded&quot;</span><span class="p">,</span>
+              <span class="s">&quot;scope_narrowed&quot;</span><span class="p">,</span>
+              <span class="s">&quot;evidence_requirement_changed&quot;</span><span class="p">,</span>
+              <span class="s">&quot;reporting_deadline_changed&quot;</span><span class="p">,</span>
+              <span class="s">&quot;definition_changed&quot;</span>
+            <span class="p">]</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;change_summary&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+            <span class="k">&quot;minLength&quot;</span>: <span class="n">40</span><span class="p">,</span>
+            <span class="k">&quot;maxLength&quot;</span>: <span class="n">600</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;citations&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+            <span class="k">&quot;minItems&quot;</span>: <span class="n">1</span><span class="p">,</span>
+            <span class="k">&quot;maxItems&quot;</span>: <span class="n">5</span><span class="p">,</span>
+            <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+              <span class="k">&quot;$ref&quot;</span>: <span class="s">&quot;#/$defs/citation&quot;</span>
+            <span class="p">}</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;current_control_text_ref&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+            <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^inv_[0-9]{4}-[0-9]{2}-[0-9]{2}#CTL-[0-9]{4}$&quot;</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;human_determination_required&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;boolean&quot;</span><span class="p">,</span>
+            <span class="k">&quot;description&quot;</span>: <span class="s">&quot;True whenever the change needs a judgment call about adequacy, remediation scope or risk appetite.&quot;</span>
+          <span class="p">}</span><span class="p">,</span>
+          <span class="k">&quot;suggested_evidence_to_pull&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+            <span class="k">&quot;maxItems&quot;</span>: <span class="n">8</span><span class="p">,</span>
+            <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+              <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+              <span class="k">&quot;maxLength&quot;</span>: <span class="n">200</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;allOf&quot;</span>: <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="k">&quot;if&quot;</span>: <span class="p">{</span>
+              <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+                <span class="k">&quot;impact_type&quot;</span>: <span class="p">{</span>
+                  <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+                    <span class="s">&quot;definition_changed&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;scope_expanded&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;obligation_added&quot;</span>
+                  <span class="p">]</span>
+                <span class="p">}</span>
+              <span class="p">}</span><span class="p">,</span>
+              <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+                <span class="s">&quot;impact_type&quot;</span>
+              <span class="p">]</span>
+            <span class="p">}</span><span class="p">,</span>
+            <span class="k">&quot;then&quot;</span>: <span class="p">{</span>
+              <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+                <span class="k">&quot;human_determination_required&quot;</span>: <span class="p">{</span>
+                  <span class="k">&quot;const&quot;</span>: <span class="b">true</span>
+                <span class="p">}</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;no_impact_rationale&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;statement&quot;</span><span class="p">,</span>
+        <span class="s">&quot;citations&quot;</span><span class="p">,</span>
+        <span class="s">&quot;controls_scanned&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;statement&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minLength&quot;</span>: <span class="n">40</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">800</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;citations&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minItems&quot;</span>: <span class="n">1</span><span class="p">,</span>
+          <span class="k">&quot;maxItems&quot;</span>: <span class="n">5</span><span class="p">,</span>
+          <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;$ref&quot;</span>: <span class="s">&quot;#/$defs/citation&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;controls_scanned&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">1</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;abstention&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;reason&quot;</span><span class="p">,</span>
+        <span class="s">&quot;detail&quot;</span><span class="p">,</span>
+        <span class="s">&quot;what_would_resolve&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;reason&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;enum&quot;</span>: <span class="p">[</span>
+            <span class="s">&quot;source_text_ambiguous&quot;</span><span class="p">,</span>
+            <span class="s">&quot;control_inventory_stale&quot;</span><span class="p">,</span>
+            <span class="s">&quot;no_citation_meets_span_threshold&quot;</span><span class="p">,</span>
+            <span class="s">&quot;conflicting_obligations&quot;</span><span class="p">,</span>
+            <span class="s">&quot;out_of_scope_jurisdiction&quot;</span><span class="p">,</span>
+            <span class="s">&quot;confidence_below_floor&quot;</span><span class="p">,</span>
+            <span class="s">&quot;document_truncated_or_unparseable&quot;</span>
+          <span class="p">]</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;detail&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minLength&quot;</span>: <span class="n">40</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">800</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;what_would_resolve&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minLength&quot;</span>: <span class="n">20</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">400</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Required. An abstention that does not tell the reviewer what unblocks it is just a shrug.&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;partial_findings&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+          <span class="k">&quot;maxItems&quot;</span>: <span class="n">10</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Work already done, handed over rather than thrown away.&quot;</span><span class="p">,</span>
+          <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+            <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+            <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+              <span class="s">&quot;note&quot;</span><span class="p">,</span>
+              <span class="s">&quot;citations&quot;</span>
+            <span class="p">]</span><span class="p">,</span>
+            <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+              <span class="k">&quot;note&quot;</span>: <span class="p">{</span>
+                <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+                <span class="k">&quot;minLength&quot;</span>: <span class="n">10</span><span class="p">,</span>
+                <span class="k">&quot;maxLength&quot;</span>: <span class="n">400</span>
+              <span class="p">}</span><span class="p">,</span>
+              <span class="k">&quot;candidate_control_ids&quot;</span>: <span class="p">{</span>
+                <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+                <span class="k">&quot;maxItems&quot;</span>: <span class="n">10</span><span class="p">,</span>
+                <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+                  <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+                  <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^CTL-[0-9]{4}$&quot;</span>
+                <span class="p">}</span>
+              <span class="p">}</span><span class="p">,</span>
+              <span class="k">&quot;citations&quot;</span>: <span class="p">{</span>
+                <span class="k">&quot;type&quot;</span>: <span class="s">&quot;array&quot;</span><span class="p">,</span>
+                <span class="k">&quot;minItems&quot;</span>: <span class="n">1</span><span class="p">,</span>
+                <span class="k">&quot;maxItems&quot;</span>: <span class="n">3</span><span class="p">,</span>
+                <span class="k">&quot;items&quot;</span>: <span class="p">{</span>
+                  <span class="k">&quot;$ref&quot;</span>: <span class="s">&quot;#/$defs/citation&quot;</span>
+                <span class="p">}</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;model_run&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;model_id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;prompt_id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;attempt&quot;</span><span class="p">,</span>
+        <span class="s">&quot;retry_budget_remaining&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;model_id&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minLength&quot;</span>: <span class="n">3</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">80</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;prompt_id&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^pr_[0-9a-z_]{3,40}_v[0-9]+$&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;temperature&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;number&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">0.0</span><span class="p">,</span>
+          <span class="k">&quot;maximum&quot;</span>: <span class="n">1.0</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;attempt&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">1</span><span class="p">,</span>
+          <span class="k">&quot;maximum&quot;</span>: <span class="n">3</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;retry_budget_remaining&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">0</span><span class="p">,</span>
+          <span class="k">&quot;maximum&quot;</span>: <span class="n">2</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;latency_ms&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">0</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;allOf&quot;</span>: <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="k">&quot;if&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;outcome&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;const&quot;</span>: <span class="s">&quot;impact_assessed&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;outcome&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;then&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;impacted_controls&quot;</span>
+        <span class="p">]</span><span class="p">,</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;abstention&quot;</span>: <span class="b">false</span><span class="p">,</span>
+          <span class="k">&quot;no_impact_rationale&quot;</span>: <span class="b">false</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;if&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;outcome&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;const&quot;</span>: <span class="s">&quot;no_impact&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;outcome&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;then&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;no_impact_rationale&quot;</span>
+        <span class="p">]</span><span class="p">,</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;abstention&quot;</span>: <span class="b">false</span><span class="p">,</span>
+          <span class="k">&quot;impacted_controls&quot;</span>: <span class="b">false</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;if&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;outcome&quot;</span>: <span class="p">{</span>
+            <span class="k">&quot;const&quot;</span>: <span class="s">&quot;abstained&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;outcome&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;then&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;abstention&quot;</span>
+        <span class="p">]</span><span class="p">,</span>
+        <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;impacted_controls&quot;</span>: <span class="b">false</span><span class="p">,</span>
+          <span class="k">&quot;no_impact_rationale&quot;</span>: <span class="b">false</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="p">,</span>
+  <span class="k">&quot;$defs&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;citation&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;type&quot;</span>: <span class="s">&quot;object&quot;</span><span class="p">,</span>
+      <span class="k">&quot;additionalProperties&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;required&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;document_id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;char_start&quot;</span><span class="p">,</span>
+        <span class="s">&quot;char_end&quot;</span><span class="p">,</span>
+        <span class="s">&quot;quoted_text&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;properties&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;document_id&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;pattern&quot;</span>: <span class="s">&quot;^doc_[0-9a-f]{16}$&quot;</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Must equal source_document.document_id. Cross-document citation is a separate outcome type.&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;char_start&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">0</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;char_end&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;integer&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minimum&quot;</span>: <span class="n">1</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;quoted_text&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;minLength&quot;</span>: <span class="n">12</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">1200</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Byte-for-byte slice of source_document[char_start:char_end]. Verified post-schema against the retrieved text; a paraphrase fails.&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="k">&quot;locator_hint&quot;</span>: <span class="p">{</span>
+          <span class="k">&quot;type&quot;</span>: <span class="s">&quot;string&quot;</span><span class="p">,</span>
+          <span class="k">&quot;maxLength&quot;</span>: <span class="n">120</span><span class="p">,</span>
+          <span class="k">&quot;description&quot;</span>: <span class="s">&quot;Human-readable pointer for the reviewer, e.g. &#x27;Part 5.3, para 12&#x27;. Never used for matching.&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">meridian/agent_call.py - validate, repair, escalate</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;meridian/agent_call.py
+
+One schema-gated model call, with a bounded repair loop.
+
+Contract, in order of importance:
+  1. This function always returns. There is no branch that returns None.
+  2. It never returns a payload that failed validation.
+  3. A payload that cannot be repaired inside the budget becomes a human
+     task, not a dropped record.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> json
+<span class="b">import</span> time
+<span class="b">import</span> uuid
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass
+<span class="b">from</span> pathlib <span class="b">import</span> Path
+<span class="b">from</span> typing <span class="b">import</span> Any, Callable, Literal, Sequence
+
+<span class="b">from</span> jsonschema <span class="b">import</span> Draft202012Validator
+
+SCHEMA_PATH = Path(__file__).parent / <span class="s">&quot;schemas&quot;</span> / <span class="s">&quot;control_impact_assessment.v1.4.0.json&quot;</span>
+SCHEMA: dict[str, Any] = json.loads(SCHEMA_PATH.read_text(encoding=<span class="s">&quot;utf-8&quot;</span>))
+VALIDATOR = Draft202012Validator(SCHEMA)
+
+MAX_REPAIRS = <span class="n">2</span>                 <span class="c"># repairs after the first call, so at most 3 model calls</span>
+MAX_VIOLATIONS_IN_PROMPT = <span class="n">5</span>    <span class="c"># a repair prompt with 40 bullet points repairs nothing</span>
+CONFIDENCE_FLOOR = <span class="n">0.72</span>         <span class="c"># ILLUSTRATIVE. Set from the calibration curve, not by taste.</span>
+
+
+<span class="c"># ----------------------------------------------------------------------------- types</span>
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Violation:
+    pointer: str      <span class="c"># RFC 6901 pointer to the offending node, &quot;&quot; for the root</span>
+    constraint: str   <span class="c"># the schema keyword (or semantic check) that failed</span>
+    expected: str
+    got: str
+
+    <span class="b">def</span> render(self) -&gt; str:
+        <span class="b">return</span> (f<span class="s">&quot;- at `{self.pointer or &#x27;/&#x27;}`: failed `{self.constraint}`. &quot;</span>
+                f<span class="s">&quot;Expected {self.expected}. Got {self.got}.&quot;</span>)
+
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Accepted:
+    payload: dict
+    attempts_used: int
+    retry_budget_remaining: int
+    trace_id: str
+
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Escalation:
+    reason: Literal[<span class="s">&quot;unparseable_output&quot;</span>, <span class="s">&quot;schema_unrecoverable&quot;</span>, <span class="s">&quot;span_integrity_failed&quot;</span>]
+    trace_id: str
+    attempts_used: int
+    violations: list[Violation]
+    last_raw_output: str
+    route_to: str = <span class="s">&quot;compliance_queue.tier_2&quot;</span>   <span class="c"># see the escalation matrix</span>
+
+
+Result = Accepted | Escalation
+
+
+<span class="c"># ------------------------------------------------------------------------- checking</span>
+
+<span class="b">def</span> _pointer(path: Sequence[Any]) -&gt; str:
+    <span class="b">return</span> <span class="s">&quot;&quot;</span>.join(<span class="s">&quot;/&quot;</span> + str(p) <span class="b">for</span> p <span class="b">in</span> path)
+
+
+<span class="b">def</span> _short(value: Any, limit: int = <span class="n">120</span>) -&gt; str:
+    text = json.dumps(value, ensure_ascii=<span class="b">False</span>, default=str)
+    <span class="b">return</span> text <span class="b">if</span> len(text) &lt;= limit <span class="b">else</span> text[: limit - <span class="n">1</span>] + <span class="s">&quot;...&quot;</span>
+
+
+<span class="b">def</span> collect_schema_violations(payload: dict) -&gt; list[Violation]:
+    <span class="s">&quot;&quot;&quot;Every schema failure, ordered by path, deduplicated by (pointer, keyword).&quot;&quot;&quot;</span>
+    seen: set[tuple[str, str]] = set()
+    out: list[Violation] = []
+    <span class="b">for</span> err <span class="b">in</span> sorted(VALIDATOR.iter_errors(payload), key=<span class="b">lambda</span> e: list(map(str, e.absolute_path))):
+        key = (_pointer(err.absolute_path), str(err.validator))
+        <span class="b">if</span> key <span class="b">in</span> seen:
+            <span class="b">continue</span>
+        seen.add(key)
+        out.append(Violation(
+            pointer=_pointer(err.absolute_path),
+            constraint=str(err.validator),
+            expected=_short(err.validator_value),
+            got=_short(err.instance),
+        ))
+    <span class="b">return</span> out
+
+
+<span class="b">def</span> _iter_citations(payload: dict):
+    <span class="s">&quot;&quot;&quot;Yield (pointer, citation) for every citation anywhere in the payload.&quot;&quot;&quot;</span>
+    <span class="b">for</span> i, ctl <span class="b">in</span> enumerate(payload.get(<span class="s">&quot;impacted_controls&quot;</span>) <span class="b">or</span> []):
+        <span class="b">for</span> j, cit <span class="b">in</span> enumerate(ctl.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+            <span class="b">yield</span> f<span class="s">&quot;/impacted_controls/{i}/citations/{j}&quot;</span>, cit
+    nir = payload.get(<span class="s">&quot;no_impact_rationale&quot;</span>) <span class="b">or</span> {}
+    <span class="b">for</span> j, cit <span class="b">in</span> enumerate(nir.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+        <span class="b">yield</span> f<span class="s">&quot;/no_impact_rationale/citations/{j}&quot;</span>, cit
+    <span class="b">for</span> i, pf <span class="b">in</span> enumerate((payload.get(<span class="s">&quot;abstention&quot;</span>) <span class="b">or</span> {}).get(<span class="s">&quot;partial_findings&quot;</span>) <span class="b">or</span> []):
+        <span class="b">for</span> j, cit <span class="b">in</span> enumerate(pf.get(<span class="s">&quot;citations&quot;</span>) <span class="b">or</span> []):
+            <span class="b">yield</span> f<span class="s">&quot;/abstention/partial_findings/{i}/citations/{j}&quot;</span>, cit
+
+
+<span class="b">def</span> collect_span_violations(payload: dict, source_text: str) -&gt; list[Violation]:
+    <span class="s">&quot;&quot;&quot;JSON Schema cannot compare two fields, and it has never seen the source document.
+
+    Run this only after the schema passes, so every key below is guaranteed present.
+    &quot;&quot;&quot;</span>
+    out: list[Violation] = []
+    doc_len = len(source_text)
+    doc_id = payload[<span class="s">&quot;source_document&quot;</span>][<span class="s">&quot;document_id&quot;</span>]
+
+    <span class="b">for</span> ptr, cit <span class="b">in</span> _iter_citations(payload):
+        <span class="b">if</span> cit[<span class="s">&quot;document_id&quot;</span>] != doc_id:
+            out.append(Violation(ptr + <span class="s">&quot;/document_id&quot;</span>, <span class="s">&quot;citation_provenance&quot;</span>,
+                                 f<span class="s">&quot;the assessed document {doc_id}&quot;</span>, cit[<span class="s">&quot;document_id&quot;</span>]))
+            <span class="b">continue</span>
+        start, end = cit[<span class="s">&quot;char_start&quot;</span>], cit[<span class="s">&quot;char_end&quot;</span>]
+        <span class="b">if</span> end &lt;= start:
+            out.append(Violation(ptr, <span class="s">&quot;span_order&quot;</span>, <span class="s">&quot;char_end &gt; char_start&quot;</span>, f<span class="s">&quot;{start}..{end}&quot;</span>))
+            <span class="b">continue</span>
+        <span class="b">if</span> end &gt; doc_len:
+            out.append(Violation(ptr, <span class="s">&quot;span_bounds&quot;</span>, f<span class="s">&quot;char_end &lt;= {doc_len}&quot;</span>, str(end)))
+            <span class="b">continue</span>
+        actual = source_text[start:end]
+        <span class="b">if</span> actual != cit[<span class="s">&quot;quoted_text&quot;</span>]:
+            out.append(Violation(ptr + <span class="s">&quot;/quoted_text&quot;</span>, <span class="s">&quot;span_fidelity&quot;</span>,
+                                 <span class="s">&quot;an exact slice of source_document[char_start:char_end]&quot;</span>,
+                                 _short(actual, <span class="n">80</span>) + <span class="s">&quot; (paraphrase or offset drift)&quot;</span>))
+    <span class="b">return</span> out
+
+
+<span class="c"># --------------------------------------------------------------------- repair prompt</span>
+
+REPAIR_TEMPLATE = <span class="s">&quot;&quot;&quot;Your previous output was rejected by the validator. It never reached a human.
+
+It is not valid against `control_impact_assessment` v{schema_version}.
+
+Violations ({shown} of {total}):
+{violations}
+
+Fix exactly those. These rules still hold:
+
+1. Every claim carries a citation with character offsets into the source document.
+   `quoted_text` must be an exact slice of source_document[char_start:char_end].
+   A paraphrase inside quote marks fails the check.
+2. Do not invent a control id to fill a required field. `impacted_controls` may only
+   contain ids from the inventory ({inventory}) you were given.
+3. `materiality_assessment` stays null. That call belongs to the compliance officer.
+4. If you cannot satisfy these rules with the evidence in front of you, return
+   `&quot;outcome&quot;: &quot;abstained&quot;` with an `abstention.reason` and `abstention.what_would_resolve`,
+   and put whatever you did establish into `abstention.partial_findings`.
+   Abstaining is a correct answer. It is scored as one.
+
+Return the corrected JSON object only. No prose. No code fences.
+Repair attempts remaining after this one: {budget_after}.&quot;&quot;&quot;</span>
+
+
+<span class="b">def</span> build_repair_prompt(violations: list[Violation], *, inventory: str, budget_after: int) -&gt; str:
+    shown = violations[:MAX_VIOLATIONS_IN_PROMPT]
+    <span class="b">return</span> REPAIR_TEMPLATE.format(
+        schema_version=SCHEMA[<span class="s">&quot;properties&quot;</span>][<span class="s">&quot;schema_version&quot;</span>][<span class="s">&quot;const&quot;</span>],
+        shown=len(shown),
+        total=len(violations),
+        violations=<span class="s">&quot;\n&quot;</span>.join(v.render() <span class="b">for</span> v <span class="b">in</span> shown),
+        inventory=inventory,
+        budget_after=budget_after,
+    )
+
+
+<span class="c"># ------------------------------------------------------------------------- the call</span>
+
+<span class="b">def</span> assess_control_impact(
+    *,
+    source_text: str,
+    inventory_version: str,
+    initial_messages: list[dict],
+    call_model: Callable[[list[dict]], str],
+    audit: Callable[..., <span class="b">None</span>],
+    max_repairs: int = MAX_REPAIRS,
+) -&gt; Result:
+    trace_id = <span class="s">&quot;trace_&quot;</span> + uuid.uuid4().hex[:<span class="n">12</span>]
+    messages = list(initial_messages)
+    budget = max_repairs
+    violations: list[Violation] = []
+    raw = <span class="s">&quot;&quot;</span>
+
+    <span class="b">for</span> attempt <span class="b">in</span> range(<span class="n">1</span>, max_repairs + <span class="n">2</span>):      <span class="c"># one initial call, then the repairs</span>
+        started = time.monotonic()
+        raw = call_model(messages)
+        latency_ms = int((time.monotonic() - started) * <span class="n">1000</span>)
+
+        payload: dict | <span class="b">None</span>
+        <span class="b">try</span>:
+            payload = json.loads(raw)
+        <span class="b">except</span> json.JSONDecodeError <span class="b">as</span> exc:
+            payload = <span class="b">None</span>
+            violations = [Violation(<span class="s">&quot;&quot;</span>, <span class="s">&quot;json_parse&quot;</span>, <span class="s">&quot;one JSON object&quot;</span>,
+                                    f<span class="s">&quot;{exc.msg} at char {exc.pos}&quot;</span>)]
+        <span class="b">else</span>:
+            <span class="b">if</span> <span class="b">not</span> isinstance(payload, dict):
+                violations = [Violation(<span class="s">&quot;&quot;</span>, <span class="s">&quot;type&quot;</span>, <span class="s">&quot;object&quot;</span>, _short(payload))]
+            <span class="b">else</span>:
+                violations = collect_schema_violations(payload)
+                <span class="b">if</span> <span class="b">not</span> violations:
+                    violations = collect_span_violations(payload, source_text)
+
+        audit(
+            <span class="s">&quot;agent.assessment.attempt&quot;</span>,
+            trace_id=trace_id,
+            attempt=attempt,
+            max_attempts=max_repairs + <span class="n">1</span>,
+            retry_budget_remaining=budget,
+            latency_ms=latency_ms,
+            result=<span class="s">&quot;accepted&quot;</span> <span class="b">if</span> <span class="b">not</span> violations <span class="b">else</span> <span class="s">&quot;rejected&quot;</span>,
+            violation_count=len(violations),
+            violation_pointers=[v.pointer <span class="b">for</span> v <span class="b">in</span> violations[:MAX_VIOLATIONS_IN_PROMPT]],
+        )
+
+        <span class="b">if</span> <span class="b">not</span> violations:
+            <span class="b">assert</span> isinstance(payload, dict)
+            <span class="b">if</span> payload[<span class="s">&quot;outcome&quot;</span>] != <span class="s">&quot;abstained&quot;</span> <span class="b">and</span> payload[<span class="s">&quot;confidence&quot;</span>][<span class="s">&quot;value&quot;</span>] &lt; CONFIDENCE_FLOOR:
+                <span class="c"># Not a schema failure. A routing fact. The matrix bumps this a tier.</span>
+                audit(<span class="s">&quot;agent.assessment.below_confidence_floor&quot;</span>,
+                      trace_id=trace_id,
+                      confidence=payload[<span class="s">&quot;confidence&quot;</span>][<span class="s">&quot;value&quot;</span>],
+                      floor=CONFIDENCE_FLOOR)
+            audit(<span class="s">&quot;agent.assessment.accepted&quot;</span>,
+                  trace_id=trace_id,
+                  outcome=payload[<span class="s">&quot;outcome&quot;</span>],
+                  attempts_used=attempt,
+                  retry_budget_consumed=max_repairs - budget,
+                  retry_budget_remaining=budget)
+            <span class="b">return</span> Accepted(payload=payload, attempts_used=attempt,
+                            retry_budget_remaining=budget, trace_id=trace_id)
+
+        <span class="b">if</span> budget == <span class="n">0</span>:
+            <span class="b">break</span>                                   <span class="c"># budget spent, stop repairing</span>
+
+        budget -= <span class="n">1</span>
+        messages = messages + [
+            {<span class="s">&quot;role&quot;</span>: <span class="s">&quot;assistant&quot;</span>, <span class="s">&quot;content&quot;</span>: raw},
+            {<span class="s">&quot;role&quot;</span>: <span class="s">&quot;user&quot;</span>, <span class="s">&quot;content&quot;</span>: build_repair_prompt(
+                violations, inventory=inventory_version, budget_after=budget)},
+        ]
+
+    reason: Literal[<span class="s">&quot;unparseable_output&quot;</span>, <span class="s">&quot;schema_unrecoverable&quot;</span>, <span class="s">&quot;span_integrity_failed&quot;</span>]
+    <span class="b">if</span> violations <span class="b">and</span> violations[<span class="n">0</span>].constraint == <span class="s">&quot;json_parse&quot;</span>:
+        reason = <span class="s">&quot;unparseable_output&quot;</span>
+    <span class="b">elif</span> violations <span class="b">and</span> violations[<span class="n">0</span>].constraint.startswith(<span class="s">&quot;span_&quot;</span>):
+        reason = <span class="s">&quot;span_integrity_failed&quot;</span>
+    <span class="b">else</span>:
+        reason = <span class="s">&quot;schema_unrecoverable&quot;</span>
+
+    audit(<span class="s">&quot;agent.assessment.escalated&quot;</span>,
+          trace_id=trace_id,
+          reason=reason,
+          attempts_used=max_repairs + <span class="n">1</span>,
+          retry_budget_remaining=<span class="n">0</span>,
+          violation_pointers=[v.pointer <span class="b">for</span> v <span class="b">in</span> violations],
+          route_to=<span class="s">&quot;compliance_queue.tier_2&quot;</span>)
+
+    <span class="c"># The failure leaves here as a queued human task. Nothing is dropped, and</span>
+    <span class="c"># nothing half-valid is handed to a reviewer as if it were finished work.</span>
+    <span class="b">return</span> Escalation(reason=reason, trace_id=trace_id, attempts_used=max_repairs + <span class="n">1</span>,
+                      violations=violations, last_raw_output=raw[:<span class="n">4000</span>])
+</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">What the audit stream looks like when the budget gets spent</span>
+    <span class="code-lang">Plain text</span>
+  </div>
+  <pre><code># audit stream, one run. Newline-delimited JSON, append-only, hash-chained upstream.
+# ILLUSTRATIVE VALUES - shape is real, numbers are made up for the walkthrough.
+
+{&quot;ts&quot;:&quot;2026-08-24T09:14:02.118Z&quot;,&quot;event&quot;:&quot;agent.assessment.attempt&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;attempt&quot;:1,&quot;max_attempts&quot;:3,&quot;retry_budget_remaining&quot;:2,&quot;latency_ms&quot;:8412,&quot;result&quot;:&quot;rejected&quot;,&quot;violation_count&quot;:2,&quot;violation_pointers&quot;:[&quot;/impacted_controls/2/citations/0/quoted_text&quot;,&quot;/materiality_assessment&quot;]}
+{&quot;ts&quot;:&quot;2026-08-24T09:14:02.119Z&quot;,&quot;event&quot;:&quot;agent.repair.issued&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;budget_after&quot;:1,&quot;named_violations&quot;:[&quot;span_fidelity&quot;,&quot;const&quot;]}
+
+{&quot;ts&quot;:&quot;2026-08-24T09:14:11.905Z&quot;,&quot;event&quot;:&quot;agent.assessment.attempt&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;attempt&quot;:2,&quot;max_attempts&quot;:3,&quot;retry_budget_remaining&quot;:1,&quot;latency_ms&quot;:9704,&quot;result&quot;:&quot;rejected&quot;,&quot;violation_count&quot;:1,&quot;violation_pointers&quot;:[&quot;/impacted_controls/2/citations/0/quoted_text&quot;]}
+{&quot;ts&quot;:&quot;2026-08-24T09:14:11.906Z&quot;,&quot;event&quot;:&quot;agent.repair.issued&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;budget_after&quot;:0,&quot;named_violations&quot;:[&quot;span_fidelity&quot;]}
+
+{&quot;ts&quot;:&quot;2026-08-24T09:14:21.443Z&quot;,&quot;event&quot;:&quot;agent.assessment.attempt&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;attempt&quot;:3,&quot;max_attempts&quot;:3,&quot;retry_budget_remaining&quot;:0,&quot;latency_ms&quot;:9448,&quot;result&quot;:&quot;accepted&quot;,&quot;violation_count&quot;:0,&quot;violation_pointers&quot;:[]}
+{&quot;ts&quot;:&quot;2026-08-24T09:14:21.444Z&quot;,&quot;event&quot;:&quot;agent.assessment.accepted&quot;,&quot;trace_id&quot;:&quot;trace_9f2c41a7d0be&quot;,&quot;outcome&quot;:&quot;abstained&quot;,&quot;attempts_used&quot;:3,&quot;retry_budget_consumed&quot;:2,&quot;retry_budget_remaining&quot;:0}
+
+# Read the last line again. The third attempt did not produce a better citation.
+# It produced an abstention with reason &quot;no_citation_meets_span_threshold&quot;.
+# That is the loop working. The model was told twice that its quote did not exist
+# in the source text, and on the third pass it stopped asserting it.
+
+# The other ending, when even that does not happen:
+
+{&quot;ts&quot;:&quot;2026-08-24T11:02:55.310Z&quot;,&quot;event&quot;:&quot;agent.assessment.escalated&quot;,&quot;trace_id&quot;:&quot;trace_4b18ee90c7fa&quot;,&quot;reason&quot;:&quot;schema_unrecoverable&quot;,&quot;attempts_used&quot;:3,&quot;retry_budget_remaining&quot;:0,&quot;violation_pointers&quot;:[&quot;/impacted_controls/0/control_id&quot;],&quot;route_to&quot;:&quot;compliance_queue.tier_2&quot;}
+{&quot;ts&quot;:&quot;2026-08-24T11:02:55.311Z&quot;,&quot;event&quot;:&quot;queue.task.created&quot;,&quot;trace_id&quot;:&quot;trace_4b18ee90c7fa&quot;,&quot;queue&quot;:&quot;compliance_queue.tier_2&quot;,&quot;sla_minutes&quot;:240,&quot;payload_ref&quot;:&quot;s3://meridian-audit/raw/trace_4b18ee90c7fa.json&quot;,&quot;reviewer_sees&quot;:[&quot;source_document&quot;,&quot;last_raw_output&quot;,&quot;violation_list&quot;,&quot;inventory_version&quot;]}
+
+# Rejected output is retained, not deleted. A reviewer can see exactly what the
+# agent tried to say and why the gate stopped it. That transcript is the defence
+# artefact if a regulator ever asks how the change was handled.
+</code></pre>
+</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tradeoff">
+    <p class="eyebrow">The tradeoff</p>
+    <ul><li>A strict schema plus span verification rejects some genuinely good outputs on a technicality, and I&#x27;d rather re-run a correct assessment than let one unverifiable quote into a signed packet.</li><li>Two retries is a guess tuned on our own failure data, not a law: too few and you escalate noise a reviewer could have avoided, too many and you burn latency and tokens converging on the same broken answer.</li><li>Making abstention cheap does raise the abstention rate, which is why the eval scores false abstentions as a real cost rather than treating every refusal as prudence.</li><li>Character offsets are brittle against re-published or re-paginated source documents, so we pin a content hash and treat a hash mismatch as a re-assessment trigger rather than pretending the old spans still hold.</li></ul>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager"><span></span><a href="/artifact-eval-rubric.html">An Eval Rubric That Can Say No →</a></div></div>
+
+<footer><div class="wrap">
+  <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>
+  <span>Reference implementation · not production code from any employer</span>
+</div></footer>
+</body>
+</html>

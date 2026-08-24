@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>The Escalation Matrix · Artifact · Gatikrishna Dash</title>
+<meta name="description" content="Who decides what, by when, and what happens when nobody answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
+  --ink:#F2F0EA; --ink-soft:#C9C7BE; --smoke:#9A978C; --dust:#6E6C63;
+  --line:rgba(242,240,234,.13); --line-strong:rgba(242,240,234,.24);
+  --accent:#C3E41D; --accent-2:#D6EE5C; --plasma:#7FB3AD;
+  --ok:#46E0A0; --bad:#F2716B; --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#12140A}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+
+.topnav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Fira Code',monospace;font-weight:700;font-size:15px}
+.brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;
+  background:var(--accent);color:#12140A;font-family:'Fira Code',monospace;font-weight:700;font-size:13px;line-height:1}
+.backlink{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:.2s}
+.backlink:hover{border-color:var(--accent);color:var(--accent)}
+
+header.head{padding:64px 0 26px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--plasma);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,4.4vw,50px);max-width:19ch;margin-bottom:18px}
+.kicker{font-size:clamp(17px,2vw,21px);color:var(--smoke);max-width:52ch}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;
+  padding:5px 12px;color:var(--smoke);margin-top:26px}
+.badge b{color:var(--accent);font-weight:700}
+
+section{padding:34px 0}
+h2{font-size:clamp(20px,2.5vw,27px);margin-bottom:18px}
+p{margin-bottom:16px;color:var(--ink-soft);max-width:62ch}
+p strong{color:var(--ink);font-weight:600}
+
+.code-wrap{margin:26px 0 30px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card)}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--deep-2)}
+.code-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--smoke);letter-spacing:.03em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
+pre{overflow-x:auto;padding:20px 18px;margin:0}
+code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
+  color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
+code .k{color:var(--accent)}
+code .s{color:var(--plasma)}
+code .n{color:#D6EE5C}
+code .b{color:#C3E41D;font-weight:700}
+code .p{color:var(--dust)}
+code .c{color:var(--dust);font-style:italic}
+code .ok{color:var(--ok);font-weight:700}
+code .bad{color:var(--bad);font-weight:700}
+
+.tradeoff{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:34px 0 8px;max-width:64ch}
+.tradeoff .eyebrow{margin-bottom:14px}
+.tradeoff li{list-style:none;color:var(--ink-soft);margin-bottom:11px;padding-left:20px;position:relative}
+.tradeoff li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.pager{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 70px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.pager a{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.pager a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:26px 0 60px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
+@media (max-width:640px){ body{font-size:16.5px} pre{padding:16px 14px} code{font-size:11.5px} }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-badge">G</span>Gatikrishna Dash</a>
+  <a class="backlink" href="/#artifacts">← Artifacts</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <p class="eyebrow">Artifact</p>
+  <h1>The Escalation Matrix</h1>
+  <p class="kicker">Who decides what, by when, and what happens when nobody answers.</p>
+  <span class="badge">Reference implementation · <b>built for my own concept systems</b></span>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The problem</h2>
+  <p>Autonomy is a per-action property, not a per-agent one. The same agent that can diff a regulatory publication all day with nobody watching must not send a merchant an email on its own. So the interesting artefact is the table that says which actions sit at which tier. The agent itself is the easy part.</p><p>The part teams skip is the timeout. Everyone writes down who approves. Almost nobody writes down what happens at hour five when that person is on leave. Left unspecified, the pragmatic answer creeps in: let it through, we&#x27;re blocking the business. That&#x27;s a fail-open default, and it will be the finding in your next audit.</p><p>Every row here ends in park, escalate, cancel or suspend. I enforce that in code at policy load, so a well-meaning edit that adds an auto-approve path crashes on import instead of quietly shipping. Two rows matter more than the rest: what happens when the agent abstains, and what happens when it&#x27;s unsure about something that matters.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">Routing matrix by tier, plus the two override rows</span>
+    <span class="code-lang">Plain text</span>
+  </div>
+  <pre><code>HUMAN-IN-THE-LOOP ROUTING MATRIX v3
+Covers both systems: Meridian (regulatory change -&gt; control impact) and the
+merchant retention agent (health signal -&gt; intervention).
+
+SLA clocks run in business hours for T1/T2 and wall-clock for T3.
+<span class="k">ALL SLA VALUES BELOW ARE ILLUSTRATIVE STARTING POINTS.</span>
+
+=================================================================================
+<span class="k">TIER  NAME        TRIGGER                        AGENT MAY DO ALONE</span>
+=================================================================================
+T0    OBSERVE     No external effect. Read,      Retrieve, parse, diff, cluster,
+                  summarise, enrich, index.      draft internally, write to its
+                  Merchant: compute health       own workspace. Nothing leaves
+                  score. Meridian: ingest and    the system boundary.
+                  diff a publication.
+---------------------------------------------------------------------------------
+T1    RECOMMEND   Output is a proposal a human   Assemble a full packet and put
+                  will accept or reject.         it in a queue. Rank it. Withdraw
+                  Meridian: control-impact       it if the source changes. It may
+                  packet. Merchant: drafted      not send, commit or execute.
+                  outreach, no send.
+---------------------------------------------------------------------------------
+T2    GATED ACT   The action touches money, a    Nothing until an approval token
+                  customer relationship, or a    exists. After approval it may
+                  control record.                execute exactly the approved
+                  Merchant: send outreach, open  action, once, and must report
+                  a case, apply a fee waiver     back. No re-scoping post-approval.
+                  under the value cap.
+                  Meridian: attach a proposed
+                  control amendment to a record.
+---------------------------------------------------------------------------------
+T3    DUAL        Regulatory filing, control     Nothing. It prepares, it does not
+      CONTROL     decommission or scope change,  act. Two approvers, one outside
+                  value above the T2 cap, any    the requesting function. Both
+                  entity with a sanctions/PEP/   approvals recorded separately.
+                  SAR flag, anything the agent
+                  has not seen a precedent for.
+=================================================================================
+
+=================================================================================
+TIER  REVIEWER                  SLA        ON SLA BREACH  (never fail-open)
+=================================================================================
+T0    None. 5% sampled QA       n/a        n/a
+      weekly by the owning PM.
+---------------------------------------------------------------------------------
+T1    Queue analyst             8 bh       Proposal is PARKED, not actioned.
+      (any qualified member                Owner notified at 8h. At 16h the item
+      of the pool)                         escalates to T2 with a named approver.
+                                           Proposal expires at 72h and the agent
+                                           must re-derive it from fresh inputs.
+---------------------------------------------------------------------------------
+T2    Named accountable owner.  4 bh       Approval token is NEVER auto-granted.
+      Meridian: the compliance              At 4h: page the primary. At 6h: route
+      officer for that control              to the named backup. At 8h: cancel the
+      family. Merchant: the                 proposal, emit a missed_sla event, and
+      merchant success owner,               suspend that action class for the
+      plus finance co-sign if                account until a human clears it.
+      value &gt; 0.
+---------------------------------------------------------------------------------
+T3    Two approvers, one from   1 business Nothing happens. At SLA: incident
+      outside the requesting    day        raised (sev-3). Capability for that
+      function. Sequential,                action class is suspended programme-
+      not parallel - the second            wide until a human explicitly re-arms
+      sees the first&#x27;s reasons.            it. This is the only tier where a
+                                           breach stops the agent, not just
+                                           the item.
+=================================================================================
+
+SPECIAL ROWS - these override the action-class tier, they never lower it
+=================================================================================
+ROW A: AGENT ABSTAINED
+  Trigger        outcome == &quot;abstained&quot; from any Meridian call, or the merchant
+                 agent returning no_confident_intervention.
+  Tier           T2 minimum. An abstention is never auto-closed and never
+                 downgraded to T1 on the grounds that &quot;nothing happened&quot;.
+  Reviewer       Named owner for the domain.
+  SLA            4 bh.
+  Reviewer sees  The abstention reason, the free-text detail, what_would_resolve,
+                 every partial finding with its citations, and the source
+                 document at the cited offsets. The reviewer starts from the
+                 agent&#x27;s work, not from zero.
+  On breach      Escalates to T3 queue. An unreviewed abstention is an open
+                 regulatory question with nobody&#x27;s name on it.
+  Why            The agent stopping is a signal, not an absence of one. Silent
+                 abstentions are how a backlog of unanswered obligations forms.
+
+ROW B: LOW CONFIDENCE, HIGH IMPACT
+  Trigger        confidence.value &lt; 0.72 (illustrative floor, set from the
+                 calibration curve) AND impact_band in {high, critical}.
+                 Impact band comes from the control&#x27;s own criticality rating
+                 or the merchant&#x27;s exposure, never from the model.
+  Tier           Forced to T2 minimum, T3 if the action class is already T2.
+                 Confidence can raise a tier. It can never lower one.
+  Reviewer       Named owner. Second reviewer if the band is critical.
+  SLA            4 bh.
+  Reviewer sees  The confidence value AND its calibration method and set id, a
+                 plain-English note that this was auto-escalated for low
+                 confidence, and the two nearest precedent cases with their
+                 outcomes.
+  On breach      Same ladder as T2: page, backup, then cancel and suspend
+                 the action class for that account.
+  Why            High confidence never buys a tier reduction. The asymmetry is
+                 the point: the model can add caution, never remove it.
+
+=================================================================================
+INVARIANTS - checked in code at policy load, not left to reviewers
+=================================================================================
+  I1  No rule may resolve to auto_execute for any action class that moves money,
+      contacts a customer, or writes to a control record.
+  I2  on_timeout may never be &quot;approve&quot; or &quot;proceed&quot;. The only legal values are
+      park, escalate, cancel, suspend.
+  I3  An unknown or unmapped action class routes to T3, not T0. Default deny.
+  I4  Every executed action carries the approver identity, the approval
+      timestamp, and the exact payload approved. No approver, no execution.
+  I5  Approval is bound to a payload hash. If the agent re-derives the action,
+      the old approval is void.
+  I6  A tier may be raised at runtime. It may never be lowered at runtime.
+</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">policy/hitl_routing.v3.json - the executable policy</span>
+    <span class="code-lang">JSON</span>
+  </div>
+  <pre><code><span class="p">{</span>
+  <span class="k">&quot;policy_id&quot;</span>: <span class="s">&quot;hitl_routing&quot;</span><span class="p">,</span>
+  <span class="k">&quot;version&quot;</span>: <span class="s">&quot;3.0.0&quot;</span><span class="p">,</span>
+  <span class="k">&quot;effective_from&quot;</span>: <span class="s">&quot;2026-09-01&quot;</span><span class="p">,</span>
+  <span class="k">&quot;default_tier&quot;</span>: <span class="s">&quot;T3&quot;</span><span class="p">,</span>
+  <span class="k">&quot;_default_tier_note&quot;</span>: <span class="s">&quot;Unknown action classes fail closed to the highest tier. Default deny, never default allow.&quot;</span><span class="p">,</span>
+  <span class="k">&quot;confidence_floor&quot;</span>: <span class="n">0.72</span><span class="p">,</span>
+  <span class="k">&quot;_confidence_floor_note&quot;</span>: <span class="s">&quot;ILLUSTRATIVE. Derived from the calibration curve, revisited every rubric run.&quot;</span><span class="p">,</span>
+  <span class="k">&quot;tiers&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;T0&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;observe&quot;</span><span class="p">,</span>
+      <span class="k">&quot;autonomy&quot;</span>: <span class="s">&quot;execute&quot;</span><span class="p">,</span>
+      <span class="k">&quot;approvals_required&quot;</span>: <span class="n">0</span><span class="p">,</span>
+      <span class="k">&quot;sla_minutes&quot;</span>: <span class="b">null</span><span class="p">,</span>
+      <span class="k">&quot;on_timeout&quot;</span>: <span class="b">null</span><span class="p">,</span>
+      <span class="k">&quot;sampled_qa_rate&quot;</span>: <span class="n">0.05</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;T1&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;recommend&quot;</span><span class="p">,</span>
+      <span class="k">&quot;autonomy&quot;</span>: <span class="s">&quot;propose_only&quot;</span><span class="p">,</span>
+      <span class="k">&quot;approvals_required&quot;</span>: <span class="n">1</span><span class="p">,</span>
+      <span class="k">&quot;approver_role&quot;</span>: <span class="s">&quot;queue_analyst&quot;</span><span class="p">,</span>
+      <span class="k">&quot;sla_minutes&quot;</span>: <span class="n">480</span><span class="p">,</span>
+      <span class="k">&quot;sla_clock&quot;</span>: <span class="s">&quot;business_hours&quot;</span><span class="p">,</span>
+      <span class="k">&quot;on_timeout&quot;</span>: <span class="s">&quot;park&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_ladder&quot;</span>: <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">480</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;notify_owner&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">960</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;escalate&quot;</span><span class="p">,</span>
+          <span class="k">&quot;to_tier&quot;</span>: <span class="s">&quot;T2&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">4320</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;expire_proposal&quot;</span><span class="p">,</span>
+          <span class="k">&quot;requires_rederivation&quot;</span>: <span class="b">true</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;T2&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;gated_act&quot;</span><span class="p">,</span>
+      <span class="k">&quot;autonomy&quot;</span>: <span class="s">&quot;execute_after_approval&quot;</span><span class="p">,</span>
+      <span class="k">&quot;approvals_required&quot;</span>: <span class="n">1</span><span class="p">,</span>
+      <span class="k">&quot;approver_role&quot;</span>: <span class="s">&quot;named_accountable_owner&quot;</span><span class="p">,</span>
+      <span class="k">&quot;co_signers&quot;</span>: <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="k">&quot;role&quot;</span>: <span class="s">&quot;finance&quot;</span><span class="p">,</span>
+          <span class="k">&quot;when&quot;</span>: <span class="s">&quot;monetary_value_cents &gt; 0&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;sla_minutes&quot;</span>: <span class="n">240</span><span class="p">,</span>
+      <span class="k">&quot;sla_clock&quot;</span>: <span class="s">&quot;business_hours&quot;</span><span class="p">,</span>
+      <span class="k">&quot;on_timeout&quot;</span>: <span class="s">&quot;escalate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_ladder&quot;</span>: <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">240</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;page_primary&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">360</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;route_to_backup_approver&quot;</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">480</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;cancel_and_suspend_action_class&quot;</span><span class="p">,</span>
+          <span class="k">&quot;scope&quot;</span>: <span class="s">&quot;account&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;T3&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;name&quot;</span>: <span class="s">&quot;dual_control&quot;</span><span class="p">,</span>
+      <span class="k">&quot;autonomy&quot;</span>: <span class="s">&quot;prepare_only&quot;</span><span class="p">,</span>
+      <span class="k">&quot;approvals_required&quot;</span>: <span class="n">2</span><span class="p">,</span>
+      <span class="k">&quot;approver_role&quot;</span>: <span class="s">&quot;named_accountable_owner&quot;</span><span class="p">,</span>
+      <span class="k">&quot;second_approver_constraint&quot;</span>: <span class="s">&quot;must_be_outside_requesting_function&quot;</span><span class="p">,</span>
+      <span class="k">&quot;approval_order&quot;</span>: <span class="s">&quot;sequential&quot;</span><span class="p">,</span>
+      <span class="k">&quot;sla_minutes&quot;</span>: <span class="n">1440</span><span class="p">,</span>
+      <span class="k">&quot;sla_clock&quot;</span>: <span class="s">&quot;wall_clock&quot;</span><span class="p">,</span>
+      <span class="k">&quot;on_timeout&quot;</span>: <span class="s">&quot;suspend&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_ladder&quot;</span>: <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">1440</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;raise_incident&quot;</span><span class="p">,</span>
+          <span class="k">&quot;severity&quot;</span>: <span class="n">3</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="k">&quot;at_minutes&quot;</span>: <span class="n">1440</span><span class="p">,</span>
+          <span class="k">&quot;action&quot;</span>: <span class="s">&quot;suspend_action_class&quot;</span><span class="p">,</span>
+          <span class="k">&quot;scope&quot;</span>: <span class="s">&quot;programme&quot;</span><span class="p">,</span>
+          <span class="k">&quot;requires_human_rearm&quot;</span>: <span class="b">true</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;action_classes&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;meridian.ingest_publication&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T0&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;meridian.diff_against_inventory&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T0&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;meridian.emit_control_impact_packet&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T1&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;meridian.attach_proposed_amendment&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T2&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;meridian.decommission_control&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;meridian.prepare_regulatory_filing&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.compute_health_score&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T0&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.draft_outreach&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T1&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.send_outreach&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T2&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.open_success_case&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T2&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.apply_fee_concession&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T2&quot;</span><span class="p">,</span>
+      <span class="k">&quot;value_cap_cents&quot;</span>: <span class="n">250000</span><span class="p">,</span>
+      <span class="k">&quot;above_cap_tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.change_pricing_plan&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;merchant.pause_settlement&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span><span class="p">,</span>
+  <span class="k">&quot;overrides&quot;</span>: <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="k">&quot;id&quot;</span>: <span class="s">&quot;agent_abstained&quot;</span><span class="p">,</span>
+      <span class="k">&quot;when&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;agent_outcome&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;abstained&quot;</span><span class="p">,</span>
+          <span class="s">&quot;no_confident_intervention&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;min_tier&quot;</span>: <span class="s">&quot;T2&quot;</span><span class="p">,</span>
+      <span class="k">&quot;reviewer_view&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;abstention.reason&quot;</span><span class="p">,</span>
+        <span class="s">&quot;abstention.detail&quot;</span><span class="p">,</span>
+        <span class="s">&quot;abstention.what_would_resolve&quot;</span><span class="p">,</span>
+        <span class="s">&quot;abstention.partial_findings&quot;</span><span class="p">,</span>
+        <span class="s">&quot;source_document_at_cited_offsets&quot;</span><span class="p">,</span>
+        <span class="s">&quot;control_inventory_version&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;on_timeout&quot;</span>: <span class="s">&quot;escalate&quot;</span><span class="p">,</span>
+      <span class="k">&quot;escalate_to_tier&quot;</span>: <span class="s">&quot;T3&quot;</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;An abstention is never auto-closed. It is an open question with a name attached to it.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;id&quot;</span>: <span class="s">&quot;low_confidence_high_impact&quot;</span><span class="p">,</span>
+      <span class="k">&quot;when&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;confidence_below&quot;</span>: <span class="n">0.72</span><span class="p">,</span>
+        <span class="k">&quot;impact_band&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;high&quot;</span><span class="p">,</span>
+          <span class="s">&quot;critical&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;min_tier&quot;</span>: <span class="s">&quot;T2&quot;</span><span class="p">,</span>
+      <span class="k">&quot;bump_if_already&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;T2&quot;</span>: <span class="s">&quot;T3&quot;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;reviewer_view&quot;</span>: <span class="p">[</span>
+        <span class="s">&quot;confidence.value&quot;</span><span class="p">,</span>
+        <span class="s">&quot;confidence.method&quot;</span><span class="p">,</span>
+        <span class="s">&quot;confidence.calibration_set_id&quot;</span><span class="p">,</span>
+        <span class="s">&quot;auto_escalation_reason&quot;</span><span class="p">,</span>
+        <span class="s">&quot;two_nearest_precedents_with_outcomes&quot;</span>
+      <span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;impact_band comes from the control criticality register or merchant exposure. Never from the model.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;id&quot;</span>: <span class="s">&quot;flagged_entity&quot;</span><span class="p">,</span>
+      <span class="k">&quot;when&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;entity_flags_any&quot;</span>: <span class="p">[</span>
+          <span class="s">&quot;sanctions_hit&quot;</span><span class="p">,</span>
+          <span class="s">&quot;pep&quot;</span><span class="p">,</span>
+          <span class="s">&quot;open_sar&quot;</span><span class="p">,</span>
+          <span class="s">&quot;law_enforcement_hold&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;min_tier&quot;</span>: <span class="s">&quot;T3&quot;</span><span class="p">,</span>
+      <span class="k">&quot;allow_downgrade&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;No confidence score and no value threshold can move this.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="k">&quot;id&quot;</span>: <span class="s">&quot;no_precedent&quot;</span><span class="p">,</span>
+      <span class="k">&quot;when&quot;</span>: <span class="p">{</span>
+        <span class="k">&quot;nearest_precedent_similarity_below&quot;</span>: <span class="n">0.6</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="k">&quot;min_tier&quot;</span>: <span class="s">&quot;T2&quot;</span><span class="p">,</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;First time the agent has seen a case shape, a human sees it too.&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="p">,</span>
+  <span class="k">&quot;invariants&quot;</span>: <span class="p">[</span>
+    <span class="s">&quot;no action_class touching funds, customer contact, or a control record may resolve to autonomy=execute&quot;</span><span class="p">,</span>
+    <span class="s">&quot;on_timeout must be one of: park, escalate, cancel, suspend - never approve or proceed&quot;</span><span class="p">,</span>
+    <span class="s">&quot;an unmapped action_class resolves to default_tier&quot;</span><span class="p">,</span>
+    <span class="s">&quot;every execution record carries approver_id, approved_at, and approved_payload_sha256&quot;</span><span class="p">,</span>
+    <span class="s">&quot;approval is bound to a payload hash; re-derivation voids the approval&quot;</span><span class="p">,</span>
+    <span class="s">&quot;overrides may only raise a tier, never lower it&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">hitl/router.py - resolves a tier and refuses to fail open</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;hitl/router.py
+
+Executes the routing policy. Deterministic, no model in the loop.
+
+The router&#x27;s only job is to answer: what tier, who approves, by when, and what
+happens if nobody answers. It answers that last question with something other
+than &quot;go ahead&quot;, every time.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> json
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass
+<span class="b">from</span> pathlib <span class="b">import</span> Path
+<span class="b">from</span> typing <span class="b">import</span> Any
+
+POLICY: dict[str, Any] = json.loads(Path(<span class="s">&quot;policy/hitl_routing.v3.json&quot;</span>).read_text(encoding=<span class="s">&quot;utf-8&quot;</span>))
+
+TIER_ORDER = [<span class="s">&quot;T0&quot;</span>, <span class="s">&quot;T1&quot;</span>, <span class="s">&quot;T2&quot;</span>, <span class="s">&quot;T3&quot;</span>]
+LEGAL_TIMEOUT_ACTIONS = {<span class="s">&quot;park&quot;</span>, <span class="s">&quot;escalate&quot;</span>, <span class="s">&quot;cancel&quot;</span>, <span class="s">&quot;suspend&quot;</span>, <span class="b">None</span>}
+GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <span class="s">&quot;merchant.apply&quot;</span>, <span class="s">&quot;merchant.change&quot;</span>,
+                          <span class="s">&quot;merchant.pause&quot;</span>, <span class="s">&quot;meridian.attach&quot;</span>, <span class="s">&quot;meridian.decommission&quot;</span>,
+                          <span class="s">&quot;meridian.prepare&quot;</span>)
+
+
+<span class="b">class</span> PolicyError(RuntimeError):
+    <span class="s">&quot;&quot;&quot;Raised at load time. A policy that violates an invariant does not run.&quot;&quot;&quot;</span>
+
+
+<span class="b">def</span> _rank(tier: str) -&gt; int:
+    <span class="b">return</span> TIER_ORDER.index(tier)
+
+
+<span class="b">def</span> _max_tier(a: str, b: str) -&gt; str:
+    <span class="b">return</span> a <span class="b">if</span> _rank(a) &gt;= _rank(b) <span class="b">else</span> b
+
+
+<span class="b">def</span> validate_policy(policy: dict) -&gt; <span class="b">None</span>:
+    <span class="s">&quot;&quot;&quot;I2, I1 and I3 are enforced here, at load, not by reviewers at 2am.&quot;&quot;&quot;</span>
+    <span class="b">for</span> tier_id, tier <span class="b">in</span> policy[<span class="s">&quot;tiers&quot;</span>].items():
+        <span class="b">if</span> tier.get(<span class="s">&quot;on_timeout&quot;</span>) <span class="b">not</span> <span class="b">in</span> LEGAL_TIMEOUT_ACTIONS:
+            <span class="b">raise</span> PolicyError(f<span class="s">&quot;{tier_id}: on_timeout={tier.get(&#x27;on_timeout&#x27;)!r} would fail open&quot;</span>)
+        <span class="b">for</span> step <span class="b">in</span> tier.get(<span class="s">&quot;timeout_ladder&quot;</span>, []):
+            <span class="b">if</span> step[<span class="s">&quot;action&quot;</span>] <span class="b">in</span> {<span class="s">&quot;approve&quot;</span>, <span class="s">&quot;auto_approve&quot;</span>, <span class="s">&quot;proceed&quot;</span>, <span class="s">&quot;execute&quot;</span>}:
+                <span class="b">raise</span> PolicyError(f<span class="s">&quot;{tier_id}: timeout ladder step {step[&#x27;action&#x27;]!r} would fail open&quot;</span>)
+    <span class="b">for</span> name, spec <span class="b">in</span> policy[<span class="s">&quot;action_classes&quot;</span>].items():
+        <span class="b">if</span> name.startswith(GATED_CLASSES_PREFIXES):
+            tier = policy[<span class="s">&quot;tiers&quot;</span>][spec[<span class="s">&quot;tier&quot;</span>]]
+            <span class="b">if</span> tier[<span class="s">&quot;autonomy&quot;</span>] == <span class="s">&quot;execute&quot;</span>:
+                <span class="b">raise</span> PolicyError(f<span class="s">&quot;{name}: resolves to autonomous execution but touches money, &quot;</span>
+                                  f<span class="s">&quot;a customer, or a control record&quot;</span>)
+    <span class="b">if</span> policy[<span class="s">&quot;default_tier&quot;</span>] != <span class="s">&quot;T3&quot;</span>:
+        <span class="b">raise</span> PolicyError(<span class="s">&quot;default_tier must fail closed to T3&quot;</span>)
+
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> Routing:
+    tier: str
+    autonomy: str
+    approvals_required: int
+    approver_role: str | <span class="b">None</span>
+    sla_minutes: int | <span class="b">None</span>
+    on_timeout: str | <span class="b">None</span>
+    timeout_ladder: list[dict]
+    reviewer_view: list[str]
+    applied_overrides: list[str]
+    reason: str
+
+    @property
+    <span class="b">def</span> may_execute_now(self) -&gt; bool:
+        <span class="b">return</span> self.autonomy == <span class="s">&quot;execute&quot;</span>
+
+
+<span class="b">def</span> route(request: dict, policy: dict = POLICY) -&gt; Routing:
+    <span class="s">&quot;&quot;&quot;request keys:
+        action_class, agent_outcome, confidence, impact_band,
+        monetary_value_cents, entity_flags, nearest_precedent_similarity
+    &quot;&quot;&quot;</span>
+    spec = policy[<span class="s">&quot;action_classes&quot;</span>].get(request[<span class="s">&quot;action_class&quot;</span>])
+    <span class="b">if</span> spec <span class="b">is</span> <span class="b">None</span>:
+        base_tier, reason = policy[<span class="s">&quot;default_tier&quot;</span>], <span class="s">&quot;unmapped action_class - default deny&quot;</span>
+    <span class="b">else</span>:
+        base_tier = spec[<span class="s">&quot;tier&quot;</span>]
+        reason = f<span class="s">&quot;base tier for {request[&#x27;action_class&#x27;]}&quot;</span>
+        cap = spec.get(<span class="s">&quot;value_cap_cents&quot;</span>)
+        <span class="b">if</span> cap <span class="b">is</span> <span class="b">not</span> <span class="b">None</span> <span class="b">and</span> request.get(<span class="s">&quot;monetary_value_cents&quot;</span>, <span class="n">0</span>) &gt; cap:
+            base_tier = _max_tier(base_tier, spec[<span class="s">&quot;above_cap_tier&quot;</span>])
+            reason = f<span class="s">&quot;value {request[&#x27;monetary_value_cents&#x27;]} exceeds cap {cap}&quot;</span>
+
+    tier = base_tier
+    applied: list[str] = []
+    view: list[str] = []
+
+    <span class="b">for</span> ov <span class="b">in</span> policy[<span class="s">&quot;overrides&quot;</span>]:
+        <span class="b">if</span> <span class="b">not</span> _override_matches(ov[<span class="s">&quot;when&quot;</span>], request):
+            <span class="b">continue</span>
+        candidate = ov[<span class="s">&quot;min_tier&quot;</span>]
+        bump = ov.get(<span class="s">&quot;bump_if_already&quot;</span>, {}).get(tier)
+        <span class="b">if</span> bump:
+            candidate = _max_tier(candidate, bump)
+        new_tier = _max_tier(tier, candidate)      <span class="c"># I6: raise only, never lower</span>
+        <span class="b">if</span> new_tier != tier:
+            reason = f<span class="s">&quot;{reason}; raised to {new_tier} by override &#x27;{ov[&#x27;id&#x27;]}&#x27;&quot;</span>
+        tier = new_tier
+        applied.append(ov[<span class="s">&quot;id&quot;</span>])
+        view.extend(ov.get(<span class="s">&quot;reviewer_view&quot;</span>, []))
+
+    t = policy[<span class="s">&quot;tiers&quot;</span>][tier]
+    override_timeout = next((ov.get(<span class="s">&quot;on_timeout&quot;</span>) <span class="b">for</span> ov <span class="b">in</span> policy[<span class="s">&quot;overrides&quot;</span>]
+                             <span class="b">if</span> ov[<span class="s">&quot;id&quot;</span>] <span class="b">in</span> applied <span class="b">and</span> ov.get(<span class="s">&quot;on_timeout&quot;</span>)), <span class="b">None</span>)
+
+    <span class="b">return</span> Routing(
+        tier=tier,
+        autonomy=t[<span class="s">&quot;autonomy&quot;</span>],
+        approvals_required=t[<span class="s">&quot;approvals_required&quot;</span>],
+        approver_role=t.get(<span class="s">&quot;approver_role&quot;</span>),
+        sla_minutes=t.get(<span class="s">&quot;sla_minutes&quot;</span>),
+        on_timeout=override_timeout <span class="b">or</span> t.get(<span class="s">&quot;on_timeout&quot;</span>),
+        timeout_ladder=t.get(<span class="s">&quot;timeout_ladder&quot;</span>, []),
+        reviewer_view=list(dict.fromkeys(view)),
+        applied_overrides=applied,
+        reason=reason,
+    )
+
+
+<span class="b">def</span> _override_matches(when: dict, req: dict) -&gt; bool:
+    <span class="b">if</span> <span class="s">&quot;agent_outcome&quot;</span> <span class="b">in</span> when <span class="b">and</span> req.get(<span class="s">&quot;agent_outcome&quot;</span>) <span class="b">not</span> <span class="b">in</span> when[<span class="s">&quot;agent_outcome&quot;</span>]:
+        <span class="b">return</span> <span class="b">False</span>
+    <span class="b">if</span> <span class="s">&quot;confidence_below&quot;</span> <span class="b">in</span> when:
+        conf = req.get(<span class="s">&quot;confidence&quot;</span>)
+        <span class="b">if</span> conf <span class="b">is</span> <span class="b">None</span> <span class="b">or</span> conf &gt;= when[<span class="s">&quot;confidence_below&quot;</span>]:
+            <span class="b">return</span> <span class="b">False</span>
+    <span class="b">if</span> <span class="s">&quot;impact_band&quot;</span> <span class="b">in</span> when <span class="b">and</span> req.get(<span class="s">&quot;impact_band&quot;</span>) <span class="b">not</span> <span class="b">in</span> when[<span class="s">&quot;impact_band&quot;</span>]:
+        <span class="b">return</span> <span class="b">False</span>
+    <span class="b">if</span> <span class="s">&quot;entity_flags_any&quot;</span> <span class="b">in</span> when:
+        <span class="b">if</span> <span class="b">not</span> set(req.get(<span class="s">&quot;entity_flags&quot;</span>) <span class="b">or</span> []) &amp; set(when[<span class="s">&quot;entity_flags_any&quot;</span>]):
+            <span class="b">return</span> <span class="b">False</span>
+    <span class="b">if</span> <span class="s">&quot;nearest_precedent_similarity_below&quot;</span> <span class="b">in</span> when:
+        sim = req.get(<span class="s">&quot;nearest_precedent_similarity&quot;</span>)
+        <span class="b">if</span> sim <span class="b">is</span> <span class="b">None</span> <span class="b">or</span> sim &gt;= when[<span class="s">&quot;nearest_precedent_similarity_below&quot;</span>]:
+            <span class="b">return</span> <span class="b">False</span>
+    <span class="b">return</span> <span class="b">True</span>
+
+
+<span class="b">def</span> on_sla_expiry(routing: Routing, elapsed_minutes: int, emit: Any) -&gt; str:
+    <span class="s">&quot;&quot;&quot;Runs on the queue&#x27;s timer. Returns the action taken.
+
+    There is no code path here that approves anything. That is the whole design.
+    &quot;&quot;&quot;</span>
+    last: dict | <span class="b">None</span> = <span class="b">None</span>
+    <span class="b">for</span> step <span class="b">in</span> sorted(routing.timeout_ladder, key=<span class="b">lambda</span> s: s[<span class="s">&quot;at_minutes&quot;</span>]):
+        <span class="b">if</span> elapsed_minutes &gt;= step[<span class="s">&quot;at_minutes&quot;</span>]:
+            last = step
+    <span class="b">if</span> last <span class="b">is</span> <span class="b">None</span>:
+        <span class="b">return</span> <span class="s">&quot;within_sla&quot;</span>
+    <span class="b">assert</span> last[<span class="s">&quot;action&quot;</span>] <span class="b">not</span> <span class="b">in</span> {<span class="s">&quot;approve&quot;</span>, <span class="s">&quot;proceed&quot;</span>}, <span class="s">&quot;fail-open path reached&quot;</span>
+    emit(<span class="s">&quot;hitl.sla_breach&quot;</span>, tier=routing.tier, elapsed_minutes=elapsed_minutes,
+         action=last[<span class="s">&quot;action&quot;</span>], overrides=routing.applied_overrides)
+    <span class="b">return</span> last[<span class="s">&quot;action&quot;</span>]
+
+
+validate_policy(POLICY)   <span class="c"># import-time. A bad policy never reaches production.</span>
+
+
+<span class="b">if</span> __name__ == <span class="s">&quot;__main__&quot;</span>:
+    examples = [
+        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;merchant.apply_fee_concession&quot;</span>, <span class="s">&quot;monetary_value_cents&quot;</span>: <span class="n">90000</span>,
+         <span class="s">&quot;confidence&quot;</span>: <span class="n">0.91</span>, <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;medium&quot;</span>, <span class="s">&quot;entity_flags&quot;</span>: [],
+         <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;acted&quot;</span>, <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.88</span>},
+        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;merchant.apply_fee_concession&quot;</span>, <span class="s">&quot;monetary_value_cents&quot;</span>: <span class="n">90000</span>,
+         <span class="s">&quot;confidence&quot;</span>: <span class="n">0.61</span>, <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;high&quot;</span>, <span class="s">&quot;entity_flags&quot;</span>: [],
+         <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;acted&quot;</span>, <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.88</span>},
+        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;meridian.emit_control_impact_packet&quot;</span>, <span class="s">&quot;confidence&quot;</span>: <span class="n">0.55</span>,
+         <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;critical&quot;</span>, <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;abstained&quot;</span>, <span class="s">&quot;entity_flags&quot;</span>: [],
+         <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.42</span>},
+        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;merchant.send_outreach&quot;</span>, <span class="s">&quot;confidence&quot;</span>: <span class="n">0.97</span>, <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;low&quot;</span>,
+         <span class="s">&quot;entity_flags&quot;</span>: [<span class="s">&quot;pep&quot;</span>], <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;acted&quot;</span>, <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.95</span>},
+    ]
+    <span class="b">for</span> ex <span class="b">in</span> examples:
+        r = route(ex)
+        print(f<span class="s">&quot;{ex[&#x27;action_class&#x27;]:&lt;38} -&gt; {r.tier}  &quot;</span>
+              f<span class="s">&quot;approvals={r.approvals_required}  sla={r.sla_minutes}  &quot;</span>
+              f<span class="s">&quot;timeout={r.on_timeout}  overrides={r.applied_overrides or &#x27;-&#x27;}&quot;</span>)
+    <span class="c"># Expected (illustrative):</span>
+    <span class="c">#   merchant.apply_fee_concession          -&gt; T2  approvals=1  sla=240  timeout=escalate  overrides=-</span>
+    <span class="c">#   merchant.apply_fee_concession          -&gt; T3  approvals=2  sla=1440 timeout=suspend   overrides=[&#x27;low_confidence_high_impact&#x27;]</span>
+    <span class="c">#   meridian.emit_control_impact_packet    -&gt; T3  approvals=2  sla=1440 timeout=escalate  overrides=[&#x27;agent_abstained&#x27;, &#x27;low_confidence_high_impact&#x27;, &#x27;no_precedent&#x27;]</span>
+    <span class="c">#   merchant.send_outreach                 -&gt; T3  approvals=2  sla=1440 timeout=suspend   overrides=[&#x27;flagged_entity&#x27;]</span>
+</code></pre>
+</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tradeoff">
+    <p class="eyebrow">The tradeoff</p>
+    <ul><li>Fail-closed timeouts mean real work stalls when an approver is away, and the honest fix is staffing the backup rota rather than softening the rule.</li><li>Four tiers is a compromise: fewer and everything piles into one queue, more and nobody remembers which is which without opening the document.</li><li>Routing abstentions to T2 by default guarantees some reviewer time is spent on cases where the agent was simply being over-careful.</li><li>Letting confidence raise a tier but never lower one throws away most of the efficiency a good calibration curve could buy, and I&#x27;ll take that until the calibration has years of evidence behind it.</li></ul>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager"><a href="/artifact-eval-rubric.html">← An Eval Rubric That Can Say No</a><a href="/artifact-shadow-mode-readout.html">The Shadow Mode Readout →</a></div></div>
+
+<footer><div class="wrap">
+  <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>
+  <span>Reference implementation · not production code from any employer</span>
+</div></footer>
+</body>
+</html>
