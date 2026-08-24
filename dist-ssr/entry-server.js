@@ -264,12 +264,12 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
   const muted = isDark ? "rgba(255,255,255,0.55)" : "#6B6859";
   const menuItems = [
     { label: "HOME", href: "#profile", highlight: true },
-    { label: "THE ANGLE", href: "#angle" },
-    { label: "CAREER", href: "#career" },
     { label: "WORK", href: "#work" },
+    { label: "ARTIFACTS", href: "#artifacts" },
     { label: "JUDGMENT", href: "#judgment" },
     { label: "CASE STUDIES", href: "#case-studies" },
     { label: "WRITING", href: "#blogs" },
+    { label: "ABOUT", href: "#about" },
     { label: "CONTACT", href: "#contact" }
   ];
   const nameClass = "hero-name font-bold text-[68px] sm:text-[120px] md:text-[164px] lg:text-[200px] leading-[0.78] tracking-tighter uppercase justify-center whitespace-nowrap";
@@ -501,7 +501,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
       /* @__PURE__ */ jsx(
         "a",
         {
-          href: "#angle",
+          href: "#work",
           className: "absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-300 hover:opacity-100",
           style: { opacity: 0.45 },
           "aria-label": "Scroll to content",
@@ -859,6 +859,7 @@ function CardCarousel({
 }
 const NAV = [
   { id: "work", label: "Work" },
+  { id: "artifacts", label: "Artifacts" },
   { id: "judgment", label: "Judgment" },
   { id: "case-studies", label: "Case Studies" },
   { id: "blogs", label: "Writing" },

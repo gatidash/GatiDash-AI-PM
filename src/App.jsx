@@ -14,6 +14,7 @@ import { CardCarousel } from '@/components/ui/card-carousel'
 
 const NAV = [
   { id: 'work', label: 'Work' },
+  { id: 'artifacts', label: 'Artifacts' },
   { id: 'judgment', label: 'Judgment' },
   { id: 'case-studies', label: 'Case Studies' },
   { id: 'blogs', label: 'Writing' },

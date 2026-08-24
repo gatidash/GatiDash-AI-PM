@@ -112,12 +112,12 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
 
   const menuItems = [
     { label: 'HOME', href: '#profile', highlight: true },
-    { label: 'THE ANGLE', href: '#angle' },
-    { label: 'CAREER', href: '#career' },
     { label: 'WORK', href: '#work' },
+    { label: 'ARTIFACTS', href: '#artifacts' },
     { label: 'JUDGMENT', href: '#judgment' },
     { label: 'CASE STUDIES', href: '#case-studies' },
     { label: 'WRITING', href: '#blogs' },
+    { label: 'ABOUT', href: '#about' },
     { label: 'CONTACT', href: '#contact' },
   ]
 
@@ -344,7 +344,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
 
         {/* Scroll indicator */}
         <a
-          href="#angle"
+          href="#work"
           className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-300 hover:opacity-100"
           style={{ opacity: 0.45 }}
           aria-label="Scroll to content"
