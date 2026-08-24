@@ -341,7 +341,7 @@
       <span>Conceptual — not a shipped product</span>
     </div>
     <h1>Reading the rules was never the hard part. <span class="hl">Proving which control each one touches</span> is.</h1>
-    <p class="hero-lede">An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign — not a chatbot that answers questions about the law.</p>
+    <p class="hero-lede">An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign. A chatbot that answers questions about the law solves a different, easier problem.</p>
   </div>
   <div class="wrap hero-figure">
     <p class="eyebrow">The deliverable</p>
@@ -351,7 +351,7 @@
         <span class="sop-n">01</span>
         <div class="sop-body">
           <span class="sop-field">the change</span>
-          <p class="sop-what">The regulator&rsquo;s own wording, cited to source and date &mdash; not the agent&rsquo;s summary of it.</p>
+          <p class="sop-what">The regulator&rsquo;s own wording, cited to source and date. The agent&rsquo;s summary of it carries no weight in a review.</p>
         </div>
         <p class="sop-why">A package that paraphrases the regulator is a package nobody can defend in a review.</p>
       </div>
@@ -371,7 +371,7 @@
           <span class="sop-field">the delta</span>
           <p class="sop-what">Current control text against required control text, diffed at the line.</p>
         </div>
-        <p class="sop-why">At the level a control owner edits &mdash; not the level an executive skims.</p>
+        <p class="sop-why">Pitched at the level a control owner edits. An executive summary is useless here.</p>
       </div>
 
       <div class="sop-row">
@@ -401,7 +401,7 @@
         <p class="sop-why">A trail that only logs agreement proves nothing. The disagreements are the evidence.</p>
       </div>
     </div>
-    <p class="sop-foot">Structure of the package, not a screenshot &mdash; the field content is illustrative.</p>
+    <p class="sop-foot">The structure of the package. Field content is illustrative.</p>
   </div>
 </header>
 
@@ -503,7 +503,7 @@
     <div class="lead-grid">
       <div class="colhead"><h2>Win a narrow beachhead the incumbents ignore.</h2></div>
       <div>
-        <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2, not the live firehose of jurisdictional change. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
+        <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2. The live firehose of jurisdictional change is a different problem. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
         <p><strong>Beachhead: financial-crime &amp; AML change across three tier-1 regulators — AUSTRAC (AU), MAS (SG), and the CSSF (LU).</strong> Narrow by problem, not just geography: the AML and cross-border obligations every global fintech and bank answers to, where a missed change is a personal-liability event and even Western-built tools still bolt the mapping on by hand. The three deliberately span different instrument types — AUSTRAC's consolidated Rules, MAS's binding Notices, and the CSSF's circulars plus the EU's incoming single rulebook — so an engine that survives all three generalizes: jurisdiction four is content, not engineering. It's also where I have direct operating context in global payments. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
         <div class="bet" style="margin-top:30px">
           <div class="tag">Scope discipline — v1</div>
@@ -583,8 +583,8 @@
     <h2 style="max-width:16ch">Naming the failure modes is the senior move.</h2>
     <div class="rows">
       <div class="rowx"><div class="rl">Hallucinated mapping<span class="sev">Severity: high · quiet</span></div><p>Agent confidently links a change to the wrong control, or invents one. <b>Answer:</b> confidence scoring with mandatory human review below threshold; mappings are <b>suggestions</b> until signed, never auto-applied; every claim cited to retrievable source text.</p></div>
-      <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate is the headline number, not a footnote; periodic human spot-audits of "no impact" verdicts.</p></div>
-      <div class="rowx"><div class="rl">Stale control library<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's control inventory, which drifts. <b>Answer:</b> treat library hygiene as part of the product, not the customer's problem; flag controls with no recent activity; reconcile against drafted changes.</p></div>
+      <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate as the headline number; periodic human spot-audits of "no impact" verdicts.</p></div>
+      <div class="rowx"><div class="rl">Stale control library<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's control inventory, which drifts. <b>Answer:</b> treat library hygiene as part of the product, since the customer will not do it; flag controls with no recent activity; reconcile against drafted changes.</p></div>
       <div class="rowx"><div class="rl">Automation complacency<span class="sev">Severity: high · cultural</span></div><p>Reviewers rubber-stamp because the agent is "usually right." <b>Answer:</b> design review for friction where it matters — surface disagreement and low confidence prominently; sample-inject known cases to keep reviewers honest.</p></div>
       <div class="rowx"><div class="rl">We are governed AI<span class="sev">Severity: high</span></div><p>AML tooling sits largely outside the AI Act's high-risk list, but our customers' supervisors still expect model governance, explainability, and human oversight on anything touching a regulated decision. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and sold as a differentiator.</p></div>
     </div>
@@ -635,7 +635,7 @@
           <li><b>vs. Thomson Reuters / MetricStream:</b> they sell content into manual workflow; we close the loop to your controls, automatically.</li>
           <li><b>vs. Vanta / Drata:</b> they automate static frameworks; we track live jurisdictional change.</li>
           <li><b>Pricing:</b> seat + source-coverage tiers; priced to undercut enterprise incumbents and reach mid-market teams the incumbents can't serve economically.</li>
-          <li><b>Content moat answer:</b> partner for raw regulatory feeds early rather than rebuild a 750-regulator corpus; compete on the mapping intelligence, not the firehose.</li>
+          <li><b>Content moat answer:</b> partner for raw regulatory feeds early rather than rebuild a 750-regulator corpus; compete on the mapping intelligence. The firehose is a commodity.</li>
         </ul>
       </div>
     </div>
@@ -662,7 +662,7 @@
     <p class="eyebrow">11 · Reflection</p>
     <div class="reflect">
       <p class="q">If I could only validate one thing before writing a line of product code, it's whether mapping precision can hit a bar a CCO trusts.</p>
-      <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which controls a change touches. That's why Phase 0 is an offline eval against labeled data, not a prototype. The cheapest way to kill or confirm the whole thesis.</p>
+      <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which controls a change touches. That's why Phase 0 is an offline eval against labeled data. A prototype would prove nothing yet. The cheapest way to kill or confirm the whole thesis.</p>
       <p>The strategic bet I'd defend in a room: <strong>in a liability-bearing domain, restraint is the product.</strong> The temptation will always be to push the autonomy further to look more impressive. The discipline to stop the agent precisely at the four acts of judgment — and to make the stopping legible and auditable — is what earns a compliance officer's signature, and a signature is the only thing that makes any of this real.</p>
       <p style="margin-bottom:0;font-family:'Space Mono',monospace;font-size:14px;color:var(--ink-soft)">What this case study is meant to show: problem framing from real domain pain · a defensible scope decision under ambiguity · technical fluency without pretending to be the engineer · honest metrics including the ones that are hard to attribute · and a point of view on where AI should <em>not</em> act.</p>
     </div>

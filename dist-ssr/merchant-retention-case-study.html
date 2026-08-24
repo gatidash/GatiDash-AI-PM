@@ -428,10 +428,10 @@
     <div class="sec-head">
       <span class="sec-num">03</span>
       <div><span class="sec-eye">The 2026 architecture</span>
-      <h2 class="title">Five stages, on a loop, with memory — not a pipeline with an exit.</h2></div>
+      <h2 class="title">Five stages, on a loop, with memory. A pipeline runs once and forgets.</h2></div>
     </div>
     <div class="g2 grid">
-      <div class="card"><span class="idx">SENSE</span><h4>Continuous signal intake</h4><p>Volume deltas, ticket sentiment, feature-adoption stalls, plan-limit approach, failed payments — event-triggered, not a one-time snapshot at churn.</p></div>
+      <div class="card"><span class="idx">SENSE</span><h4>Continuous signal intake</h4><p>Volume deltas, ticket sentiment, feature-adoption stalls, plan-limit approach, failed payments — event-triggered. A snapshot taken at churn arrives too late to matter.</p></div>
       <div class="card"><span class="idx">REASON + PLAN</span><h4>Judgment over state and history</h4><p>The agent reasons over the merchant's current state <b>and its memory</b> of past interventions, then selects a next-best action — skipping tactics that already failed here.</p></div>
       <div class="card"><span class="idx">ACT</span><h4>A governed tool layer</h4><p>Draft &amp; send outreach, open a CSM task, fire an in-app nudge, flag an upsell, hold a call, propose a retention offer, or escalate. It <b>does</b> things.</p></div>
       <div class="card"><span class="idx">OBSERVE + ADJUST</span><h4>Close the loop</h4><p>Did volume recover? Did they re-engage? The outcome writes back to memory and reshapes the next decision. This is the single thing the 2024 version lacked.</p></div>
@@ -664,7 +664,7 @@
         "plan → personal check-in (auto) + propose fee waiver to lower cost-to-stay (gated: touches margin)"
       ],
       actions:[
-        {tier:"auto",title:"Draft personal check-in",desc:"Outreach that names the specific volume drop and the open ticket — not a generic ‘we miss you’.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
+        {tier:"auto",title:"Draft personal check-in",desc:"Outreach that names the specific volume drop and the open ticket. Generic ‘we miss you’ mail gets deleted.",meta:["cost <b>₹0</b>","reversible <b>yes</b>","tier <b>auto</b>"]},
         {tier:"gate",title:"Propose 1-month fee waiver",desc:"A ₹6,000 fee waiver to reduce cost-to-stay while the friction is resolved.",meta:["cost <b>₹6,000</b>","confidence <b>0.74</b>","expected save <b>~₹52k LTV</b>"],cost:6000}
       ],
       outcome:"With the waiver approved, the merchant replies within a day and 30-day volume recovers ~60%.",

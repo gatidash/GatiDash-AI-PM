@@ -100,7 +100,7 @@ const JUDGMENT = [
     title: 'When to let an agent decide, and when not to',
     tension: 'Agent throughput vs. accountability on policy-sensitive calls.',
     judgment:
-      'Automate the deterministic steps. For anything policy-sensitive, escalation is a designed product surface, not a backlog item.',
+      'Automate the deterministic steps. Anything policy-sensitive escalates. I build that path as a product surface, before the agents ship.',
     why: 'It kept agent speed high without quietly handing accountability to the model.',
   },
   {
@@ -178,7 +178,7 @@ const CAPABILITIES = [
   },
   {
     group: 'Adoption & enablement',
-    blurb: 'Getting an organisation to actually use what gets built — the half of a transformation that is not a platform problem.',
+    blurb: 'Getting an organisation to actually use what gets built — the half of a transformation that no platform solves for you.',
     items: [
       'CFO-sponsored AI transformation programme',
       '200+ colleagues trained',
@@ -250,7 +250,7 @@ const GOVERNANCE_TOOLKIT = [
     items: [
       { title: 'End-to-end traceability', body: 'Every decision is reproducible from input through model output to the final artifact.' },
       { title: 'Decision rationale capture', body: 'Agent reasoning preserved so reviewers and regulators can follow the logic.' },
-      { title: 'Audit-ready artifacts', body: 'Outputs designed to be inspected, not just generated.' },
+      { title: 'Audit-ready artifacts', body: 'Outputs built to be inspected later, by someone who was not in the room.' },
       { title: 'Explainability surfaces', body: 'Per-decision context exposed where review, dispute, or escalation happen.' },
     ],
   },
@@ -362,9 +362,9 @@ const CASE_SHIFT = {
 
 const POV_IDEAS = [
   'Reliability and traceability earn enterprise trust. Benchmarks do not.',
-  'In regulated work, governance is part of the product spec, not a launch-gate afterthought.',
+  'In regulated work, governance belongs in the product spec. Bolt it on at the launch gate and you will rebuild.',
   'Human review is a designed surface. If you discover it after launch as a queue, you designed it wrong.',
-  'LLM systems need schema validation, retries, and failure paths from the first call, not the first incident.',
+  'LLM systems need schema validation, retries and failure paths from the first call. Most teams add them after the first incident instead.',
   'The most valuable AI products improve operating discipline. Productivity gains follow.',
 ]
 
@@ -517,7 +517,7 @@ function Proof({ level, className = '' }) {
 
 const PROOF_TITLE = {
   Shipped: 'Measured in production.',
-  Modeled: 'A projection built on real data — not a measured outcome.',
+  Modeled: 'A projection built on real data. Nobody measured this one.',
   Concept: 'Illustrative. This system was never built.',
 }
 
@@ -1491,7 +1491,7 @@ function Blogs({ onOpen }) {
           Field notes on AI.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Essays on where AI product work is actually heading — written for people who have to ship it under governance, not just talk about it.
+          Essays on where AI product work is actually heading — written for the people who have to ship it under governance.
         </p>
 
         <div className="mt-10">
@@ -1624,7 +1624,7 @@ function Footer() {
             <div>
               <dt><Proof level="Modeled" /></dt>
               <dd className="mt-2 text-sm text-ink-soft leading-relaxed">
-                A projection built on real data. Never a measured outcome.
+                A projection built on real data. Nobody measured this one.
               </dd>
             </div>
             <div>
