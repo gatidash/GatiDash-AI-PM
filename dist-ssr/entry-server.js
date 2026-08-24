@@ -472,7 +472,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
         {
           className: "mt-6 text-center text-[14px] sm:text-[15px] leading-relaxed max-w-2xl",
           style: { color: isDark ? "rgba(255,255,255,0.5)" : "#6B6859" },
-          children: "Refunds, pricing, merges to main — anything with a blast radius. I've shipped it where the blast radius is a regulator: five jurisdictions in production, and four artifacts below you can check line by line."
+          children: "The first thing I found putting an agent next to a human process: the reviewers didn't agree with each other either. That number is the ceiling on anything you build on top of them. Five jurisdictions in production, and four artifacts below you can check line by line."
         }
       ),
       workedWith.length > 0 && /* @__PURE__ */ jsxs("div", { className: "hero-proof mt-12 sm:mt-14 w-full max-w-4xl", children: [
@@ -1106,9 +1106,9 @@ const CASE_STUDIES = [
     excerpt: "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
     href: "/merchant-retention-case-study.html",
     tags: [
-      { t: "−60% churn — someone else’s benchmark", proof: "Concept" },
-      { t: "+25–40% LTV — someone else’s benchmark", proof: "Concept" },
-      { t: "3 autonomy tiers", proof: "Concept" }
+      { t: "3 autonomy tiers", proof: "Concept" },
+      { t: "Synthetic merchants", proof: "Concept" },
+      { t: "Never built", proof: "Concept" }
     ],
     kind: "Concept"
   }
@@ -1738,10 +1738,10 @@ function Contact() {
       /* @__PURE__ */ jsxs("div", { className: "lg:col-span-7", children: [
         /* @__PURE__ */ jsxs("p", { className: "inline-flex items-center gap-2 text-sm text-accent mb-5", children: [
           /* @__PURE__ */ jsx("span", { className: "h-1.5 w-1.5 rounded-full bg-accent" }),
-          "Currently open to AI product leadership roles"
+          "Open to work where agents take consequential actions"
         ] }),
         /* @__PURE__ */ jsx("h2", { className: "display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05]", children: "Let's talk." }),
-        /* @__PURE__ */ jsx("p", { className: "mt-8 text-lg sm:text-xl text-ink leading-relaxed max-w-prose-tight font-serif", children: "If you're looking to drive an AI transformation — especially where it has to clear an audit, not just a demo — I'm happy to discuss." }),
+        /* @__PURE__ */ jsx("p", { className: "mt-8 text-lg sm:text-xl text-ink leading-relaxed max-w-prose-tight font-serif", children: "If you are putting agents somewhere the mistakes are expensive, I have done that and I have the scars to show for it." }),
         /* @__PURE__ */ jsx("p", { className: "mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight", children: "The work generalises past compliance. If you are letting an agent take actions that are expensive to undo — refunds, pricing, merges to main, anything with a blast radius — the problems are the same ones. Those are my favourite conversations." }),
         /* @__PURE__ */ jsx("div", { className: "mt-8 flex flex-wrap items-center gap-x-8 gap-y-4", children: /* @__PURE__ */ jsx("a", { href: `mailto:${LINKS.email}`, className: "btn-quiet font-medium", children: "Start a conversation" }) })
       ] }),

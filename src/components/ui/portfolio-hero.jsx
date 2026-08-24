@@ -308,9 +308,10 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
           className="mt-6 text-center text-[14px] sm:text-[15px] leading-relaxed max-w-2xl"
           style={{ color: isDark ? 'rgba(255,255,255,0.5)' : '#6B6859' }}
         >
-          Refunds, pricing, merges to main — anything with a blast radius. I've
-          shipped it where the blast radius is a regulator: five jurisdictions in
-          production, and four artifacts below you can check line by line.
+          The first thing I found putting an agent next to a human process: the
+          reviewers didn't agree with each other either. That number is the ceiling on
+          anything you build on top of them. Five jurisdictions in production, and four
+          artifacts below you can check line by line.
         </p>
 
         {/* Proof strip — the names carry more weight up here than they did

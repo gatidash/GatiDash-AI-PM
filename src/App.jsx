@@ -405,9 +405,9 @@ const CASE_STUDIES = [
       "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
     href: '/merchant-retention-case-study.html',
     tags: [
-      { t: '−60% churn — someone else’s benchmark', proof: 'Concept' },
-      { t: '+25–40% LTV — someone else’s benchmark', proof: 'Concept' },
       { t: '3 autonomy tiers', proof: 'Concept' },
+      { t: 'Synthetic merchants', proof: 'Concept' },
+      { t: 'Never built', proof: 'Concept' },
     ],
     kind: 'Concept',
   },
@@ -617,7 +617,7 @@ function Profile() {
             <p className="eyebrow mb-6">AI Product and Transformation Leader  ·  PayPal</p>
             <p className="inline-flex items-center gap-2 text-sm text-accent mb-7">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Currently open to AI product leadership roles
+              Open to work where agents take consequential actions
             </p>
 
             <h1 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] max-w-prose-wide">
@@ -1502,13 +1502,14 @@ function Contact() {
           <div className="lg:col-span-7">
             <p className="inline-flex items-center gap-2 text-sm text-accent mb-5">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Currently open to AI product leadership roles
+              Open to work where agents take consequential actions
             </p>
             <h2 className="display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
               Let&apos;s talk.
             </h2>
             <p className="mt-8 text-lg sm:text-xl text-ink leading-relaxed max-w-prose-tight font-serif">
-              If you&apos;re looking to drive an AI transformation — especially where it has to clear an audit, not just a demo — I&apos;m happy to discuss.
+              If you are putting agents somewhere the mistakes are expensive, I have
+              done that and I have the scars to show for it.
             </p>
             <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight">
               The work generalises past compliance. If you are letting an agent take actions that are expensive to undo — refunds, pricing, merges to main, anything with a blast radius — the problems are the same ones. Those are my favourite conversations.
