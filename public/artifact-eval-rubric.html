@@ -232,6 +232,7 @@ Design notes:
 
 <span class="b">import</span> json
 <span class="b">import</span> math
+<span class="b">import</span> random
 <span class="b">from</span> collections <span class="b">import</span> Counter
 <span class="b">from</span> dataclasses <span class="b">import</span> dataclass
 <span class="b">from</span> pathlib <span class="b">import</span> Path
@@ -278,6 +279,37 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
     <span class="b">if</span> math.isclose(expected, <span class="n">1.0</span>):
         <span class="b">return</span> <span class="n">1.0</span>
     <span class="b">return</span> (observed - expected) / (<span class="n">1.0</span> - expected)
+
+
+<span class="b">def</span> kappa_lower_bound(rater_a: Sequence[str], rater_b: Sequence[str],
+                      draws: int = <span class="n">2000</span>, seed: int = <span class="n">20260101</span>) -&gt; float:
+    <span class="s">&quot;&quot;&quot;Lower bound of the 95% bootstrap interval for Cohen&#x27;s kappa.
+
+    Kappa is not a proportion, so the Wilson wrapper does not apply -- but
+    that is an argument for a different interval, not for no interval. Gating
+    the one dimension that invalidates every other number on a bare point
+    estimate would be exactly the mistake this rubric exists to prevent.
+    Resampling items with replacement gives a defensible floor.
+    &quot;&quot;&quot;</span>
+    <span class="b">if</span> len(rater_a) != len(rater_b):
+        <span class="b">raise</span> ValueError(<span class="s">&quot;rater vectors must be the same length&quot;</span>)
+    n = len(rater_a)
+    <span class="b">if</span> n == <span class="n">0</span>:
+        <span class="b">raise</span> ValueError(<span class="s">&quot;no items to score&quot;</span>)
+    rng = random.Random(seed)
+    idx = range(n)
+    draws_out: list[float] = []
+    <span class="b">for</span> _ <span class="b">in</span> range(draws):
+        pick = [rng.choice(idx) <span class="b">for</span> _ <span class="b">in</span> idx]
+        <span class="b">try</span>:
+            draws_out.append(cohens_kappa([rater_a[i] <span class="b">for</span> i <span class="b">in</span> pick],
+                                          [rater_b[i] <span class="b">for</span> i <span class="b">in</span> pick]))
+        <span class="b">except</span> ValueError:
+            <span class="b">continue</span>
+    <span class="b">if</span> <span class="b">not</span> draws_out:
+        <span class="b">return</span> <span class="n">0.0</span>
+    draws_out.sort()
+    <span class="b">return</span> draws_out[int(<span class="n">0.025</span> * len(draws_out))]
 
 
 <span class="c"># --------------------------------------------------------------------- metrics</span>
@@ -429,8 +461,10 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
     sources = json.loads(Path(<span class="s">&quot;evals/sources.json&quot;</span>).read_text())
 
     precision, recall = control_mapping(items)
-    kappa_value = cohens_kappa([i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_a_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items],
-                               [i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_b_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items])
+    verdicts_a = [i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_a_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items]
+    verdicts_b = [i[<span class="s">&quot;gold&quot;</span>][<span class="s">&quot;reviewer_b_verdict&quot;</span>] <span class="b">for</span> i <span class="b">in</span> items]
+    kappa_value = cohens_kappa(verdicts_a, verdicts_b)
+    kappa_lb = kappa_lower_bound(verdicts_a, verdicts_b)
 
     results = [
         evaluate(<span class="s">&quot;citation_fidelity&quot;</span>, citation_fidelity(items, sources)),
@@ -439,8 +473,8 @@ DIMS = {d[<span class="s">&quot;key&quot;</span>]: d <span class="b">for</span> 
         evaluate(<span class="s">&quot;abstention_recall&quot;</span>, abstention_recall(items, strict=<span class="b">True</span>)),
         evaluate(<span class="s">&quot;false_abstention_rate&quot;</span>, false_abstention(items)),
         evaluate(<span class="s">&quot;overreach_rate&quot;</span>, overreach(items)),
-        <span class="c"># kappa is not a proportion, so it bypasses the Wilson wrapper</span>
-        DimensionResult(<span class="s">&quot;reviewer_kappa&quot;</span>, kappa_value, kappa_value,
+        <span class="c"># kappa gets a bootstrap interval rather than Wilson -- see kappa_lower_bound</span>
+        DimensionResult(<span class="s">&quot;reviewer_kappa&quot;</span>, kappa_value, kappa_lb,
                         DIMS[<span class="s">&quot;reviewer_kappa&quot;</span>][<span class="s">&quot;threshold&quot;</span>], <span class="s">&quot;min&quot;</span>, <span class="b">True</span>, len(items)),
     ]
 

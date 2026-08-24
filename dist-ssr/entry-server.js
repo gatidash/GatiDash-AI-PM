@@ -395,7 +395,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
         /* @__PURE__ */ jsx(
           BlurText,
           {
-            text: "AI that clears an audit, not just a demo.",
+            text: "Agents that take actions you can't undo.",
             delay: 80,
             animateBy: "words",
             direction: "top",
@@ -470,9 +470,9 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
       /* @__PURE__ */ jsx(
         "p",
         {
-          className: "mt-6 text-center text-[13px] sm:text-sm leading-relaxed max-w-lg",
+          className: "mt-6 text-center text-[14px] sm:text-[15px] leading-relaxed max-w-2xl",
           style: { color: isDark ? "rgba(255,255,255,0.5)" : "#6B6859" },
-          children: "Five jurisdictions in production. 200+ people trained to use it. Four artifacts below you can check line by line."
+          children: "Refunds, pricing, merges to main — anything with a blast radius. I've shipped it where the blast radius is a regulator: five jurisdictions in production, and four artifacts below you can check line by line."
         }
       ),
       workedWith.length > 0 && /* @__PURE__ */ jsxs("div", { className: "hero-proof mt-12 sm:mt-14 w-full max-w-4xl", children: [
@@ -861,7 +861,6 @@ const NAV = [
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" }
 ];
-const WORKED_WITH = ["PayPal", "Venmo", "Xoom", "Barclays"];
 const WORK = [
   {
     n: "01",
@@ -927,10 +926,10 @@ const JUDGMENT = [
   },
   {
     n: "03",
-    title: "Build the AI platform before the third AI feature",
-    tension: "Pressure to ship the next AI feature vs. discipline to build shared infrastructure.",
-    judgment: "Invest in shared orchestration and eval infrastructure before the third feature. Otherwise you end up with three prompt-handling stacks and nobody who can debug any of them.",
-    why: "The teams that scale AI in production are the ones that did this once. The teams that ship demos are the ones that did not."
+    title: "Build the platform before the third feature",
+    tension: "Every AI feature wants its own scaffolding. Nobody wants to fund the scaffolding.",
+    judgment: "I build the shared layer on the second feature, not the fifth. Evals, validation, the human override path, lineage — once, in the primitives, so the next team inherits them instead of rebuilding them badly.",
+    why: "The agentic layer I shipped only worked because a unified reporting platform already existed underneath it. Pointed at the mess that came before, the same agents would have produced a good demo and nothing an auditor would accept."
   },
   {
     n: "04",
@@ -938,20 +937,6 @@ const JUDGMENT = [
     tension: "Business urgency to ship AI vs. jurisdiction-specific compliance work.",
     judgment: "Roll AI out in markets where the governance work is already done, not in the markets where it would be the hardest to retrofit.",
     why: "It avoids the post-launch retrofits that quietly consume the AI engineering budget for years."
-  },
-  {
-    n: "05",
-    title: "Governance is not friction",
-    tension: "Treating compliance as a brake on AI ambition.",
-    judgment: "Lineage, evals, and override paths are part of the product. Built once, they are how the next AI feature ships faster, not slower.",
-    why: "I have watched the same governance investment cost six months on the first feature and save twelve on the third."
-  },
-  {
-    n: "06",
-    title: "Boring data work first",
-    tension: "AI roadmap ambition vs. messy underlying data.",
-    judgment: "Fix lineage, validation, and ownership of the data first. Then build the AI on top. The reverse order has cost me more product wins than any model choice ever has.",
-    why: "Every AI feature that lasted in production sat on clean data work. The ones that did not, did not last."
   }
 ];
 const CAPABILITIES = [
@@ -1076,23 +1061,6 @@ const POV_IDEAS = [
   "LLM systems need schema validation, retries and failure paths from the first call. Most teams add them after the first incident instead.",
   "The most valuable AI products improve operating discipline. Productivity gains follow."
 ];
-const LEADERSHIP = [
-  {
-    n: "01",
-    title: "Simplicity is a strategic advantage",
-    body: "Complexity rarely comes from missing technology or talent. It comes from fragmented processes, fuzzy ownership, and over-engineering. I find the root problem, then build for it."
-  },
-  {
-    n: "02",
-    title: "Innovation is won in the operating layer",
-    body: "It isn’t decided by the small group building the cutting edge. It’s decided by everyone else, where alignment and execution turn an idea into something real."
-  },
-  {
-    n: "03",
-    title: "Precision over volume",
-    body: "Real transformation isn’t doing more. It’s doing the few things that matter, properly."
-  }
-];
 const BLOGS = [
   {
     title: "From Parrot to Colleague",
@@ -1126,7 +1094,7 @@ const CASE_STUDIES = [
     href: "/meridian-case-study.html",
     tags: [
       { t: "AUSTRAC / MAS / CSSF", proof: "Concept" },
-      { t: "200+ changes a day", proof: "Concept" },
+      { t: "~150 alerts a day", proof: "Concept" },
       { t: "Never built", proof: "Concept" }
     ],
     kind: "Concept"
@@ -1341,7 +1309,7 @@ function SelectedWork({ i, onOpen }) {
   return /* @__PURE__ */ jsx("section", { id: "work", className: "py-14 sm:py-20 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
     /* @__PURE__ */ jsx(SectionLabel, { n: "01", children: "Work" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]", children: "Three pieces of work that explain how I think." }),
-    /* @__PURE__ */ jsx("p", { className: "mt-3 text-base text-smoke max-w-2xl leading-relaxed", children: "Anonymized where it has to be. The numbers are not. Each case names what shipped, what it took, and what I would tell the next team." }),
+    /* @__PURE__ */ jsx("p", { className: "mt-3 text-base text-smoke max-w-2xl leading-relaxed", children: "AI that clears an audit, not just a demo — that is the hardest version of the problem, and it is the one I have shipped. Anonymized where it has to be. Each case names what shipped, what it took, and what I would tell the next team." }),
     /* @__PURE__ */ jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsx(
       CardCarousel,
       {
@@ -1479,15 +1447,7 @@ function About({ onSelectWork }) {
       /* @__PURE__ */ jsx("p", { className: "mt-6 text-lg text-ink-soft leading-relaxed max-w-prose-wide", children: "Shadow mode was supposed to tell me how good the agent was. It told me something more useful. Reviewers had been resolving the same ambiguous obligations different ways for years, and nobody had noticed, because nothing had ever put their answers side by side. Some of the best output from that phase was written guidance for people rather than changes to the model." }),
       /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-ink-soft leading-relaxed max-w-prose-wide", children: "It changed how I start. I now measure how much the humans agree before I build anything, because that number is the ceiling on what any agent can score. It is why reviewer agreement is a blocking gate in my eval rubric, and why I think AI in regulated work pays first by measuring the process it was hired to replace." })
     ] }),
-    /* @__PURE__ */ jsx(CareerArc, { onSelectWork }),
-    /* @__PURE__ */ jsxs("div", { className: "mt-16 sm:mt-20 border-t border-sand pt-12", children: [
-      /* @__PURE__ */ jsx("div", { className: "eyebrow mb-8", children: "How I work" }),
-      /* @__PURE__ */ jsx("div", { className: "grid gap-x-12 gap-y-9 md:grid-cols-3", children: LEADERSHIP.map((pr) => /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("span", { className: "font-serif text-2xl text-accent leading-none", children: pr.n }),
-        /* @__PURE__ */ jsx("h3", { className: "display-serif text-lg text-ink leading-snug mt-3", children: pr.title }),
-        /* @__PURE__ */ jsx("p", { className: "mt-3 text-[15px] text-ink-soft leading-relaxed", children: pr.body })
-      ] }, pr.n)) })
-    ] })
+    /* @__PURE__ */ jsx(CareerArc, { onSelectWork })
   ] }) });
 }
 function CareerArc({ onSelectWork }) {
@@ -1862,7 +1822,7 @@ function Footer() {
           /* @__PURE__ */ jsx("dd", { className: "mt-2 text-sm text-ink-soft leading-relaxed", children: "Illustrative. The system was designed but never built." })
         ] })
       ] }),
-      /* @__PURE__ */ jsx("p", { className: "mt-6 text-sm text-smoke max-w-2xl leading-relaxed", children: "Figures from my time at PayPal come from my résumé and from what I can say publicly. Where I could not substantiate a number, I removed it rather than round it." })
+      /* @__PURE__ */ jsx("p", { className: "mt-6 text-sm text-smoke max-w-2xl leading-relaxed", children: "Figures from my time at PayPal come from my résumé and from what I can say publicly. They are point estimates without intervals, which is a weaker standard than the one I hold my own evals to — I can give you the baseline, the window and the denominator on any of them in a conversation, but I am not going to publish numbers I cannot show the working for. Where I could not substantiate a figure at all, I removed it rather than round it." })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4", children: [
       /* @__PURE__ */ jsx("p", { className: "text-sm text-smoke max-w-xl leading-relaxed", children: "Gatikrishna Dash — AI and platform product leadership in regulated industries." }),
@@ -1924,7 +1884,7 @@ function App() {
     /* @__PURE__ */ jsxs("div", { className: "relative z-10", children: [
       heroVariant !== "portfolio" && /* @__PURE__ */ jsx(NavBar, { heroVariant }),
       /* @__PURE__ */ jsxs("main", { children: [
-        heroVariant === "portfolio" ? /* @__PURE__ */ jsx(PortfolioHero, { theme, onToggleTheme: toggleTheme, workedWith: WORKED_WITH }) : heroVariant === "light" ? /* @__PURE__ */ jsx(HeroLight, {}) : /* @__PURE__ */ jsx(HeroDark, {}),
+        heroVariant === "portfolio" ? /* @__PURE__ */ jsx(PortfolioHero, { theme, onToggleTheme: toggleTheme }) : heroVariant === "light" ? /* @__PURE__ */ jsx(HeroLight, {}) : /* @__PURE__ */ jsx(HeroDark, {}),
         /* @__PURE__ */ jsx(SelectedWork, { i: workI, onOpen: setOpenWork }),
         /* @__PURE__ */ jsx(Artifacts, {}),
         /* @__PURE__ */ jsx(Judgment, {}),

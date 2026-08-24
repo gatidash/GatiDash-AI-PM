@@ -32,7 +32,6 @@ const PROOF_LINES = [
 
 
 // Typographic wordmark strip (21st "logo cloud marquee" pattern)
-const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Barclays']
 
 const WORK = [
   {
@@ -110,15 +109,16 @@ const JUDGMENT = [
     judgment:
       'Every agent call emits a JSON-schema-valid object. Validation runs before the result touches downstream code. Retries are bounded.',
     why: 'It is the difference between a prototype the team can demo and a system the regulator can inspect.',
-  },
-  {
+  },  {
     n: '03',
-    title: 'Build the AI platform before the third AI feature',
-    tension: 'Pressure to ship the next AI feature vs. discipline to build shared infrastructure.',
+    title: 'Build the platform before the third feature',
+    tension: 'Every AI feature wants its own scaffolding. Nobody wants to fund the scaffolding.',
     judgment:
-      'Invest in shared orchestration and eval infrastructure before the third feature. Otherwise you end up with three prompt-handling stacks and nobody who can debug any of them.',
-    why: 'The teams that scale AI in production are the ones that did this once. The teams that ship demos are the ones that did not.',
+      'I build the shared layer on the second feature, not the fifth. Evals, validation, the human override path, lineage — once, in the primitives, so the next team inherits them instead of rebuilding them badly.',
+    why:
+      'The agentic layer I shipped only worked because a unified reporting platform already existed underneath it. Pointed at the mess that came before, the same agents would have produced a good demo and nothing an auditor would accept.',
   },
+
   {
     n: '04',
     title: 'Sequence around what can be governed',
@@ -126,22 +126,6 @@ const JUDGMENT = [
     judgment:
       'Roll AI out in markets where the governance work is already done, not in the markets where it would be the hardest to retrofit.',
     why: 'It avoids the post-launch retrofits that quietly consume the AI engineering budget for years.',
-  },
-  {
-    n: '05',
-    title: 'Governance is not friction',
-    tension: 'Treating compliance as a brake on AI ambition.',
-    judgment:
-      'Lineage, evals, and override paths are part of the product. Built once, they are how the next AI feature ships faster, not slower.',
-    why: 'I have watched the same governance investment cost six months on the first feature and save twelve on the third.',
-  },
-  {
-    n: '06',
-    title: 'Boring data work first',
-    tension: 'AI roadmap ambition vs. messy underlying data.',
-    judgment:
-      'Fix lineage, validation, and ownership of the data first. Then build the AI on top. The reverse order has cost me more product wins than any model choice ever has.',
-    why: 'Every AI feature that lasted in production sat on clean data work. The ones that did not, did not last.',
   },
 ]
 
@@ -368,23 +352,6 @@ const POV_IDEAS = [
   'The most valuable AI products improve operating discipline. Productivity gains follow.',
 ]
 
-const LEADERSHIP = [
-  {
-    n: '01',
-    title: 'Simplicity is a strategic advantage',
-    body: 'Complexity rarely comes from missing technology or talent. It comes from fragmented processes, fuzzy ownership, and over-engineering. I find the root problem, then build for it.',
-  },
-  {
-    n: '02',
-    title: 'Innovation is won in the operating layer',
-    body: 'It isn’t decided by the small group building the cutting edge. It’s decided by everyone else, where alignment and execution turn an idea into something real.',
-  },
-  {
-    n: '03',
-    title: 'Precision over volume',
-    body: 'Real transformation isn’t doing more. It’s doing the few things that matter, properly.',
-  },
-]
 
 
 const BLOGS = [
@@ -425,7 +392,7 @@ const CASE_STUDIES = [
     href: '/meridian-case-study.html',
     tags: [
       { t: 'AUSTRAC / MAS / CSSF', proof: 'Concept' },
-      { t: '200+ changes a day', proof: 'Concept' },
+      { t: '~150 alerts a day', proof: 'Concept' },
       { t: 'Never built', proof: 'Concept' },
     ],
     kind: 'Concept',
@@ -865,7 +832,10 @@ function SelectedWork({ i, onOpen }) {
           Three pieces of work that explain how I think.
         </h2>
         <p className="mt-3 text-base text-smoke max-w-2xl leading-relaxed">
-          Anonymized where it has to be. The numbers are not. Each case names what shipped, what it took, and what I would tell the next team.
+          AI that clears an audit, not just a demo — that is the hardest version of
+          the problem, and it is the one I have shipped. Anonymized where it has to
+          be. Each case names what shipped, what it took, and what I would tell the
+          next team.
         </p>
 
         <div className="mt-8">
@@ -1148,19 +1118,6 @@ function About({ onSelectWork }) {
         </div>
 
         <CareerArc onSelectWork={onSelectWork} />
-
-        <div className="mt-16 sm:mt-20 border-t border-sand pt-12">
-          <div className="eyebrow mb-8">How I work</div>
-          <div className="grid gap-x-12 gap-y-9 md:grid-cols-3">
-            {LEADERSHIP.map((pr) => (
-              <div key={pr.n}>
-                <span className="font-serif text-2xl text-accent leading-none">{pr.n}</span>
-                <h3 className="display-serif text-lg text-ink leading-snug mt-3">{pr.title}</h3>
-                <p className="mt-3 text-[15px] text-ink-soft leading-relaxed">{pr.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </Container>
     </section>
   )
@@ -1657,8 +1614,12 @@ function Footer() {
             </div>
           </dl>
           <p className="mt-6 text-sm text-smoke max-w-2xl leading-relaxed">
-            Figures from my time at PayPal come from my résumé and from what I can say publicly.
-            Where I could not substantiate a number, I removed it rather than round it.
+            Figures from my time at PayPal come from my résumé and from what I can say
+            publicly. They are point estimates without intervals, which is a weaker standard
+            than the one I hold my own evals to — I can give you the baseline, the window and
+            the denominator on any of them in a conversation, but I am not going to publish
+            numbers I cannot show the working for. Where I could not substantiate a figure at
+            all, I removed it rather than round it.
           </p>
         </div>
 
@@ -1733,7 +1694,7 @@ export default function App() {
         {heroVariant !== 'portfolio' && <NavBar heroVariant={heroVariant} />}
         <main>
           {heroVariant === 'portfolio' ? (
-            <PortfolioHero theme={theme} onToggleTheme={toggleTheme} workedWith={WORKED_WITH} />
+            <PortfolioHero theme={theme} onToggleTheme={toggleTheme} />
           ) : heroVariant === 'light' ? (
             <HeroLight />
           ) : (

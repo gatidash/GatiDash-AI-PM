@@ -247,7 +247,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             AI Product &amp; Transformation Leader · PayPal
           </span>
           <BlurText
-            text="AI that clears an audit, not just a demo."
+            text="Agents that take actions you can't undo."
             delay={80}
             animateBy="words"
             direction="top"
@@ -305,11 +305,12 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
         </div>
 
         <p
-          className="mt-6 text-center text-[13px] sm:text-sm leading-relaxed max-w-lg"
+          className="mt-6 text-center text-[14px] sm:text-[15px] leading-relaxed max-w-2xl"
           style={{ color: isDark ? 'rgba(255,255,255,0.5)' : '#6B6859' }}
         >
-          Five jurisdictions in production. 200+ people trained to use it.
-          Four artifacts below you can check line by line.
+          Refunds, pricing, merges to main — anything with a blast radius. I've
+          shipped it where the blast radius is a regulator: five jurisdictions in
+          production, and four artifacts below you can check line by line.
         </p>
 
         {/* Proof strip — the names carry more weight up here than they did

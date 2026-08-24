@@ -229,6 +229,25 @@ INVARIANTS - checked in code at policy load, not left to reviewers
   I5  Approval is bound to a payload hash. If the agent re-derives the action,
       the old approval is void.
   I6  A tier may be raised at runtime. It may never be lowered at runtime.
+
+  THE SAME TABLE, OUTSIDE COMPLIANCE
+  Nothing above is specific to a regulator. The tier is set by what the action
+  costs when it is wrong and how hard it is to reverse, which is a property of
+  the action, not of the industry. The same policy, three non-financial classes:
+
+  ACTION CLASS                 REVERSIBLE?      TIER   WHY
+  support.issue_refund         Yes, at cost     T1     Money moves. Cheap to
+                                                       reverse, annoying at scale.
+  deploy.merge_to_main         Yes, messily     T2     Revert exists; the blast
+                                                       radius between merge and
+                                                       revert does not.
+  infra.scale_down_cluster     No               T3     Capacity you gave back is
+                                                       not there when load returns.
+  content.remove_account       No, practically  T3     Reinstatement does not undo
+                                                       the hours it was down.
+
+  If you are letting an agent take actions that are expensive to undo, this is
+  the table. Swap the action classes for yours and the reasoning survives.
 </code></pre>
 </div><div class="code-wrap">
   <div class="code-head">
@@ -475,6 +494,13 @@ POLICY: dict[str, Any] = json.loads(Path(<span class="s">&quot;policy/hitl_routi
 
 TIER_ORDER = [<span class="s">&quot;T0&quot;</span>, <span class="s">&quot;T1&quot;</span>, <span class="s">&quot;T2&quot;</span>, <span class="s">&quot;T3&quot;</span>]
 LEGAL_TIMEOUT_ACTIONS = {<span class="s">&quot;park&quot;</span>, <span class="s">&quot;escalate&quot;</span>, <span class="s">&quot;cancel&quot;</span>, <span class="s">&quot;suspend&quot;</span>, <span class="b">None</span>}
+
+<span class="c"># Timeout behaviours ranked by how much they restrain the system. An override</span>
+<span class="c"># may make the failure path stricter. It may never make it weaker -- that is</span>
+<span class="c"># I6 applied to the timeout, and it is a real bug if you skip it: an override</span>
+<span class="c"># that raises the tier while quietly relaxing on_timeout hands you a stricter</span>
+<span class="c"># approver and a looser failure mode.</span>
+TIMEOUT_SEVERITY = {<span class="b">None</span>: <span class="n">0</span>, <span class="s">&quot;escalate&quot;</span>: <span class="n">1</span>, <span class="s">&quot;park&quot;</span>: <span class="n">2</span>, <span class="s">&quot;cancel&quot;</span>: <span class="n">3</span>, <span class="s">&quot;suspend&quot;</span>: <span class="n">4</span>}
 GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <span class="s">&quot;merchant.apply&quot;</span>, <span class="s">&quot;merchant.change&quot;</span>,
                           <span class="s">&quot;merchant.pause&quot;</span>, <span class="s">&quot;meridian.attach&quot;</span>, <span class="s">&quot;meridian.decommission&quot;</span>,
                           <span class="s">&quot;meridian.prepare&quot;</span>)
@@ -492,6 +518,10 @@ GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <spa
     <span class="b">return</span> a <span class="b">if</span> _rank(a) &gt;= _rank(b) <span class="b">else</span> b
 
 
+<span class="b">def</span> _strictest_timeout(a: str | <span class="b">None</span>, b: str | <span class="b">None</span>) -&gt; str | <span class="b">None</span>:
+    <span class="b">return</span> a <span class="b">if</span> TIMEOUT_SEVERITY[a] &gt;= TIMEOUT_SEVERITY[b] <span class="b">else</span> b
+
+
 <span class="b">def</span> validate_policy(policy: dict) -&gt; <span class="b">None</span>:
     <span class="s">&quot;&quot;&quot;I2, I1 and I3 are enforced here, at load, not by reviewers at 2am.&quot;&quot;&quot;</span>
     <span class="b">for</span> tier_id, tier <span class="b">in</span> policy[<span class="s">&quot;tiers&quot;</span>].items():
@@ -500,6 +530,9 @@ GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <spa
         <span class="b">for</span> step <span class="b">in</span> tier.get(<span class="s">&quot;timeout_ladder&quot;</span>, []):
             <span class="b">if</span> step[<span class="s">&quot;action&quot;</span>] <span class="b">in</span> {<span class="s">&quot;approve&quot;</span>, <span class="s">&quot;auto_approve&quot;</span>, <span class="s">&quot;proceed&quot;</span>, <span class="s">&quot;execute&quot;</span>}:
                 <span class="b">raise</span> PolicyError(f<span class="s">&quot;{tier_id}: timeout ladder step {step[&#x27;action&#x27;]!r} would fail open&quot;</span>)
+    <span class="b">for</span> ov <span class="b">in</span> policy.get(<span class="s">&quot;overrides&quot;</span>, []):
+        <span class="b">if</span> ov.get(<span class="s">&quot;on_timeout&quot;</span>) <span class="b">not</span> <span class="b">in</span> LEGAL_TIMEOUT_ACTIONS:
+            <span class="b">raise</span> PolicyError(f<span class="s">&quot;override {ov[&#x27;id&#x27;]}: on_timeout={ov.get(&#x27;on_timeout&#x27;)!r} would fail open&quot;</span>)
     <span class="b">for</span> name, spec <span class="b">in</span> policy[<span class="s">&quot;action_classes&quot;</span>].items():
         <span class="b">if</span> name.startswith(GATED_CLASSES_PREFIXES):
             tier = policy[<span class="s">&quot;tiers&quot;</span>][spec[<span class="s">&quot;tier&quot;</span>]]
@@ -563,8 +596,14 @@ GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <spa
         view.extend(ov.get(<span class="s">&quot;reviewer_view&quot;</span>, []))
 
     t = policy[<span class="s">&quot;tiers&quot;</span>][tier]
-    override_timeout = next((ov.get(<span class="s">&quot;on_timeout&quot;</span>) <span class="b">for</span> ov <span class="b">in</span> policy[<span class="s">&quot;overrides&quot;</span>]
-                             <span class="b">if</span> ov[<span class="s">&quot;id&quot;</span>] <span class="b">in</span> applied <span class="b">and</span> ov.get(<span class="s">&quot;on_timeout&quot;</span>)), <span class="b">None</span>)
+
+    <span class="c"># Take the strictest timeout on the table, never the last one matched.</span>
+    <span class="c"># `override or tier` looks harmless and is not: it lets an override that</span>
+    <span class="c"># raised the tier hand back a weaker failure path than the tier it landed in.</span>
+    on_timeout = t.get(<span class="s">&quot;on_timeout&quot;</span>)
+    <span class="b">for</span> ov <span class="b">in</span> policy[<span class="s">&quot;overrides&quot;</span>]:
+        <span class="b">if</span> ov[<span class="s">&quot;id&quot;</span>] <span class="b">in</span> applied <span class="b">and</span> ov.get(<span class="s">&quot;on_timeout&quot;</span>):
+            on_timeout = _strictest_timeout(on_timeout, ov[<span class="s">&quot;on_timeout&quot;</span>])
 
     <span class="b">return</span> Routing(
         tier=tier,
@@ -572,7 +611,7 @@ GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <spa
         approvals_required=t[<span class="s">&quot;approvals_required&quot;</span>],
         approver_role=t.get(<span class="s">&quot;approver_role&quot;</span>),
         sla_minutes=t.get(<span class="s">&quot;sla_minutes&quot;</span>),
-        on_timeout=override_timeout <span class="b">or</span> t.get(<span class="s">&quot;on_timeout&quot;</span>),
+        on_timeout=on_timeout,
         timeout_ladder=t.get(<span class="s">&quot;timeout_ladder&quot;</span>, []),
         reviewer_view=list(dict.fromkeys(view)),
         applied_overrides=applied,
@@ -650,7 +689,7 @@ validate_policy(POLICY)   <span class="c"># import-time. A bad policy never reac
 <section><div class="wrap">
   <div class="tradeoff">
     <p class="eyebrow">The tradeoff</p>
-    <ul><li>Fail-closed timeouts mean real work stalls when an approver is away, and the honest fix is staffing the backup rota rather than softening the rule.</li><li>Four tiers is a compromise: fewer and everything piles into one queue, more and nobody remembers which is which without opening the document.</li><li>Routing abstentions to T2 by default guarantees some reviewer time is spent on cases where the agent was simply being over-careful.</li><li>Letting confidence raise a tier but never lower one throws away most of the efficiency a good calibration curve could buy, and I&#x27;ll take that until the calibration has years of evidence behind it.</li></ul>
+    <ul><li>Fail-closed timeouts mean real work stalls when an approver is away, and the honest fix is staffing the backup rota rather than softening the rule.</li><li>Four tiers is a compromise: fewer and everything piles into one queue, more and nobody remembers which is which without opening the document.</li><li>Routing abstentions to T2 by default guarantees some reviewer time is spent on cases where the agent was simply being over-careful.</li><li>Letting confidence raise a tier but never lower one throws away most of the efficiency a good calibration curve could buy, and I&#x27;ll take that until the calibration has years of evidence behind it.</li><li>The tier belongs to the action, not the agent and not the industry — which is why the same table works for refunds and merges to main.</li></ul>
   </div>
 </div></section>
 
