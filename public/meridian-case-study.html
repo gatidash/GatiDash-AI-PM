@@ -301,6 +301,9 @@
   .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
   .brand:hover{color:#D6EE5C}
   .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:var(--accent,#C3E41D);color:#12140A;font-family:'Fira Code',ui-monospace,monospace;font-weight:700;font-size:13px;line-height:1}
+  .proof-chip{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.11em;
+    text-transform:uppercase;border:1px solid var(--line-strong);color:var(--dust);
+    border-radius:999px;padding:2px 7px;margin-left:7px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -434,16 +437,15 @@
       <div class="colhead"><h2>A volume problem that humans structurally cannot win.</h2></div>
       <div>
         <p>Global regulators now publish on the order of <strong>200+ changes a day</strong> — roughly 56,000 a year across more than a thousand bodies. A regulated firm doesn't care about most of them, but it cannot know which ones matter without reading all of them. Industry surveys put a quarter of financial firms at a full working day every week spent just tracking change, before a single control is updated.</p>
-        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025, and the average cost of a single non-compliance event is estimated in the eight figures. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
+        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
       </div>
     </div>
     <div class="stats" style="margin-top:46px">
-      <div class="stat"><div class="n">200<small>+/day</small></div><div class="l">Regulatory changes published globally</div></div>
-      <div class="stat"><div class="n">56k<small>/yr</small></div><div class="l">Alerts across 1,000+ regulators</div></div>
-      <div class="stat"><div class="n">1<small> day/wk</small></div><div class="l">Spent tracking change at ~25% of firms</div></div>
-      <div class="stat"><div class="n">$14.8M</div><div class="l">Est. avg. cost of one non-compliance event (industry study)</div></div>
+      <div class="stat"><div class="n">~150<small>/day</small></div><div class="l">Regulatory alerts across 1,000+ regulators <span class="proof-chip">Concept</span></div></div>
+      <div class="stat"><div class="n">1<small> day/wk</small></div><div class="l">Spent tracking change at ~25% of firms <span class="proof-chip">Concept</span></div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Regulators in the beachhead &mdash; AUSTRAC, MAS, CSSF <span class="proof-chip">Concept</span></div></div>
     </div>
-    <p class="src">Figures paraphrased from Thomson Reuters Regulatory Intelligence, MetricStream, Ponemon/GlobalScape “True Cost of Compliance,” and Maximize Market Research / FinTech Global (2025–26). Used directionally; a real case study would re-validate against primary sources.</p>
+    <p class="src">Third-party figures, cited directionally: Thomson Reuters Regulatory Intelligence and MetricStream (2025&ndash;26). I have not validated them against primary sources, so no argument in this case rests on them.</p>
   </div>
 </section>
 
@@ -580,7 +582,7 @@
 <section>
   <div class="wrap">
     <p class="eyebrow">07 · What breaks, and the design answer</p>
-    <h2 style="max-width:16ch">Naming the failure modes is the senior move.</h2>
+    <h2 style="max-width:16ch">Every one of these cost me something before I designed against it.</h2>
     <div class="rows">
       <div class="rowx"><div class="rl">Hallucinated mapping<span class="sev">Severity: high · quiet</span></div><p>Agent confidently links a change to the wrong control, or invents one. <b>Answer:</b> confidence scoring with mandatory human review below threshold; mappings are <b>suggestions</b> until signed, never auto-applied; every claim cited to retrievable source text.</p></div>
       <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate as the headline number; periodic human spot-audits of "no impact" verdicts.</p></div>

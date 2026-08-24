@@ -32,7 +32,7 @@ const PROOF_LINES = [
 
 
 // Typographic wordmark strip (21st "logo cloud marquee" pattern)
-const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Hyperwallet', 'Barclays', 'Lloyds', 'Wipro', 'Cognizant']
+const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Barclays']
 
 const WORK = [
   {
@@ -49,10 +49,10 @@ const WORK = [
     marketNote:
       'Public record: PayPal announced US crypto buy/hold/sell on 21 October 2020; NYDFS granted its first conditional BitLicense that same month; PayPal was the first foreign firm to hold a Chinese online-payment licence, later the first with full ownership of the platform.',
     metrics: [
-      { v: '$4B', l: 'Revenue opportunity the US crypto reporting unlocked', proof: 'Modeled' },
-      { v: '$10B+', l: 'Revenue exposure the GDPR privacy platform protected', proof: 'Modeled' },
       { v: '24 hrs', l: 'To risk-score every new user at onboarding', proof: 'Shipped' },
       { v: '100+', l: 'Data privacy rules monitored and tracked', proof: 'Shipped' },
+      { v: 'Oct 2020', l: 'US crypto launched on the reporting this platform produced', proof: 'Shipped' },
+      { v: '3', l: 'Regulatory regimes the same platform carried — US, China, EU', proof: 'Shipped' },
     ],
   },
   {
@@ -88,7 +88,7 @@ const WORK = [
       { v: '60%', l: 'Reduction in manual intervention', proof: 'Shipped' },
       { v: '50%', l: 'Faster processing turnaround, high-volume workflows', proof: 'Shipped' },
       { v: '5', l: 'Jurisdictions running it', proof: 'Shipped' },
-      { v: 'Patent', l: 'Application submitted on agentic AI systems', proof: 'Shipped' },
+      { v: 'Patent', l: 'Application filed on the agentic design — an application, not a grant', proof: 'Shipped' },
     ],
   },
 ]
@@ -413,26 +413,11 @@ const CASE_STUDIES = [
     tags: [
       { t: '60% less manual intervention', proof: 'Shipped' },
       { t: '5 jurisdictions', proof: 'Shipped' },
-      { t: 'Patent application filed', proof: 'Shipped' },
     ],
     kind: 'Shipped',
   },
   {
     n: '02',
-    title: 'Retention, Rebuilt: Generative → Agentic',
-    kicker: '2024 → 2026 · Retention · Concept',
-    excerpt:
-      "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
-    href: '/merchant-retention-case-study.html',
-    tags: [
-      { t: '−60% churn', proof: 'Modeled' },
-      { t: '+25–40% LTV', proof: 'Modeled' },
-      { t: '3 autonomy tiers', proof: 'Concept' },
-    ],
-    kind: 'Concept',
-  },
-  {
-    n: '03',
     title: 'Meridian — Agentic Regulatory-Change Intelligence',
     kicker: 'Agentic · RegTech · Concept',
     excerpt:
@@ -442,6 +427,20 @@ const CASE_STUDIES = [
       { t: 'AUSTRAC / MAS / CSSF', proof: 'Concept' },
       { t: '200+ changes a day', proof: 'Concept' },
       { t: 'Never built', proof: 'Concept' },
+    ],
+    kind: 'Concept',
+  },
+  {
+    n: '03',
+    title: 'Retention, Rebuilt: Generative → Agentic',
+    kicker: '2024 → 2026 · Retention · Concept',
+    excerpt:
+      "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
+    href: '/merchant-retention-case-study.html',
+    tags: [
+      { t: '−60% churn', proof: 'Modeled' },
+      { t: '+25–40% LTV', proof: 'Modeled' },
+      { t: '3 autonomy tiers', proof: 'Concept' },
     ],
     kind: 'Concept',
   },
@@ -1031,7 +1030,7 @@ function Judgment() {
   return (
     <section id="judgment" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="02">Judgment</SectionLabel>
+        <SectionLabel n="03">Judgment</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Calls I keep making.
         </h2>
@@ -1124,6 +1123,29 @@ function About({ onSelectWork }) {
         <p className="mt-9 display-serif text-xl sm:text-2xl text-ink max-w-prose-wide leading-snug">
           That&apos;s why I can tell which AI products survive contact with a regulator.
         </p>
+
+        <div className="mt-12 border-t border-sand pt-10">
+          <div className="eyebrow mb-5">What I actually learned doing it</div>
+          <p className="display-serif text-2xl sm:text-3xl text-ink max-w-prose-wide leading-[1.25]">
+            Put an agent next to a human process and the first thing you find is
+            that the humans never agreed with each other either.
+          </p>
+          <p className="mt-6 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
+            Shadow mode was supposed to tell me how good the agent was. It told me
+            something more useful. Reviewers had been resolving the same ambiguous
+            obligations different ways for years, and nobody had noticed, because
+            nothing had ever put their answers side by side. Some of the best output
+            from that phase was written guidance for people rather than changes to
+            the model.
+          </p>
+          <p className="mt-5 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
+            It changed how I start. I now measure how much the humans agree before I
+            build anything, because that number is the ceiling on what any agent can
+            score. It is why reviewer agreement is a blocking gate in my eval rubric,
+            and why I think AI in regulated work pays first by measuring the process
+            it was hired to replace.
+          </p>
+        </div>
 
         <CareerArc onSelectWork={onSelectWork} />
 
@@ -1316,7 +1338,7 @@ function CaseStudies() {
   return (
     <section id="case-studies" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="03">Case studies</SectionLabel>
+        <SectionLabel n="04">Case studies</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Interactive deep-dives.
         </h2>
@@ -1439,7 +1461,7 @@ function Artifacts() {
   return (
     <section id="artifacts" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="04">Artifacts</SectionLabel>
+        <SectionLabel n="02">Artifacts</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           The actual objects.
         </h2>
@@ -1534,7 +1556,7 @@ function Contact() {
               If you&apos;re looking to drive an AI transformation — especially where it has to clear an audit, not just a demo — I&apos;m happy to discuss.
             </p>
             <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight">
-              Most of my best conversations are with founders, CPOs, and CXOs at banks, fintechs, and regulated SaaS companies trying to ship AI under governance.
+              The work generalises past compliance. If you are letting an agent take actions that are expensive to undo — refunds, pricing, merges to main, anything with a blast radius — the problems are the same ones. Those are my favourite conversations.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <a href={`mailto:${LINKS.email}`} className="btn-quiet font-medium">
@@ -1718,9 +1740,9 @@ export default function App() {
             <HeroDark />
           )}
           <SelectedWork i={workI} onOpen={setOpenWork} />
+          <Artifacts />
           <Judgment />
           <CaseStudies />
-          <Artifacts />
           <Blogs onOpen={setOpenBlog} />
           <About onSelectWork={setWorkI} />
           <Contact />

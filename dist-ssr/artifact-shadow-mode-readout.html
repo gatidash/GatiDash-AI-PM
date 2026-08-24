@@ -6,7 +6,9 @@
 <meta name="theme-color" content="#000000">
 <title>The Shadow Mode Readout · Artifact · Gatikrishna Dash</title>
 <meta name="description" content="What I measure before the agent is allowed to touch anything.">
-<link rel="stylesheet" href="/fonts/site-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
@@ -279,6 +281,46 @@ every period, because each one is blind to something:
   Ramp plan, only if every gate passes: 5% of volume for two weeks, then 25%,
   then 50%, then full. Each step needs a fresh readout. Shadow mode never gets
   switched off entirely - it becomes the 5% sample that runs forever.
+
+=================================================================================
+9. THE OTHER OUTCOME: SHIPPING WITH A RESIDUAL RISK ON THE RECORD
+=================================================================================
+  The readout above is a NO-<span class="ok">GO</span>, and I have shown that one first because it is
+  the discipline people skip. But a gate regime that only ever refuses is not a
+  gate regime, it is an alibi. Most of the value shows up on the periods where
+  the answer is yes and somebody has to own what is still broken.
+
+  Here is the same template, one cycle later, resolving the other way.
+  (Illustrative numbers, same as above.)
+
+  GATE                                        RESULT
+  1  Volume &gt;= 500 items, &gt;= 3 case types      612 items, 4 types      <span class="ok">PASS</span>
+  2  Zero agent-wrong-dangerous                0 events                <span class="ok">PASS</span>
+  3  Control-mapping recall LB &gt;= 0.97         0.9731                  <span class="ok">PASS</span>
+  4  Citation fidelity LB &gt;= 0.99              0.9946                  <span class="ok">PASS</span>
+  5  Canary catch rate = 100%                  18/18                   <span class="ok">PASS</span>
+  6  Abstention within 4-11% band              7.4%                    <span class="ok">PASS</span>
+  7  Reviewer kappa &gt;= 0.75                    0.81                    <span class="ok">PASS</span>
+  8  p95 latency &lt;= 90s                        104s                    <span class="bad">FAIL</span>
+
+  DECISION: <span class="ok">GO</span> at 5% of volume. One gate failed and I am shipping anyway.
+
+  ACCEPTED RESIDUAL RISK
+  R1  p95 latency is 104s against a 90s bar, driven by one connector&#x27;s
+      maintenance window. At 5% of volume the queue absorbs it; at 25% it would
+      not. Accepted for this ramp step only. Re-tested before the next one.
+      This is the cost of the ramp, not a target we quietly moved.
+
+  WHAT I WOULD NOT HAVE ACCEPTED
+  Any failure on gates 2, 3, 4 or 5. Those are correctness and provenance. A
+  latency miss makes the system slow and everyone can see it. A recall miss
+  makes it wrong and nobody can see it. I will trade the first. I will not trade
+  the second, and I would rather lose the argument about the date.
+
+  WHO SIGNED
+  Named accountable owner for R1, with the review date on the record, in the
+  same log as the gate results. An accepted risk with no name against it is an
+  unaccepted risk that nobody is tracking.
 </code></pre>
 </div><div class="code-wrap">
   <div class="code-head">
@@ -744,7 +786,7 @@ SAFE_MARKERS = {
 <section><div class="wrap">
   <div class="tradeoff">
     <p class="eyebrow">The tradeoff</p>
-    <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live compliance stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li></ul>
+    <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live compliance stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li><li>A gate regime that only ever says no teaches people to route around it, so the readout has to show the ship decision as well as the refusal.</li></ul>
   </div>
 </div></section>
 

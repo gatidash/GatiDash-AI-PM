@@ -439,6 +439,19 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             ]
           }
         ),
+        /* @__PURE__ */ jsx(
+          "a",
+          {
+            href: "#artifacts",
+            className: "inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border transition-colors",
+            style: {
+              borderColor: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.18)",
+              color: fg,
+              fontFamily: "'Space Grotesk', sans-serif"
+            },
+            children: "Read the artifacts"
+          }
+        ),
         /* @__PURE__ */ jsxs(
           "a",
           {
@@ -454,6 +467,14 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
           }
         )
       ] }),
+      /* @__PURE__ */ jsx(
+        "p",
+        {
+          className: "mt-6 text-center text-[13px] sm:text-sm leading-relaxed max-w-lg",
+          style: { color: isDark ? "rgba(255,255,255,0.5)" : "#6B6859" },
+          children: "Five jurisdictions in production. 200+ people trained to use it. Four artifacts below you can check line by line."
+        }
+      ),
       workedWith.length > 0 && /* @__PURE__ */ jsxs("div", { className: "hero-proof mt-12 sm:mt-14 w-full max-w-4xl", children: [
         /* @__PURE__ */ jsx(
           "p",
@@ -840,7 +861,7 @@ const NAV = [
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" }
 ];
-const WORKED_WITH = ["PayPal", "Venmo", "Xoom", "Hyperwallet", "Barclays", "Lloyds", "Wipro", "Cognizant"];
+const WORKED_WITH = ["PayPal", "Venmo", "Xoom", "Barclays"];
 const WORK = [
   {
     n: "01",
@@ -852,10 +873,10 @@ const WORK = [
     proves: "Compliance data is the cheapest way into a market you cannot otherwise enter. PayPal opened crypto to US customers in October 2020 under the first conditional BitLicense New York regulators ever granted, and became the first foreign company licensed to run a payments platform in China. I did not negotiate those licences. I built the reporting they were conditioned on.",
     marketNote: "Public record: PayPal announced US crypto buy/hold/sell on 21 October 2020; NYDFS granted its first conditional BitLicense that same month; PayPal was the first foreign firm to hold a Chinese online-payment licence, later the first with full ownership of the platform.",
     metrics: [
-      { v: "$4B", l: "Revenue opportunity the US crypto reporting unlocked", proof: "Modeled" },
-      { v: "$10B+", l: "Revenue exposure the GDPR privacy platform protected", proof: "Modeled" },
       { v: "24 hrs", l: "To risk-score every new user at onboarding", proof: "Shipped" },
-      { v: "100+", l: "Data privacy rules monitored and tracked", proof: "Shipped" }
+      { v: "100+", l: "Data privacy rules monitored and tracked", proof: "Shipped" },
+      { v: "Oct 2020", l: "US crypto launched on the reporting this platform produced", proof: "Shipped" },
+      { v: "3", l: "Regulatory regimes the same platform carried — US, China, EU", proof: "Shipped" }
     ]
   },
   {
@@ -885,7 +906,7 @@ const WORK = [
       { v: "60%", l: "Reduction in manual intervention", proof: "Shipped" },
       { v: "50%", l: "Faster processing turnaround, high-volume workflows", proof: "Shipped" },
       { v: "5", l: "Jurisdictions running it", proof: "Shipped" },
-      { v: "Patent", l: "Application submitted on agentic AI systems", proof: "Shipped" }
+      { v: "Patent", l: "Application filed on the agentic design — an application, not a grant", proof: "Shipped" }
     ]
   }
 ];
@@ -1093,26 +1114,12 @@ const CASE_STUDIES = [
     href: "/agentic-compliance-case-study.html",
     tags: [
       { t: "60% less manual intervention", proof: "Shipped" },
-      { t: "5 jurisdictions", proof: "Shipped" },
-      { t: "Patent application filed", proof: "Shipped" }
+      { t: "5 jurisdictions", proof: "Shipped" }
     ],
     kind: "Shipped"
   },
   {
     n: "02",
-    title: "Retention, Rebuilt: Generative → Agentic",
-    kicker: "2024 → 2026 · Retention · Concept",
-    excerpt: "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
-    href: "/merchant-retention-case-study.html",
-    tags: [
-      { t: "−60% churn", proof: "Modeled" },
-      { t: "+25–40% LTV", proof: "Modeled" },
-      { t: "3 autonomy tiers", proof: "Concept" }
-    ],
-    kind: "Concept"
-  },
-  {
-    n: "03",
     title: "Meridian — Agentic Regulatory-Change Intelligence",
     kicker: "Agentic · RegTech · Concept",
     excerpt: "An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign. Never a chatbot that answers questions about the law.",
@@ -1121,6 +1128,19 @@ const CASE_STUDIES = [
       { t: "AUSTRAC / MAS / CSSF", proof: "Concept" },
       { t: "200+ changes a day", proof: "Concept" },
       { t: "Never built", proof: "Concept" }
+    ],
+    kind: "Concept"
+  },
+  {
+    n: "03",
+    title: "Retention, Rebuilt: Generative → Agentic",
+    kicker: "2024 → 2026 · Retention · Concept",
+    excerpt: "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
+    href: "/merchant-retention-case-study.html",
+    tags: [
+      { t: "−60% churn", proof: "Modeled" },
+      { t: "+25–40% LTV", proof: "Modeled" },
+      { t: "3 autonomy tiers", proof: "Concept" }
     ],
     kind: "Concept"
   }
@@ -1413,7 +1433,7 @@ function JudgmentSlide({ j }) {
 }
 function Judgment() {
   return /* @__PURE__ */ jsx("section", { id: "judgment", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "02", children: "Judgment" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "03", children: "Judgment" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]", children: "Calls I keep making." }),
     /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-smoke max-w-2xl leading-relaxed", children: "The most important AI product decisions in regulated work are rarely about model choice. They are about where to standardize, where to keep humans, and what to refuse to ship." }),
     /* @__PURE__ */ jsx("div", { className: "mt-12", children: /* @__PURE__ */ jsx(
@@ -1453,6 +1473,12 @@ function About({ onSelectWork }) {
       /* @__PURE__ */ jsx("p", { className: "lg:col-span-5 text-base text-ink-soft leading-relaxed", children: "Get AML or crypto disclosure wrong in global payments and it's a regulatory event, not a bug ticket. Regulators like Australia's AUSTRAC have fined major banks hundreds of millions for exactly these gaps." })
     ] }),
     /* @__PURE__ */ jsx("p", { className: "mt-9 display-serif text-xl sm:text-2xl text-ink max-w-prose-wide leading-snug", children: "That's why I can tell which AI products survive contact with a regulator." }),
+    /* @__PURE__ */ jsxs("div", { className: "mt-12 border-t border-sand pt-10", children: [
+      /* @__PURE__ */ jsx("div", { className: "eyebrow mb-5", children: "What I actually learned doing it" }),
+      /* @__PURE__ */ jsx("p", { className: "display-serif text-2xl sm:text-3xl text-ink max-w-prose-wide leading-[1.25]", children: "Put an agent next to a human process and the first thing you find is that the humans never agreed with each other either." }),
+      /* @__PURE__ */ jsx("p", { className: "mt-6 text-lg text-ink-soft leading-relaxed max-w-prose-wide", children: "Shadow mode was supposed to tell me how good the agent was. It told me something more useful. Reviewers had been resolving the same ambiguous obligations different ways for years, and nobody had noticed, because nothing had ever put their answers side by side. Some of the best output from that phase was written guidance for people rather than changes to the model." }),
+      /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-ink-soft leading-relaxed max-w-prose-wide", children: "It changed how I start. I now measure how much the humans agree before I build anything, because that number is the ceiling on what any agent can score. It is why reviewer agreement is a blocking gate in my eval rubric, and why I think AI in regulated work pays first by measuring the process it was hired to replace." })
+    ] }),
     /* @__PURE__ */ jsx(CareerArc, { onSelectWork }),
     /* @__PURE__ */ jsxs("div", { className: "mt-16 sm:mt-20 border-t border-sand pt-12", children: [
       /* @__PURE__ */ jsx("div", { className: "eyebrow mb-8", children: "How I work" }),
@@ -1589,7 +1615,7 @@ function CaseStudyCard({ c }) {
 }
 function CaseStudies() {
   return /* @__PURE__ */ jsx("section", { id: "case-studies", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "03", children: "Case studies" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "04", children: "Case studies" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]", children: "Interactive deep-dives." }),
     /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-smoke max-w-2xl leading-relaxed", children: "How I frame a problem, scope it for governance, and design AI that has to clear an audit. Each one opens end to end." }),
     /* @__PURE__ */ jsx("div", { className: "mt-10", children: /* @__PURE__ */ jsx(
@@ -1705,7 +1731,7 @@ function BlogCard({ b, onOpen }) {
 }
 function Artifacts() {
   return /* @__PURE__ */ jsx("section", { id: "artifacts", className: "py-16 sm:py-24 border-t border-sand", children: /* @__PURE__ */ jsxs(Container, { children: [
-    /* @__PURE__ */ jsx(SectionLabel, { n: "04", children: "Artifacts" }),
+    /* @__PURE__ */ jsx(SectionLabel, { n: "02", children: "Artifacts" }),
     /* @__PURE__ */ jsx("h2", { className: "display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]", children: "The actual objects." }),
     /* @__PURE__ */ jsx("p", { className: "mt-5 text-lg text-smoke max-w-2xl leading-relaxed", children: "Anyone can say they design governed agents. These are four of the artifacts that work produces — the schema, the rubric, the routing matrix, the pre-launch readout. Read them and decide for yourself." }),
     /* @__PURE__ */ jsx("p", { className: "mt-4 text-sm text-dust max-w-2xl leading-relaxed", children: "Reference implementations, written against my own concept systems — Meridian and the retention agent. I can’t publish my employer’s code, so I wrote these from scratch to show the reasoning." }),
@@ -1756,7 +1782,7 @@ function Contact() {
         ] }),
         /* @__PURE__ */ jsx("h2", { className: "display-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05]", children: "Let's talk." }),
         /* @__PURE__ */ jsx("p", { className: "mt-8 text-lg sm:text-xl text-ink leading-relaxed max-w-prose-tight font-serif", children: "If you're looking to drive an AI transformation — especially where it has to clear an audit, not just a demo — I'm happy to discuss." }),
-        /* @__PURE__ */ jsx("p", { className: "mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight", children: "Most of my best conversations are with founders, CPOs, and CXOs at banks, fintechs, and regulated SaaS companies trying to ship AI under governance." }),
+        /* @__PURE__ */ jsx("p", { className: "mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-prose-tight", children: "The work generalises past compliance. If you are letting an agent take actions that are expensive to undo — refunds, pricing, merges to main, anything with a blast radius — the problems are the same ones. Those are my favourite conversations." }),
         /* @__PURE__ */ jsx("div", { className: "mt-8 flex flex-wrap items-center gap-x-8 gap-y-4", children: /* @__PURE__ */ jsx("a", { href: `mailto:${LINKS.email}`, className: "btn-quiet font-medium", children: "Start a conversation" }) })
       ] }),
       /* @__PURE__ */ jsx("div", { className: "lg:col-span-5", children: /* @__PURE__ */ jsxs("dl", { className: "divide-y divide-sand", children: [
@@ -1900,9 +1926,9 @@ function App() {
       /* @__PURE__ */ jsxs("main", { children: [
         heroVariant === "portfolio" ? /* @__PURE__ */ jsx(PortfolioHero, { theme, onToggleTheme: toggleTheme, workedWith: WORKED_WITH }) : heroVariant === "light" ? /* @__PURE__ */ jsx(HeroLight, {}) : /* @__PURE__ */ jsx(HeroDark, {}),
         /* @__PURE__ */ jsx(SelectedWork, { i: workI, onOpen: setOpenWork }),
+        /* @__PURE__ */ jsx(Artifacts, {}),
         /* @__PURE__ */ jsx(Judgment, {}),
         /* @__PURE__ */ jsx(CaseStudies, {}),
-        /* @__PURE__ */ jsx(Artifacts, {}),
         /* @__PURE__ */ jsx(Blogs, { onOpen: setOpenBlog }),
         /* @__PURE__ */ jsx(About, { onSelectWork: setWorkI }),
         /* @__PURE__ */ jsx(Contact, {}),

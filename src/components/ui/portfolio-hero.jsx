@@ -283,6 +283,17 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             <FileText className="h-4 w-4" /> Résumé
           </a>
           <a
+            href="#artifacts"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border transition-colors"
+            style={{
+              borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)',
+              color: fg,
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
+          >
+            Read the artifacts
+          </a>
+          <a
             href={LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
@@ -292,6 +303,14 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
         </div>
+
+        <p
+          className="mt-6 text-center text-[13px] sm:text-sm leading-relaxed max-w-lg"
+          style={{ color: isDark ? 'rgba(255,255,255,0.5)' : '#6B6859' }}
+        >
+          Five jurisdictions in production. 200+ people trained to use it.
+          Four artifacts below you can check line by line.
+        </p>
 
         {/* Proof strip — the names carry more weight up here than they did
             as a standalone band below the fold. */}
