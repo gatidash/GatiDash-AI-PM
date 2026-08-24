@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowUpRight, Mail, Linkedin, MapPin, ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
 import { Analytics } from '@vercel/analytics/react'
 import { POSTS } from './blogPosts'
 import { track } from '@vercel/analytics'
@@ -13,31 +13,29 @@ import { CardCarousel } from '@/components/ui/card-carousel'
 // ─────────────────────────────────────────────────────────────
 
 const NAV = [
-  { id: 'profile', label: 'Profile' },
-  { id: 'angle', label: 'The Angle' },
-  { id: 'career', label: 'Career' },
-  { id: 'leadership', label: 'Leadership' },
-  { id: 'toolkit', label: 'Toolkit' },
-  { id: 'capabilities', label: 'Capabilities' },
-  { id: 'judgment', label: 'Judgment' },
   { id: 'work', label: 'Work' },
+  { id: 'judgment', label: 'Judgment' },
   { id: 'case-studies', label: 'Case Studies' },
-  { id: 'blogs', label: 'Blogs' },
+  { id: 'blogs', label: 'Writing' },
+  { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' },
 ]
 
+
 const PROOF_LINES = [
-  'Building production AI in a money-touching, regulated environment — agentic automation, evals, and governance — at PayPal. 17+ years of platform depth is the moat.',
-  'Shipped agentic AI into live compliance operations across 5 jurisdictions — in production, under governance, and durable well past launch, not just in the demo.',
-  'Built the platform layer the AI now runs on — scaled regulatory reporting to 1,000+ reports across 15+ regulated entities.',
+  'I build production AI where the money moves and the regulator is watching — agentic automation, evals, and governance at PayPal. Fifteen years in data and product is the moat.',
+  'The agentic layer runs in live compliance operations across five jurisdictions. In production, under governance, still running well past launch.',
+  'I built the platform it runs on: sixty-plus regulatory reports onboarded across three markets in three months.',
 ]
 
+
 const HERO_METRICS = [
-  { v: '17+', l: 'Years across regulated fintech' },
-  { v: '1,000+', l: 'Regulatory reports on the platform' },
-  { v: '15+', l: 'Regulated entities served' },
-  { v: '5', l: 'Jurisdictions live on agentic AI' },
+  { v: '60%', l: 'Less manual intervention on high-volume workflows', proof: 'Shipped' },
+  { v: '5', l: 'Jurisdictions running the agentic platform', proof: 'Shipped' },
+  { v: '60+', l: 'Regulatory reports onboarded in three months', proof: 'Shipped' },
+  { v: '15+', l: 'Years in data and product', proof: 'Shipped' },
 ]
+
 
 // Typographic wordmark strip (21st "logo cloud marquee" pattern)
 const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Hyperwallet', 'Barclays', 'Lloyds', 'Wipro', 'Cognizant']
@@ -45,59 +43,62 @@ const WORKED_WITH = ['PayPal', 'Venmo', 'Xoom', 'Hyperwallet', 'Barclays', 'Lloy
 const WORK = [
   {
     n: '01',
-    title: 'The data foundation for financial crime — and the launches it unlocked',
-    meta: 'GFC/AML data platform · CRR · Crypto & SAR reporting · 2018–2021',
-    kicker: '2018–2021 · Data platform',
+    title: 'Two market entries that were blocked on compliance data',
+    meta: 'Market entry · CRR · Crypto & SAR reporting · GDPR · 2018–2021',
+    kicker: '2018–2021 · Market entry',
     context:
-      'New bets — PayPal offering crypto to US customers for the first time (gated by NYDFS licensing) and a payments license in China — were blocked on regulatory reporting infrastructure that didn’t exist yet, while PayPal’s financial-crime teams needed a data layer they could actually trust for AML and risk decisions. Compliance was being treated as a launch tax — and I’d just been moved into a new product role inside the data-engineering org to fix exactly that.',
+      'PayPal wanted to sell crypto to US customers and to process payments inside China. Neither was a product problem. Both were blocked on regulatory reporting that did not exist yet, and on financial-crime data nobody fully trusted. I had just moved into a product role inside the data-engineering org, and this was the job.',
     move:
-      'I stood up the platform end to end — working across identity, payments, privacy, credit, and crypto; flagging upstream data gaps and getting them corrected before anything entered the platform; and designing the data lifecycle itself: what has to be real-time versus what can wait, and how governance and lineage are enforced. On that foundation I built products from scratch. The flagship — Customer Risk Rating (CRR) — was GFC’s shift from scoring users reactively, after AML events, to proactively risk-rating every user in real time. I led it with the Data Science and ML team (my first product role): an ML and weighted-scoring model that scores each customer at onboarding and continuously on account activity, then auto-triggers the due diligence that risk level demands — essential as PayPal onboarded higher-risk businesses like crypto and trading. Alongside it: PayPal’s first crypto reporting platform, a prerequisite for the company to offer crypto in the US under NYDFS licensing; and the SAR reporting pipeline required for the payments license in China.',
+      'I stood the platform up end to end — across identity, payments, privacy, credit and crypto — and fixed the upstream data gaps before anything landed in it. On top of it I built products. Customer Risk Rating was the flagship: PayPal had been scoring users reactively, after an AML event. CRR scores every user at onboarding and continuously after, then auto-triggers the diligence that score demands. I led it with the Data Science and ML team. Alongside it came the crypto transfer reporting infrastructure the US launch needed, the SAR pipeline China required, and the privacy platform that carried GDPR across our international markets.',
     proves:
-      'Financial-crime and compliance data isn’t a launch tax. It’s the cleanest path into a new market — and the trusted foundation everything since, the reporting platform and the agentic AI, has been built on.',
+      'Compliance data is the cheapest way into a market you cannot otherwise enter. PayPal opened crypto to US customers in October 2020 under the first conditional BitLicense New York regulators ever granted, and became the first foreign company licensed to run a payments platform in China. I did not negotiate those licences. I built the reporting they were conditioned on.',
+    marketNote:
+      'Public record: PayPal announced US crypto buy/hold/sell on 21 October 2020; NYDFS granted its first conditional BitLicense that same month; PayPal was the first foreign firm to hold a Chinese online-payment licence, later the first with full ownership of the platform.',
     metrics: [
-      { v: '0 → 1', l: 'Customer Risk Rating built from scratch — ML + weighted scoring' },
-      { v: 'Real-time', l: 'Proactive risk rating of every user — auto-triggering due diligence' },
-      { v: 'Crypto', l: 'First crypto reporting platform — enabled PayPal’s first US crypto offering, Q4 2020' },
-      { v: 'China', l: 'SAR reporting pipeline — cleared the payments license in China' },
+      { v: '$4B', l: 'Revenue opportunity the US crypto reporting unlocked', proof: 'Modeled' },
+      { v: '$10B+', l: 'Revenue exposure the GDPR privacy platform protected', proof: 'Modeled' },
+      { v: '24 hrs', l: 'To risk-score every new user at onboarding', proof: 'Shipped' },
+      { v: '100+', l: 'Data privacy rules monitored and tracked', proof: 'Shipped' },
     ],
   },
   {
     n: '02',
     title: 'One regulatory-reporting platform, not one tool per regulator',
-    meta: 'Platform consolidation · 2020–2023',
-    kicker: '2020–2023 · Consolidation',
+    meta: 'Platform consolidation · 2022–2023',
+    kicker: '2022–2023 · Consolidation',
     context:
-      'We were building one tool per regulator. Each report took roughly a quarter to onboard, and the team was spending more time maintaining than shipping. Brexit and a handful of new mandates were about to make the maintenance load worse.',
+      'We were building a separate tool for every regulator. The team spent more time maintaining than shipping, and post-Brexit mandates were about to make that worse.',
     move:
-      'I led the case for a single platform with a common report-onboarding lifecycle. The hard part was never the engineering — it was sitting with Legal and compliance across jurisdictions, and often directly with the regulators, to interpret each ask and translate it into requirements the whole platform could carry. The real discipline: making one regulator’s rule coexist with the next without breaking either, and designing customizable templates and auto-triggering rules so the next mandate is a configuration change, not a rebuild. Shipped in 14 months, grown to 1,000+ reports across 15+ regulated entities.',
+      'I made the case for a single platform with one report-onboarding lifecycle. The engineering was the easy half. The hard half was sitting with Legal and compliance in each jurisdiction — sometimes with the regulators themselves — and turning each ask into a requirement the whole platform could carry. One regulator’s rule has to coexist with the next without either breaking. Templates and triggering rules are configurable, so the next mandate is a config change.',
     proves:
-      'New reports went from a quarter to about two weeks. More importantly, the platform is now where the AI augmentation plugs in cleanly — validation, narrative generation, agent-assisted review — instead of needing one integration per legacy tool.',
+      'The platform is now where the AI plugs in — validation, narrative generation, agent-assisted review — instead of needing one integration per legacy tool. I built the thing my later work depends on.',
     metrics: [
-      { v: '1,000+', l: 'Reports onboarded onto the platform' },
-      { v: '15+', l: 'Regulated entities served' },
-      { v: '80%', l: 'Reduction in per-report onboarding time' },
-      { v: '14 months', l: 'Platform build to v1' },
+      { v: '60+', l: 'Regulatory reports onboarded across three markets', proof: 'Shipped' },
+      { v: '3 months', l: 'To onboard all of them, enterprise-wide', proof: 'Shipped' },
+      { v: '60%+', l: 'Operational efficiency gain', proof: 'Shipped' },
+      { v: '80%', l: 'Reduction in reporting turnaround time', proof: 'Shipped' },
     ],
   },
   {
     n: '03',
-    title: 'Agentic AI for compliance review at PayPal',
-    meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–2025',
-    kicker: '2023–2025 · Agentic AI',
+    title: 'Agentic AI in live compliance operations',
+    meta: 'Agentic AI · Human-in-the-loop · 5 jurisdictions · 2023–present',
+    kicker: '2023–present · Agentic AI',
     context:
-      'On the regulatory platform we had already unified, compliance review queues across 5 jurisdictions were running 4+ days behind. The business wanted to add headcount; the regulator wanted faster turnaround. The team was caught between both.',
+      'Compliance review queues were running behind across five jurisdictions. The business wanted headcount. The regulator wanted speed. The team was stuck between the two.',
     move:
-      'Rather than add headcount, I brought an agentic layer onto that existing platform. LLM agents handled the structured extraction and first-pass policy mapping; every call was schema-validated before it touched the queue; and anything policy-sensitive routed to a human reviewer with the agent’s reasoning attached — the human trust boundary designed in, not bolted on. The same layer runs automated regulatory assessment on every product change, surfacing the regulatory triggers a launch would create and routing them for resolution before they ever become an audit finding. It ran in shadow mode for six weeks before a single decision was acted on.',
+      'I brought an agentic layer onto the platform we had already unified rather than adding people. LLM agents handle structured extraction and first-pass policy mapping. Every call is schema-validated before it reaches a queue. Anything policy-sensitive routes to a human with the agent’s reasoning attached. I designed the override path and the validator before the first agent shipped. It ran in shadow mode until we trusted it, and only then did any decision get acted on.',
     proves:
-      'The hard part was never the agents. It was designing the human override path and the validator before the first agent shipped — not after the first incident. Because the platform underneath was already built for audit, the AI had somewhere trustworthy to plug in.',
+      'The agents were the easy part. What made it survive was deciding, up front, which calls the system is never allowed to make. I submitted a patent application on the agentic design.',
     metrics: [
-      { v: '80%+', l: 'Reduction in manual review volume' },
-      { v: '2 weeks → 2 hrs', l: 'Median case turnaround' },
-      { v: '5', l: 'Jurisdictions live' },
-      { v: '6 weeks', l: 'Shadow mode before go-live' },
+      { v: '60%', l: 'Reduction in manual intervention', proof: 'Shipped' },
+      { v: '50%', l: 'Faster processing turnaround, high-volume workflows', proof: 'Shipped' },
+      { v: '5', l: 'Jurisdictions running it', proof: 'Shipped' },
+      { v: 'Patent', l: 'Application submitted on agentic AI systems', proof: 'Shipped' },
     ],
   },
 ]
+
 
 const JUDGMENT = [
   {
@@ -153,7 +154,7 @@ const JUDGMENT = [
 const CAPABILITIES = [
   {
     group: 'AI strategy',
-    blurb: 'Deciding what gets built, bought, or killed — and getting the AI roadmap to survive contact with production.',
+    blurb: 'Deciding what gets built, bought, or killed — and getting the roadmap to survive contact with production.',
     items: [
       'AI roadmap and prioritization',
       'Build vs. buy vs. partner decisions',
@@ -182,51 +183,63 @@ const CAPABILITIES = [
     ],
   },
   {
-    group: 'Leadership',
-    blurb: 'Aligning risk, legal, and compliance; communicating to boards and regulators; hiring and growing senior PMs.',
+    group: 'Adoption & enablement',
+    blurb: 'Getting an organisation to actually use what gets built — the half of a transformation that is not a platform problem.',
     items: [
-      'Cross-functional alignment with risk/legal/compliance',
-      'Board and executive communication',
-      'Regulator engagement (specific examples on request)',
-      'Hiring and growing senior PMs',
+      'CFO-sponsored AI transformation programme',
+      '200+ colleagues trained',
+      'Enablement inside a regulated environment',
+      'Teaching that continues outside work, informally',
+    ],
+  },
+  {
+    group: 'Influence without authority',
+    blurb: 'I have never had a reporting line into the people whose agreement I needed. Every decision below was won on argument and evidence.',
+    items: [
+      'Aligning risk, legal and compliance across regulated entities',
+      'Regulator-facing work — interpreting an ask, then defending the design',
+      'Go/No-Go input on launches through the Business Advisory Group',
+      'Carrying one jurisdiction’s mandate without breaking the next',
     ],
   },
 ]
 
+
 const CAREER_ARC = [
   {
     era: '01',
-    theme: 'Data Engineer',
-    years: '2009–2014',
-    title: 'Data engineering & BI',
-    body: 'ETL pipelines, BI reporting, and lineage and governance for Lloyds and Barclays — at Wipro and Cognizant. The hands-on data craft everything later sits on.',
-    tools: ['Teradata', 'Informatica', 'Tableau'],
-    companies: ['Lloyds', 'Barclays'],
+    theme: 'Data & BI',
+    years: '2009–2018',
+    title: 'Pipelines, then platforms',
+    body: 'ETL and Teradata work at Wipro, then Barclays’ global banking data at Cognizant, then six years as a BI analyst inside PayPal — data visualisation, product planning, and the scanning and regulatory datasets from the Xoom and Venmo acquisitions.',
+    tools: ['Teradata', 'Informatica', 'Tableau', 'SQL'],
+    companies: ['Wipro', 'Cognizant', 'Altimetrik', 'PayPal'],
     instinct: 'Where I learned to distrust any roadmap that skips the data layer.',
   },
   {
     era: '02',
-    theme: 'Product Leader',
-    years: '2014–2023',
+    theme: 'Product Manager',
+    years: '2018–2023',
     title: 'Compliance & regulatory platforms',
-    body: 'Compliance, privacy, and regulatory-reporting platforms at PayPal — AML, SAR, GDPR, KYC, customer risk — plus cross-border launches into China and the US.',
+    body: 'My first product role, in 2018, inside the data-engineering org. Customer risk rating, AML and SAR reporting, GDPR privacy, crypto transfer reporting — and the market entries those unlocked. Then the consolidation of it all into one regulatory-reporting platform.',
     tools: ['AML', 'SAR', 'GDPR', 'KYC'],
     companies: ['PayPal'],
-    instinct: 'Where individual data work became platform product leadership.',
+    instinct: 'Where data work turned into platform product work.',
     workIndex: 0,
   },
   {
     era: '03',
-    theme: 'AI Product Leader',
+    theme: 'Lead Product Manager',
     years: '2023–present',
     title: 'AI & agentic systems',
-    body: 'Leading AI product work at PayPal — turning the regulatory and compliance workflows I used to platform-ify into governed, agent-driven systems.',
-    tools: ['LLM agents', 'Evals', 'Governance'],
+    body: 'Leading AI product work at PayPal — turning the compliance workflows I used to platform-ify into governed, agent-driven systems. Alongside it, a CFO-sponsored transformation programme: 200+ colleagues taught to use AI inside a regulated environment.',
+    tools: ['LLM agents', 'Evals', 'Governance', 'Enablement'],
     companies: ['PayPal'],
     instinct: 'Where the earlier layers became the reason the AI ships.',
     workIndex: 2,
   },
 ]
+
 
 const GOVERNANCE_TOOLKIT = [
   {
@@ -260,11 +273,12 @@ const GOVERNANCE_TOOLKIT = [
 
 // Case study — interactive merchant lifecycle console
 const CASE_METRICS = [
-  { v: '25–40%', l: 'Potential lift in merchant lifetime value' },
-  { v: '−60%', l: 'Churn reduction through early intervention' },
-  { v: '4', l: 'Lifecycle segments with tailored playbooks' },
-  { v: '0', l: 'Manual playbooks to maintain — fully generated' },
+  { v: '25–40%', l: 'Modeled lift in merchant lifetime value', proof: 'Modeled' },
+  { v: '−60%', l: 'Modeled churn reduction from early intervention', proof: 'Modeled' },
+  { v: '4', l: 'Lifecycle segments with tailored playbooks', proof: 'Concept' },
+  { v: '0', l: 'Manual playbooks to maintain — all generated', proof: 'Concept' },
 ]
+
 
 const CASE_SEGMENTS = [
   {
@@ -364,19 +378,20 @@ const LEADERSHIP = [
   {
     n: '01',
     title: 'Simplicity is a strategic advantage',
-    body: 'Complexity rarely comes from a lack of technology, vision, or talent — it comes from fragmented processes, ambiguous ownership, and over-engineering. I lead with clarity: find the root-level problem, then architect platforms that scale with trust and adaptability.',
+    body: 'Complexity rarely comes from missing technology or talent. It comes from fragmented processes, fuzzy ownership, and over-engineering. I find the root problem, then build for it.',
   },
   {
     n: '02',
     title: 'Innovation is won in the operating layer',
-    body: 'Innovation doesn’t live or die in the 5–10% of teams building cutting-edge tech — it’s decided by the other 90–95%, where alignment and execution turn ideas into value. I empower that core through deliberate product architecture and disciplined prioritization.',
+    body: 'It isn’t decided by the small group building the cutting edge. It’s decided by everyone else, where alignment and execution turn an idea into something real.',
   },
   {
     n: '03',
     title: 'Precision over volume',
-    body: 'I don’t chase complexity. I lead with a clear lens on customer value, business alignment, and simplicity — because real transformation isn’t about doing more; it’s about doing what matters most, with precision and purpose.',
+    body: 'Real transformation isn’t doing more. It’s doing the few things that matter, properly.',
   },
 ]
+
 
 const BLOGS = [
   {
@@ -396,23 +411,73 @@ const BLOGS = [
 const CASE_STUDIES = [
   {
     n: '01',
-    title: 'Retention, Rebuilt: Generative \u2192 Agentic',
-    kicker: '2024 \u2192 2026 \u00b7 Retention',
+    title: 'Agentic AI in live compliance operations',
+    kicker: '2023–present · PayPal · Shipped',
     excerpt:
-      "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop \u2014 an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
-    href: '/merchant-retention-case-study.html',
-    tags: ['\u221260% churn', '+25\u201340% LTV', '3 autonomy tiers'],
-    kind: 'Interactive',
+      'The one that actually runs. An agentic layer on top of the regulatory platform I had already consolidated: schema-validated extraction, first-pass policy mapping, and a human gate on every call that carries policy consequence. Five jurisdictions, in production.',
+    href: '/agentic-compliance-case-study.html',
+    tags: [
+      { t: '60% less manual intervention', proof: 'Shipped' },
+      { t: '5 jurisdictions', proof: 'Shipped' },
+      { t: 'Patent application filed', proof: 'Shipped' },
+    ],
+    kind: 'Shipped',
   },
   {
     n: '02',
-    title: 'Meridian \u2014 Agentic Regulatory-Change Intelligence',
-    kicker: 'Agentic \u00b7 RegTech',
+    title: 'Retention, Rebuilt: Generative → Agentic',
+    kicker: '2024 → 2026 · Retention · Concept',
     excerpt:
-      'An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign \u2014 not a chatbot that answers questions about the law.',
-    href: '/meridian-case-study.html',
-    tags: ['AUSTRAC \u00b7 MAS \u00b7 CSSF', '200+ changes/day', 'Concept'],
+      "The 2024 version generated a playbook from a merchant's signals. The 2026 rebuild runs the loop — an accountable retention agent with tiered autonomy, always-on guardrails, and a human gate on every action that touches money.",
+    href: '/merchant-retention-case-study.html',
+    tags: [
+      { t: '−60% churn', proof: 'Modeled' },
+      { t: '+25–40% LTV', proof: 'Modeled' },
+      { t: '3 autonomy tiers', proof: 'Concept' },
+    ],
     kind: 'Concept',
+  },
+  {
+    n: '03',
+    title: 'Meridian — Agentic Regulatory-Change Intelligence',
+    kicker: 'Agentic · RegTech · Concept',
+    excerpt:
+      'An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign. Never a chatbot that answers questions about the law.',
+    href: '/meridian-case-study.html',
+    tags: [
+      { t: 'AUSTRAC / MAS / CSSF', proof: 'Concept' },
+      { t: '200+ changes a day', proof: 'Concept' },
+      { t: 'Never built', proof: 'Concept' },
+    ],
+    kind: 'Concept',
+  },
+]
+
+
+const ARTIFACTS = [
+  {
+    slug: 'validated-agent-call',
+    title: "The Validated Agent Call",
+    stack: 'JSON Schema · Python',
+    body: "The schema a regulatory-impact call has to satisfy, the repair loop when it doesn\u2019t, and abstention treated as a real answer.",
+  },
+  {
+    slug: 'eval-rubric',
+    title: "An Eval Rubric That Can Say No",
+    stack: 'Rubric · Scorer',
+    body: "Eight dimensions, four of them blocking. Includes a worked scorecard that fails and stops the ship.",
+  },
+  {
+    slug: 'escalation-matrix',
+    title: "The Escalation Matrix",
+    stack: 'Policy · Router',
+    body: "Who decides what, by when, and what the system does when nobody answers. It fails closed.",
+  },
+  {
+    slug: 'shadow-mode-readout',
+    title: "The Shadow Mode Readout",
+    stack: 'Template · Metrics',
+    body: "What I measure before an agent is allowed to touch anything \u2014 including the disagreement taxonomy that matters more than the agreement rate.",
   },
 ]
 
@@ -427,6 +492,41 @@ const LINKS = {
 // ─────────────────────────────────────────────────────────────
 // PRIMITIVES
 // ─────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────
+// PROVENANCE
+// Every number on this site carries one of three labels. The
+// convention is explained once, in the footer.
+//   Shipped  — measured in production
+//   Modeled  — a projection built on real data
+//   Concept  — illustrative; this one was never built
+// ─────────────────────────────────────────────────────────────
+const PROOF_STYLE = {
+  Shipped: 'text-accent border-accent/45',
+  Modeled: 'text-plasma border-plasma/45',
+  Concept: 'text-dust border-sand',
+}
+
+function Proof({ level, className = '' }) {
+  if (!level) return null
+  return (
+    <span
+      title={PROOF_TITLE[level]}
+      className={`inline-block align-middle rounded-full border px-1.5 py-px font-mono text-[9px] uppercase tracking-[0.11em] leading-[1.5] whitespace-nowrap ${
+        PROOF_STYLE[level] || PROOF_STYLE.Concept
+      } ${className}`}
+    >
+      {level}
+    </span>
+  )
+}
+
+const PROOF_TITLE = {
+  Shipped: 'Measured in production.',
+  Modeled: 'A projection built on real data — not a measured outcome.',
+  Concept: 'Illustrative. This system was never built.',
+}
+
 
 function Container({ children, className = '' }) {
   return (
@@ -685,7 +785,9 @@ function WorkCard({ w, onOpen }) {
       <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-sand pt-5">
         {w.metrics.slice(0, 2).map((m) => (
           <div key={m.l}>
-            <dt className="font-serif text-xl text-ink leading-none">{m.v}</dt>
+            <dt className="font-serif text-xl text-ink leading-none">
+              {m.v} <Proof level={m.proof} className="ml-1" />
+            </dt>
             <dd className="mt-1.5 text-xs text-smoke leading-snug line-clamp-2">{m.l}</dd>
           </div>
         ))}
@@ -743,7 +845,9 @@ function WorkReader({ n, onClose }) {
             <dl className="divide-y divide-sand">
               {w.metrics.map((m) => (
                 <div key={m.l} className="py-4 first:pt-0">
-                  <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">{m.v}</dt>
+                  <dt className="font-serif text-2xl sm:text-3xl text-ink leading-none">
+                    {m.v} <Proof level={m.proof} className="ml-1.5" />
+                  </dt>
                   <dd className="mt-1.5 text-sm text-smoke leading-snug">{m.l}</dd>
                 </div>
               ))}
@@ -763,7 +867,7 @@ function SelectedWork({ i, onOpen }) {
   return (
     <section id="work" className="py-14 sm:py-20 border-t border-sand">
       <Container>
-        <SectionLabel n="06">Work</SectionLabel>
+        <SectionLabel n="01">Work</SectionLabel>
         <h2 className="display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]">
           Three pieces of work that explain how I think.
         </h2>
@@ -815,29 +919,92 @@ function CapabilitySlide({ c }) {
   )
 }
 
-function Capabilities() {
+function DetailedCapabilities() {
+  const [open, setOpen] = useState(false)
   return (
-    <section id="capabilities" className="py-16 sm:py-24 border-t border-sand">
+    <section id="detail" className="border-t border-sand py-12 sm:py-16">
       <Container>
-        <SectionLabel n="04">Capabilities</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          What I actually do.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Four areas I spend my time on. Step through the concrete work under each.
-        </p>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          className="group flex w-full items-center justify-between gap-6 text-left"
+        >
+          <span>
+            <span className="eyebrow">Reference</span>
+            <span className="mt-2 block display-serif text-xl sm:text-2xl text-ink group-hover:text-accent transition-colors">
+              Detailed capabilities
+            </span>
+          </span>
+          <span className="flex-shrink-0 h-9 w-9 rounded-full border border-sand flex items-center justify-center text-ink group-hover:border-accent group-hover:text-accent transition-colors">
+            <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+          </span>
+        </button>
 
-        <div className="mt-10">
-          <Carousel
-            ariaLabel="Capability areas"
-            slideLabels={CAPABILITIES.map((c) => c.group)}
-            slides={CAPABILITIES.map((c) => <CapabilitySlide key={c.group} c={c} />)}
-          />
-        </div>
+        {!open && (
+          <p className="mt-4 text-sm text-smoke max-w-2xl leading-relaxed">
+            The full list — five capability areas and the governance controls I argue for. Open it
+            if you want the detail; the work above is the argument.
+          </p>
+        )}
+
+        {open && (
+          <div className="mt-10 space-y-14">
+            <div>
+              <div className="eyebrow mb-6">What I do</div>
+              <div className="grid gap-x-12 gap-y-9 md:grid-cols-2">
+                {CAPABILITIES.map((c) => (
+                  <div key={c.group}>
+                    <h3 className="display-serif text-lg text-ink leading-snug">{c.group}</h3>
+                    <p className="mt-2 text-sm text-smoke leading-relaxed max-w-prose-tight">{c.blurb}</p>
+                    <ul className="mt-4 space-y-2">
+                      {c.items.map((item) => (
+                        <li key={item} className="flex items-start gap-3 text-sm text-ink-soft leading-snug">
+                          <span className="mt-1.5 h-1 w-1 rounded-full bg-accent flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="eyebrow mb-6">Controls I argue for</div>
+              <div className="grid gap-x-12 gap-y-9 md:grid-cols-2">
+                {GOVERNANCE_TOOLKIT.map((t) => (
+                  <div key={t.group}>
+                    <h3 className="display-serif text-lg text-ink leading-snug">{t.group}</h3>
+                    <dl className="mt-4 space-y-3">
+                      {t.items.map((item) => (
+                        <div key={item.title}>
+                          <dt className="font-serif text-[15px] text-ink tracking-editorial">{item.title}</dt>
+                          <dd className="mt-1 text-sm text-ink-soft leading-relaxed">{item.body}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
+              <ol className="mt-10 grid sm:grid-cols-2 gap-x-12 gap-y-4">
+                {POV_IDEAS.map((idea, k) => (
+                  <li key={k} className="flex items-start gap-4">
+                    <span className="font-serif text-sm text-accent mt-0.5 w-6 flex-shrink-0">
+                      {String(k + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-sm text-ink-soft leading-relaxed">{idea}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   )
 }
+
 
 function JudgmentSlide({ j }) {
   return (
@@ -870,7 +1037,7 @@ function Judgment() {
   return (
     <section id="judgment" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="05">Judgment</SectionLabel>
+        <SectionLabel n="02">Judgment</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Calls I keep making.
         </h2>
@@ -914,30 +1081,6 @@ function ToolkitSlide({ t }) {
   )
 }
 
-function GovernanceToolkit() {
-  const TABS = [...GOVERNANCE_TOOLKIT, { group: 'Operating beliefs', beliefs: POV_IDEAS }]
-  return (
-    <section id="toolkit" className="py-16 sm:py-24 bg-paper-dark border-t border-sand">
-      <Container>
-        <SectionLabel n="03">Toolkit</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          The controls I argue for.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Most are dull. Most are the difference between an AI feature that reaches production and one that gets pulled in week six.
-        </p>
-
-        <div className="mt-10">
-          <Carousel
-            ariaLabel="Governance toolkit"
-            slideLabels={TABS.map((t) => t.group)}
-            slides={TABS.map((t) => <ToolkitSlide key={t.group} t={t} />)}
-          />
-        </div>
-      </Container>
-    </section>
-  )
-}
 
 // Only these have an SVG in /public/logos. Anything else renders as a wordmark
 // instead of firing a request that 404s in the network tab. Drop a new file in
@@ -961,50 +1104,60 @@ function CompanyLogo({ name }) {
   )
 }
 
-function TheAngle() {
+function About({ onSelectWork }) {
   return (
-    <section id="angle" className="py-16 sm:py-24 border-t border-sand">
+    <section id="about" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <div className="flex items-center gap-4">
-          <span className="h-px w-8 bg-ink/20" />
-          <span className="eyebrow">The angle I bring</span>
-        </div>
+        <SectionLabel n="05">About</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-4xl leading-[1.08]">
           I don&apos;t come at product from the feature side. I come from the launch side.
         </h2>
+
         <div className="mt-8 grid lg:grid-cols-12 gap-8 lg:gap-16">
           <p className="lg:col-span-7 text-lg text-ink-soft leading-relaxed max-w-prose-wide">
-            For the last five years I&apos;ve sat in the go/no-go seat for core product launches across PayPal and its brands — Venmo, Xoom, Hyperwallet — spanning 15+ regulated entities and jurisdictions, each with its own rules. Most PMs ship a handful of products in a career; I&apos;ve pressure-tested and post-mortemed more launches than most people ever see.
+            For two years I sat on PayPal&apos;s Business Advisory Group, shaping go/no-go calls on
+            new launches. Before that and ever since, I&apos;ve been building the layer those calls
+            depend on — one source of truth for product, customer and transaction data that audit
+            and compliance can actually use.
           </p>
           <p className="lg:col-span-5 text-base text-ink-soft leading-relaxed">
-            Then I built what almost no one does: a single source of truth unifying product, customer, and transaction data for audit and compliance — and the launch standards the company now runs on.
-          </p>
-        </div>
-
-        <div className="mt-8 border-l-2 border-accent pl-5 max-w-prose-wide">
-          <p className="text-base sm:text-lg text-ink-soft leading-relaxed">
-            In global payments, getting AML, cross-border, or crypto disclosure wrong isn&apos;t a bug ticket — it&apos;s a regulatory event. Regulators like Australia&apos;s AUSTRAC have handed major banks penalties from the hundreds of millions to well over a billion dollars for exactly these gaps, and the US, EU, UK, and Singapore do the same. The data platforms, automated governance, and audit logs I&apos;ve built over a decade are what keep a payments company defensible when the regulator comes looking.
+            Get AML or crypto disclosure wrong in global payments and it&apos;s a regulatory event,
+            not a bug ticket. Regulators like Australia&apos;s AUSTRAC have fined major banks
+            hundreds of millions for exactly these gaps.
           </p>
         </div>
 
         <p className="mt-9 display-serif text-xl sm:text-2xl text-ink max-w-prose-wide leading-snug">
-          That vantage is exactly why I can tell which AI products will survive contact with a regulator — and which won&apos;t.
+          That&apos;s why I can tell which AI products survive contact with a regulator.
         </p>
+
+        <CareerArc onSelectWork={onSelectWork} />
+
+        <div className="mt-16 sm:mt-20 border-t border-sand pt-12">
+          <div className="eyebrow mb-8">How I work</div>
+          <div className="grid gap-x-12 gap-y-9 md:grid-cols-3">
+            {LEADERSHIP.map((pr) => (
+              <div key={pr.n}>
+                <span className="font-serif text-2xl text-accent leading-none">{pr.n}</span>
+                <h3 className="display-serif text-lg text-ink leading-snug mt-3">{pr.title}</h3>
+                <p className="mt-3 text-[15px] text-ink-soft leading-relaxed">{pr.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </Container>
     </section>
   )
 }
 
+
 function CareerArc({ onSelectWork }) {
   return (
-    <section id="career" className="py-14 sm:py-20 border-t border-sand">
-      <Container>
-        <SectionLabel n="01">Career</SectionLabel>
-        <h2 className="display-serif mt-4 text-3xl sm:text-4xl max-w-3xl leading-[1.1]">
-          Three acts.
-        </h2>
-        <p className="mt-3 text-base text-smoke max-w-2xl leading-relaxed">
-          Seventeen years in three acts — data engineering, regulatory platforms, and now AI. Each one built the foundation for the next: shipping systems that have to be audited, not just admired.
+    <div id="career" className="mt-16 sm:mt-20 border-t border-sand pt-12">
+      <div className="eyebrow mb-4">How I got here</div>
+        <p className="text-base text-smoke max-w-2xl leading-relaxed">
+          Data engineering, then regulatory platforms, then AI. Each one is the reason the next
+          one worked.
         </p>
 
         <div className="mt-8 grid md:grid-cols-3 gap-5">
@@ -1060,8 +1213,7 @@ function CareerArc({ onSelectWork }) {
             </div>
           ))}
         </div>
-      </Container>
-    </section>
+    </div>
   )
 }
 
@@ -1079,28 +1231,6 @@ function LeadershipSlide({ p }) {
   )
 }
 
-function Leadership() {
-  return (
-    <section id="leadership" className="py-16 sm:py-24 border-t border-sand">
-      <Container>
-        <SectionLabel n="02">Leadership</SectionLabel>
-        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
-          How I lead.
-        </h2>
-        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Three principles that shape every product call I make. Step through them.
-        </p>
-        <div className="mt-10">
-          <Carousel
-            ariaLabel="Leadership principles"
-            slideLabels={LEADERSHIP.map((p) => p.title)}
-            slides={LEADERSHIP.map((p) => <LeadershipSlide key={p.n} p={p} />)}
-          />
-        </div>
-      </Container>
-    </section>
-  )
-}
 
 function BlogReader({ slug, onClose }) {
   const post = POSTS[slug]
@@ -1154,12 +1284,13 @@ function CaseStudyCard({ c }) {
       <p className="mt-4 text-[15px] text-smoke leading-relaxed">{c.excerpt}</p>
 
       <ul className="mt-6 flex flex-wrap gap-2">
-        {c.tags.map((t) => (
+        {c.tags.map((tag) => (
           <li
-            key={t}
-            className="rounded-full border border-sand px-3 py-1 font-mono text-[11px] text-ink-soft"
+            key={tag.t}
+            className="inline-flex items-center gap-2 rounded-full border border-sand px-3 py-1 font-mono text-[11px] text-ink-soft"
           >
-            {t}
+            {tag.t}
+            <Proof level={tag.proof} />
           </li>
         ))}
       </ul>
@@ -1175,7 +1306,7 @@ function CaseStudies() {
   return (
     <section id="case-studies" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="07">Case studies</SectionLabel>
+        <SectionLabel n="03">Case studies</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Interactive deep-dives.
         </h2>
@@ -1286,11 +1417,58 @@ function BlogCard({ b, onOpen }) {
   )
 }
 
+function Artifacts() {
+  return (
+    <section id="artifacts" className="py-16 sm:py-24 border-t border-sand">
+      <Container>
+        <SectionLabel n="03b">Artifacts</SectionLabel>
+        <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
+          The actual objects.
+        </h2>
+        <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
+          Anyone can say they design governed agents. These are four of the artifacts that work
+          produces — the schema, the rubric, the routing matrix, the pre-launch readout. Read them
+          and decide for yourself.
+        </p>
+        <p className="mt-4 text-sm text-dust max-w-2xl leading-relaxed">
+          Reference implementations, written against my own concept systems — Meridian and the
+          retention agent. I can’t publish my employer’s code, so I wrote these from scratch to
+          show the reasoning.
+        </p>
+
+        <ul className="mt-10 grid gap-px bg-sand border border-sand sm:grid-cols-2">
+          {ARTIFACTS.map((a, i) => (
+            <li key={a.slug} className="bg-paper">
+              <a href={`/artifact-${a.slug}.html`} className="group flex h-full flex-col p-7 sm:p-8 transition-colors hover:bg-paper-dark">
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="font-serif text-sm text-accent">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-wide-caps text-dust">
+                    {a.stack}
+                  </span>
+                </div>
+                <h3 className="display-serif text-xl text-ink leading-snug mt-4 group-hover:text-accent transition-colors">
+                  {a.title}
+                </h3>
+                <p className="mt-3 text-[15px] text-smoke leading-relaxed">{a.body}</p>
+                <span className="mt-auto pt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+                  Read it <ArrowUpRight className="h-4 w-4" />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  )
+}
+
 function Blogs({ onOpen }) {
   return (
     <section id="blogs" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="08">Blogs</SectionLabel>
+        <SectionLabel n="04">Writing</SectionLabel>
         <h2 className="display-serif mt-6 text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-[1.1]">
           Field notes on AI.
         </h2>
@@ -1323,7 +1501,7 @@ function Contact() {
   return (
     <section id="contact" className="py-16 sm:py-24 border-t border-sand">
       <Container>
-        <SectionLabel n="09">Contact</SectionLabel>
+        <SectionLabel n="06">Contact</SectionLabel>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-7">
@@ -1412,6 +1590,38 @@ function Footer() {
   return (
     <footer className="border-t border-sand py-12">
       <Container>
+        <div className="border-b border-sand pb-8 mb-8">
+          <div className="eyebrow mb-4">How to read the numbers</div>
+          <p className="text-sm text-smoke max-w-2xl leading-relaxed">
+            Every figure on this site carries one of three labels, and the label travels
+            with the number wherever it appears.
+          </p>
+          <dl className="mt-5 grid gap-x-10 gap-y-4 sm:grid-cols-3 max-w-3xl">
+            <div>
+              <dt><Proof level="Shipped" /></dt>
+              <dd className="mt-2 text-sm text-ink-soft leading-relaxed">
+                Measured in production, on a system real people used.
+              </dd>
+            </div>
+            <div>
+              <dt><Proof level="Modeled" /></dt>
+              <dd className="mt-2 text-sm text-ink-soft leading-relaxed">
+                A projection built on real data. Never a measured outcome.
+              </dd>
+            </div>
+            <div>
+              <dt><Proof level="Concept" /></dt>
+              <dd className="mt-2 text-sm text-ink-soft leading-relaxed">
+                Illustrative. The system was designed but never built.
+              </dd>
+            </div>
+          </dl>
+          <p className="mt-6 text-sm text-smoke max-w-2xl leading-relaxed">
+            Figures from my time at PayPal come from my résumé and from what I can say publicly.
+            Where I could not substantiate a number, I removed it rather than round it.
+          </p>
+        </div>
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <p className="text-sm text-smoke max-w-xl leading-relaxed">
             Gatikrishna Dash — AI and platform product leadership in regulated industries.
@@ -1489,16 +1699,14 @@ export default function App() {
           ) : (
             <HeroDark />
           )}
-          <TheAngle />
-          <CareerArc onSelectWork={setWorkI} />
-          <Leadership />
-          <GovernanceToolkit />
-          <Capabilities />
-          <Judgment />
           <SelectedWork i={workI} onOpen={setOpenWork} />
+          <Judgment />
           <CaseStudies />
+          <Artifacts />
           <Blogs onOpen={setOpenBlog} />
+          <About onSelectWork={setWorkI} />
           <Contact />
+          <DetailedCapabilities />
         </main>
         <Footer />
       </div>
