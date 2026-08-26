@@ -26,7 +26,7 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:"Spectral",Georgia,serif;
+    font-family:'Hanken Grotesk',Georgia,serif;
     font-size:19px;
     line-height:1.62;
     -webkit-font-smoothing:antialiased;
@@ -35,15 +35,15 @@
   ::selection{background:#C3E41D;color:#1a0e00}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
-  .mono{font-family:"Space Mono",monospace}
+  .mono{font-family:ui-monospace,monospace}
   .eyebrow{
-    font-family:"Space Mono",monospace;
+    font-family:ui-monospace,monospace;
     font-size:12.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
     color:var(--flag);
     display:flex;align-items:center;gap:12px;margin:0 0 22px;
   }
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
-  h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0}
+  h1,h2,h3{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0}
   h2{font-size:clamp(28px,4.4vw,46px);margin-bottom:.5em}
   h3{font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.18}
   p{margin:0 0 1.05em}
@@ -60,7 +60,7 @@
   }
   .hero .wrap{position:relative;z-index:2}
   .hero-meta{
-    font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    font-family:ui-monospace,monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--plasma);display:flex;flex-wrap:wrap;gap:8px 26px;border-bottom:1px solid var(--line);
     padding-bottom:22px;margin-bottom:54px;
   }
@@ -76,7 +76,7 @@
   }
   .hero-figure{position:relative;z-index:2;padding-bottom:54px}
   .codeline{
-    font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.04em;color:var(--plasma);
+    font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.04em;color:var(--plasma);
     margin-bottom:14px;
   }
 
@@ -87,16 +87,16 @@
   .lead-grid .colhead{position:sticky;top:28px}
   @media(max-width:780px){.lead-grid{grid-template-columns:1fr;gap:6px}.lead-grid .colhead{position:static}}
 
-  .kicker{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
+  .kicker{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink-soft)}
 
   /* ---------- CASE-STUDY SHELL (summary rail) ---------- */
   .cs-shell{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;align-items:start}
   .cs-rail{position:sticky;top:72px;padding:48px 0 24px}
   .rail-card{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:20px}
-  .rail-eye{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--flag);margin-bottom:16px}
+  .rail-eye{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--flag);margin-bottom:16px}
   .rail-row{display:flex;flex-direction:column;gap:2px;padding:9px 0;border-top:1px solid var(--line)}
   .rail-row:first-of-type{border-top:none;padding-top:0}
-  .rail-k{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .rail-k{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
   .rail-v{font-size:14px;color:var(--ink);line-height:1.35}
   .rail-block{padding:13px 0 0;margin-top:13px;border-top:1px solid var(--line)}
   .rail-block .rail-k{margin-bottom:6px;display:block}
@@ -117,19 +117,19 @@
   /* ---------- STAT STRIP ---------- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:8px 0 0}
   .stat{background:var(--paper);padding:26px 22px}
-  .stat .n{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .stat .n{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;line-height:1;color:var(--ink)}
   .stat .n small{font-size:.5em;font-weight:700;letter-spacing:0}
-  .stat .l{font-family:"Space Mono",monospace;font-size:12px;line-height:1.45;color:var(--ink-soft);margin-top:14px;text-transform:uppercase;letter-spacing:.04em}
+  .stat .l{font-family:ui-monospace,monospace;font-size:12px;line-height:1.45;color:var(--ink-soft);margin-top:14px;text-transform:uppercase;letter-spacing:.04em}
   @media(max-width:780px){.stats{grid-template-columns:1fr 1fr}}
 
-  .src{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-soft);opacity:.75;letter-spacing:.02em;margin-top:14px}
+  .src{font-family:ui-monospace,monospace;font-size:11px;color:var(--ink-soft);opacity:.75;letter-spacing:.02em;margin-top:14px}
 
   /* ---------- CALLOUT / BET ---------- */
   .bet{
     background:var(--deep);color:var(--ink);border-radius:2px;padding:40px 42px;margin:8px 0;
     position:relative;
   }
-  .bet .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#D6EE5C;margin-bottom:16px}
+  .bet .tag{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#D6EE5C;margin-bottom:16px}
   .bet h3{color:var(--ink);font-size:25px;margin-bottom:14px}
   .bet p{color:var(--ink-soft);margin-bottom:0}
   .bet p+p{margin-top:.9em}
@@ -138,7 +138,7 @@
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
   @media(max-width:780px){.cards{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:28px}
-  .card .role{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--flag);margin-bottom:8px}
+  .card .role{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--flag);margin-bottom:8px}
   .card h3{margin-bottom:12px}
   .card p{font-size:17px;margin-bottom:0;color:var(--ink-soft)}
   .card p strong{color:var(--ink)}
@@ -150,28 +150,28 @@
   .pipe-row{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--line-strong);border-radius:2px;overflow:hidden}
   .stage{padding:22px 18px 24px;border-right:1px solid var(--line);background:var(--card);position:relative}
   .stage:last-child{border-right:none}
-  .stage .num{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
-  .stage h4{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
-  .stage p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0;font-family:"Space Mono",monospace;letter-spacing:.01em}
+  .stage .num{font-family:ui-monospace,monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
+  .stage h4{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16px;margin:10px 0 8px;letter-spacing:-.01em}
+  .stage p{font-size:13.5px;line-height:1.45;color:var(--ink-soft);margin:0;font-family:ui-monospace,monospace;letter-spacing:.01em}
   .stage.gate{background:var(--deep);color:var(--ink)}
   .stage.gate .num{color:#D6EE5C}
   .stage.gate h4{color:var(--ink)}
   .stage.gate p{color:var(--ink-soft)}
-  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.16em;color:#D6EE5C;border:1px solid #C3E41D;padding:2px 5px;border-radius:2px}
+  .stage.gate::after{content:"HUMAN";position:absolute;top:22px;right:16px;font-family:ui-monospace,monospace;font-size:9px;letter-spacing:.16em;color:#D6EE5C;border:1px solid #C3E41D;padding:2px 5px;border-radius:2px}
   @media(max-width:880px){.pipe-row{grid-template-columns:1fr 1fr}.stage{border-bottom:1px solid var(--line)}}
   @media(max-width:480px){.pipe-row{grid-template-columns:1fr}}
-  .pipe-flags{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px;font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
+  .pipe-flags{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px;font-family:ui-monospace,monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
   .pipe-flags b{color:var(--ink);font-weight:600}
 
   /* ---------- SVG SIGNATURE ---------- */
   figure{margin:8px 0 0}
-  .fig-cap{font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);margin-top:16px;letter-spacing:.02em;line-height:1.5}
+  .fig-cap{font-family:ui-monospace,monospace;font-size:12px;color:var(--ink-soft);margin-top:16px;letter-spacing:.02em;line-height:1.5}
   /* ── The sign-off package ─────────────────────────────────────
      A specimen of the deliverable rather than a flow diagram: the
      boxes-and-arrows version restated the sentence above it and was
      unreadable on a phone. Reads as a document, reflows as one. */
   .sop-title{
-    font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;
+    font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;
     font-weight:700;font-size:clamp(21px,2.6vw,30px);line-height:1.2;
     letter-spacing:-.02em;color:var(--ink);margin:0 0 26px;max-width:22ch;
   }
@@ -183,11 +183,11 @@
     position:relative;
   }
   .sop-n{
-    font-family:'Space Mono',ui-monospace,monospace;font-size:12px;
+    font-family:ui-monospace,ui-monospace,monospace;font-size:12px;
     color:var(--ink-soft);opacity:.4;letter-spacing:.02em;
   }
   .sop-field{
-    display:block;font-family:'Space Mono',ui-monospace,monospace;
+    display:block;font-family:ui-monospace,ui-monospace,monospace;
     font-size:11px;letter-spacing:.17em;text-transform:uppercase;
     color:var(--plasma);margin-bottom:9px;
   }
@@ -203,7 +203,7 @@
   .sop-row.is-gate .sop-field{color:var(--flag)}
   .sop-row.is-gate .sop-why{opacity:.8}
   .sop-foot{
-    margin:16px 0 0;font-family:'Space Mono',ui-monospace,monospace;
+    margin:16px 0 0;font-family:ui-monospace,ui-monospace,monospace;
     font-size:11.5px;letter-spacing:.03em;color:var(--ink-soft);opacity:.4;
   }
   @media (max-width:820px){
@@ -220,7 +220,7 @@
   .boundary>div{padding:30px 30px 34px}
   .boundary .agent{background:var(--card)}
   .boundary .human{background:var(--deep);color:var(--ink)}
-  .boundary .bhead{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .boundary .bhead{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
   .boundary .agent .bhead{color:var(--clear)}
   .boundary .human .bhead{color:#D6EE5C}
   .boundary ul{list-style:none;margin:0;padding:0}
@@ -233,8 +233,8 @@
   /* ---------- FAILURE / RISK LIST ---------- */
   .rows{margin-top:8px;border-top:1px solid var(--line)}
   .rowx{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px 46px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
-  .rowx .rl{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:18px;letter-spacing:-.01em}
-  .rowx .rl .sev{display:block;font-family:"Space Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;color:var(--flag)}
+  .rowx .rl{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .rowx .rl .sev{display:block;font-family:ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;color:var(--flag)}
   .rowx p{font-size:16.5px;margin:0;color:var(--ink-soft)}
   .rowx p b{color:var(--ink);font-weight:500}
   @media(max-width:680px){.rowx{grid-template-columns:1fr;gap:10px}}
@@ -242,12 +242,12 @@
   /* ---------- METRICS ---------- */
   .metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px}
   .metric-grid>div{background:var(--paper);padding:24px 22px}
-  .metric-grid .mt{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);margin-bottom:10px}
-  .metric-grid h4{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16.5px;margin:0 0 8px}
+  .metric-grid .mt{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);margin-bottom:10px}
+  .metric-grid h4{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:16.5px;margin:0 0 8px}
   .metric-grid p{font-size:14.5px;line-height:1.45;color:var(--ink-soft);margin:0}
   @media(max-width:780px){.metric-grid{grid-template-columns:1fr}}
   .northstar{background:var(--deep);color:var(--ink);border-radius:2px;padding:30px 34px;margin-top:22px}
-  .northstar .tag{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D6EE5C;margin-bottom:12px}
+  .northstar .tag{font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D6EE5C;margin-bottom:12px}
   .northstar p{font-size:22px;line-height:1.4;margin:0;color:var(--ink)}
   .northstar p b{color:#D6EE5C;font-weight:400;font-style:italic}
 
@@ -255,8 +255,8 @@
   .road{margin-top:8px}
   .phase{display:grid;grid-template-columns:140px 1fr;gap:36px;padding:26px 0;border-top:1px solid var(--line);align-items:baseline}
   .phase:first-child{border-top:none}
-  .phase .pn{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--flag)}
-  .phase .pn small{display:block;font-family:"Space Mono",monospace;font-weight:400;font-size:11px;letter-spacing:.06em;color:var(--ink-soft);margin-top:6px;text-transform:uppercase}
+  .phase .pn{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--flag)}
+  .phase .pn small{display:block;font-family:ui-monospace,monospace;font-weight:400;font-size:11px;letter-spacing:.06em;color:var(--ink-soft);margin-top:6px;text-transform:uppercase}
   .phase h3{font-size:19px;margin-bottom:8px}
   .phase p{font-size:16px;margin:0;color:var(--ink-soft)}
   @media(max-width:680px){.phase{grid-template-columns:1fr;gap:8px}}
@@ -273,7 +273,7 @@
   /* ---------- REFLECTION ---------- */
   .reflect{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:42px 44px;margin-top:8px}
   .reflect p:last-child{margin-bottom:0}
-  .reflect .q{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
+  .reflect .q{font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;line-height:1.15;margin-bottom:22px;max-width:24ch}
 
   /* ---------- FOOTER ---------- */
   footer{background:var(--deep);color:var(--ink-soft);padding:56px 0;border-top:none}
@@ -296,12 +296,12 @@
   /* nav header */
   .topnav{position:sticky;top:0;z-index:50;background:rgba(12,17,34,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav .wrap{height:56px;display:flex;align-items:center;justify-content:space-between}
-  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
+  .backlink{font-family:ui-monospace,monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
   .backlink:hover{color:var(--flag);border-color:var(--flag)}
-  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:ui-monospace,ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
   .brand:hover{color:#D6EE5C}
-  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:var(--accent,#C3E41D);color:#12140A;font-family:'Fira Code',ui-monospace,monospace;font-weight:700;font-size:13px;line-height:1}
-  .proof-chip{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.11em;
+  .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:var(--accent,#C3E41D);color:#12140A;font-family:ui-monospace,ui-monospace,monospace;font-weight:700;font-size:13px;line-height:1}
+  .proof-chip{display:inline-block;font-family:ui-monospace,monospace;font-size:9px;letter-spacing:.11em;
     text-transform:uppercase;border:1px solid var(--line-strong);color:var(--dust);
     border-radius:999px;padding:2px 7px;margin-left:7px;vertical-align:middle}
 </style>
@@ -666,7 +666,7 @@
       <p class="q">If I could only validate one thing before writing a line of product code, it's whether mapping precision can hit a bar a CCO trusts.</p>
       <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which controls a change touches. That's why Phase 0 is an offline eval against labeled data. A prototype would prove nothing yet. The cheapest way to kill or confirm the whole thesis.</p>
       <p>The strategic bet I'd defend in a room: <strong>in a liability-bearing domain, restraint is the product.</strong> The temptation will always be to push the autonomy further to look more impressive. The discipline to stop the agent precisely at the four acts of judgment — and to make the stopping legible and auditable — is what earns a compliance officer's signature, and a signature is the only thing that makes any of this real.</p>
-      <p style="margin-bottom:0;font-family:'Space Mono',monospace;font-size:14px;color:var(--ink-soft)">What this case study is meant to show: problem framing from real domain pain · a defensible scope decision under ambiguity · technical fluency without pretending to be the engineer · honest metrics including the ones that are hard to attribute · and a point of view on where AI should <em>not</em> act.</p>
+      <p style="margin-bottom:0;font-family:ui-monospace,monospace;font-size:14px;color:var(--ink-soft)">What this case study is meant to show: problem framing from real domain pain · a defensible scope decision under ambiguity · technical fluency without pretending to be the engineer · honest metrics including the ones that are hard to attribute · and a point of view on where AI should <em>not</em> act.</p>
     </div>
   </div>
 </section>

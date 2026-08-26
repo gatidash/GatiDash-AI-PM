@@ -50,15 +50,15 @@
   <!-- start node (parrot / mimicry) -->
   <circle cx="150" cy="660" r="46" fill="url(#glowO)" opacity="0.55"/>
   <circle cx="150" cy="660" r="9" fill="#0C1122" stroke="#F79256" stroke-width="2.4"/>
-  <text x="150" y="726" text-anchor="middle" font-family="'Space Mono', monospace" font-size="21" letter-spacing="2" fill="#FFB77E">PARROT</text>
-  <text x="150" y="752" text-anchor="middle" font-family="'Space Mono', monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">it could only talk</text>
+  <text x="150" y="726" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="21" letter-spacing="2" fill="#FFB77E">PARROT</text>
+  <text x="150" y="752" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">it could only talk</text>
 
   <!-- end node (colleague / agency) -->
   <circle cx="1050" cy="150" r="58" fill="url(#glowC)" opacity="0.5"/>
   <circle cx="1050" cy="150" r="12" fill="#0C1122" stroke="#63CEDD" stroke-width="2.6"/>
   <circle cx="1050" cy="150" r="4" fill="#63CEDD"/>
-  <text x="1050" y="234" text-anchor="middle" font-family="'Space Mono', monospace" font-size="21" letter-spacing="2" fill="#8FE4EF">COLLEAGUE</text>
-  <text x="1050" y="260" text-anchor="middle" font-family="'Space Mono', monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">now it can act</text>
+  <text x="1050" y="234" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="21" letter-spacing="2" fill="#8FE4EF">COLLEAGUE</text>
+  <text x="1050" y="260" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.5" fill="#8B92B1">now it can act</text>
 
   <!-- mid waypoints -->
   <circle cx="490" cy="500" r="4.5" fill="#F79256"/>

@@ -1,51 +1,51 @@
 /* Styles for the essay overlay. Loaded with the essay chunk, not with the
    app — these were ~40% of a render-blocking stylesheet that most visitors
    never needed. */
-.blog-reader { color:rgb(var(--ink)); font-family:'Spectral',Georgia,serif; font-size:19px; line-height:1.75; }
+.blog-reader { color:rgb(var(--ink)); font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:19px; line-height:1.75; }
 .blog-reader .wrap{ max-width:720px; margin:0 auto; padding:0 26px; }
 .blog-reader .wide{ max-width:900px; }
-.blog-reader .mono{ font-family:'Space Mono',monospace; }
+.blog-reader .mono{ font-family:'Hanken Grotesk',system-ui,sans-serif; }
 .blog-reader a{ color:#5E8B87; }
 .blog-reader .hero{ padding:52px 0 20px; }
-.blog-reader .eyebrow{ font-family:'Space Mono',monospace; font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:#5E8B87; display:flex; align-items:center; gap:12px; margin:0 0 26px; }
+.blog-reader .eyebrow{ font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:#5E8B87; display:flex; align-items:center; gap:12px; margin:0 0 26px; }
 .blog-reader .eyebrow::before{ content:""; width:26px; height:1px; background:#5E8B87; display:inline-block; }
-.blog-reader h1{ font-family:'Space Grotesk',sans-serif; font-weight:800; letter-spacing:-.025em; line-height:1.04; font-size:clamp(32px,5.2vw,52px); margin:0 0 22px; max-width:16ch; color:rgb(var(--ink)); }
+.blog-reader h1{ font-family:'Fraunces',Georgia,serif; font-weight:800; letter-spacing:-.025em; line-height:1.04; font-size:clamp(32px,5.2vw,52px); margin:0 0 22px; max-width:16ch; color:rgb(var(--ink)); }
 .blog-reader .deck{ font-size:clamp(19px,2.4vw,23px); line-height:1.45; color:rgb(var(--smoke)); max-width:40ch; margin:0 0 6px; font-weight:400; }
 .blog-reader .byline{ display:flex; align-items:center; gap:13px; border-top:1px solid rgb(var(--sand)); border-bottom:1px solid rgb(var(--sand)); padding:18px 0; margin-top:30px; }
 .blog-reader .byline .avatar{ width:46px; height:46px; border-radius:50%; object-fit:cover; border:1px solid rgb(var(--sand)); flex:none; background:rgb(var(--paper-dark)); }
-.blog-reader .byline .name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; color:rgb(var(--ink)); }
-.blog-reader .byline .sub{ font-family:'Space Mono',monospace; font-size:12.5px; color:rgb(var(--smoke)); margin-top:4px; }
+.blog-reader .byline .name{ font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:15.5px; color:rgb(var(--ink)); }
+.blog-reader .byline .sub{ font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:12.5px; color:rgb(var(--smoke)); margin-top:4px; }
 .blog-reader .cover-wrap{ padding:6px 0 26px; }
 .blog-reader .cover{ width:100%; height:auto; display:block; border:1px solid rgb(var(--sand)); border-radius:14px; background:rgb(var(--paper-dark)); }
-.blog-reader .cover-cap{ font-family:'Space Mono',monospace; font-size:12px; color:rgb(var(--dust)); letter-spacing:.02em; margin:14px 2px 0; text-align:center; }
+.blog-reader .cover-cap{ font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:12px; color:rgb(var(--dust)); letter-spacing:.02em; margin:14px 2px 0; text-align:center; }
 .blog-reader .fig{ position:relative; left:50%; transform:translateX(-50%); width:min(1000px,92vw); margin:44px 0; }
 .blog-reader .fig img{ width:100%; height:auto; display:block; border:1px solid rgb(var(--sand)); border-radius:12px; background:rgb(var(--paper-dark)); }
 .blog-reader article{ padding:14px 0 8px; font-family:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif; font-size:20px; line-height:1.8; color:rgb(var(--ink)); }
 .blog-reader article p{ margin:0 0 1.55em; }
-.blog-reader article > .wrap > p:first-of-type::first-letter{ font-family:'Space Grotesk',sans-serif; font-weight:800; float:left; font-size:70px; line-height:.8; padding:8px 14px 0 0; color:#7C8B5A; }
-.blog-reader article h2.sec{ font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:-.02em; font-size:clamp(22px,3.1vw,29px); line-height:1.16; color:rgb(var(--ink)); margin:56px 0 20px; }
+.blog-reader article > .wrap > p:first-of-type::first-letter{ font-family:'Fraunces',Georgia,serif; font-weight:800; float:left; font-size:70px; line-height:.8; padding:8px 14px 0 0; color:#7C8B5A; }
+.blog-reader article h2.sec{ font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-.02em; font-size:clamp(22px,3.1vw,29px); line-height:1.16; color:rgb(var(--ink)); margin:56px 0 20px; }
 .blog-reader article ul{ margin:0 0 1.55em; padding:0; list-style:none; }
 .blog-reader article ul li{ position:relative; padding-left:26px; margin:0 0 .7em; line-height:1.65; }
 .blog-reader article ul li::before{ content:""; position:absolute; left:2px; top:.62em; width:7px; height:7px; border-radius:50%; background:#7C8B5A; }
 .blog-reader .term{ color:rgb(var(--ink-soft)); font-weight:500; border-bottom:1px solid rgba(124,139,90,.5); padding-bottom:.5px; }
 .blog-reader article strong{ font-weight:700; color:rgb(var(--ink)); }
 .blog-reader article em{ font-style:italic; color:rgb(var(--ink)); }
-.blog-reader .pull{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-.015em; font-size:clamp(22px,3.2vw,28px); line-height:1.28; color:rgb(var(--ink)); border-left:2px solid #7C8B5A; padding:6px 0 6px 26px; margin:44px 0; max-width:24ch; }
+.blog-reader .pull{ font-family:'Fraunces',Georgia,serif; font-weight:600; letter-spacing:-.015em; font-size:clamp(22px,3.2vw,28px); line-height:1.28; color:rgb(var(--ink)); border-left:2px solid #7C8B5A; padding:6px 0 6px 26px; margin:44px 0; max-width:24ch; }
 .blog-reader .rule{ border:none; border-top:1px solid rgb(var(--sand)); max-width:720px; margin:56px auto 0; }
 .blog-reader .endnote{ font-family:Charter,'Iowan Old Style',Georgia,serif; font-style:italic; font-size:18.5px; line-height:1.7; color:rgb(var(--smoke)); border-left:2px solid #7C8B5A; padding:4px 0 4px 24px; margin:44px 0 0; max-width:60ch; }
 .blog-reader .tl-sec{ padding:40px 0 20px; margin-top:8px; }
 .blog-reader .tl-head .eyebrow{ margin-bottom:20px; }
-.blog-reader .tl-head h2{ font-family:'Space Grotesk',sans-serif; font-weight:800; letter-spacing:-.02em; font-size:clamp(26px,4vw,38px); line-height:1.06; margin:0 0 14px; color:rgb(var(--ink)); }
-.blog-reader .tl-head p{ color:rgb(var(--smoke)); max-width:52ch; margin:0 0 8px; font-family:'Spectral',sans-serif; font-size:18px; }
+.blog-reader .tl-head h2{ font-family:'Fraunces',Georgia,serif; font-weight:800; letter-spacing:-.02em; font-size:clamp(26px,4vw,38px); line-height:1.06; margin:0 0 14px; color:rgb(var(--ink)); }
+.blog-reader .tl-head p{ color:rgb(var(--smoke)); max-width:52ch; margin:0 0 8px; font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:18px; }
 .blog-reader .tl{ margin:44px 0 0; position:relative; }
 .blog-reader .tl::before{ content:""; position:absolute; left:118px; top:6px; bottom:6px; width:1px; background:rgb(var(--sand)); }
 .blog-reader .tl-item{ display:grid; grid-template-columns:104px 1fr; gap:0 34px; padding:0 0 30px; position:relative; }
 .blog-reader .tl-item:last-child{ padding-bottom:0; }
-.blog-reader .tl-year{ font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:#6E7C4E; letter-spacing:.02em; text-align:right; padding-top:1px; }
+.blog-reader .tl-year{ font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:13px; font-weight:700; color:#6E7C4E; letter-spacing:.02em; text-align:right; padding-top:1px; }
 .blog-reader .tl-body{ position:relative; padding-left:26px; }
 .blog-reader .tl-body::before{ content:""; position:absolute; left:-8px; top:8px; width:9px; height:9px; border-radius:50%; background:#7C8B5A; box-shadow:0 0 0 4px rgb(var(--paper)); }
-.blog-reader .tl-terms{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; letter-spacing:-.01em; color:rgb(var(--ink)); margin:0 0 6px; line-height:1.3; }
-.blog-reader .tl-desc{ font-family:'Spectral',sans-serif; font-size:15.5px; line-height:1.55; color:rgb(var(--smoke)); margin:0; }
+.blog-reader .tl-terms{ font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:17px; letter-spacing:-.01em; color:rgb(var(--ink)); margin:0 0 6px; line-height:1.3; }
+.blog-reader .tl-desc{ font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:15.5px; line-height:1.55; color:rgb(var(--smoke)); margin:0; }
   .blog-reader .tl::before{ left:0; }
   .blog-reader .tl-item{ grid-template-columns:1fr; gap:4px; }
   .blog-reader .tl-year{ text-align:left; padding-left:26px; }

@@ -273,7 +273,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
     { label: "CONTACT", href: "#contact" }
   ];
   const nameClass = "hero-name font-bold text-[68px] sm:text-[120px] md:text-[164px] lg:text-[200px] leading-[0.78] tracking-tighter uppercase justify-center whitespace-nowrap";
-  const nameStyle = { color: accent, fontFamily: "'Fira Code', monospace" };
+  const nameStyle = { color: accent, fontFamily: "'Fraunces', Georgia, serif" };
   return /* @__PURE__ */ jsxs("section", { id: "profile", className: "relative min-h-screen transition-colors", style: { backgroundColor: bg, color: fg }, children: [
     /* @__PURE__ */ jsx(
       "header",
@@ -388,7 +388,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
           "span",
           {
             className: "text-[11px] sm:text-[13px] font-semibold uppercase tracking-[0.15em]",
-            style: { color: isDark ? "rgba(255,255,255,0.82)" : "#3A382E", fontFamily: "'Fira Code', monospace" },
+            style: { color: isDark ? "rgba(255,255,255,0.82)" : "#3A382E", fontFamily: "'Fraunces', Georgia, serif" },
             children: [
               "Lead Product Manager, AI & Transformation",
               /* @__PURE__ */ jsx("span", { className: "mx-2 opacity-40", children: "·" }),
@@ -404,7 +404,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             animateBy: "words",
             direction: "top",
             className: "w-full flex-wrap justify-center text-[17px] sm:text-[19px] md:text-[21px] lg:text-[23px] leading-snug",
-            style: { color: isDark ? "rgba(255,255,255,0.75)" : "#4A4840", fontFamily: "'Antic', sans-serif" }
+            style: { color: isDark ? "rgba(255,255,255,0.75)" : "#4A4840", fontFamily: "'Fraunces', Georgia, serif" }
           }
         )
       ] }),
@@ -417,7 +417,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             style: {
               backgroundColor: accent,
               color: isDark ? "#0A0A0A" : "#F7F6F1",
-              fontFamily: "'Space Grotesk', sans-serif"
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif"
             },
             children: [
               "Start a conversation ",
@@ -435,7 +435,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             style: {
               borderColor: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.18)",
               color: fg,
-              fontFamily: "'Space Grotesk', sans-serif"
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif"
             },
             children: [
               /* @__PURE__ */ jsx(FileText, { className: "h-4 w-4" }),
@@ -451,7 +451,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             style: {
               borderColor: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.18)",
               color: fg,
-              fontFamily: "'Space Grotesk', sans-serif"
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif"
             },
             children: "Read the artifacts"
           }
@@ -463,7 +463,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
             target: "_blank",
             rel: "noopener noreferrer",
             className: "inline-flex items-center gap-2 px-2 py-3 text-sm font-medium transition-opacity hover:opacity-100",
-            style: { color: muted, opacity: 0.85, fontFamily: "'Space Grotesk', sans-serif" },
+            style: { color: muted, opacity: 0.85, fontFamily: "'Hanken Grotesk', system-ui, sans-serif" },
             children: [
               /* @__PURE__ */ jsx(Linkedin, { className: "h-4 w-4" }),
               " LinkedIn"
@@ -484,7 +484,7 @@ function PortfolioHero({ theme = "dark", onToggleTheme = () => {
           "p",
           {
             className: "text-center text-[9px] tracking-[0.16em] sm:text-[11px] sm:tracking-[0.22em] uppercase mb-5",
-            style: { color: isDark ? "rgba(255,255,255,0.34)" : "#9C9887", fontFamily: "'Fira Code', monospace" },
+            style: { color: isDark ? "rgba(255,255,255,0.34)" : "#9C9887", fontFamily: "'Fraunces', Georgia, serif" },
             children: "Platforms & institutions I've built for"
           }
         ),
@@ -1510,7 +1510,7 @@ function BlogReader({ slug, onClose }) {
   const [post, setPost] = useState(null);
   useEffect(() => {
     let live = true;
-    import("./assets/blogPosts-mn6R-OxW.js").then((m) => {
+    import("./assets/blogPosts-Deokhet2.js").then((m) => {
       if (live) setPost(m.POSTS[slug] || null);
     });
     return () => {

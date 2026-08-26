@@ -28,39 +28,39 @@
   html{scroll-behavior:smooth}
   body{
     margin:0;background:var(--paper);color:var(--ink);
-    font-family:"Spectral",Georgia,serif;font-size:19px;line-height:1.75;
+    font-family:'Hanken Grotesk',Georgia,serif;font-size:19px;line-height:1.75;
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   }
   ::selection{background:#F79256;color:#1a0e00}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
   .wide{max-width:900px}
-  .mono{font-family:"Space Mono",monospace}
+  .mono{font-family:ui-monospace,monospace}
   a{color:var(--plasma)}
 
   /* ---------- NAV ---------- */
   .topnav{position:sticky;top:0;z-index:50;background:rgba(12,17,34,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav .wrap{max-width:900px;height:56px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Fraunces',sans-serif;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
   .brand:hover{color:var(--flag-soft)}
   .brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#FFD45E,#FF9E2C,#FF5E3A)}
-  .backlink{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
+  .backlink{font-family:ui-monospace,monospace;font-size:12.5px;letter-spacing:.06em;color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;transition:all .2s}
   .backlink:hover{color:var(--flag);border-color:var(--flag)}
 
   /* ---------- HERO ---------- */
   .hero{padding:72px 0 20px}
-  .eyebrow{font-family:"Space Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--flag);display:flex;align-items:center;gap:12px;margin:0 0 26px}
+  .eyebrow{font-family:ui-monospace,monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--flag);display:flex;align-items:center;gap:12px;margin:0 0 26px}
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--flag);display:inline-block}
-  h1{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.025em;line-height:1.04;font-size:clamp(34px,5.6vw,58px);margin:0 0 22px;max-width:16ch}
+  h1{font-family:'Fraunces',sans-serif;font-weight:800;letter-spacing:-.025em;line-height:1.04;font-size:clamp(34px,5.6vw,58px);margin:0 0 22px;max-width:16ch}
   .deck{font-size:clamp(19px,2.4vw,24px);line-height:1.45;color:var(--ink-soft);max-width:40ch;margin:0 0 6px;font-weight:400}
   .byline{display:flex;align-items:center;gap:13px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin-top:30px}
   .byline .avatar{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1px solid var(--line-strong);flex:none;background:var(--card)}
-  .byline .name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);letter-spacing:-.01em}
-  .byline .sub{font-family:"Space Mono",monospace;font-size:12.5px;color:var(--ink-soft);margin-top:4px;letter-spacing:.02em}
+  .byline .name{font-family:'Fraunces',sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);letter-spacing:-.01em}
+  .byline .sub{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--ink-soft);margin-top:4px;letter-spacing:.02em}
 
   /* ---------- COVER ---------- */
   .cover-wrap{padding:6px 0 26px}
   .cover{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-  .cover-cap{font-family:"Space Mono",monospace;font-size:12px;color:var(--ink-soft);opacity:.8;letter-spacing:.02em;margin:14px 2px 0;text-align:center}
+  .cover-cap{font-family:ui-monospace,monospace;font-size:12px;color:var(--ink-soft);opacity:.8;letter-spacing:.02em;margin:14px 2px 0;text-align:center}
 
   /* ---------- IN-ARTICLE FIGURES (breakout wider than text column) ---------- */
   .fig{position:relative;left:50%;transform:translateX(-50%);width:min(1000px,92vw);margin:44px 0}
@@ -70,10 +70,10 @@
   article{padding:14px 0 8px;font-family:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;font-size:21px;line-height:1.82;color:#E4E8F2}
   article p{margin:0 0 1.55em;letter-spacing:.002em}
   article > .wrap > p:first-of-type::first-letter{
-    font-family:"Space Grotesk",sans-serif;font-weight:800;float:left;
+    font-family:'Fraunces',sans-serif;font-weight:800;float:left;
     font-size:72px;line-height:.8;padding:8px 14px 0 0;color:var(--flag-soft);
   }
-  article h2.sec{font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(23px,3.3vw,31px);line-height:1.16;color:#F2F5FB;margin:56px 0 20px}
+  article h2.sec{font-family:'Fraunces',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(23px,3.3vw,31px);line-height:1.16;color:#F2F5FB;margin:56px 0 20px}
   article ul{margin:0 0 1.55em;padding:0;list-style:none}
   article ul li{position:relative;padding-left:26px;margin:0 0 .7em;line-height:1.65}
   article ul li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--flag)}
@@ -81,7 +81,7 @@
   article strong{font-weight:700;color:#F2F5FB}
   article em{font-style:italic;color:#EDF0F7}
   .pull{
-    font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:-.015em;
+    font-family:'Fraunces',sans-serif;font-weight:600;letter-spacing:-.015em;
     font-size:clamp(23px,3.4vw,30px);line-height:1.28;color:#F2F5FB;
     border-left:2px solid var(--flag);padding:6px 0 6px 26px;margin:44px 0;max-width:24ch;
   }
@@ -91,17 +91,17 @@
   /* ---------- TIMELINE ---------- */
   .tl-sec{padding:56px 0 20px;margin-top:8px}
   .tl-head .eyebrow{margin-bottom:20px}
-  .tl-head h2{font-family:"Space Grotesk",sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(28px,4.2vw,42px);line-height:1.06;margin:0 0 14px;color:#F2F5FB}
-  .tl-head p{color:var(--ink-soft);max-width:52ch;margin:0 0 8px;font-family:"Spectral",sans-serif;font-size:18px}
+  .tl-head h2{font-family:'Fraunces',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(28px,4.2vw,42px);line-height:1.06;margin:0 0 14px;color:#F2F5FB}
+  .tl-head p{color:var(--ink-soft);max-width:52ch;margin:0 0 8px;font-family:'Hanken Grotesk',sans-serif;font-size:18px}
   .tl{margin:44px 0 0;position:relative}
   .tl::before{content:"";position:absolute;left:118px;top:6px;bottom:6px;width:1px;background:var(--line);}
   .tl-item{display:grid;grid-template-columns:104px 1fr;gap:0 34px;padding:0 0 30px;position:relative}
   .tl-item:last-child{padding-bottom:0}
-  .tl-year{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--flag);letter-spacing:.02em;text-align:right;padding-top:1px}
+  .tl-year{font-family:ui-monospace,monospace;font-size:13px;font-weight:700;color:var(--flag);letter-spacing:.02em;text-align:right;padding-top:1px}
   .tl-body{position:relative;padding-left:26px}
   .tl-body::before{content:"";position:absolute;left:-8px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--flag);box-shadow:0 0 0 4px var(--paper)}
-  .tl-terms{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;line-height:1.3}
-  .tl-desc{font-family:"Spectral",sans-serif;font-size:15.5px;line-height:1.55;color:var(--ink-soft);margin:0}
+  .tl-terms{font-family:'Fraunces',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;line-height:1.3}
+  .tl-desc{font-family:'Hanken Grotesk',sans-serif;font-size:15.5px;line-height:1.55;color:var(--ink-soft);margin:0}
   @media(max-width:620px){
     .tl::before{left:0}
     .tl-item{grid-template-columns:1fr;gap:4px}

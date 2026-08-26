@@ -123,7 +123,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
 
   const nameClass =
     'hero-name font-bold text-[68px] sm:text-[120px] md:text-[164px] lg:text-[200px] leading-[0.78] tracking-tighter uppercase justify-center whitespace-nowrap'
-  const nameStyle = { color: accent, fontFamily: "'Fira Code', monospace" }
+  const nameStyle = { color: accent, fontFamily: "'Fraunces', Georgia, serif" }
 
   return (
     <section id="profile" className="relative min-h-screen transition-colors" style={{ backgroundColor: bg, color: fg }}>
@@ -242,7 +242,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
         <div className="mt-10 sm:mt-12 w-full max-w-2xl flex flex-col items-center gap-3 text-center">
           <span
             className="text-[11px] sm:text-[13px] font-semibold uppercase tracking-[0.15em]"
-            style={{ color: isDark ? 'rgba(255,255,255,0.82)' : '#3A382E', fontFamily: "'Fira Code', monospace" }}
+            style={{ color: isDark ? 'rgba(255,255,255,0.82)' : '#3A382E', fontFamily: "'Fraunces', Georgia, serif" }}
           >
             Lead Product Manager, AI &amp; Transformation
             <span className="mx-2 opacity-40">·</span>
@@ -254,7 +254,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             animateBy="words"
             direction="top"
             className="w-full flex-wrap justify-center text-[17px] sm:text-[19px] md:text-[21px] lg:text-[23px] leading-snug"
-            style={{ color: isDark ? 'rgba(255,255,255,0.75)' : '#4A4840', fontFamily: "'Antic', sans-serif" }}
+            style={{ color: isDark ? 'rgba(255,255,255,0.75)' : '#4A4840', fontFamily: "'Fraunces', Georgia, serif" }}
           />
         </div>
 
@@ -266,7 +266,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             style={{
               backgroundColor: accent,
               color: isDark ? '#0A0A0A' : '#F7F6F1',
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif",
             }}
           >
             Start a conversation <ArrowUpRight className="h-4 w-4" />
@@ -279,7 +279,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             style={{
               borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)',
               color: fg,
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif",
             }}
           >
             <FileText className="h-4 w-4" /> Résumé
@@ -290,7 +290,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             style={{
               borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)',
               color: fg,
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Hanken Grotesk', system-ui, sans-serif",
             }}
           >
             Read the artifacts
@@ -300,7 +300,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-2 py-3 text-sm font-medium transition-opacity hover:opacity-100"
-            style={{ color: muted, opacity: 0.85, fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{ color: muted, opacity: 0.85, fontFamily: "'Hanken Grotesk', system-ui, sans-serif" }}
           >
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
@@ -322,7 +322,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
           <div className="hero-proof mt-12 sm:mt-14 w-full max-w-4xl">
             <p
               className="text-center text-[9px] tracking-[0.16em] sm:text-[11px] sm:tracking-[0.22em] uppercase mb-5"
-              style={{ color: isDark ? 'rgba(255,255,255,0.34)' : '#9C9887', fontFamily: "'Fira Code', monospace" }}
+              style={{ color: isDark ? 'rgba(255,255,255,0.34)' : '#9C9887', fontFamily: "'Fraunces', Georgia, serif" }}
             >
               Platforms &amp; institutions I&apos;ve built for
             </p>

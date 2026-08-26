@@ -8,12 +8,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Mono display for headings (21st Portfolio Hero theme)
-        serif: ['Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        display: ['Fira Code', 'ui-monospace', 'monospace'],
-        grotesk: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['Spectral', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
-        mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        // Fraunces (editorial serif w/ optical sizing) for display + headings;
+        // Hanken Grotesk (clean neutral sans) for body, UI and labels.
+        serif: ['Fraunces', 'Georgia', 'Cambria', 'serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
+        grotesk: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       // All colors are CSS-variable backed so light/dark flips in one place.
       colors: {
