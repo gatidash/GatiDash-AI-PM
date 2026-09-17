@@ -62,6 +62,10 @@ p strong{color:var(--ink);font-weight:600}
 .code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
   color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
 pre{overflow-x:auto;padding:20px 18px;margin:0}
+code.inl{display:inline;white-space:nowrap;font-family:'Space Mono',ui-monospace,monospace;
+  font-size:.84em;line-height:inherit;color:var(--accent-2);
+  background:rgba(195,228,29,.07);border:1px solid rgba(195,228,29,.16);border-radius:3px;
+  padding:.08em .38em}
 code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
   color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
 code .k{color:var(--accent)}
@@ -103,7 +107,7 @@ footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
 
 <section><div class="wrap">
   <h2>The problem</h2>
-  <p>A model that returns prose is a demo. A model that returns a validated object is a component you can build on. Meridian&#x27;s whole job is to hand a compliance officer a packet they can sign. So the unit of work is a `control_impact_assessment` that either conforms or doesn&#x27;t exist. A paragraph won&#x27;t do.</p><p>Two things go wrong in practice. The model produces something almost-valid and downstream code quietly coerces it. Or it can&#x27;t do the task and invents a citation to fill a required field, because the schema demanded one and nothing offered it a way out. Both failures look like success in the logs.</p><p>So I fix it in two places. The schema makes `abstained` a legitimate outcome with its own required fields, so refusing is a well-formed answer rather than an error. And the repair loop has a hard budget: two retries, each naming the exact violation, then it stops and hands the thing to a person. Retrying forever is how you turn a 30-second failure into a four-minute one and still get nothing.</p>
+  <p>A model that returns prose is a demo. A model that returns a validated object is a component you can build on. Meridian&#x27;s whole job is to hand a compliance officer a packet they can sign. So the unit of work is a <code class="inl">control_impact_assessment</code> that either conforms or doesn&#x27;t exist. A paragraph won&#x27;t do.</p><p>Two things go wrong in practice. The model produces something almost-valid and downstream code quietly coerces it. Or it can&#x27;t do the task and invents a citation to fill a required field, because the schema demanded one and nothing offered it a way out. Both failures look like success in the logs.</p><p>So I fix it in two places. The schema makes <code class="inl">abstained</code> a legitimate outcome with its own required fields, so refusing is a well-formed answer rather than an error. And the repair loop has a hard budget: two retries, each naming the exact violation, then it stops and hands the thing to a person. Retrying forever is how you turn a 30-second failure into a four-minute one and still get nothing.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -893,7 +897,7 @@ Repair attempts remaining after this one: {budget_after}.&quot;&quot;&quot;</spa
   </div>
 </div></section>
 
-<div class="wrap"><div class="pager"><span></span><a href="/artifact-eval-rubric.html">An Eval Rubric That Can Say No →</a></div></div>
+<div class="wrap"><div class="pager"><a href="/artifact-agent-harness.html">← The Harness, Not the Framework</a><a href="/artifact-eval-rubric.html">An Eval Rubric That Can Say No →</a></div></div>
 
 <footer><div class="wrap">
   <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>

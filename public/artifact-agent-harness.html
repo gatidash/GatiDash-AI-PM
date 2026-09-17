@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>The Harness, Not the Framework · Artifact · Gatikrishna Dash</title>
+<meta name="description" content="One tool contract, an append-only ledger, and replay as the requirement the architecture falls out of.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000000; --card:#0C0C0E; --deep-2:#141417;
+  --ink:#F2F0EA; --ink-soft:#C9C7BE; --smoke:#9A978C; --dust:#6E6C63;
+  --line:rgba(242,240,234,.13); --line-strong:rgba(242,240,234,.24);
+  --accent:#C3E41D; --accent-2:#D6EE5C; --plasma:#7FB3AD;
+  --ok:#46E0A0; --bad:#F2716B; --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#12140A}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+h1,h2,h3{font-family:'Fira Code',ui-monospace,SFMono-Regular,monospace;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+
+.topnav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Fira Code',monospace;font-weight:700;font-size:15px}
+.brand-badge{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;flex:none;
+  background:var(--accent);color:#12140A;font-family:'Fira Code',monospace;font-weight:700;font-size:13px;line-height:1}
+.backlink{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:7px 15px;transition:.2s}
+.backlink:hover{border-color:var(--accent);color:var(--accent)}
+
+header.head{padding:64px 0 26px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--plasma);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+h1{font-size:clamp(30px,4.4vw,50px);max-width:19ch;margin-bottom:18px}
+.kicker{font-size:clamp(17px,2vw,21px);color:var(--smoke);max-width:52ch}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:999px;
+  padding:5px 12px;color:var(--smoke);margin-top:26px}
+.badge b{color:var(--accent);font-weight:700}
+
+section{padding:34px 0}
+h2{font-size:clamp(20px,2.5vw,27px);margin-bottom:18px}
+p{margin-bottom:16px;color:var(--ink-soft);max-width:62ch}
+p strong{color:var(--ink);font-weight:600}
+
+.code-wrap{margin:26px 0 30px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card)}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:var(--deep-2)}
+.code-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--smoke);letter-spacing:.03em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-lang{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(195,228,29,.4);border-radius:999px;padding:3px 9px;flex:none}
+pre{overflow-x:auto;padding:20px 18px;margin:0}
+code.inl{display:inline;white-space:nowrap;font-family:'Space Mono',ui-monospace,monospace;
+  font-size:.84em;line-height:inherit;color:var(--accent-2);
+  background:rgba(195,228,29,.07);border:1px solid rgba(195,228,29,.16);border-radius:3px;
+  padding:.08em .38em}
+code{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace;font-size:12.5px;line-height:1.72;
+  color:var(--ink-soft);white-space:pre;display:block;tab-size:2}
+code .k{color:var(--accent)}
+code .s{color:var(--plasma)}
+code .n{color:#D6EE5C}
+code .b{color:#C3E41D;font-weight:700}
+code .p{color:var(--dust)}
+code .c{color:var(--dust);font-style:italic}
+code .ok{color:var(--ok);font-weight:700}
+code .bad{color:var(--bad);font-weight:700}
+
+.tradeoff{border-left:2px solid var(--accent);padding:2px 0 2px 20px;margin:34px 0 8px;max-width:64ch}
+.tradeoff .eyebrow{margin-bottom:14px}
+.tradeoff li{list-style:none;color:var(--ink-soft);margin-bottom:11px;padding-left:20px;position:relative}
+.tradeoff li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+
+.pager{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 70px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.pager a{font-family:'Space Mono',monospace;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.pager a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:26px 0 60px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer span{font-family:'Space Mono',monospace;font-size:12px;color:var(--dust)}
+@media (max-width:640px){ body{font-size:16.5px} pre{padding:16px 14px} code{font-size:11.5px} }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="/"><span class="brand-badge">G</span>Gatikrishna Dash</a>
+  <a class="backlink" href="/#artifacts">← Artifacts</a>
+</div></nav>
+
+<header class="head"><div class="wrap">
+  <p class="eyebrow">Artifact</p>
+  <h1>The Harness, Not the Framework</h1>
+  <p class="kicker">One tool contract, an append-only ledger, and replay as the requirement the architecture falls out of.</p>
+  <span class="badge">Reference implementation · <b>built for my own concept systems</b></span>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The problem</h2>
+  <p>An agent framework gives you a loop, a prompt template and a tool registry in an afternoon. They&#x27;re good at the part that was never the hard part.</p><p>What they don&#x27;t hand you is an answer to the question that actually gets asked eighteen months later, usually by someone who doesn&#x27;t care how the model works: why did this happen, and would it happen the same way today. Logs don&#x27;t answer that. A log tells you what got printed. It doesn&#x27;t let you put the decision back together.</p><p>So I start from replay and let the architecture fall out of it. If a run has to be reconstructable, then every non-deterministic input gets recorded as a value rather than a reference, every step becomes an addressable event, and the loop becomes a fold over an append-only ledger instead of a <code class="inl">while True</code>. Once that&#x27;s settled, the rest stops being a matter of taste. Tools turn into pure functions of a typed request. The model becomes one step type among several. Anything that leaves our boundary goes through a gate that can refuse.</p><p>That&#x27;s also why I keep the loop. The loop is where the invariants live, and a framework that owns the loop owns them instead. Below are the ones I care about most, then a worked run that exercises them, then the two places this design admits it can&#x27;t help you.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">harness/contract.py — four things a tool has to admit about itself</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;harness/contract.py — the tool contract.
+
+Invariants this file exists to hold:
+
+  H1  A tool that does not declare `idempotent` is never retried after a
+      timeout. A timeout means unknown, not failed.
+  H2  The idempotency key is derived from the run id, the tool, its version
+      and the declared key fields only. A retry inside a run collides on
+      purpose. A different run never does.
+  H3  Timeout and attempt budgets are per tool, not global. A 400ms cache
+      read and a 30s filing call do not share a policy.
+  H4  An irreversible effect declares its compensating action, or it does
+      not load.
+  H5  A write we cannot retry declares how to find out whether it landed, or
+      it does not load. &quot;We don&#x27;t know&quot; is only acceptable if someone can go
+      and look.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> hashlib
+<span class="b">import</span> json
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass, field
+<span class="b">from</span> typing <span class="b">import</span> Any, Mapping
+
+READ = <span class="s">&quot;read&quot;</span>                  <span class="c"># no state change anywhere</span>
+WRITE = <span class="s">&quot;write&quot;</span>                <span class="c"># changes state, reversible by us</span>
+IRREVERSIBLE = <span class="s">&quot;irreversible&quot;</span>  <span class="c"># leaves our boundary: filed, sent, paid</span>
+
+EFFECTS = (READ, WRITE, IRREVERSIBLE)
+
+
+<span class="b">class</span> ContractError(ValueError):
+    <span class="b">pass</span>
+
+
+@dataclass(frozen=<span class="b">True</span>)
+<span class="b">class</span> ToolSpec:
+    name: str
+    version: str
+    effect: str
+    timeout_s: float
+    max_attempts: int
+    idempotent: bool = <span class="b">False</span>
+    key_fields: tuple[str, ...] = ()
+    compensating_action: str | <span class="b">None</span> = <span class="b">None</span>
+    reconcile_with: str | <span class="b">None</span> = <span class="b">None</span>
+    requires_approval: bool = <span class="b">False</span>
+
+    <span class="b">def</span> __post_init__(self) -&gt; <span class="b">None</span>:
+        <span class="b">if</span> self.effect <span class="b">not</span> <span class="b">in</span> EFFECTS:
+            <span class="b">raise</span> ContractError(f<span class="s">&quot;{self.name}: unknown effect {self.effect!r}&quot;</span>)
+        <span class="b">if</span> self.effect == READ <span class="b">and</span> <span class="b">not</span> self.idempotent:
+            <span class="b">raise</span> ContractError(f<span class="s">&quot;{self.name}: a read is idempotent by definition&quot;</span>)
+        <span class="c"># H4</span>
+        <span class="b">if</span> self.effect == IRREVERSIBLE <span class="b">and</span> <span class="b">not</span> self.compensating_action:
+            <span class="b">raise</span> ContractError(
+                f<span class="s">&quot;{self.name}: irreversible tools must name a compensating action&quot;</span>
+            )
+        <span class="b">if</span> self.effect == IRREVERSIBLE <span class="b">and</span> <span class="b">not</span> self.requires_approval:
+            <span class="b">raise</span> ContractError(f<span class="s">&quot;{self.name}: irreversible tools require approval&quot;</span>)
+        <span class="b">if</span> self.max_attempts &lt; <span class="n">1</span>:
+            <span class="b">raise</span> ContractError(f<span class="s">&quot;{self.name}: max_attempts must be &gt;= 1&quot;</span>)
+        <span class="c"># H1, stated as a type-level fact rather than a comment in the caller</span>
+        <span class="b">if</span> self.max_attempts &gt; <span class="n">1</span> <span class="b">and</span> <span class="b">not</span> self.idempotent:
+            <span class="b">raise</span> ContractError(
+                f<span class="s">&quot;{self.name}: non-idempotent tools cannot declare retries&quot;</span>
+            )
+        <span class="b">if</span> self.idempotent <span class="b">and</span> <span class="b">not</span> self.key_fields:
+            <span class="b">raise</span> ContractError(f<span class="s">&quot;{self.name}: idempotent tools must declare key_fields&quot;</span>)
+        <span class="c"># H5</span>
+        <span class="b">if</span> self.effect == WRITE <span class="b">and</span> <span class="b">not</span> self.idempotent <span class="b">and</span> <span class="b">not</span> self.reconcile_with:
+            <span class="b">raise</span> ContractError(
+                f<span class="s">&quot;{self.name}: a write with no retry must declare reconcile_with&quot;</span>
+            )
+
+    <span class="b">def</span> attempts_after_timeout(self) -&gt; int:
+        <span class="s">&quot;&quot;&quot;H1. Unknown is not failure. Retrying a write we cannot dedupe is how
+        one filing becomes two.&quot;&quot;&quot;</span>
+        <span class="b">return</span> self.max_attempts <span class="b">if</span> self.idempotent <span class="b">else</span> <span class="n">1</span>
+
+
+<span class="b">def</span> canonical(obj: Any) -&gt; str:
+    <span class="b">return</span> json.dumps(obj, sort_keys=<span class="b">True</span>, separators=(<span class="s">&quot;,&quot;</span>, <span class="s">&quot;:&quot;</span>), default=str)
+
+
+<span class="b">def</span> idempotency_key(spec: ToolSpec, run_id: str, args: Mapping[str, Any]) -&gt; str:
+    <span class="s">&quot;&quot;&quot;H2. Derived, never generated. Two attempts at the same call inside one
+    run produce the same key; the same call in a new run does not.&quot;&quot;&quot;</span>
+    missing = [f <span class="b">for</span> f <span class="b">in</span> spec.key_fields <span class="b">if</span> f <span class="b">not</span> <span class="b">in</span> args]
+    <span class="b">if</span> missing:
+        <span class="b">raise</span> ContractError(f<span class="s">&quot;{spec.name}: key fields absent from args: {missing}&quot;</span>)
+    material = canonical(
+        {
+            <span class="s">&quot;run&quot;</span>: run_id,
+            <span class="s">&quot;tool&quot;</span>: spec.name,
+            <span class="s">&quot;v&quot;</span>: spec.version,
+            <span class="s">&quot;key&quot;</span>: {f: args[f] <span class="b">for</span> f <span class="b">in</span> spec.key_fields},
+        }
+    )
+    <span class="b">return</span> hashlib.sha256(material.encode()).hexdigest()[:<span class="n">24</span>]
+
+
+<span class="b">def</span> load_registry(doc: Mapping[str, Any]) -&gt; dict[str, ToolSpec]:
+    out: dict[str, ToolSpec] = {}
+    <span class="b">for</span> name, d <span class="b">in</span> doc[<span class="s">&quot;tools&quot;</span>].items():
+        out[name] = ToolSpec(
+            name=name,
+            version=d[<span class="s">&quot;version&quot;</span>],
+            effect=d[<span class="s">&quot;effect&quot;</span>],
+            timeout_s=d[<span class="s">&quot;timeout_s&quot;</span>],
+            max_attempts=d.get(<span class="s">&quot;max_attempts&quot;</span>, <span class="n">1</span>),
+            idempotent=d.get(<span class="s">&quot;idempotent&quot;</span>, <span class="b">False</span>),
+            key_fields=tuple(d.get(<span class="s">&quot;key_fields&quot;</span>, ())),
+            compensating_action=d.get(<span class="s">&quot;compensating_action&quot;</span>),
+            reconcile_with=d.get(<span class="s">&quot;reconcile_with&quot;</span>),
+            requires_approval=d.get(<span class="s">&quot;requires_approval&quot;</span>, <span class="b">False</span>),
+        )
+    <span class="b">return</span> out</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">harness/tools/registry.v2.json — four tools, four different risk postures</span>
+    <span class="code-lang">JSON</span>
+  </div>
+  <pre><code><span class="p">{</span>
+  <span class="k">&quot;$id&quot;</span>: <span class="s">&quot;https://meridian.internal/harness/tools/registry.v2.json&quot;</span><span class="p">,</span>
+  <span class="k">&quot;version&quot;</span>: <span class="s">&quot;2.0.0&quot;</span><span class="p">,</span>
+  <span class="k">&quot;note&quot;</span>: <span class="s">&quot;Budgets are per tool. A tool with no idempotency story gets one attempt.&quot;</span><span class="p">,</span>
+  <span class="k">&quot;tools&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;policy.lookup&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;version&quot;</span>: <span class="s">&quot;1.3.0&quot;</span><span class="p">,</span>
+      <span class="k">&quot;effect&quot;</span>: <span class="s">&quot;read&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_s&quot;</span>: <span class="n">2.0</span><span class="p">,</span>
+      <span class="k">&quot;max_attempts&quot;</span>: <span class="n">3</span><span class="p">,</span>
+      <span class="k">&quot;idempotent&quot;</span>: <span class="b">true</span><span class="p">,</span>
+      <span class="k">&quot;key_fields&quot;</span>: <span class="p">[</span><span class="s">&quot;control_id&quot;</span><span class="p">,</span> <span class="s">&quot;policy_version&quot;</span><span class="p">]</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;case.attach_assessment&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;version&quot;</span>: <span class="s">&quot;2.1.0&quot;</span><span class="p">,</span>
+      <span class="k">&quot;effect&quot;</span>: <span class="s">&quot;write&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_s&quot;</span>: <span class="n">8.0</span><span class="p">,</span>
+      <span class="k">&quot;max_attempts&quot;</span>: <span class="n">3</span><span class="p">,</span>
+      <span class="k">&quot;idempotent&quot;</span>: <span class="b">true</span><span class="p">,</span>
+      <span class="k">&quot;key_fields&quot;</span>: <span class="p">[</span><span class="s">&quot;case_id&quot;</span><span class="p">,</span> <span class="s">&quot;assessment_hash&quot;</span><span class="p">]</span><span class="p">,</span>
+      <span class="k">&quot;compensating_action&quot;</span>: <span class="s">&quot;case.detach_assessment&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;queue.assign_reviewer&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;version&quot;</span>: <span class="s">&quot;1.0.0&quot;</span><span class="p">,</span>
+      <span class="k">&quot;effect&quot;</span>: <span class="s">&quot;write&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_s&quot;</span>: <span class="n">5.0</span><span class="p">,</span>
+      <span class="k">&quot;max_attempts&quot;</span>: <span class="n">1</span><span class="p">,</span>
+      <span class="k">&quot;idempotent&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;reconcile_with&quot;</span>: <span class="s">&quot;queue.find_assignment(case_id)&quot;</span><span class="p">,</span>
+      <span class="k">&quot;comment&quot;</span>: <span class="s">&quot;The upstream queue mints its own assignment id. We cannot dedupe it, so we do not retry it - we go and look instead.&quot;</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="k">&quot;regulator.file_report&quot;</span>: <span class="p">{</span>
+      <span class="k">&quot;version&quot;</span>: <span class="s">&quot;4.0.0&quot;</span><span class="p">,</span>
+      <span class="k">&quot;effect&quot;</span>: <span class="s">&quot;irreversible&quot;</span><span class="p">,</span>
+      <span class="k">&quot;timeout_s&quot;</span>: <span class="n">30.0</span><span class="p">,</span>
+      <span class="k">&quot;max_attempts&quot;</span>: <span class="n">1</span><span class="p">,</span>
+      <span class="k">&quot;idempotent&quot;</span>: <span class="b">false</span><span class="p">,</span>
+      <span class="k">&quot;requires_approval&quot;</span>: <span class="b">true</span><span class="p">,</span>
+      <span class="k">&quot;compensating_action&quot;</span>: <span class="s">&quot;regulator.file_amendment (a new filing, not a delete)&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">harness/run.py — the ledger, the effect gate, and replay</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;harness/run.py — the ledger, the effect gate, and replay.
+
+The loop is a fold over an append-only ledger, not a `while True`. That is the
+whole architectural choice on this page, and every invariant below depends on
+it.
+
+  H5  Every step appends exactly one intent event before its effect and
+      exactly one outcome event after. There is no third path out.
+  H6  Replay never executes an effect. Effects are served from the ledger.
+  H7  Replay does not re-run the model either. It re-runs *our code* against
+      what the model said. Replay validates the reasoning around the model,
+      not the model.
+  H8  An irreversible effect is refused unless an approval event for that
+      exact idempotency key already sits in the ledger.
+&quot;&quot;&quot;</span>
+<span class="b">from</span> __future__ <span class="b">import</span> annotations
+
+<span class="b">import</span> json
+<span class="b">from</span> dataclasses <span class="b">import</span> dataclass, field
+<span class="b">from</span> typing <span class="b">import</span> Any, Callable, Mapping
+
+<span class="b">from</span> contract <span class="b">import</span> (
+    IRREVERSIBLE,
+    ContractError,
+    ToolSpec,
+    canonical,
+    idempotency_key,
+)
+
+
+<span class="b">class</span> ToolTimeout(Exception):
+    <span class="b">pass</span>
+
+
+<span class="b">class</span> ApprovalRequired(Exception):
+    <span class="b">pass</span>
+
+
+<span class="b">class</span> Escalate(Exception):
+    <span class="b">def</span> __init__(self, reason: str, detail: Mapping[str, Any]):
+        super().__init__(reason)
+        self.reason = reason
+        self.detail = dict(detail)
+
+
+@dataclass
+<span class="b">class</span> Ledger:
+    run_id: str
+    events: list[dict] = field(default_factory=list)
+
+    <span class="b">def</span> append(self, kind: str, **payload: Any) -&gt; dict:
+        ev = {<span class="s">&quot;seq&quot;</span>: len(self.events), <span class="s">&quot;run&quot;</span>: self.run_id, <span class="s">&quot;kind&quot;</span>: kind, **payload}
+        self.events.append(ev)
+        <span class="b">return</span> ev
+
+    <span class="b">def</span> find(self, kind: str, **match: Any) -&gt; dict | <span class="b">None</span>:
+        <span class="b">for</span> ev <span class="b">in</span> self.events:
+            <span class="b">if</span> ev[<span class="s">&quot;kind&quot;</span>] == kind <span class="b">and</span> all(ev.get(k) == v <span class="b">for</span> k, v <span class="b">in</span> match.items()):
+                <span class="b">return</span> ev
+        <span class="b">return</span> <span class="b">None</span>
+
+    DECISIVE = (<span class="s">&quot;model_observed&quot;</span>, <span class="s">&quot;tool_observed&quot;</span>, <span class="s">&quot;tool_unknown&quot;</span>,
+                <span class="s">&quot;effect_refused&quot;</span>, <span class="s">&quot;escalated&quot;</span>, <span class="s">&quot;run_ended&quot;</span>)
+
+    <span class="b">def</span> decision_digest(self) -&gt; str:
+        <span class="s">&quot;&quot;&quot;What the run decided, with the mechanics of *how* it got there left
+        out. A replay ledger is not byte-identical to the live one - it has no
+        timeouts in it and every observation is marked `source=ledger`. This is
+        the thing that has to match.&quot;&quot;&quot;</span>
+        <span class="b">import</span> hashlib
+
+        material = canonical(
+            [
+                {k: v <span class="b">for</span> k, v <span class="b">in</span> ev.items()
+                 <span class="b">if</span> k <span class="b">not</span> <span class="b">in</span> (<span class="s">&quot;seq&quot;</span>, <span class="s">&quot;source&quot;</span>, <span class="s">&quot;attempt&quot;</span>, <span class="s">&quot;budget&quot;</span>)}
+                <span class="b">for</span> ev <span class="b">in</span> self.events <span class="b">if</span> ev[<span class="s">&quot;kind&quot;</span>] <span class="b">in</span> self.DECISIVE
+            ]
+        )
+        <span class="b">return</span> hashlib.sha256(material.encode()).hexdigest()[:<span class="n">16</span>]
+
+
+<span class="b">class</span> Harness:
+    <span class="b">def</span> __init__(
+        self,
+        run_id: str,
+        registry: Mapping[str, ToolSpec],
+        transport: Callable[[str, Mapping[str, Any], float, int], Any] | <span class="b">None</span> = <span class="b">None</span>,
+        prior: Ledger | <span class="b">None</span> = <span class="b">None</span>,
+    ):
+        self.registry = registry
+        self.replaying = prior <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>
+        self.prior = prior
+        self.transport = transport
+        self.ledger = Ledger(run_id=run_id)
+        self.ledger.append(<span class="s">&quot;run_started&quot;</span>, mode=<span class="s">&quot;replay&quot;</span> <span class="b">if</span> self.replaying <span class="b">else</span> <span class="s">&quot;live&quot;</span>)
+
+    <span class="c"># ── model step ────────────────────────────────────────────────</span>
+    <span class="b">def</span> model(self, step: str, fn: Callable[[], Any]) -&gt; Any:
+        <span class="b">if</span> self.replaying:  <span class="c"># H7</span>
+            prior = self.prior.find(<span class="s">&quot;model_observed&quot;</span>, step=step)
+            <span class="b">if</span> prior <span class="b">is</span> <span class="b">None</span>:
+                <span class="b">raise</span> Escalate(<span class="s">&quot;replay_gap&quot;</span>, {<span class="s">&quot;step&quot;</span>: step})
+            self.ledger.append(<span class="s">&quot;model_observed&quot;</span>, step=step, output=prior[<span class="s">&quot;output&quot;</span>],
+                               source=<span class="s">&quot;ledger&quot;</span>)
+            <span class="b">return</span> prior[<span class="s">&quot;output&quot;</span>]
+        out = fn()
+        self.ledger.append(<span class="s">&quot;model_observed&quot;</span>, step=step, output=out, source=<span class="s">&quot;live&quot;</span>)
+        <span class="b">return</span> out
+
+    <span class="c"># ── tool step ─────────────────────────────────────────────────</span>
+    <span class="b">def</span> call(self, tool: str, step: str, **args: Any) -&gt; Any:
+        spec = self.registry[tool]
+        key = idempotency_key(spec, self.ledger.run_id, args) <span class="b">if</span> spec.idempotent <span class="b">else</span> <span class="b">None</span>
+
+        <span class="c"># H8 — approval is checked before the intent event, not after.</span>
+        <span class="b">if</span> spec.effect == IRREVERSIBLE:
+            approval = (self.prior <span class="b">or</span> self.ledger).find(<span class="s">&quot;approval_recorded&quot;</span>, step=step)
+            <span class="b">if</span> approval <span class="b">is</span> <span class="b">None</span>:
+                self.ledger.append(<span class="s">&quot;effect_refused&quot;</span>, step=step, tool=tool,
+                                   reason=<span class="s">&quot;no_approval_on_ledger&quot;</span>)
+                <span class="b">raise</span> ApprovalRequired(f<span class="s">&quot;{tool} at {step}&quot;</span>)
+
+        self.ledger.append(<span class="s">&quot;tool_attempted&quot;</span>, step=step, tool=tool, key=key,
+                           effect=spec.effect, budget=spec.attempts_after_timeout())
+
+        <span class="b">if</span> self.replaying:  <span class="c"># H6</span>
+            prior = self.prior.find(<span class="s">&quot;tool_observed&quot;</span>, step=step)
+            <span class="b">if</span> prior <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>:
+                self.ledger.append(<span class="s">&quot;tool_observed&quot;</span>, step=step, tool=tool,
+                                   result=prior[<span class="s">&quot;result&quot;</span>], attempt=prior[<span class="s">&quot;attempt&quot;</span>],
+                                   source=<span class="s">&quot;ledger&quot;</span>)
+                <span class="b">return</span> prior[<span class="s">&quot;result&quot;</span>]
+            unknown = self.prior.find(<span class="s">&quot;tool_unknown&quot;</span>, step=step)
+            <span class="b">if</span> unknown <span class="b">is</span> <span class="b">not</span> <span class="b">None</span>:
+                self.ledger.append(<span class="s">&quot;tool_unknown&quot;</span>, step=step, tool=tool,
+                                   attempts=unknown[<span class="s">&quot;attempts&quot;</span>],
+                                   reconcile_with=unknown[<span class="s">&quot;reconcile_with&quot;</span>],
+                                   source=<span class="s">&quot;ledger&quot;</span>)
+                <span class="b">raise</span> ToolTimeout(f<span class="s">&quot;{tool} at {step} (replayed as unknown)&quot;</span>)
+            <span class="b">raise</span> Escalate(<span class="s">&quot;replay_gap&quot;</span>, {<span class="s">&quot;step&quot;</span>: step})
+
+        budget = spec.attempts_after_timeout()  <span class="c"># H1</span>
+        <span class="b">for</span> attempt <span class="b">in</span> range(<span class="n">1</span>, budget + <span class="n">1</span>):
+            <span class="b">try</span>:
+                result = self.transport(tool, args, spec.timeout_s, attempt)
+            <span class="b">except</span> ToolTimeout:
+                self.ledger.append(<span class="s">&quot;tool_timeout&quot;</span>, step=step, tool=tool,
+                                   attempt=attempt, of=budget, key=key)
+                <span class="b">continue</span>
+            self.ledger.append(<span class="s">&quot;tool_observed&quot;</span>, step=step, tool=tool,
+                               result=result, attempt=attempt)
+            <span class="b">return</span> result
+
+        <span class="c"># H5. Unknown, with the one instruction that makes unknown actionable.</span>
+        self.ledger.append(<span class="s">&quot;tool_unknown&quot;</span>, step=step, tool=tool, attempts=budget,
+                           reconcile_with=spec.reconcile_with)
+        <span class="b">raise</span> ToolTimeout(f<span class="s">&quot;{tool} at {step}&quot;</span>)
+
+    <span class="b">def</span> escalate(self, reason: str, **detail: Any) -&gt; <span class="b">None</span>:
+        self.ledger.append(<span class="s">&quot;escalated&quot;</span>, reason=reason, **detail)
+
+    <span class="b">def</span> end(self, outcome: str) -&gt; <span class="b">None</span>:
+        self.ledger.append(<span class="s">&quot;run_ended&quot;</span>, outcome=outcome)</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">harness/demo.py — the workflow and a scripted transport, so the trace below reproduces</span>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code><span class="s">&quot;&quot;&quot;The worked run. A scripted transport, so every line below reproduces.
+
+Drop contract.py, run.py and registry.v2.json alongside this file and run
+`python demo.py`. The output is what is printed on the page.
+&quot;&quot;&quot;</span>
+<span class="b">import</span> json, textwrap
+<span class="b">from</span> contract <span class="b">import</span> load_registry, ContractError
+<span class="b">from</span> run <span class="b">import</span> Harness, Ledger, ToolTimeout, ApprovalRequired, Escalate
+
+REG = load_registry(json.load(open(<span class="s">&#x27;registry.v2.json&#x27;</span>)))
+
+<span class="c"># Fault script: (tool, attempt) -&gt; &quot;timeout&quot; | value</span>
+FAULTS = {
+    (<span class="s">&#x27;policy.lookup&#x27;</span>, <span class="n">1</span>): <span class="s">&#x27;timeout&#x27;</span>,
+    (<span class="s">&#x27;queue.assign_reviewer&#x27;</span>, <span class="n">1</span>): <span class="s">&#x27;timeout&#x27;</span>,
+}
+
+<span class="b">def</span> transport(tool, args, timeout_s, attempt):
+    <span class="b">if</span> FAULTS.get((tool, attempt)) == <span class="s">&#x27;timeout&#x27;</span>:
+        <span class="b">raise</span> ToolTimeout(tool)
+    <span class="b">if</span> tool == <span class="s">&#x27;policy.lookup&#x27;</span>:
+        <span class="b">return</span> {<span class="s">&#x27;control_id&#x27;</span>: args[<span class="s">&#x27;control_id&#x27;</span>], <span class="s">&#x27;owner&#x27;</span>: <span class="s">&#x27;FinCrime-2&#x27;</span>, <span class="s">&#x27;tier&#x27;</span>: <span class="s">&#x27;T2&#x27;</span>}
+    <span class="b">if</span> tool == <span class="s">&#x27;case.attach_assessment&#x27;</span>:
+        <span class="b">return</span> {<span class="s">&#x27;attached&#x27;</span>: <span class="b">True</span>, <span class="s">&#x27;case_id&#x27;</span>: args[<span class="s">&#x27;case_id&#x27;</span>]}
+    <span class="b">if</span> tool == <span class="s">&#x27;queue.assign_reviewer&#x27;</span>:
+        <span class="b">return</span> {<span class="s">&#x27;assignment_id&#x27;</span>: <span class="s">&#x27;A-90311&#x27;</span>}
+    <span class="b">raise</span> AssertionError(tool)
+
+MODEL_OUTPUT = {
+    <span class="s">&#x27;control_id&#x27;</span>: <span class="s">&#x27;C-118&#x27;</span>,
+    <span class="s">&#x27;impact&#x27;</span>: <span class="s">&#x27;material&#x27;</span>,
+    <span class="s">&#x27;confidence&#x27;</span>: <span class="n">0.71</span>,
+    <span class="s">&#x27;citations&#x27;</span>: [<span class="s">&#x27;POL-2024.3 §4.2&#x27;</span>],
+}
+
+<span class="b">def</span> workflow(h):
+    <span class="s">&quot;&quot;&quot;Same function for the live run and the replay. That is the point.&quot;&quot;&quot;</span>
+    pol = h.call(<span class="s">&#x27;policy.lookup&#x27;</span>, step=<span class="s">&#x27;s1&#x27;</span>, control_id=<span class="s">&#x27;C-118&#x27;</span>, policy_version=<span class="s">&#x27;2024.3&#x27;</span>)
+    out = h.model(<span class="s">&#x27;s2&#x27;</span>, <span class="b">lambda</span>: MODEL_OUTPUT)
+    h.call(<span class="s">&#x27;case.attach_assessment&#x27;</span>, step=<span class="s">&#x27;s3&#x27;</span>,
+           case_id=<span class="s">&#x27;CASE-4471&#x27;</span>, assessment_hash=<span class="s">&#x27;9f2c1e&#x27;</span>)
+    <span class="b">try</span>:
+        h.call(<span class="s">&#x27;queue.assign_reviewer&#x27;</span>, step=<span class="s">&#x27;s4&#x27;</span>,
+               case_id=<span class="s">&#x27;CASE-4471&#x27;</span>, owner=pol[<span class="s">&#x27;owner&#x27;</span>])
+    <span class="b">except</span> ToolTimeout:
+        h.escalate(<span class="s">&#x27;assignment_unknown&#x27;</span>, step=<span class="s">&#x27;s4&#x27;</span>,
+                   note=<span class="s">&#x27;non-idempotent write timed out; not retried (H1)&#x27;</span>)
+        h.end(<span class="s">&#x27;escalated_to_human&#x27;</span>)
+        <span class="b">return</span> <span class="s">&#x27;escalated_to_human&#x27;</span>
+    h.end(<span class="s">&#x27;completed&#x27;</span>)
+    <span class="b">return</span> <span class="s">&#x27;completed&#x27;</span>
+
+<span class="b">def</span> render(led, title):
+    print(f<span class="s">&#x27;\n{title}&#x27;</span>)
+    print(<span class="s">&#x27;-&#x27;</span> * len(title))
+    <span class="b">for</span> ev <span class="b">in</span> led.events:
+        p = {k: v <span class="b">for</span> k, v <span class="b">in</span> ev.items() <span class="b">if</span> k <span class="b">not</span> <span class="b">in</span> (<span class="s">&#x27;seq&#x27;</span>, <span class="s">&#x27;run&#x27;</span>, <span class="s">&#x27;kind&#x27;</span>)}
+        line = f<span class="s">&quot;{ev[&#x27;seq&#x27;]:&gt;3}  {ev[&#x27;kind&#x27;]:&lt;16} &quot;</span> + <span class="s">&#x27;  &#x27;</span>.join(
+            f<span class="s">&#x27;{k}={json.dumps(v, ensure_ascii=False) if isinstance(v,(dict,list)) else v}&#x27;</span> <span class="b">for</span> k, v <span class="b">in</span> p.items())
+        print(textwrap.fill(line, <span class="n">96</span>, subsequent_indent=<span class="s">&#x27; &#x27;</span> * <span class="n">21</span>))
+    print(f<span class="s">&#x27;     decision_digest = {led.decision_digest()}&#x27;</span>)
+
+<span class="c"># ── 1. live run ───────────────────────────────────────────────────</span>
+live = Harness(<span class="s">&#x27;run_7&#x27;</span>, REG, transport=transport)
+r1 = workflow(live)
+render(live.ledger, f<span class="s">&#x27;LIVE RUN run_7 -&gt; {r1}&#x27;</span>)
+
+<span class="c"># ── 2. replay of that run ─────────────────────────────────────────</span>
+<span class="b">class</span> Tripwire:
+    <span class="b">def</span> __call__(self, *a, **k):
+        <span class="b">raise</span> AssertionError(<span class="s">&#x27;replay executed an effect&#x27;</span>)
+
+rep = Harness(<span class="s">&#x27;run_7&#x27;</span>, REG, transport=Tripwire(), prior=live.ledger)
+r2 = workflow(rep)
+render(rep.ledger, f<span class="s">&#x27;REPLAY run_7 -&gt; {r2}&#x27;</span>)
+
+<span class="b">def</span> decisions(led):
+    <span class="b">return</span> [(e[<span class="s">&#x27;kind&#x27;</span>], e.get(<span class="s">&#x27;step&#x27;</span>), e.get(<span class="s">&#x27;result&#x27;</span>) <span class="b">or</span> e.get(<span class="s">&#x27;output&#x27;</span>))
+            <span class="b">for</span> e <span class="b">in</span> led.events
+            <span class="b">if</span> e[<span class="s">&#x27;kind&#x27;</span>] <span class="b">in</span> (<span class="s">&#x27;tool_observed&#x27;</span>, <span class="s">&#x27;model_observed&#x27;</span>, <span class="s">&#x27;tool_unknown&#x27;</span>, <span class="s">&#x27;escalated&#x27;</span>)]
+
+print(<span class="s">&#x27;\nreplay reproduced the decision path :&#x27;</span>, decisions(live.ledger) == decisions(rep.ledger))
+print(<span class="s">&#x27;decision_digest live == replay      :&#x27;</span>,
+      live.ledger.decision_digest() == rep.ledger.decision_digest())
+print(<span class="s">&#x27;effects executed during replay      : 0  (the transport raises if called)&#x27;</span>)
+
+<span class="c"># ── 3. irreversible without approval ──────────────────────────────</span>
+h3 = Harness(<span class="s">&#x27;run_8&#x27;</span>, REG, transport=transport)
+<span class="b">try</span>:
+    h3.call(<span class="s">&#x27;regulator.file_report&#x27;</span>, step=<span class="s">&#x27;f1&#x27;</span>, case_id=<span class="s">&#x27;CASE-4471&#x27;</span>)
+<span class="b">except</span> ApprovalRequired <span class="b">as</span> e:
+    print(f<span class="s">&#x27;\nregulator.file_report refused       : {e}&#x27;</span>)
+render(h3.ledger, <span class="s">&#x27;RUN run_8 -&gt; refused&#x27;</span>)
+
+<span class="c"># ── 4. the contract refuses to load a bad tool ────────────────────</span>
+print()
+<span class="b">for</span> bad <span class="b">in</span> [
+    {<span class="s">&#x27;tools&#x27;</span>: {<span class="s">&#x27;x.send&#x27;</span>: {<span class="s">&#x27;version&#x27;</span>:<span class="s">&#x27;1&#x27;</span>, <span class="s">&#x27;effect&#x27;</span>:<span class="s">&#x27;irreversible&#x27;</span>, <span class="s">&#x27;timeout_s&#x27;</span>:<span class="n">5</span>,
+                          <span class="s">&#x27;max_attempts&#x27;</span>:<span class="n">1</span>, <span class="s">&#x27;requires_approval&#x27;</span>: <span class="b">True</span>}}},
+    {<span class="s">&#x27;tools&#x27;</span>: {<span class="s">&#x27;z.assign&#x27;</span>: {<span class="s">&#x27;version&#x27;</span>:<span class="s">&#x27;1&#x27;</span>, <span class="s">&#x27;effect&#x27;</span>:<span class="s">&#x27;write&#x27;</span>, <span class="s">&#x27;timeout_s&#x27;</span>:<span class="n">5</span>,
+                            <span class="s">&#x27;max_attempts&#x27;</span>:<span class="n">1</span>, <span class="s">&#x27;idempotent&#x27;</span>: <span class="b">False</span>}}},
+    {<span class="s">&#x27;tools&#x27;</span>: {<span class="s">&#x27;y.write&#x27;</span>: {<span class="s">&#x27;version&#x27;</span>:<span class="s">&#x27;1&#x27;</span>, <span class="s">&#x27;effect&#x27;</span>:<span class="s">&#x27;write&#x27;</span>, <span class="s">&#x27;timeout_s&#x27;</span>:<span class="n">5</span>,
+                           <span class="s">&#x27;max_attempts&#x27;</span>:<span class="n">3</span>, <span class="s">&#x27;idempotent&#x27;</span>: <span class="b">False</span>}}},
+]:
+    <span class="b">try</span>:
+        load_registry(bad)
+        print(<span class="s">&#x27;LOADED (should not happen)&#x27;</span>)
+    <span class="b">except</span> ContractError <span class="b">as</span> e:
+        print(<span class="s">&#x27;registry rejected                   :&#x27;</span>, e)</code></pre>
+</div><div class="code-wrap">
+  <div class="code-head">
+    <span class="code-label">The worked run: a write that times out and is not retried, then the replay of it</span>
+    <span class="code-lang">Plain text</span>
+  </div>
+  <pre><code>
+LIVE RUN run_7 -&gt; escalated_to_human
+------------------------------------
+  0  run_started      mode=live
+  1  tool_attempted   step=s1  tool=policy.lookup  key=e396f7dfec88bb01c07d1897  effect=read
+                     budget=3
+  2  tool_timeout     step=s1  tool=policy.lookup  attempt=1  of=3  key=e396f7dfec88bb01c07d1897
+  3  tool_observed    step=s1  tool=policy.lookup  result={&quot;control_id&quot;: &quot;C-118&quot;, &quot;owner&quot;:
+                     &quot;FinCrime-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2
+  4  model_observed   step=s2  output={&quot;control_id&quot;: &quot;C-118&quot;, &quot;impact&quot;: &quot;material&quot;,
+                     &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;POL-2024.3 §4.2&quot;]}  source=live
+  5  tool_attempted   step=s3  tool=case.attach_assessment  key=29261c1e84c9f7525decb6ce
+                     effect=write  budget=3
+  6  tool_observed    step=s3  tool=case.attach_assessment  result={&quot;attached&quot;: true, &quot;case_id&quot;:
+                     &quot;CASE-4471&quot;}  attempt=1
+  7  tool_attempted   step=s4  tool=queue.assign_reviewer  key=None  effect=write  budget=1
+  8  tool_timeout     step=s4  tool=queue.assign_reviewer  attempt=1  of=1  key=None
+  9  tool_unknown     step=s4  tool=queue.assign_reviewer  attempts=1
+                     reconcile_with=queue.find_assignment(case_id)
+ 10  escalated        reason=assignment_unknown  step=s4  note=non-idempotent write timed out;
+                     not retried (H1)
+ 11  run_ended        outcome=escalated_to_human
+     decision_digest = f8609354b77dff4f
+
+REPLAY run_7 -&gt; escalated_to_human
+----------------------------------
+  0  run_started      mode=replay
+  1  tool_attempted   step=s1  tool=policy.lookup  key=e396f7dfec88bb01c07d1897  effect=read
+                     budget=3
+  2  tool_observed    step=s1  tool=policy.lookup  result={&quot;control_id&quot;: &quot;C-118&quot;, &quot;owner&quot;:
+                     &quot;FinCrime-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2  source=ledger
+  3  model_observed   step=s2  output={&quot;control_id&quot;: &quot;C-118&quot;, &quot;impact&quot;: &quot;material&quot;,
+                     &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;POL-2024.3 §4.2&quot;]}  source=ledger
+  4  tool_attempted   step=s3  tool=case.attach_assessment  key=29261c1e84c9f7525decb6ce
+                     effect=write  budget=3
+  5  tool_observed    step=s3  tool=case.attach_assessment  result={&quot;attached&quot;: true, &quot;case_id&quot;:
+                     &quot;CASE-4471&quot;}  attempt=1  source=ledger
+  6  tool_attempted   step=s4  tool=queue.assign_reviewer  key=None  effect=write  budget=1
+  7  tool_unknown     step=s4  tool=queue.assign_reviewer  attempts=1
+                     reconcile_with=queue.find_assignment(case_id)  source=ledger
+  8  escalated        reason=assignment_unknown  step=s4  note=non-idempotent write timed out;
+                     not retried (H1)
+  9  run_ended        outcome=escalated_to_human
+     decision_digest = f8609354b77dff4f
+
+replay reproduced the decision path : True
+decision_digest live == replay      : True
+effects executed during replay      : 0  (the transport raises if called)
+
+regulator.file_report refused       : regulator.file_report at f1
+
+RUN run_8 -&gt; refused
+--------------------
+  0  run_started      mode=live
+  1  effect_refused   step=f1  tool=regulator.file_report  reason=no_approval_on_ledger
+     decision_digest = aab0b3bcb5e56187
+
+registry rejected                   : x.send: irreversible tools must name a compensating action
+registry rejected                   : z.assign: a write with no retry must declare reconcile_with
+registry rejected                   : y.write: non-idempotent tools cannot declare retries</code></pre>
+</div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="tradeoff">
+    <p class="eyebrow">What this doesn&#x27;t do</p>
+    <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">Five invariants bought some things and charged for others. Here&#x27;s the bill.</p>
+    <ul><li>Replay doesn&#x27;t re-run the model, so it can&#x27;t tell you the model would say the same thing today. It tells you your code would do the same thing with what the model said. That&#x27;s the smaller of the two questions, and it&#x27;s the one I can actually answer.</li><li>The ledger roughly doubles write volume on every run, and it is the first line item someone proposes trimming in month four. I&#x27;d rather sample which runs carry a full ledger than thin the ledger on every run, but that is an argument, not a settled fact.</li><li>Refusing to retry a write we can&#x27;t dedupe converts a machine problem into a human one. <code class="inl">reconcile_with</code> is what stops that being a cop-out — and it only works if somebody is genuinely on the other end of the escalation.</li><li>Owning the harness costs you the ecosystem: the integrations, the traces someone else already debugged, the examples your next hire has already read. On a small team with no audit requirement, I would not make this trade.</li><li>None of this makes the model better. It bounds what a wrong answer is allowed to do. If the accuracy isn&#x27;t there, a harness just makes the failures easier to read.</li></ul>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager"><span></span><a href="/artifact-validated-agent-call.html">The Validated Agent Call →</a></div></div>
+
+<footer><div class="wrap">
+  <span><a href="/#artifacts" style="color:var(--accent-2);text-decoration:none">← All artifacts</a></span>
+  <span>Reference implementation · not production code from any employer</span>
+</div></footer>
+</body>
+</html>
