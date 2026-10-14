@@ -8,7 +8,7 @@
 //   Modeled — a projection built on real data
 //   Concept — illustrative; never built
 //
-// Numbers here are traceable to public/GatiDash_Resume.pdf.
+// Numbers here are traceable to the résumé (not published on the site).
 // See REMOVED_CLAIMS.md for what was taken out and why.
 // ─────────────────────────────────────────────────────────────
 
@@ -26,7 +26,6 @@ export const IDENTITY = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
   location: 'Hyderabad, India',
-  resume: '/GatiDash_Resume.pdf',
   avatar: '/profile-avatar.webp',
   portrait: '/profile-cutout.webp',
 }

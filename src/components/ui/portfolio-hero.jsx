@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Menu, X, ChevronDown, Sun, Moon, ArrowUpRight, FileText, Linkedin } from 'lucide-react'
+import { Menu, X, ChevronDown, Sun, Moon, ArrowUpRight, Linkedin } from 'lucide-react'
 
 // 21st.dev "Portfolio Hero" — ported to JSX, driven by the global site theme.
 // Neon lime in dark mode; a deep sage stands in when the page is light (lime on
@@ -8,7 +8,6 @@ const nameColor = (dark) => (dark ? '#C3E41D' : '#54632B')
 
 const EMAIL = 'gati4dash@gmail.com'
 const LINKEDIN = 'https://www.linkedin.com/in/gati-dash'
-const RESUME = '/GatiDash_Resume.pdf'
 
 // BlurText animation component
 const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', className = '', style, instant = false }) => {
@@ -262,19 +261,6 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             }}
           >
             Start a conversation <ArrowUpRight className="h-4 w-4" />
-          </a>
-          <a
-            href={RESUME}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border transition-colors"
-            style={{
-              borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)',
-              color: fg,
-              fontFamily: "'Hanken Grotesk', system-ui, sans-serif",
-            }}
-          >
-            <FileText className="h-4 w-4" /> Résumé
           </a>
           <a
             href="#artifacts"

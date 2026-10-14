@@ -461,7 +461,6 @@ const ARTIFACTS = [
 const LINKS = {
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
-  resume: '/GatiDash_Resume.pdf', // file lives in /public
   photo: '/profile-avatar.webp',
   location: 'Hyderabad, India',
 }
