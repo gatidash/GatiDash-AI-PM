@@ -81,7 +81,7 @@ const WORK = [
     context:
       'Compliance review queues were running behind across five jurisdictions. The business wanted headcount. The regulator wanted speed. The team was stuck between the two.',
     move:
-      'I brought an agentic layer onto the platform we had already unified rather than adding people. LLM agents handle structured extraction and first-pass policy mapping. Every call is schema-validated before it reaches a queue. Anything policy-sensitive routes to a human with the agent’s reasoning attached. I designed the override path and the validator before the first agent shipped. It ran in shadow mode until we trusted it, and only then did any decision get acted on.',
+      'I brought an agentic layer onto the platform we had already unified rather than adding people. Most of what I built sits underneath the agents: connectors that reach enterprise systems through one contract, an orchestration layer that walks a workflow a step at a time, a structured object at every boundary, and bounded retries so a bad call fails fast instead of looping. I built it as reusable primitives, so the second workflow inherited the harness instead of rebuilding it badly. On top of that, agents handle structured extraction and first-pass policy mapping. Every call is schema-validated before it reaches a queue. Anything policy-sensitive routes to a human with the agent’s reasoning attached. I designed the override path and the validator before the first agent shipped. It ran in shadow mode until we trusted it, and only then did any decision get acted on.',
     proves:
       'The agents were the easy part. What made it survive was deciding, up front, which calls the system is never allowed to make. I submitted a patent application on the agentic design.',
     metrics: [
@@ -122,6 +122,15 @@ const JUDGMENT = [
 
   {
     n: '04',
+    title: 'Own the harness, rent the model',
+    tension: 'Adopt an agent framework and move now, or build the layer yourself and own it.',
+    judgment:
+      'The model is the part I expect to replace. So the tool contracts, the retry and timeout policy, the step ledger and the escalation path live in our own code, behind an interface the model sits behind rather than inside.',
+    why:
+      'Models get deprecated and swapped. A decision an agent made still has to be replayable for an auditor long after the model that made it is gone, and that is a property of the harness, not of the model.',
+  },
+  {
+    n: '05',
     title: 'Sequence around what can be governed',
     tension: 'Business urgency to ship AI vs. jurisdiction-specific compliance work.',
     judgment:
@@ -143,11 +152,12 @@ const CAPABILITIES = [
   },
   {
     group: 'Execution',
-    blurb: 'Multi-step agentic systems with validation, evals, and a human override path treated as part of the product.',
+    blurb: 'The harness around the model — orchestration, connectors, validation and evals — plus the human override path, treated as product surface rather than ops.',
     items: [
-      'Agentic system design',
-      'Eval design and benchmarking',
+      'Agent harness design — tool contracts, retries, timeouts, replay',
+      'Orchestration layers and MCP-based connectors',
       'Schema-bound output / validation',
+      'Eval design and benchmarking',
       'Platform vs. feature trade-off calls',
     ],
   },
@@ -416,6 +426,12 @@ const CASE_STUDIES = [
 
 
 const ARTIFACTS = [
+  {
+    slug: 'agent-harness',
+    title: "The Harness, Not the Framework",
+    stack: 'Python \u00b7 Ledger',
+    body: "The tool contract, the append-only ledger, and replay \u2014 with a worked run where a write times out, doesn\u2019t get retried, and says how to go and check.",
+  },
   {
     slug: 'validated-agent-call',
     title: "The Validated Agent Call",
@@ -912,7 +928,9 @@ function DetailedCapabilities() {
           </p>
         )}
 
-        {open && (
+        {/* Rendered even when collapsed: prerendered HTML should contain it, and a
+            reader who lands here from search should find the words, not a button. */}
+        <div hidden={!open}>
           <div className="mt-10 space-y-14">
             <div>
               <div className="eyebrow mb-6">What I do</div>
@@ -963,7 +981,7 @@ function DetailedCapabilities() {
               </ol>
             </div>
           </div>
-        )}
+        </div>
       </Container>
     </section>
   )
@@ -1422,9 +1440,9 @@ function Artifacts() {
           The actual objects.
         </h2>
         <p className="mt-5 text-lg text-smoke max-w-2xl leading-relaxed">
-          Anyone can say they design governed agents. These are four of the artifacts that work
-          produces — the schema, the rubric, the routing matrix, the pre-launch readout. Read them
-          and decide for yourself.
+          Anyone can say they design governed agents. These are five of the artifacts that work
+          produces — the harness, the schema, the rubric, the routing matrix, the pre-launch
+          readout. Read them and decide for yourself.
         </p>
         <p className="mt-4 text-sm text-dust max-w-2xl leading-relaxed">
           Reference implementations, written against my own concept systems — Meridian and the
@@ -1434,7 +1452,12 @@ function Artifacts() {
 
         <ul className="mt-10 grid gap-px bg-sand border border-sand sm:grid-cols-2">
           {ARTIFACTS.map((a, i) => (
-            <li key={a.slug} className="bg-paper">
+            <li
+              key={a.slug}
+              className={`bg-paper ${
+                i === ARTIFACTS.length - 1 && ARTIFACTS.length % 2 === 1 ? 'sm:col-span-2' : ''
+              }`}
+            >
               <a href={`/artifact-${a.slug}.html`} className="group flex h-full flex-col p-7 sm:p-8 transition-colors hover:bg-paper-dark">
                 <div className="flex items-baseline justify-between gap-4">
                   <span className="font-serif text-sm text-accent">

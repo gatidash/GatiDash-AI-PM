@@ -3,13 +3,13 @@
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://gatidash.com/#person",
+      "@id": "https://gatidash.vercel.app/#person",
       "name": "Gatikrishna Dash",
       "alternateName": "Gati Dash",
       "jobTitle": "Lead Product Manager",
       "description": "AI product leader working on agentic systems in regulated financial services. Fifteen years in data and product.",
-      "url": "https://gatidash.com/",
-      "image": "https://gatidash.com/profile-cutout.webp",
+      "url": "https://gatidash.vercel.app/",
+      "image": "https://gatidash.vercel.app/profile-cutout.webp",
       "email": "mailto:gati4dash@gmail.com",
       "sameAs": ["https://www.linkedin.com/in/gati-dash"],
       "worksFor": { "@type": "Organization", "name": "PayPal" },
@@ -30,11 +30,11 @@
     },
     {
       "@type": "ProfilePage",
-      "@id": "https://gatidash.com/#profilepage",
-      "url": "https://gatidash.com/",
-      "name": "Gatikrishna Dash — AI Product & Transformation Leader",
-      "mainEntity": { "@id": "https://gatidash.com/#person" },
-      "about": { "@id": "https://gatidash.com/#person" }
+      "@id": "https://gatidash.vercel.app/#profilepage",
+      "url": "https://gatidash.vercel.app/",
+      "name": "Gatikrishna Dash — Lead Product Manager, AI & Transformation",
+      "mainEntity": { "@id": "https://gatidash.vercel.app/#person" },
+      "about": { "@id": "https://gatidash.vercel.app/#person" }
     }
   ]
 }

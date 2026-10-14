@@ -137,3 +137,35 @@ baseline** for the concept ventures, for the same reason. The investor is right
 that you are *"a product lead at a payments company with merchants, churn data
 and CSM teams"* who used a benchmark instead of your own numbers — but I cannot
 reach your numbers, and guessing them would be worse than the gap.
+
+---
+
+## 9. The harness material, added after the review
+
+You said the portfolio never mentioned agent harnesses or frameworks. It now
+does, in four places: the Work 03 deep-dive, the Execution capability group, a
+new Judgment card, and a fifth artifact — *The Harness, Not the Framework*.
+
+Three things about it need your eyes.
+
+**No framework is named anywhere.** Not LangGraph, not CrewAI, not AutoGen, not
+any internal platform. I don't know which runtime the production system actually
+sits on, and I wasn't going to guess. The artifact argues a position about where
+the boundary belongs; it doesn't claim you adopted or rejected any specific tool.
+If you want the site to say what the shipped system really runs on, tell me and
+it goes in.
+
+**The Judgment card is a position I wrote for you.** *"Own the harness, rent the
+model"* follows from design choices already on the site — schema-bound outputs,
+the override path, the platform-before-the-third-feature argument. It is still
+the only card on the page that wasn't derived from something you told me
+directly. Read it. If it isn't your view, it comes off.
+
+**The artifact reproduces, and I checked it the hard way.** The four files are
+copied off the published page into an empty directory, run, and the printed
+trace is compared against the one on the page. It matched verbatim. That check
+is worth re-running after any edit to that page, for the reason round 3 found
+out.
+
+**Still open, same as before:** every artifact on this site is something I wrote
+from scratch. This one included. Gap 1 above hasn't moved.

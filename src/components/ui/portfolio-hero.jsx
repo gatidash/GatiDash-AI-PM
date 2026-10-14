@@ -12,61 +12,53 @@ const RESUME = '/GatiDash_Resume.pdf'
 
 // BlurText animation component
 const BlurText = ({ text, delay = 50, animateBy = 'words', direction = 'top', className = '', style, instant = false }) => {
-  const [inView, setInView] = useState(false)
+  // Starts visible. The prerendered HTML is therefore readable without JS,
+  // and an element already on screen at hydration never animates (no flash
+  // from visible → blurred → visible). Only elements below the fold get the
+  // blur-in, once they scroll into view.
+  const [inView, setInView] = useState(true)
   const ref = useRef(null)
-
   useEffect(() => {
+    if (instant) return undefined
     const node = ref.current
+    if (!node) return undefined
+    if (node.getBoundingClientRect().top < window.innerHeight) return undefined
+    setInView(false)
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) setInView(true)
       },
       { threshold: 0.1 }
     )
-    if (node) observer.observe(node)
-    return () => {
-      if (node) observer.unobserve(node)
-    }
-  }, [])
+    observer.observe(node)
+    return () => observer.unobserve(node)
+  }, [instant])
 
   const byWords = animateBy === 'words'
   const segments = useMemo(() => (byWords ? text.split(' ') : text.split('')), [text, byWords])
 
-  // `instant` opts an element out of the entrance animation entirely.
-  // The wordmark uses it: it is the largest text on the page, so it is the
-  // LCP element, and starting it at opacity 0 meant the headline did not
-  // paint until JS had hydrated and the observer had fired. It also left the
-  // prerendered HTML invisible to anyone without JS.
-  if (instant) {
-    return (
-      <p className={`flex ${byWords ? 'gap-x-[0.3em]' : ''} ${className}`} style={style}>
-        {segments.map((segment, i) => (
-          <span key={i} style={{ display: 'inline-block', whiteSpace: 'pre' }}>
-            {segment}
-          </span>
-        ))}
-      </p>
-    )
-  }
-
-  // The segments are flex items, so a literal space between them collapses.
-  // Word mode needs a real gap or the sentence renders as one long word.
+  // The segments are flex items. A literal ' ' text node between them has no
+  // layout effect (flex ignores it) but it IS in textContent, so crawlers,
+  // link previews and screen readers get "Agents that take…" rather than
+  // the words run together. The visible spacing comes from gap-x.
   return (
     <p ref={ref} className={`flex ${byWords ? 'gap-x-[0.3em]' : ''} ${className}`} style={style}>
       {segments.map((segment, i) => (
-        <span
-          key={i}
-          style={{
-            display: 'inline-block',
-            whiteSpace: 'pre',
-            filter: inView ? 'blur(0px)' : 'blur(10px)',
-            opacity: inView ? 1 : 0,
-            transform: inView ? 'translateY(0)' : `translateY(${direction === 'top' ? '-20px' : '20px'})`,
-            transition: `all 0.5s ease-out ${i * delay}ms`,
-          }}
-        >
-          {segment}
-        </span>
+        <React.Fragment key={i}>
+          <span
+            style={{
+              display: 'inline-block',
+              whiteSpace: 'pre',
+              filter: inView ? 'blur(0px)' : 'blur(10px)',
+              opacity: inView ? 1 : 0,
+              transform: inView ? 'translateY(0)' : `translateY(${direction === 'top' ? '-20px' : '20px'})`,
+              transition: instant ? 'none' : `all 0.5s ease-out ${i * delay}ms`,
+            }}
+          >
+            {segment}
+          </span>
+          {byWords && i < segments.length - 1 ? ' ' : null}
+        </React.Fragment>
       ))}
     </p>
   )
@@ -225,7 +217,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
             sizes="(max-width: 640px) 122px, (max-width: 768px) 196px, (max-width: 1024px) 264px, 318px"
             width="760"
             height="824"
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
             alt="Portrait of Gatikrishna Dash"
             className="hero-portrait-img pointer-events-none select-none relative z-0 mb-4 h-[132px] w-auto sm:order-2 sm:mb-0 sm:-ml-10 md:-ml-12 lg:-ml-14 sm:h-[212px] md:h-[286px] lg:h-[344px]"
@@ -312,7 +304,7 @@ export default function PortfolioHero({ theme = 'dark', onToggleTheme = () => {}
         >
           The first thing I found putting an agent next to a human process: the
           reviewers didn't agree with each other either. That number is the ceiling on
-          anything you build on top of them. Five jurisdictions in production, and four
+          anything you build on top of them. Five jurisdictions in production, and five
           artifacts below you can check line by line.
         </p>
 
