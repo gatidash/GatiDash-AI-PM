@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Source for public/og-image.png. Render with: node scripts/og-image.mjs
+     Mirrors the hero: wordmark, cut-out portrait tucked behind the last letter,
+     real title, the tagline. 1200×630 is what LinkedIn, Slack and X request. -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/fonts/site-fonts.css" />
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; background: #000; overflow: hidden; }
+  .wrap { position: relative; width: 1200px; height: 630px; color: #fff; }
+  .mark { position: absolute; left: 84px; top: 96px; z-index: 2; font-family: 'Fira Code', monospace; font-weight: 700; font-size: 184px; line-height: 0.8; letter-spacing: -0.06em; color: #C3E41D; text-transform: uppercase; }
+  .portrait { position: absolute; right: 118px; top: 56px; height: 408px; width: auto; z-index: 1; filter: drop-shadow(0 18px 40px rgba(0,0,0,0.6)); }
+  .role { position: absolute; left: 88px; top: 436px; font-family: 'Fira Code', monospace; font-weight: 600; font-size: 17px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.82); }
+  .role b { color: #C3E41D; font-weight: 600; }
+  .role i { font-style: normal; opacity: 0.4; margin: 0 12px; }
+  .tag { position: absolute; left: 86px; top: 478px; font-family: 'Antic', sans-serif; font-size: 42px; line-height: 1.1; color: rgba(255,255,255,0.8); letter-spacing: -0.005em; }
+  .url { position: absolute; left: 88px; bottom: 44px; font-family: 'Fira Code', monospace; font-size: 15px; letter-spacing: 0.12em; color: rgba(255,255,255,0.38); text-transform: uppercase; }
+  .rule { position: absolute; left: 88px; right: 88px; bottom: 82px; height: 1px; background: rgba(255,255,255,0.12); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark">Gati<br/>Dash</div>
+  <img class="portrait" src="/profile-cutout-760.webp" alt="" />
+  <div class="role">Lead Product Manager, AI &amp; Transformation<i>·</i><b>PayPal</b></div>
+  <div class="tag">Agents that take actions you can't undo.</div>
+  <div class="rule"></div>
+  <div class="url">gatidash.vercel.app</div>
+</div>
+</body>
+</html>

@@ -21,7 +21,7 @@ export const HERO_METRICS = [
 
 export const IDENTITY = {
   name: 'Gatikrishna Dash',
-  role: 'AI Product & Transformation Leader',
+  role: 'Lead Product Manager, AI & Transformation',
   employer: 'PayPal',
   email: 'gati4dash@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gati-dash',
