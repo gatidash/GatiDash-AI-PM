@@ -115,7 +115,7 @@ footer span{font-family:ui-monospace,monospace;font-size:12px;color:var(--dust)}
     <span class="code-lang">Plain text</span>
   </div>
   <pre><code>HUMAN-IN-THE-LOOP ROUTING MATRIX v3
-Covers both systems: Meridian (regulatory change -&gt; control impact) and the
+Covers both systems: Meridian (RBI amendment -&gt; return impact) and the
 merchant retention agent (health signal -&gt; intervention).
 
 SLA clocks run in business hours for T1/T2 and wall-clock for T3.
@@ -132,21 +132,21 @@ T0    OBSERVE     No external effect. Read,      Retrieve, parse, diff, cluster,
 ---------------------------------------------------------------------------------
 T1    RECOMMEND   Output is a proposal a human   Assemble a full packet and put
                   will accept or reject.         it in a queue. Rank it. Withdraw
-                  Meridian: control-impact       it if the source changes. It may
+                  Meridian: return-impact        it if the source changes. It may
                   packet. Merchant: drafted      not send, commit or execute.
                   outreach, no send.
 ---------------------------------------------------------------------------------
 T2    GATED ACT   The action touches money, a    Nothing until an approval token
                   customer relationship, or a    exists. After approval it may
-                  control record.                execute exactly the approved
+                  return-to-source map entry.    execute exactly the approved
                   Merchant: send outreach, open  action, once, and must report
                   a case, apply a fee waiver     back. No re-scoping post-approval.
                   under the value cap.
                   Meridian: attach a proposed
-                  control amendment to a record.
+                  amendment to a mapped field.
 ---------------------------------------------------------------------------------
-T3    DUAL        Regulatory filing, control     Nothing. It prepares, it does not
-      CONTROL     decommission or scope change,  act. Two approvers, one outside
+T3    DUAL        Regulatory filing, retiring    Nothing. It prepares, it does not
+      CONTROL     a field mapping, scope change, act. Two approvers, one outside
                   value above the T2 cap, any    the requesting function. Both
                   entity with a sanctions/PEP/   approvals recorded separately.
                   SAR flag, anything the agent
@@ -166,11 +166,13 @@ T1    Queue analyst             8 bh       Proposal is PARKED, not actioned.
                                            must re-derive it from fresh inputs.
 ---------------------------------------------------------------------------------
 T2    Named accountable owner.  4 bh       Approval token is NEVER auto-granted.
-      Meridian: the compliance              At 4h: page the primary. At 6h: route
-      officer for that control              to the named backup. At 8h: cancel the
-      family. Merchant: the                 proposal, emit a missed_sla event, and
-      merchant success owner,               suspend that action class for the
-      plus finance co-sign if                account until a human clears it.
+      Meridian: the reporting              At 4h: page the primary. At 6h: route
+      owner for that return.               to the named backup. At 8h: cancel the
+      Interpretation questions             proposal, emit a missed_sla event, and
+      go to compliance instead.            suspend that action class for the
+      Merchant: the merchant               account until a human clears it.
+      success owner, plus
+      finance co-sign if
       value &gt; 0.
 ---------------------------------------------------------------------------------
 T3    Two approvers, one from   1 business Nothing happens. At SLA: incident
@@ -189,7 +191,9 @@ ROW A: AGENT ABSTAINED
                  agent returning no_confident_intervention.
   Tier           T2 minimum. An abstention is never auto-closed and never
                  downgraded to T1 on the grounds that &quot;nothing happened&quot;.
-  Reviewer       Named owner for the domain.
+  Reviewer       Named owner for the domain. Meridian splits it by question:
+                 what a rule means goes to compliance; whether the return
+                 impact is right goes to the reporting owner, who signs.
   SLA            4 bh.
   Reviewer sees  The abstention reason, the free-text detail, what_would_resolve,
                  every partial finding with its citations, and the source
@@ -207,8 +211,8 @@ ROW A: AGENT ABSTAINED
 ROW B: LOW CONFIDENCE, HIGH IMPACT
   Trigger        confidence.value &lt; 0.72 (illustrative floor, set from the
                  calibration curve) AND impact_band in {high, critical}.
-                 Impact band comes from the control&#x27;s own criticality rating
-                 or the merchant&#x27;s exposure, never from the model.
+                 Impact band comes from the reporting target&#x27;s criticality
+                 rating or the merchant&#x27;s exposure, never from the model.
   Tier           Forced to T2 minimum, T3 if the action class is already T2.
                  Confidence can raise a tier. It can never lower one.
   Reviewer       Named owner. Second reviewer if the band is critical.
@@ -226,7 +230,7 @@ ROW B: LOW CONFIDENCE, HIGH IMPACT
 INVARIANTS - checked in code at policy load, not left to reviewers
 =================================================================================
   I1  No rule may resolve to auto_execute for any action class that moves money,
-      contacts a customer, or writes to a control record.
+      contacts a customer, or writes to a return-to-source map.
   I2  on_timeout may never be &quot;approve&quot; or &quot;proceed&quot;. The only legal values are
       park, escalate, cancel, suspend.
   I3  An unknown or unmapped action class routes to T3, not T0. Default deny.
@@ -239,7 +243,7 @@ INVARIANTS - checked in code at policy load, not left to reviewers
       stricter and never weaker, which is why a special row&#x27;s on_timeout is a
       floor rather than a replacement.
 
-  THE SAME TABLE, OUTSIDE COMPLIANCE
+  THE SAME TABLE, OUTSIDE REGULATED WORK
   Nothing above is specific to a regulator. The tier is set by what the action
   costs when it is wrong and how hard it is to reverse, which is a property of
   the action, not of the industry. The same policy, three non-financial classes:
@@ -364,16 +368,16 @@ INVARIANTS - checked in code at policy load, not left to reviewers
     <span class="k">&quot;meridian.ingest_publication&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T0&quot;</span>
     <span class="p">}</span><span class="p">,</span>
-    <span class="k">&quot;meridian.diff_against_inventory&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;meridian.diff_against_report_map&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T0&quot;</span>
     <span class="p">}</span><span class="p">,</span>
-    <span class="k">&quot;meridian.emit_control_impact_packet&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;meridian.emit_return_impact_packet&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T1&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="k">&quot;meridian.attach_proposed_amendment&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T2&quot;</span>
     <span class="p">}</span><span class="p">,</span>
-    <span class="k">&quot;meridian.decommission_control&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;meridian.retire_field_mapping&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;tier&quot;</span>: <span class="s">&quot;T3&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="k">&quot;meridian.prepare_regulatory_filing&quot;</span>: <span class="p">{</span>
@@ -419,11 +423,11 @@ INVARIANTS - checked in code at policy load, not left to reviewers
         <span class="s">&quot;abstention.what_would_resolve&quot;</span><span class="p">,</span>
         <span class="s">&quot;abstention.partial_findings&quot;</span><span class="p">,</span>
         <span class="s">&quot;source_document_at_cited_offsets&quot;</span><span class="p">,</span>
-        <span class="s">&quot;control_inventory_version&quot;</span>
+        <span class="s">&quot;report_map_version&quot;</span>
       <span class="p">]</span><span class="p">,</span>
       <span class="k">&quot;on_timeout&quot;</span>: <span class="s">&quot;escalate&quot;</span><span class="p">,</span>
       <span class="k">&quot;escalate_to_tier&quot;</span>: <span class="s">&quot;T3&quot;</span><span class="p">,</span>
-      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;An abstention is never auto-closed. It is an open question with a name attached to it.&quot;</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;An abstention is never auto-closed. It is an open question with a name attached to it. Meridian: interpretation questions go to compliance; return-impact sign-off goes to the reporting owner.&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="p">{</span>
       <span class="k">&quot;id&quot;</span>: <span class="s">&quot;low_confidence_high_impact&quot;</span><span class="p">,</span>
@@ -445,7 +449,7 @@ INVARIANTS - checked in code at policy load, not left to reviewers
         <span class="s">&quot;auto_escalation_reason&quot;</span><span class="p">,</span>
         <span class="s">&quot;two_nearest_precedents_with_outcomes&quot;</span>
       <span class="p">]</span><span class="p">,</span>
-      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;impact_band comes from the control criticality register or merchant exposure. Never from the model.&quot;</span>
+      <span class="k">&quot;note&quot;</span>: <span class="s">&quot;impact_band comes from the reporting target criticality register or merchant exposure. Never from the model.&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="p">{</span>
       <span class="k">&quot;id&quot;</span>: <span class="s">&quot;flagged_entity&quot;</span><span class="p">,</span>
@@ -471,7 +475,7 @@ INVARIANTS - checked in code at policy load, not left to reviewers
     <span class="p">}</span>
   <span class="p">]</span><span class="p">,</span>
   <span class="k">&quot;invariants&quot;</span>: <span class="p">[</span>
-    <span class="s">&quot;no action_class touching funds, customer contact, or a control record may resolve to autonomy=execute&quot;</span><span class="p">,</span>
+    <span class="s">&quot;no action_class touching funds, customer contact, or a return-to-source map may resolve to autonomy=execute&quot;</span><span class="p">,</span>
     <span class="s">&quot;on_timeout must be one of: park, escalate, cancel, suspend - never approve or proceed&quot;</span><span class="p">,</span>
     <span class="s">&quot;an unmapped action_class resolves to default_tier&quot;</span><span class="p">,</span>
     <span class="s">&quot;every execution record carries approver_id, approved_at, and approved_payload_sha256&quot;</span><span class="p">,</span>
@@ -525,7 +529,7 @@ LEGAL_TIMEOUT_ACTIONS = {<span class="s">&quot;park&quot;</span>, <span class="s
 <span class="c"># the tier. That is what min_tier is for.</span>
 TIMEOUT_SEVERITY = {<span class="b">None</span>: <span class="n">0</span>, <span class="s">&quot;escalate&quot;</span>: <span class="n">1</span>, <span class="s">&quot;park&quot;</span>: <span class="n">2</span>, <span class="s">&quot;cancel&quot;</span>: <span class="n">3</span>, <span class="s">&quot;suspend&quot;</span>: <span class="n">4</span>}
 GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <span class="s">&quot;merchant.apply&quot;</span>, <span class="s">&quot;merchant.change&quot;</span>,
-                          <span class="s">&quot;merchant.pause&quot;</span>, <span class="s">&quot;meridian.attach&quot;</span>, <span class="s">&quot;meridian.decommission&quot;</span>,
+                          <span class="s">&quot;merchant.pause&quot;</span>, <span class="s">&quot;meridian.attach&quot;</span>, <span class="s">&quot;meridian.retire&quot;</span>,
                           <span class="s">&quot;meridian.prepare&quot;</span>)
 
 
@@ -561,7 +565,7 @@ GATED_CLASSES_PREFIXES = (<span class="s">&quot;merchant.send&quot;</span>, <spa
             tier = policy[<span class="s">&quot;tiers&quot;</span>][spec[<span class="s">&quot;tier&quot;</span>]]
             <span class="b">if</span> tier[<span class="s">&quot;autonomy&quot;</span>] == <span class="s">&quot;execute&quot;</span>:
                 <span class="b">raise</span> PolicyError(f<span class="s">&quot;{name}: resolves to autonomous execution but touches money, &quot;</span>
-                                  f<span class="s">&quot;a customer, or a control record&quot;</span>)
+                                  f<span class="s">&quot;a customer, or a return-to-source map&quot;</span>)
     <span class="b">if</span> policy[<span class="s">&quot;default_tier&quot;</span>] != <span class="s">&quot;T3&quot;</span>:
         <span class="b">raise</span> PolicyError(<span class="s">&quot;default_tier must fail closed to T3&quot;</span>)
 
@@ -689,7 +693,7 @@ validate_policy(POLICY)   <span class="c"># import-time. A bad policy never reac
         {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;merchant.apply_fee_concession&quot;</span>, <span class="s">&quot;monetary_value_cents&quot;</span>: <span class="n">90000</span>,
          <span class="s">&quot;confidence&quot;</span>: <span class="n">0.61</span>, <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;high&quot;</span>, <span class="s">&quot;entity_flags&quot;</span>: [],
          <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;acted&quot;</span>, <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.88</span>},
-        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;meridian.emit_control_impact_packet&quot;</span>, <span class="s">&quot;confidence&quot;</span>: <span class="n">0.55</span>,
+        {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;meridian.emit_return_impact_packet&quot;</span>, <span class="s">&quot;confidence&quot;</span>: <span class="n">0.55</span>,
          <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;critical&quot;</span>, <span class="s">&quot;agent_outcome&quot;</span>: <span class="s">&quot;abstained&quot;</span>, <span class="s">&quot;entity_flags&quot;</span>: [],
          <span class="s">&quot;nearest_precedent_similarity&quot;</span>: <span class="n">0.42</span>},
         {<span class="s">&quot;action_class&quot;</span>: <span class="s">&quot;merchant.send_outreach&quot;</span>, <span class="s">&quot;confidence&quot;</span>: <span class="n">0.97</span>, <span class="s">&quot;impact_band&quot;</span>: <span class="s">&quot;low&quot;</span>,
@@ -703,11 +707,11 @@ validate_policy(POLICY)   <span class="c"># import-time. A bad policy never reac
     <span class="c"># Real stdout (illustrative inputs), pasted, not written from memory:</span>
     <span class="c">#   merchant.apply_fee_concession          -&gt; T2  approvals=1  sla=240  timeout=escalate  overrides=-</span>
     <span class="c">#   merchant.apply_fee_concession          -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;low_confidence_high_impact&#x27;]</span>
-    <span class="c">#   meridian.emit_control_impact_packet    -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;agent_abstained&#x27;, &#x27;low_confidence_high_impact&#x27;, &#x27;no_precedent&#x27;]</span>
+    <span class="c">#   meridian.emit_return_impact_packet     -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;agent_abstained&#x27;, &#x27;low_confidence_high_impact&#x27;, &#x27;no_precedent&#x27;]</span>
     <span class="c">#   merchant.send_outreach                 -&gt; T3  approvals=2  sla=1440  timeout=suspend  overrides=[&#x27;flagged_entity&#x27;]</span>
     <span class="c">#</span>
     <span class="c"># Trace the third one, because it does not land where the override row reads</span>
-    <span class="c"># like it should. Base tier T1 for emit_control_impact_packet. `agent_abstained`</span>
+    <span class="c"># like it should. Base tier T1 for emit_return_impact_packet. `agent_abstained`</span>
     <span class="c"># raises it to T2. `low_confidence_high_impact` matches at 0.55 confidence on a</span>
     <span class="c"># critical band and bumps T2 to T3. `no_precedent` matches at 0.42 similarity and</span>
     <span class="c"># asks for T2, which changes nothing. Resolved tier is T3, whose own on_timeout is</span>

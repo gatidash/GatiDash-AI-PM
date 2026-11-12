@@ -105,7 +105,7 @@ footer span{font-family:ui-monospace,monospace;font-size:12px;color:var(--dust)}
 
 <section><div class="wrap">
   <h2>The problem</h2>
-  <p>Shadow mode is simple to describe. The agent runs on live inputs and produces a complete decision. A human decides in parallel, blind to the agent&#x27;s answer. Nothing the agent produces reaches a merchant, a control record or a regulator. Then we compare.</p><p>The trap is agreement rate. It&#x27;s the number everyone asks for and it&#x27;s close to useless on its own. An agent that escalates everything agrees with a cautious human most of the time and delivers nothing. What matters is the shape of the disagreements. Wrong-and-cautious costs a reviewer ten minutes. Wrong-and-dangerous is the one that ends the programme, and there are always far fewer of those, which is exactly why you have to count them individually rather than let them average away.</p><p>The other half is hunting for misses. You can&#x27;t find a false negative by reviewing what the agent flagged. So I start from what the human found, seed canaries the modelling side can&#x27;t see, and replay every incident that already bit us once. Then I write down the numbers that stop the rollout, before I know what the numbers are going to be.</p>
+  <p>Shadow mode is simple to describe. The agent runs on live inputs and produces a complete decision. A human decides in parallel, blind to the agent&#x27;s answer. Nothing the agent produces reaches a merchant, a return or a regulator. Then we compare.</p><p>The trap is agreement rate. It&#x27;s the number everyone asks for and it&#x27;s close to useless on its own. An agent that escalates everything agrees with a cautious human most of the time and delivers nothing. What matters is the shape of the disagreements. Wrong-and-cautious costs a reviewer ten minutes. Wrong-and-dangerous is the one that ends the programme, and there are always far fewer of those, which is exactly why you have to count them individually rather than let them average away.</p><p>The other half is hunting for misses. You can&#x27;t find a false negative by reviewing what the agent flagged. So I start from what the human found, seed canaries the modelling side can&#x27;t see, and replay every incident that already bit us once. Then I write down the numbers that stop the rollout, before I know what the numbers are going to be.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -121,7 +121,7 @@ Owner: ................   Decision meeting: ....-..-..
 Shadow mode means the agent runs on live inputs, produces a full decision, and
 that decision goes nowhere. A human decides in parallel, blind to the agent&#x27;s
 answer. We compare afterwards. Nothing the agent says reaches a merchant, a
-control record, or a regulator.
+return, or a regulator.
 
 *** EVERY NUMBER BELOW IS ILLUSTRATIVE. It shows the shape of the readout ***
 *** and how a gate fails. These are not results from a real system.       ***
@@ -132,7 +132,7 @@ control record, or a regulator.
   Decisions produced by agent              1,847
   Paired with an independent human answer  1,691   (91.6%)
   Unpaired (human never got to it)           156   excluded from all rates below
-  Jurisdiction mix (Meridian)              AUSTRAC 44% / MAS 33% / CSSF 23%
+  Entity mix (Meridian, NBFC partners)     middle layer 44% / base 33% / upper 23%
 
   Coverage below ~85% makes every rate on this page unreliable. Say so if it is.
 
@@ -162,6 +162,7 @@ Every disagreement is adjudicated by a reviewer who did not make either call.
   A. AGENT-WRONG-DANGEROUS
      The agent missed something, or asserted something, in a direction that
      causes harm if executed. Missed obligation. Fabricated or drifted citation.
+     Wrong effective date, so the change lands in the wrong reporting cycle.
      Asserted a judgment reserved for a human. Money moved the wrong way.
      This class is counted, not rated. Each one gets a written post-mortem.
      Detail on the 4:
@@ -173,7 +174,7 @@ Every disagreement is adjudicated by a reviewer who did not make either call.
 
   B. AGENT-WRONG-SAFE
      Wrong, in the direction of doing less. Over-escalated, abstained on an
-     answerable item, flagged a control that was not impacted. Costs reviewer
+     answerable item, flagged a return or field that was not impacted. Costs reviewer
      minutes. Does not cost a licence. This is where you want the mass to sit.
 
   C. HUMAN-WRONG
@@ -197,8 +198,8 @@ every period, because each one is blind to something:
         Human-found obligations: 612    Agent also found: 578    Missed: 34
         Recall 94.4%   (578/612, 95% Wilson lower bound 92.3%)
 
-  M2  SEEDED CANARIES. Inject known-impacted changes with known control mappings
-      into the live stream at a low, logged rate. Nobody on the modelling side
+  M2  SEEDED CANARIES. Inject known-impacted changes with known return and field
+      mappings into the live stream at a low, logged rate. Nobody on the modelling side
       knows which. Recall on canaries must be 100%. Anything else is a stop.
         Canaries injected: 40   Detected: 39   MISSED: 1   -&gt; 97.5%   <span class="bad">FAIL</span>
 
@@ -215,10 +216,10 @@ every period, because each one is blind to something:
 =================================================================================
 5. DRIFT
 =================================================================================
-  INPUT DRIFT   PSI on document length, jurisdiction mix, novel-term rate
+  INPUT DRIFT   PSI on document length, entity mix, novel-term rate
                   PSI = 0.11   (&lt;0.10 stable, 0.10-0.25 watch, &gt;0.25 investigate)
   OUTPUT DRIFT  Abstention rate week over week: 9.1% -&gt; 8.7% -&gt; 11.4% -&gt; 10.2%
-                  Control-family distribution KL vs baseline: 0.06
+                  Return-family distribution KL vs baseline: 0.06
   REVIEWER DRIFT  Cohen&#x27;s kappa between the two reviewers, weekly:
                   0.83 / 0.81 / 0.76 / 0.71   &lt;- falling. Reviewers are drifting
                   apart, probably fatigue. Fix this before trusting section 3.
@@ -234,7 +235,7 @@ every period, because each one is blind to something:
   Projected steady-state queue    ~62 items/day at 2.1 FTE
 
   Reviewer load is a go/no-go input in its own right. An agent that halves review
-  time but doubles queue volume has made the compliance team&#x27;s week worse.
+  time but doubles queue volume has made the review team&#x27;s week worse.
 
 =================================================================================
 7. <span class="ok">GO</span> / NO-<span class="ok">GO</span> GATES
@@ -401,7 +402,7 @@ every period, because each one is blind to something:
     <span class="k">&quot;adjudication&quot;</span>: <span class="s">&quot;third reviewer, blind to which answer came from the agent&quot;</span><span class="p">,</span>
     <span class="k">&quot;classes&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;agent_wrong_dangerous&quot;</span>: <span class="p">{</span>
-        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in a direction that causes harm if executed: missed obligation, fabricated or drifted citation, reserved judgment asserted, value moved incorrectly&quot;</span><span class="p">,</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in a direction that causes harm if executed: missed obligation, fabricated or drifted citation, wrong effective date, reserved judgment asserted, value moved incorrectly&quot;</span><span class="p">,</span>
         <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;absolute count, never a rate&quot;</span><span class="p">,</span>
         <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
           <span class="k">&quot;op&quot;</span>: <span class="s">&quot;eq&quot;</span><span class="p">,</span>
@@ -411,7 +412,7 @@ every period, because each one is blind to something:
         <span class="k">&quot;on_breach&quot;</span>: <span class="s">&quot;halt ramp, written post-mortem per event, re-run shadow after fix&quot;</span>
       <span class="p">}</span><span class="p">,</span>
       <span class="k">&quot;agent_wrong_safe&quot;</span>: <span class="p">{</span>
-        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in the direction of doing less: over-escalated, abstained on an answerable item, flagged an unimpacted control&quot;</span><span class="p">,</span>
+        <span class="k">&quot;definition&quot;</span>: <span class="s">&quot;wrong in the direction of doing less: over-escalated, abstained on an answerable item, flagged an unimpacted return or field&quot;</span><span class="p">,</span>
         <span class="k">&quot;measure&quot;</span>: <span class="s">&quot;rate over adjudicated disagreements&quot;</span><span class="p">,</span>
         <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
           <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
@@ -493,7 +494,7 @@ every period, because each one is blind to something:
     <span class="k">&quot;input_psi&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;features&quot;</span>: <span class="p">[</span>
         <span class="s">&quot;document_char_length&quot;</span><span class="p">,</span>
-        <span class="s">&quot;jurisdiction_mix&quot;</span><span class="p">,</span>
+        <span class="s">&quot;entity_type_mix&quot;</span><span class="p">,</span>
         <span class="s">&quot;novel_term_rate&quot;</span><span class="p">,</span>
         <span class="s">&quot;instrument_type_mix&quot;</span>
       <span class="p">]</span><span class="p">,</span>
@@ -519,7 +520,7 @@ every period, because each one is blind to something:
       <span class="k">&quot;note&quot;</span>: <span class="s">&quot;collapse toward zero is as alarming as a spike&quot;</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="k">&quot;output_distribution_kl&quot;</span>: <span class="p">{</span>
-      <span class="k">&quot;against&quot;</span>: <span class="s">&quot;baseline_control_family_mix&quot;</span><span class="p">,</span>
+      <span class="k">&quot;against&quot;</span>: <span class="s">&quot;baseline_return_family_mix&quot;</span><span class="p">,</span>
       <span class="k">&quot;gate&quot;</span>: <span class="p">{</span>
         <span class="k">&quot;op&quot;</span>: <span class="s">&quot;lte&quot;</span><span class="p">,</span>
         <span class="k">&quot;value&quot;</span>: <span class="n">0.2</span><span class="p">,</span>
@@ -656,13 +657,14 @@ DANGEROUS_MARKERS = {
     <span class="s">&quot;citation_not_in_source&quot;</span>,
     <span class="s">&quot;citation_superseded_version&quot;</span>,
     <span class="s">&quot;reserved_judgment_asserted&quot;</span>,
+    <span class="s">&quot;effective_date_wrong&quot;</span>,
     <span class="s">&quot;value_direction_wrong&quot;</span>,
     <span class="s">&quot;flagged_entity_ignored&quot;</span>,
 }
 SAFE_MARKERS = {
     <span class="s">&quot;over_escalated&quot;</span>,
     <span class="s">&quot;abstained_on_answerable&quot;</span>,
-    <span class="s">&quot;flagged_unimpacted_control&quot;</span>,
+    <span class="s">&quot;flagged_unimpacted_target&quot;</span>,
     <span class="s">&quot;redundant_evidence_request&quot;</span>,
 }
 
@@ -736,7 +738,7 @@ SAFE_MARKERS = {
 <span class="b">def</span> canary_recall(canaries: Sequence[dict]) -&gt; tuple[float, list[str]]:
     <span class="s">&quot;&quot;&quot;Seeded known-positives. Anything short of 1.0 is a stop condition.&quot;&quot;&quot;</span>
     missed = [c[<span class="s">&quot;canary_id&quot;</span>] <span class="b">for</span> c <span class="b">in</span> canaries
-              <span class="b">if</span> <span class="b">not</span> set(c[<span class="s">&quot;expected_control_ids&quot;</span>]) &lt;= set(c[<span class="s">&quot;agent_control_ids&quot;</span>])]
+              <span class="b">if</span> <span class="b">not</span> set(c[<span class="s">&quot;expected_target_ids&quot;</span>]) &lt;= set(c[<span class="s">&quot;agent_target_ids&quot;</span>])]
     detected = len(canaries) - len(missed)
     <span class="b">return</span> (detected / len(canaries) <span class="b">if</span> canaries <span class="b">else</span> <span class="n">0.0</span>), missed
 
@@ -908,7 +910,7 @@ NON_WAIVABLE = {<span class="n">2</span>, <span class="n">3</span>, <span class=
   <div class="tradeoff">
     <p class="eyebrow">What I am still unsure about</p>
     <p style="color:var(--smoke);margin-bottom:16px;max-width:58ch">Shadow mode answers less than people want it to.</p>
-    <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live compliance stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li><li>A gate regime that only ever says no teaches people to route around it, so the readout has to show the ship decision as well as the refusal.</li></ul>
+    <ul><li>Shadow mode needs humans to decide everything twice, so it costs real reviewer capacity for weeks and there&#x27;s no cheap version of it that tells you anything.</li><li>Classifying an unmarked agent error as dangerous by default over-reports the worst class, and I&#x27;d rather investigate a few harmless ones than let an uncharacterised failure sit in the safe bucket.</li><li>Seeded canaries put synthetic items into a live regulatory-change stream, which needs its own control and a clean audit trail, or the safety net becomes the finding.</li><li>Blocking on reviewer kappa means a tired review team can stop a good build, and that&#x27;s the correct outcome because the alternative is shipping on measurements nobody can defend.</li><li>A gate regime that only ever says no teaches people to route around it, so the readout has to show the ship decision as well as the refusal.</li></ul>
   </div>
 </div></section>
 

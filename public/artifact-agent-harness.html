@@ -242,13 +242,13 @@ EFFECTS = (READ, WRITE, IRREVERSIBLE)
   <span class="k">&quot;version&quot;</span>: <span class="s">&quot;2.0.0&quot;</span><span class="p">,</span>
   <span class="k">&quot;note&quot;</span>: <span class="s">&quot;Budgets are per tool. A tool with no idempotency story gets one attempt.&quot;</span><span class="p">,</span>
   <span class="k">&quot;tools&quot;</span>: <span class="p">{</span>
-    <span class="k">&quot;policy.lookup&quot;</span>: <span class="p">{</span>
+    <span class="k">&quot;reportmap.lookup&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;version&quot;</span>: <span class="s">&quot;1.3.0&quot;</span><span class="p">,</span>
       <span class="k">&quot;effect&quot;</span>: <span class="s">&quot;read&quot;</span><span class="p">,</span>
       <span class="k">&quot;timeout_s&quot;</span>: <span class="n">2.0</span><span class="p">,</span>
       <span class="k">&quot;max_attempts&quot;</span>: <span class="n">3</span><span class="p">,</span>
       <span class="k">&quot;idempotent&quot;</span>: <span class="b">true</span><span class="p">,</span>
-      <span class="k">&quot;key_fields&quot;</span>: <span class="p">[</span><span class="s">&quot;control_id&quot;</span><span class="p">,</span> <span class="s">&quot;policy_version&quot;</span><span class="p">]</span>
+      <span class="k">&quot;key_fields&quot;</span>: <span class="p">[</span><span class="s">&quot;target_id&quot;</span><span class="p">,</span> <span class="s">&quot;target_type&quot;</span><span class="p">,</span> <span class="s">&quot;report_map_version&quot;</span><span class="p">]</span>
     <span class="p">}</span><span class="p">,</span>
     <span class="k">&quot;case.attach_assessment&quot;</span>: <span class="p">{</span>
       <span class="k">&quot;version&quot;</span>: <span class="s">&quot;2.1.0&quot;</span><span class="p">,</span>
@@ -465,15 +465,15 @@ REG = load_registry(json.load(open(<span class="s">&#x27;registry.v2.json&#x27;<
 
 <span class="c"># Fault script: (tool, attempt) -&gt; &quot;timeout&quot; | value</span>
 FAULTS = {
-    (<span class="s">&#x27;policy.lookup&#x27;</span>, <span class="n">1</span>): <span class="s">&#x27;timeout&#x27;</span>,
+    (<span class="s">&#x27;reportmap.lookup&#x27;</span>, <span class="n">1</span>): <span class="s">&#x27;timeout&#x27;</span>,
     (<span class="s">&#x27;queue.assign_reviewer&#x27;</span>, <span class="n">1</span>): <span class="s">&#x27;timeout&#x27;</span>,
 }
 
 <span class="b">def</span> transport(tool, args, timeout_s, attempt):
     <span class="b">if</span> FAULTS.get((tool, attempt)) == <span class="s">&#x27;timeout&#x27;</span>:
         <span class="b">raise</span> ToolTimeout(tool)
-    <span class="b">if</span> tool == <span class="s">&#x27;policy.lookup&#x27;</span>:
-        <span class="b">return</span> {<span class="s">&#x27;control_id&#x27;</span>: args[<span class="s">&#x27;control_id&#x27;</span>], <span class="s">&#x27;owner&#x27;</span>: <span class="s">&#x27;FinCrime-2&#x27;</span>, <span class="s">&#x27;tier&#x27;</span>: <span class="s">&#x27;T2&#x27;</span>}
+    <span class="b">if</span> tool == <span class="s">&#x27;reportmap.lookup&#x27;</span>:
+        <span class="b">return</span> {<span class="s">&#x27;target_id&#x27;</span>: args[<span class="s">&#x27;target_id&#x27;</span>], <span class="s">&#x27;target_type&#x27;</span>: args[<span class="s">&#x27;target_type&#x27;</span>], <span class="s">&#x27;owner&#x27;</span>: <span class="s">&#x27;RegReporting-2&#x27;</span>, <span class="s">&#x27;tier&#x27;</span>: <span class="s">&#x27;T2&#x27;</span>}
     <span class="b">if</span> tool == <span class="s">&#x27;case.attach_assessment&#x27;</span>:
         <span class="b">return</span> {<span class="s">&#x27;attached&#x27;</span>: <span class="b">True</span>, <span class="s">&#x27;case_id&#x27;</span>: args[<span class="s">&#x27;case_id&#x27;</span>]}
     <span class="b">if</span> tool == <span class="s">&#x27;queue.assign_reviewer&#x27;</span>:
@@ -481,15 +481,17 @@ FAULTS = {
     <span class="b">raise</span> AssertionError(tool)
 
 MODEL_OUTPUT = {
-    <span class="s">&#x27;control_id&#x27;</span>: <span class="s">&#x27;C-118&#x27;</span>,
+    <span class="s">&#x27;target_id&#x27;</span>: <span class="s">&#x27;FLD-NBS-07-014&#x27;</span>,
+    <span class="s">&#x27;target_type&#x27;</span>: <span class="s">&#x27;field&#x27;</span>,
     <span class="s">&#x27;impact&#x27;</span>: <span class="s">&#x27;material&#x27;</span>,
     <span class="s">&#x27;confidence&#x27;</span>: <span class="n">0.71</span>,
-    <span class="s">&#x27;citations&#x27;</span>: [<span class="s">&#x27;POL-2024.3 §4.2&#x27;</span>],
+    <span class="s">&#x27;citations&#x27;</span>: [<span class="s">&#x27;AD-2026-14 §4.2&#x27;</span>],
 }
 
 <span class="b">def</span> workflow(h):
     <span class="s">&quot;&quot;&quot;Same function for the live run and the replay. That is the point.&quot;&quot;&quot;</span>
-    pol = h.call(<span class="s">&#x27;policy.lookup&#x27;</span>, step=<span class="s">&#x27;s1&#x27;</span>, control_id=<span class="s">&#x27;C-118&#x27;</span>, policy_version=<span class="s">&#x27;2024.3&#x27;</span>)
+    pol = h.call(<span class="s">&#x27;reportmap.lookup&#x27;</span>, step=<span class="s">&#x27;s1&#x27;</span>, target_id=<span class="s">&#x27;FLD-NBS-07-014&#x27;</span>,
+                 target_type=<span class="s">&#x27;field&#x27;</span>, report_map_version=<span class="s">&#x27;2024.3&#x27;</span>)
     out = h.model(<span class="s">&#x27;s2&#x27;</span>, <span class="b">lambda</span>: MODEL_OUTPUT)
     h.call(<span class="s">&#x27;case.attach_assessment&#x27;</span>, step=<span class="s">&#x27;s3&#x27;</span>,
            case_id=<span class="s">&#x27;CASE-4471&#x27;</span>, assessment_hash=<span class="s">&#x27;9f2c1e&#x27;</span>)
@@ -570,13 +572,15 @@ print()
 LIVE RUN run_7 -&gt; escalated_to_human
 ------------------------------------
   0  run_started      mode=live
-  1  tool_attempted   step=s1  tool=policy.lookup  key=e396f7dfec88bb01c07d1897  effect=read
+  1  tool_attempted   step=s1  tool=reportmap.lookup  key=185f1539fb321985ce234e3a  effect=read
                      budget=3
-  2  tool_timeout     step=s1  tool=policy.lookup  attempt=1  of=3  key=e396f7dfec88bb01c07d1897
-  3  tool_observed    step=s1  tool=policy.lookup  result={&quot;control_id&quot;: &quot;C-118&quot;, &quot;owner&quot;:
-                     &quot;FinCrime-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2
-  4  model_observed   step=s2  output={&quot;control_id&quot;: &quot;C-118&quot;, &quot;impact&quot;: &quot;material&quot;,
-                     &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;POL-2024.3 §4.2&quot;]}  source=live
+  2  tool_timeout     step=s1  tool=reportmap.lookup  attempt=1  of=3
+                     key=185f1539fb321985ce234e3a
+  3  tool_observed    step=s1  tool=reportmap.lookup  result={&quot;target_id&quot;: &quot;FLD-NBS-07-014&quot;,
+                     &quot;target_type&quot;: &quot;field&quot;, &quot;owner&quot;: &quot;RegReporting-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2
+  4  model_observed   step=s2  output={&quot;target_id&quot;: &quot;FLD-NBS-07-014&quot;, &quot;target_type&quot;: &quot;field&quot;,
+                     &quot;impact&quot;: &quot;material&quot;, &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;AD-2026-14 §4.2&quot;]}
+                     source=live
   5  tool_attempted   step=s3  tool=case.attach_assessment  key=29261c1e84c9f7525decb6ce
                      effect=write  budget=3
   6  tool_observed    step=s3  tool=case.attach_assessment  result={&quot;attached&quot;: true, &quot;case_id&quot;:
@@ -588,17 +592,19 @@ LIVE RUN run_7 -&gt; escalated_to_human
  10  escalated        reason=assignment_unknown  step=s4  note=non-idempotent write timed out;
                      not retried (H1)
  11  run_ended        outcome=escalated_to_human
-     decision_digest = f8609354b77dff4f
+     decision_digest = 32cf1fe6ff96f9a8
 
 REPLAY run_7 -&gt; escalated_to_human
 ----------------------------------
   0  run_started      mode=replay
-  1  tool_attempted   step=s1  tool=policy.lookup  key=e396f7dfec88bb01c07d1897  effect=read
+  1  tool_attempted   step=s1  tool=reportmap.lookup  key=185f1539fb321985ce234e3a  effect=read
                      budget=3
-  2  tool_observed    step=s1  tool=policy.lookup  result={&quot;control_id&quot;: &quot;C-118&quot;, &quot;owner&quot;:
-                     &quot;FinCrime-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2  source=ledger
-  3  model_observed   step=s2  output={&quot;control_id&quot;: &quot;C-118&quot;, &quot;impact&quot;: &quot;material&quot;,
-                     &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;POL-2024.3 §4.2&quot;]}  source=ledger
+  2  tool_observed    step=s1  tool=reportmap.lookup  result={&quot;target_id&quot;: &quot;FLD-NBS-07-014&quot;,
+                     &quot;target_type&quot;: &quot;field&quot;, &quot;owner&quot;: &quot;RegReporting-2&quot;, &quot;tier&quot;: &quot;T2&quot;}  attempt=2
+                     source=ledger
+  3  model_observed   step=s2  output={&quot;target_id&quot;: &quot;FLD-NBS-07-014&quot;, &quot;target_type&quot;: &quot;field&quot;,
+                     &quot;impact&quot;: &quot;material&quot;, &quot;confidence&quot;: 0.71, &quot;citations&quot;: [&quot;AD-2026-14 §4.2&quot;]}
+                     source=ledger
   4  tool_attempted   step=s3  tool=case.attach_assessment  key=29261c1e84c9f7525decb6ce
                      effect=write  budget=3
   5  tool_observed    step=s3  tool=case.attach_assessment  result={&quot;attached&quot;: true, &quot;case_id&quot;:
@@ -609,7 +615,7 @@ REPLAY run_7 -&gt; escalated_to_human
   8  escalated        reason=assignment_unknown  step=s4  note=non-idempotent write timed out;
                      not retried (H1)
   9  run_ended        outcome=escalated_to_human
-     decision_digest = f8609354b77dff4f
+     decision_digest = 32cf1fe6ff96f9a8
 
 replay reproduced the decision path : True
 decision_digest live == replay      : True
