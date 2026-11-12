@@ -325,11 +325,11 @@
       <div class="rail-eye">Case study</div>
       <div class="rail-row"><span class="rail-k">Role</span><span class="rail-v">Product strategy (concept)</span></div>
       <div class="rail-row"><span class="rail-k">Type</span><span class="rail-v">Conceptual case study</span></div>
-      <div class="rail-row"><span class="rail-k">Focus</span><span class="rail-v">Agentic RegTech · AML change intelligence</span></div>
-      <div class="rail-row"><span class="rail-k">Regulators</span><span class="rail-v">AUSTRAC · MAS · CSSF</span></div>
-      <div class="rail-block"><span class="rail-k">Problem</span><p>200+ regulatory changes a day; mapping each to the controls it breaks is manual and error-prone.</p></div>
+      <div class="rail-row"><span class="rail-k">Focus</span><span class="rail-v">Agentic RegTech · reporting-impact intelligence</span></div>
+      <div class="rail-row"><span class="rail-k">Regulator</span><span class="rail-v">RBI · NBFCs first</span></div>
+      <div class="rail-block"><span class="rail-k">Problem</span><p>The RBI keeps amending its directions. Working out which returns each change breaks is still done by hand.</p></div>
       <div class="rail-block"><span class="rail-k">The bet</span><p>Restraint, not autonomy — do the 80%, then stop at every act of judgment.</p></div>
-      <div class="rail-block"><span class="rail-k">Outcome</span><p>An audit-ready package a Chief Compliance Officer will put their name on.</p></div>
+      <div class="rail-block"><span class="rail-k">Outcome</span><p>An audit-ready package the owner of the return will put their name on.</p></div>
     </div>
   </aside>
   <div class="cs-main">
@@ -343,12 +343,12 @@
       <span>Working codename <b>MERIDIAN</b></span>
       <span>Conceptual — not a shipped product</span>
     </div>
-    <h1>Reading the rules was never the hard part. <span class="hl">Proving which control each one touches</span> is.</h1>
-    <p class="hero-lede">An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign. A chatbot that answers questions about the law solves a different, easier problem.</p>
+    <h1>Reading the rules was never the hard part. <span class="hl">Knowing which returns they break</span> is.</h1>
+    <p class="hero-lede">An agent that watches the RBI's directions, maps each amendment to the returns, data fields and validation rules it touches, and hands the person who owns those returns a package they can sign. A chatbot that answers questions about the rules solves a different, easier problem.</p>
   </div>
   <div class="wrap hero-figure">
     <p class="eyebrow">The deliverable</p>
-    <h3 class="sop-title">What the compliance officer actually signs</h3>
+    <h3 class="sop-title">What the reporting owner actually signs</h3>
     <div class="sop">
       <div class="sop-row">
         <span class="sop-n">01</span>
@@ -363,7 +363,7 @@
         <span class="sop-n">02</span>
         <div class="sop-body">
           <span class="sop-field">the mapping</span>
-          <p class="sop-what">Which internal controls the change touches, each one carrying the basis for the claim.</p>
+          <p class="sop-what">Which returns, data fields and validation rules the change touches. Each one carries the basis for the claim.</p>
         </div>
         <p class="sop-why">Every mapping is a proposition, not an answer. The officer has to be able to reject one.</p>
       </div>
@@ -372,9 +372,9 @@
         <span class="sop-n">03</span>
         <div class="sop-body">
           <span class="sop-field">the delta</span>
-          <p class="sop-what">Current control text against required control text, diffed at the line.</p>
+          <p class="sop-what">The current field definition or calculation against what the change now needs, diffed at the line.</p>
         </div>
-        <p class="sop-why">Pitched at the level a control owner edits. An executive summary is useless here.</p>
+        <p class="sop-why">Pitched at the level a reporting analyst edits. An executive summary is useless here.</p>
       </div>
 
       <div class="sop-row">
@@ -417,14 +417,14 @@
         <h2>Most "AI&nbsp;for compliance" is a search box. This isn't.</h2>
       </div>
       <div>
-        <p>The reflexive build for this space is retrieval over a regulatory corpus with a chat window on top — "ask questions about the AML/CTF rules." It demos well and solves almost nothing, because the bottleneck inside a compliance team was never <em>understanding</em> a rule. It's the orchestration after: finding every internal control, policy, and data flow the rule touches; deciding what has to change; and producing an audit trail that survives a regulator's scrutiny.</p>
+        <p>The obvious build here is search over the RBI's directions with a chat window on top. "Ask me about the NBFC rules." It demos well and solves almost nothing. Nobody in a reporting team is stuck on <em>understanding</em> a rule. They're stuck on what comes after it. Which returns does it touch? Which fields, which validation rules, which source data? What has to change before the next filing? And can they show an auditor how they decided?</p>
         <p>That work has the four properties that actually justify an agent rather than a workflow: <strong>multi-step planning</strong> across a living queue of changes, <strong>tool use</strong> across fragmented systems of record, <strong>state</strong> held across a review that spans days, and <strong>bounded autonomy</strong> with explicit human checkpoints. Drop any one and an agent is over-engineering. Meridian is scoped to the problem where all four hold.</p>
       </div>
     </div>
     <div class="bet" style="margin-top:48px">
       <div class="tag">Strategic wager</div>
       <h3>The product's defensibility is its restraint, not its autonomy.</h3>
-      <p>The instinct is to maximize what the agent does end-to-end. In a domain where a wrong call is a personal-liability event for a named officer, the winning design does the opposite: it does the 80% of gathering, mapping, and drafting at a quality bar a human can verify in minutes — and stops, loudly, at every act of judgment. The moat is a trust boundary engineered so well that a Chief Compliance Officer will put their name on the output.</p>
+      <p>The instinct is to maximize what the agent does end-to-end. In a domain where a wrong call is a personal-liability event for a named officer, the winning design does the opposite: it does the 80% of gathering, mapping, and drafting at a quality bar a human can verify in minutes — and stops, loudly, at every act of judgment. The moat is a trust boundary engineered so well that the person who signs the return will put their name on the output.</p>
     </div>
   </div>
 </section>
@@ -434,18 +434,18 @@
   <div class="wrap">
     <p class="eyebrow">01 · The problem</p>
     <div class="lead-grid">
-      <div class="colhead"><h2>A volume problem that humans structurally cannot win.</h2></div>
+      <div class="colhead"><h2>The rulebook got tidier. It didn't get quieter.</h2></div>
       <div>
-        <p>Global regulators now publish on the order of <strong>about 150 alerts a day</strong> — roughly 56,000 a year across more than a thousand bodies. A regulated firm doesn't care about most of them, but it cannot know which ones matter without reading all of them. Industry surveys put a quarter of financial firms at a full working day every week spent just tracking change, before a single control is updated.</p>
-        <p>The cost of getting it wrong has detached from the cost of doing it. Global compliance fines ran to billions in 2025. Meanwhile the actual labor — cross-referencing a circular against a control library held in spreadsheets, ticketing systems, and someone's head — is exactly the structured, repetitive orchestration that doesn't scale by hiring.</p>
+        <p>In November 2025 the RBI withdrew <strong>9,445 circulars</strong> and folded what was left into 244 Master Directions, one set per type of regulated entity. That was a real cleanup. It also reset the clock. Since then, changes have arrived as amendment directions on top of those Master Directions, and they haven't slowed down. The capital adequacy direction for commercial banks had been amended eleven times in 2026 by the end of October.</p>
+        <p>Reporting teams feel every change twice. First the rule moves. Then the return has to move with it. A field gets added or redefined, a validation rule changes, a calculation shifts. Today someone works that out by hand, holding an amendment up against a return template, a data dictionary and a pile of spreadsheets. That's structured, repetitive work, and it doesn't scale by hiring.</p>
       </div>
     </div>
     <div class="stats" style="margin-top:46px">
-      <div class="stat"><div class="n">~150<small>/day</small></div><div class="l">Regulatory alerts across 1,000+ regulators <span class="proof-chip">Concept</span></div></div>
-      <div class="stat"><div class="n">1<small> day/wk</small></div><div class="l">Spent tracking change at ~25% of firms <span class="proof-chip">Concept</span></div></div>
-      <div class="stat"><div class="n">3</div><div class="l">Regulators in the beachhead &mdash; AUSTRAC, MAS, CSSF <span class="proof-chip">Concept</span></div></div>
+      <div class="stat"><div class="n">9,445</div><div class="l">Circulars withdrawn in the RBI's Nov 2025 consolidation <span class="proof-chip">Sourced</span></div></div>
+      <div class="stat"><div class="n">11</div><div class="l">Amendments to one Master Direction (bank capital adequacy) in 2026 <span class="proof-chip">Sourced</span></div></div>
+      <div class="stat"><div class="n">Apr<small> 2027</small></div><div class="l">ECL provisioning goes live for commercial banks <span class="proof-chip">Sourced</span></div></div>
     </div>
-    <p class="src">Third-party figures, cited directionally: Thomson Reuters Regulatory Intelligence and MetricStream (2025&ndash;26). I have not validated them against primary sources, so no argument in this case rests on them.</p>
+    <p class="src">Sources: RBI, <a href="https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23446" style="color:inherit">Monetary &amp; Credit Information Review, Nov 2025</a>; RBI <a href="https://www.rbi.org.in/Scripts/Notificationuser.aspx" style="color:inherit">notifications index</a> (Prudential Norms on Capital Adequacy, Eleventh Amendment Directions, 2026); RBI <a href="https://www.rbi.org.in/scripts/BS_ViewMasDirections.aspx?id=13400" style="color:inherit">Asset Classification, Provisioning and Income Recognition Directions, 2026</a>. Figures as of November 2026.</p>
   </div>
 </section>
 
@@ -462,16 +462,17 @@
     <div class="cards" style="margin-top:40px">
       <div class="card">
         <div class="role">Buyer · economic</div>
-        <h3>Head of Compliance / GRC lead</h3>
-        <p>Accountable to the board and the regulator. <strong>Cannot</strong> delegate the sign-off, and knows it. Buys assurance and defensibility before efficiency. The skeptic to win.</p>
+        <h3>Financial Controller / Head of Regulatory Reporting</h3>
+        <p>Owns the returns and answers for them. <strong>Can't</strong> hand off the sign-off, and knows it. Buys assurance and defensibility before efficiency. The skeptic to win.</p>
       </div>
       <div class="card">
         <div class="role">User · daily</div>
-        <h3>Compliance analyst</h3>
-        <p>Drowning in alerts, doing the cross-referencing by hand. Wants the first 80% done and trustworthy so they can spend judgment where it counts. The champion to delight.</p>
+        <h3>Regulatory reporting analyst</h3>
+        <p>Reads the amendment, opens the return template, checks the data dictionary, then does it all again for the next one. Wants the first 80% done and trustworthy so they can spend judgment where it counts. The champion to delight.</p>
       </div>
     </div>
-    <p class="jtbd"><b>Job to be done: "When a regulator publishes something, tell me fast and precisely which of <strong>my</strong> controls it touches, draft the change, and give me a record I can defend — so nothing slips while I'm buried in last quarter's audit."</b></p>
+    <p style="margin-top:28px;max-width:62ch;color:var(--ink-soft)">The compliance officer still matters. They own what a rule <em>means</em>. Meridian hands them that question with the evidence attached. It doesn't answer it for them.</p>
+    <p class="jtbd"><b>Job to be done: "When the RBI amends a direction, tell me fast and precisely which of <strong>my</strong> returns and fields it touches, draft the change, and give me a record I can defend — so nothing slips into the next filing while I'm buried in this quarter's close."</b></p>
   </div>
 </section>
 
@@ -482,16 +483,17 @@
     <div class="lead-grid">
       <div class="colhead"><h2>Three curves crossed at once.</h2></div>
       <div>
-        <p><strong>Capability.</strong> Models can now read unstructured regulatory prose and align it to a structured control taxonomy — the exact translation step that defeated rules engines and kept this manual. Agentic orchestration lets that run continuously across systems instead of as a one-off query.</p>
-        <p><strong>Economics.</strong> The volume-and-fines curve has made manual tracking indefensible, and regulatory intelligence is among the fastest-growing slices of a RegTech market on track from the low-$20Bs in 2026 toward $100B+ within a decade — with financial-crime and AML supervision, the remit of national regulators like Australia's AUSTRAC, Singapore's MAS, and Luxembourg's CSSF — and now the EU's own AML Authority, AMLA — among the densest and fastest-moving.</p>
-        <p><strong>The counter-intuitive one.</strong> Regulators are now scrutinizing the AI itself — and being precise about <em>how</em> is part of the credibility. The EU AI Act's high-risk list centers on things like credit scoring; the European Commission's 2026 guidance puts AML and compliance tooling largely <em>outside</em> that formal gate. The real pressure is broader and softer: supervisors — CSSF's AI thematic reviews, MAS's model-governance expectations — and buyers themselves now demand explainability, human oversight, and verifiable audit trails regardless of classification. That <em>favors</em> a well-governed, fully-logged agent and punishes a slick autonomous one. Traceability from day one is the advantage whether or not a high-risk obligation ever attaches — the regulatory tide is a tailwind for a product built around it.</p>
+        <p><strong>Capability.</strong> Models can now read regulatory prose and line it up against a structured list of returns, fields and validation rules. That translation step is what beat rules engines and kept this work manual. Agents let it run all the time instead of as a one-off query.</p>
+        <p><strong>The rulebook.</strong> The consolidation gave every regulated entity a finite, current set of Master Directions, and changes now land as amendments to them. So "what exactly changed" is a clean diff for the first time. The RBI also publishes its list of returns, data definitions and validation rules. That means the thing Meridian maps <em>to</em> is public as well. I can build and test the mapping before any customer shares a single file.</p>
+        <p><strong>The counter-intuitive one.</strong> Regulators are now looking at the AI itself. The RBI's <a href="https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF" style="color:inherit">FREE-AI framework</a> (August 2025) sets out seven principles and 26 recommendations. It's advisory for now. But it expects banks and NBFCs to stay accountable for AI they buy from vendors, not just AI they build, starting with a board-approved AI policy. That <em>favors</em> a well-governed, fully logged agent and punishes a slick autonomous one.</p>
+        <p>Then there's DPDP. Its main obligations land on 13 May 2027. Meridian reads regulation text and report specs. It never needs borrower data, so it stays out of the personal-data path entirely.</p>
         <div class="bet" style="margin-top:30px">
-          <div class="tag">Why now — the live firehose in the beachhead</div>
-          <h3>Three regulators, three instrument types, all changing at once.</h3>
-          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">AUSTRAC:</b> Tranche 2 reforms commenced 1 July 2026, pulling ~80,000 newly regulated firms into the AML/CTF regime on top of a 120-page new rulebook and a redesigned program model.</p>
-          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">CSSF:</b> supervised firms are mid-transition to the EU's single AML rulebook — AMLA now stood up in Frankfurt, the AMLR applying from 2027 — layered over existing Luxembourg law and circulars.</p>
-          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">MAS:</b> Notice 626 re-amended effective 1 July 2025, with the COSMIC information-sharing platform live since 2024.</p>
-          <p style="color:var(--ink-soft)">No human team keeps a control library current against that by hand — which is precisely the mapping problem.</p>
+          <div class="tag">Why now — what's changing right now</div>
+          <h3>Three live changes, all landing on reporting.</h3>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">NBFC returns, rewritten:</b> on 31 July 2026 the RBI pulled NBFC supervisory returns into one <a href="https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13587" style="color:inherit">new direction</a>. Some returns were renamed, large-exposure reporting changed for the Upper Layer, and the board now owns data accuracy.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">ECL for banks:</b> issued 27 April 2026, live from 1 April 2027. It replaces incurred-loss provisioning for commercial banks, and it has already set off amendments across other directions, from capital adequacy to investment portfolios.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">The amendment flow:</b> eleven amendments to the bank capital adequacy direction alone in 2026. And the start dates aren't simple. Some amendments start on a fixed date. Others start when a bank opts in, or on a backstop date, whichever comes first.</p>
+          <p style="color:var(--ink-soft)">No reporting team keeps every return in step with that by hand. That's the mapping problem.</p>
         </div>
       </div>
     </div>
@@ -503,15 +505,16 @@
   <div class="wrap">
     <p class="eyebrow">04 · Strategy &amp; wedge</p>
     <div class="lead-grid">
-      <div class="colhead"><h2>Win a narrow beachhead the incumbents ignore.</h2></div>
+      <div class="colhead"><h2>Fill the gap between compliance and reporting.</h2></div>
       <div>
-        <p>The incumbents — Thomson Reuters, MetricStream — own regulatory <em>content</em> and sell it into manual workflow. The newer compliance-automation players (Vanta, Drata) automate <em>static</em> frameworks like SOC&nbsp;2. The live firehose of jurisdictional change is a different problem. Neither does continuous change-to-control <em>mapping</em> as an agentic loop, and both are US/EU-first.</p>
-        <p><strong>Beachhead: financial-crime &amp; AML change across three tier-1 regulators — AUSTRAC (AU), MAS (SG), and the CSSF (LU).</strong> Narrow by problem, not just geography: the AML and cross-border obligations every global fintech and bank answers to, where a missed change is a personal-liability event and even Western-built tools still bolt the mapping on by hand. The three deliberately span different instrument types — AUSTRAC's consolidated Rules, MAS's binding Notices, and the CSSF's circulars plus the EU's incoming single rulebook — so an engine that survives all three generalizes: jurisdiction four is content, not engineering. It's also where I have direct operating context in global payments. Land on change-to-control mapping; expand into evidence collection and policy attestation once the trust boundary is proven.</p>
+        <p>Two kinds of tool already exist in India, and neither does this. Compliance platforms like OnFinance AI and Zango are funded, real and already have customers. They track changes, interpret them, assign owners and test controls. Their user is the compliance officer. Reporting vendors like IRIS and Profinch help firms produce and submit the returns. Their user is the reporting team, but they take the requirement as given.</p>
+        <p>What I can't find in either is the link between the two: this amendment, this return, this field, this validation rule. That's the gap. I've only seen their public material, so the first job is sitting through their demos and checking I'm right.</p>
+        <p><strong>Beachhead: RBI supervisory returns at mid-sized NBFCs.</strong> Narrow on purpose. There are a lot of NBFCs, their reporting teams are small, and their returns were just rewritten. And because the RBI publishes the return list, data definitions and validation rules, I can prove the mapping on public data first. It's also the work I know best. I've spent years building regulatory reporting platforms. Land on change-to-return mapping. Expand to commercial banks as ECL goes live, then to SEBI and IRDAI.</p>
         <div class="bet" style="margin-top:30px">
           <div class="tag">Scope discipline — v1</div>
           <h3>What ships, and what deliberately doesn't.</h3>
-          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">In:</b> continuous monitoring of a defined source set · obligation extraction · mapping to the customer's existing control library · drafted impact summaries, control redlines, and remediation tickets · full audit log.</p>
-          <p style="color:#D6EE5C"><b style="color:#D6EE5C;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, final sign-off, and material regulator communications. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
+          <p style="color:var(--ink-soft)"><b style="color:var(--ink);font-weight:500">In:</b> monitoring RBI Master Directions and amendment directions · obligation extraction · mapping to returns, data fields, validation rules and the customer's own report logic · drafted impact notes, field-level redlines and remediation tickets · full audit log.</p>
+          <p style="color:#D6EE5C"><b style="color:#D6EE5C;font-weight:500">Out (on purpose):</b> regulatory interpretation, risk acceptance, certifying or filing a return, and anything said to the RBI. These are governance acts. Shipping them would be the fastest way to lose the buyer's trust — and the regulator's.</p>
         </div>
       </div>
     </div>
@@ -525,10 +528,10 @@
     <h2 style="max-width:18ch">A six-stage loop with the human wired into the middle, not bolted on the end.</h2>
     <div class="pipe">
       <div class="pipe-row">
-        <div class="stage"><div class="num">01</div><h4>Watch</h4><p>Monitor a defined set of regulators, gazettes &amp; feeds; detect new &amp; amended items.</p></div>
-        <div class="stage"><div class="num">02</div><h4>Interpret</h4><p>Extract discrete obligations; classify by domain, jurisdiction &amp; effective date.</p></div>
-        <div class="stage"><div class="num">03</div><h4>Map</h4><p>Match each obligation to the customer's control library; score confidence.</p></div>
-        <div class="stage"><div class="num">04</div><h4>Draft</h4><p>Produce an impact summary, control redlines &amp; remediation tickets — every claim cited to source.</p></div>
+        <div class="stage"><div class="num">01</div><h4>Watch</h4><p>Monitor RBI notifications, Master Directions &amp; amendment directions; detect new &amp; changed paragraphs.</p></div>
+        <div class="stage"><div class="num">02</div><h4>Interpret</h4><p>Extract discrete obligations; classify by entity type, layer &amp; effective date.</p></div>
+        <div class="stage"><div class="num">03</div><h4>Map</h4><p>Match each obligation to returns, fields, validation rules &amp; the customer's report logic; score confidence.</p></div>
+        <div class="stage"><div class="num">04</div><h4>Draft</h4><p>Produce an impact note, field-level redlines &amp; remediation tickets — every claim cited to source.</p></div>
         <div class="stage gate"><div class="num">05</div><h4>Sign-off</h4><p>Analyst reviews; low-confidence maps forced into review. Human accepts, edits, or rejects.</p></div>
         <div class="stage"><div class="num">06</div><h4>Log</h4><p>Immutable, reproducible record of inputs, reasoning, and the human decision.</p></div>
       </div>
@@ -559,7 +562,7 @@
         <ul>
           <li>Watch every source, continuously</li>
           <li>Extract and classify obligations</li>
-          <li>Map changes to specific controls, with confidence scores</li>
+          <li>Map changes to specific returns, fields &amp; rules, with confidence scores</li>
           <li>Draft summaries, redlines &amp; tickets, each cited to source</li>
           <li>Log everything for audit</li>
         </ul>
@@ -569,7 +572,7 @@
         <ul>
           <li>What a rule <em>means</em> for this specific business</li>
           <li>Whether a residual risk is accepted</li>
-          <li>Final compliance sign-off</li>
+          <li>Final sign-off, and certifying the return</li>
           <li>Any material communication with a regulator</li>
         </ul>
       </div>
@@ -584,11 +587,12 @@
     <p class="eyebrow">07 · What breaks, and the design answer</p>
     <h2 style="max-width:16ch">Every one of these cost me something before I designed against it.</h2>
     <div class="rows">
-      <div class="rowx"><div class="rl">Hallucinated mapping<span class="sev">Severity: high · quiet</span></div><p>Agent confidently links a change to the wrong control, or invents one. <b>Answer:</b> confidence scoring with mandatory human review below threshold; mappings are <b>suggestions</b> until signed, never auto-applied; every claim cited to retrievable source text.</p></div>
+      <div class="rowx"><div class="rl">Hallucinated mapping<span class="sev">Severity: high · quiet</span></div><p>Agent confidently links a change to the wrong return or field, or invents one. <b>Answer:</b> confidence scoring with mandatory human review below threshold; mappings are <b>suggestions</b> until signed, never auto-applied; every claim cited to retrievable source text.</p></div>
       <div class="rowx"><div class="rl">The missed change<span class="sev">Severity: catastrophic</span></div><p>A relevant rule never enters the queue — the failure no one sees until it's a fine. <b>Answer:</b> source-coverage SLAs as a first-class, monitored metric; false-negative rate as the headline number; periodic human spot-audits of "no impact" verdicts.</p></div>
-      <div class="rowx"><div class="rl">Stale control library<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's control inventory, which drifts. <b>Answer:</b> treat library hygiene as part of the product, since the customer will not do it; flag controls with no recent activity; reconcile against drafted changes.</p></div>
+      <div class="rowx"><div class="rl">Effective-date traps<span class="sev">Severity: high · quiet</span></div><p>Not every amendment starts on one date. Some start on a fixed date. Some start when a bank opts in, with a backstop date if it doesn't. Tie a change to the wrong reporting cycle and the package is wrong while looking right. <b>Answer:</b> model start dates as rules, not a single field; show the start condition on every package; re-check open items when a customer's adoption date changes.</p></div>
+      <div class="rowx"><div class="rl">Stale report map<span class="sev">Severity: medium</span></div><p>Mapping is only as good as the customer's map of returns to source data, and that drifts. <b>Answer:</b> treat that map as part of the product, since the customer won't keep it current; flag fields with no recent change; reconcile against drafted changes.</p></div>
       <div class="rowx"><div class="rl">Automation complacency<span class="sev">Severity: high · cultural</span></div><p>Reviewers rubber-stamp because the agent is "usually right." <b>Answer:</b> design review for friction where it matters — surface disagreement and low confidence prominently; sample-inject known cases to keep reviewers honest.</p></div>
-      <div class="rowx"><div class="rl">We are governed AI<span class="sev">Severity: high</span></div><p>AML tooling sits largely outside the AI Act's high-risk list, but our customers' supervisors still expect model governance, explainability, and human oversight on anything touching a regulated decision. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and sold as a differentiator.</p></div>
+      <div class="rowx"><div class="rl">We are governed AI<span class="sev">Severity: high</span></div><p>The RBI's FREE-AI framework is advisory today, but it expects banks and NBFCs to answer for the AI they buy, not just the AI they build. Our customers will have to justify us to their own board. <b>Answer:</b> model cards, an internal eval harness on mapping precision/recall, explainability and full logging built as product, not compliance theater — and handed to whoever owns the customer's AI policy as a differentiator.</p></div>
     </div>
   </div>
 </section>
@@ -599,7 +603,7 @@
     <p class="eyebrow">08 · How we'd know it works</p>
     <div class="lead-grid">
       <div class="colhead"><h2>What the eval has to catch before anyone trusts it.</h2></div>
-      <div><p>Demo metrics ("changes processed!") are vanity. The metrics that matter are the ones a CCO would stake their name on — and the most important one is the rate of <em>missed</em> relevant changes, because that's the failure that ends careers. Business outcomes (fines avoided) are real but hard to attribute honestly; I'd track them as directional, not as a success gate.</p></div>
+      <div><p>Demo metrics ("changes processed!") are vanity. The metrics that matter are the ones the person signing the return would stake their name on — and the most important one is the rate of <em>missed</em> relevant changes, because that's the failure that ends careers. Business outcomes (fines avoided) are real but hard to attribute honestly; I'd track them as directional, not as a success gate.</p></div>
     </div>
     <div class="metric-grid" style="margin-top:40px">
       <div><div class="mt">Leading · quality</div><h4>Mapping precision &amp; recall</h4><p>Against a human-labeled gold set. The number that decides whether the product is usable at all.</p></div>
@@ -607,7 +611,7 @@
       <div><div class="mt">Leading · adoption</div><h4>Sign-off throughput</h4><p>Changes assessed per analyst per week — and the % cleared without edits as trust matures.</p></div>
       <div><div class="mt">Lagging · value</div><h4>Time-to-assess</h4><p>From a change publishing to a human-signed verdict. Days → hours is the headline customer win.</p></div>
       <div><div class="mt">Lagging · value</div><h4>Analyst hours reclaimed</h4><p>Hours moved from cross-referencing to judgment. The user's daily proof.</p></div>
-      <div><div class="mt">Lagging · business</div><h4>Audit-prep time</h4><p>Effort to produce a defensible trail at audit. Directional; attribution noted, not overclaimed.</p></div>
+      <div><div class="mt">Lagging · business</div><h4>Resubmissions &amp; RBI data queries</h4><p>Returns refiled or queried because a change was missed. Directional; attribution noted, not overclaimed.</p></div>
     </div>
     <div class="northstar">
       <div class="tag">North star</div>
@@ -625,19 +629,19 @@
       <div class="card">
         <h3>Motion</h3>
         <ul>
-          <li><b>Design partners first.</b> 3–5 compliance teams at global fintechs and banks that answer to AUSTRAC, MAS, or the CSSF; co-build the control-library onboarding, which is the real adoption bottleneck.</li>
-          <li><b>Land</b> on continuous change-to-control mapping for AUSTRAC, MAS, and CSSF AML obligations — the sharpest pain, narrowest scope.</li>
-          <li><b>Expand</b> into evidence collection and attestation tracking once sign-off trust is established.</li>
-          <li><b>Earn the buyer</b> with the audit trail and model cards — sell defensibility, not autonomy.</li>
+          <li><b>Design partners first.</b> 3–5 reporting teams at mid-sized NBFCs. Co-build the onboarding of their return-to-source map. That's the real adoption bottleneck.</li>
+          <li><b>Land</b> on mapping RBI changes to NBFC supervisory returns. Sharpest pain, narrowest scope.</li>
+          <li><b>Expand</b> to commercial banks ahead of ECL going live, then to SEBI and IRDAI, then into evidence and attestation once sign-off trust is earned.</li>
+          <li><b>Earn the buyer</b> with the audit trail and model cards. Sell defensibility, not autonomy.</li>
         </ul>
       </div>
       <div class="card">
         <h3>Positioning &amp; pricing</h3>
         <ul>
-          <li><b>vs. Thomson Reuters / MetricStream:</b> they sell content into manual workflow; we close the loop to your controls, automatically.</li>
-          <li><b>vs. Vanta / Drata:</b> they automate static frameworks; we track live jurisdictional change.</li>
-          <li><b>Pricing:</b> seat + source-coverage tiers; priced to undercut enterprise incumbents and reach mid-market teams the incumbents can't serve economically.</li>
-          <li><b>Content moat answer:</b> partner for raw regulatory feeds early rather than rebuild a thousand-regulator corpus; compete on the mapping intelligence. The firehose is a commodity.</li>
+          <li><b>vs. OnFinance AI / Zango:</b> they tell the compliance officer what changed and who owns it. We tell the reporting owner what breaks in their returns.</li>
+          <li><b>vs. reporting vendors (IRIS, Profinch):</b> they help produce and file the return. We tell you which return to change, and why, before the next cycle.</li>
+          <li><b>Pricing:</b> per entity, tiered by the number of returns covered. Priced for a mid-sized NBFC's budget, not a big bank's.</li>
+          <li><b>Content moat answer:</b> there isn't one, and that's fine. The RBI's directions and return specs are public and now consolidated. The mapping is the product.</li>
         </ul>
       </div>
     </div>
@@ -650,10 +654,10 @@
     <p class="eyebrow">10 · Sequencing</p>
     <h2>A phased path that de-risks trust before it scales reach.</h2>
     <div class="road">
-      <div class="phase"><div class="pn">Phase 0<small>~Quarter 1–2</small></div><div><h3>Prove the mapping bar</h3><p>Before building UI: assemble a human-labeled eval set of changes→controls and test whether mapping precision/recall can clear a usable threshold. If it can't, nothing else matters. Riskiest assumption, validated first.</p></div></div>
-      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>Change-to-control mapping, GA in beachhead</h3><p>Lead with AUSTRAC — a self-contained rulebook and a live Tranche 2 change to ride as the first reference story — then fast-follow MAS and CSSF within the phase. The full six-stage loop, with sign-off and audit log. Win the design partners' daily use and the first reference CCO.</p></div></div>
-      <div class="phase"><div class="pn">Phase 2<small>~Year 2</small></div><div><h3>Evidence &amp; attestation</h3><p>Extend the proven trust boundary into evidence collection and policy-attestation cycles — the natural adjacency once sign-off is trusted.</p></div></div>
-      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>Multi-jurisdiction</h3><p>Expand the source set into India (RBI, SEBI, DPDP data-residency), the US, the UK, and the rest of APAC and the EU, where the agentic mapping engine — not regional content — is the durable advantage.</p></div></div>
+      <div class="phase"><div class="pn">Phase 0<small>~Quarter 1</small></div><div><h3>Prove the mapping bar on public data</h3><p>Before building UI: take the RBI's published returns, data definitions and validation rules, plus a year of amendment directions. Label which returns and fields each amendment actually touched. Test whether mapping precision/recall clears a usable bar. If it can't, nothing else matters. Riskiest assumption, checked first.</p></div></div>
+      <div class="phase"><div class="pn">Phase 1<small>~Quarter 2–4</small></div><div><h3>NBFC beachhead, with design partners</h3><p>Two or three NBFC reporting teams run it on their own return-to-source maps. The full six-stage loop, with sign-off and audit log. Win daily use and the first reference customer.</p></div></div>
+      <div class="phase"><div class="pn">Phase 2<small>~Year 2</small></div><div><h3>Commercial banks</h3><p>Take the same engine to banks as ECL goes live and the amendment flow keeps coming. Same loop, a bigger set of returns.</p></div></div>
+      <div class="phase"><div class="pn">Phase 3<small>~Year 2–3</small></div><div><h3>More regulators, then evidence</h3><p>Add SEBI and IRDAI, then extend the proven trust boundary into evidence collection and attestation. Outside India after that, where the mapping engine, not local content, is the advantage.</p></div></div>
     </div>
   </div>
 </section>
@@ -663,9 +667,9 @@
   <div class="wrap">
     <p class="eyebrow">11 · Reflection</p>
     <div class="reflect">
-      <p class="q">If I could only validate one thing before writing a line of product code, it's whether mapping precision can hit a bar a CCO trusts.</p>
-      <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which controls a change touches. That's why Phase 0 is an offline eval against labeled data. A prototype would prove nothing yet. The cheapest way to kill or confirm the whole thesis.</p>
-      <p>The strategic bet I'd defend in a room: <strong>in a liability-bearing domain, restraint is the product.</strong> The temptation will always be to push the autonomy further to look more impressive. The discipline to stop the agent precisely at the four acts of judgment — and to make the stopping legible and auditable — is what earns a compliance officer's signature, and a signature is the only thing that makes any of this real.</p>
+      <p class="q">If I could only validate one thing before writing a line of product code, it's whether mapping precision can hit a bar the person signing the return trusts.</p>
+      <p>Everything downstream — the UI, the GTM, the roadmap — is worthless if step 03 can't reliably tell a customer which returns and fields a change touches. That's why Phase 0 is an offline eval on public RBI data. A prototype would prove nothing yet. The cheapest way to kill or confirm the whole thesis.</p>
+      <p>The strategic bet I'd defend in a room: <strong>in a liability-bearing domain, restraint is the product.</strong> The temptation will always be to push the autonomy further to look more impressive. The discipline to stop the agent precisely at the four acts of judgment — and to make the stopping legible and auditable — is what earns the signature on the return, and a signature is the only thing that makes any of this real.</p>
       <p style="margin-bottom:0;font-family:ui-monospace,monospace;font-size:14px;color:var(--ink-soft)">What this case study is meant to show: problem framing from real domain pain · a defensible scope decision under ambiguity · technical fluency without pretending to be the engineer · honest metrics including the ones that are hard to attribute · and a point of view on where AI should <em>not</em> act.</p>
     </div>
   </div>

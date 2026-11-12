@@ -399,11 +399,11 @@ const CASE_STUDIES = [
     title: 'Meridian — Agentic Regulatory-Change Intelligence',
     kicker: 'Agentic · RegTech · Concept',
     excerpt:
-      'An agent that watches every regulator you answer to, maps each change to the specific internal controls it breaks, and hands a compliance officer a defensible package to sign. Never a chatbot that answers questions about the law.',
+      "An agent that watches the RBI's directions, maps each amendment to the returns, data fields and validation rules it touches, and hands the person who owns those returns a package they can sign. Never a chatbot that answers questions about the law.",
     href: '/meridian-case-study.html',
     tags: [
-      { t: 'AUSTRAC / MAS / CSSF', proof: 'Concept' },
-      { t: '~150 alerts a day', proof: 'Concept' },
+      { t: 'RBI · NBFCs first', proof: 'Concept' },
+      { t: '9,445 circulars withdrawn', proof: 'Sourced' },
       { t: 'Never built', proof: 'Concept' },
     ],
     kind: 'Concept',
@@ -476,11 +476,13 @@ const LINKS = {
 //   Shipped  — measured in production
 //   Modeled  — a projection built on real data
 //   Concept  — illustrative; this one was never built
+//   Sourced  — a public figure, cited to its primary source
 // ─────────────────────────────────────────────────────────────
 const PROOF_STYLE = {
   Shipped: 'text-accent border-accent/45',
   Modeled: 'text-plasma border-plasma/45',
   Concept: 'text-dust border-sand',
+  Sourced: 'text-plasma border-plasma/45',
 }
 
 function Proof({ level, className = '' }) {
@@ -501,6 +503,7 @@ const PROOF_TITLE = {
   Shipped: 'Measured in production.',
   Modeled: 'A projection built on real data. Nobody measured this one.',
   Concept: 'Illustrative. This system was never built.',
+  Sourced: 'A public figure, cited to its primary source.',
 }
 
 
